@@ -1,0 +1,10 @@
+{
+    "liveServer.settings.root": "/public",
+    "liveServer.settings.file": "index.html",
+    "liveServer.settings.ignoreFiles": [
+      "**/node_modules/**",
+      ".vscode/**",
+      "**/*.scss",
+      "**/*.js"
+    ]
+}

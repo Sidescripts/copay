@@ -1,0 +1,24 @@
+{
+  "name": "copay",
+  "version": "1.0.1",
+  "description": "crypto paymet platform",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sidescripts/copay.git"
+  },
+  "author": "sideScript solutions",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sidescripts/copay/issues"
+  },
+  "homepage": "https://github.com/Sidescripts/copay#readme",
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}

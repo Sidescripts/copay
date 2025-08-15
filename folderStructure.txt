@@ -1,0 +1,61 @@
+copay/
+├── public/                   # Static files (served directly)
+│   ├── index.html            # Main HTML entry point
+│   ├── assets/               # Static assets
+│   │   ├── css/              # Global styles
+│   │   ├── js/               # Third-party scripts
+│   │   ├── images/           # Images/SVGs
+│   │   └── fonts/            # Custom fonts
+│   └── dashboard.html        # Additional pages (if SPA not used)
+│
+├── server/                   # Backend (Node.js)
+│   ├── config/               # Config files
+│   │   └── db.js             # Database config
+│   ├── controllers/          # Route handlers
+│   │   ├── authController.js
+│   │   └── paymentController.js
+│   ├── models/               # Database models
+│   │   ├── User.js
+│   │   └── Transaction.js
+│   ├── routes/               # API endpoints
+│   │   ├── api.js            # Main API router
+│   │   └── webhooks.js       # Payment webhooks
+│   ├── services/             # Business logic
+│   │   ├── blockchain.js     # Crypto payment processor
+│   │   └── emailService.js
+│   ├── utils/                # Helpers
+│   │   ├── logger.js
+│   │   └── validation.js
+│   ├── app.js                # Express app setup
+│   └── server.js             # Server entry point
+│
+├── src/                      # Frontend JavaScript
+│   ├── lib/                  # Reusable utilities
+│   │   ├── api.js            # API request wrapper
+│   │   └── currencyUtils.js
+│   ├── modules/              # Feature modules
+│   │   ├── auth/             # Auth related code
+│   │   │   ├── login.js
+│   │   │   └── register.js
+│   │   └── payments/         # Payment flows
+│   │       ├── bitcoin.js
+│   │       └── ethereum.js
+│   ├── main.js               # Main app initialization
+│   └── dashboard.js          # Page-specific logic
+│
+├── tests/
+│   ├── unit/                 # Unit tests
+│   │   ├── server/
+│   │   └── client/
+│   ├── integration/          # Integration tests
+│   └── e2e/                  # End-to-end tests
+│
+├── scripts/                  # Automation scripts
+│   ├── deploy.sh             # Deployment script
+│   └── seed-db.js            # Database seeding
+│
+├── .env                      # Environment variables
+├── .gitignore
+├── package.json              # Root dependencies
+├── README.md
+└── LICENSE
