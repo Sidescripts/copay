@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vitron Trade — Terms & Conditions</title>
+  <meta name="description" content="Terms and Conditions for using Vitron Trade's crypto and forex trading services." />
+  <style>
+    :root{
+      --bg: #0f1220;
+      --card: #151a2e;
+      --muted: #8b93a6;
+      --text: #e6e9f2;
+      --primary: #6aa0ff;
+      --accent: #8ef0c7;
+      --danger: #ff7b86;
+      --border: #2a3353;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --maxw: 980px;
+    }
+
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg: #f7f8fb;
+        --card: #ffffff;
+        --muted: #5f6577;
+        --text: #121521;
+        --border: #e6e9f2;
+        --shadow: 0 10px 30px rgba(25, 41, 77, .08);
+      }
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font: 400 16px/1.7 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .container{max-width:var(--maxw);padding:32px 20px;margin:0 auto}
+
+    .toplevel{
+      background: linear-gradient(180deg, rgba(106,160,255,.08), rgba(142,240,199,.08));
+      border:1px solid var(--border);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+
+    header{
+      display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:20px
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand .logo{
+      width:42px;height:42px;border-radius:12px;
+      background: radial-gradient(120% 120% at 20% 10%, var(--primary), var(--accent));
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.25);
+    }
+    .brand h1{font-size:22px;margin:0}
+    .meta{font-size:13px;color:var(--muted)}
+
+    .notice{background:rgba(255, 123, 134,.12);border:1px dashed var(--danger);color:var(--text);padding:14px 16px;border-radius:12px;margin:18px 0}
+    .notice b{color:var(--danger)}
+
+    nav.toc{margin:10px 0 14px 0}
+    nav.toc a{display:inline-block;margin:6px 10px 6px 0;padding:8px 12px;border:1px solid var(--border);border-radius:999px;color:var(--text);text-decoration:none}
+    nav.toc a:hover{border-color:var(--primary)}
+
+    section{background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow);border-radius:var(--radius);padding:22px;margin:16px 0}
+    section h2{margin:0 0 8px 0;font-size:18px}
+    section p{margin:10px 0}
+    section ul{margin:10px 0 0 18px}
+
+    .deflist dt{font-weight:600;margin-top:8px}
+    .deflist dd{margin:4px 0 10px 0;color:var(--muted)}
+
+    footer{font-size:12px;color:var(--muted);margin-top:24px}
+
+    .grid{display:grid;gap:14px}
+    @media (min-width:720px){
+      .grid{grid-template-columns:1fr 1fr}
+    }
+
+    /* Print-friendly */
+    @media print{
+      body{background:#fff;color:#000}
+      section, .toplevel{box-shadow:none;border-color:#aaa}
+      nav.toc{display:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="toplevel">
+      <header>
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <h1>Vitron Trade — Terms & Conditions</h1>
+            <div class="meta">Last updated: <span id="last-updated">August 19, 2025</span></div>
+          </div>
+        </div>
+      </header>
+
+      <p>These Terms and Conditions (the “<b>Terms</b>”) govern your access to and use of the websites, mobile apps, APIs, products, and services provided by <b>Vitron Trade</b> (collectively, the “<b>Services</b>”). By creating an account, accessing, or using the Services, you agree to be bound by these Terms.</p>
+
+      <div class="notice"><b>Important:</b> Trading and holding digital assets and leveraged foreign exchange is highly risky. Prices can be volatile and you can lose all or substantially all of your funds. Do not trade with money you cannot afford to lose.</div>
+
+      <nav class="toc" aria-label="Table of contents">
+        <a href="#1">1. Eligibility & Account</a>
+        <a href="#2">2. Verification & Compliance</a>
+        <a href="#3">3. Risk Disclosure</a>
+        <a href="#4">4. No Advice</a>
+        <a href="#5">5. Balances, Deposits & Withdrawals</a>
+        <a href="#6">6. Trading, Orders & Execution</a>
+        <a href="#7">7. Fees</a>
+        <a href="#8">8. Leverage & Margin (FX)</a>
+        <a href="#9">9. Prohibited Activities</a>
+        <a href="#10">10. Market Data</a>
+        <a href="#11">11. Downtime & Forks</a>
+        <a href="#12">12. Liabilities</a>
+        <a href="#13">13. Indemnity</a>
+        <a href="#14">14. IP & License</a>
+        <a href="#15">15. Privacy</a>
+        <a href="#16">16. Taxes</a>
+        <a href="#17">17. Termination</a>
+        <a href="#18">18. Dispute Resolution</a>
+        <a href="#19">19. Changes</a>
+        <a href="#20">20. Contact</a>
+      </nav>
+
+      <section id="intro">
+        <h2>Definitions</h2>
+        <dl class="deflist">
+          <dt>Account</dt>
+          <dd>Your registered profile used to access the Services.</dd>
+          <dt>Digital Assets</dt>
+          <dd>Cryptocurrencies, stablecoins, and other blockchain-based assets supported by Vitron Trade.</dd>
+          <dt>FX</dt>
+          <dd>Foreign exchange instruments offered for trading, which may include leverage and margin.</dd>
+        </dl>
+      </section>
+
+      <section id="1">
+        <h2>1. Eligibility & Account</h2>
+        <p>You must be at least 18 years old and have the legal capacity to enter into these Terms. You are responsible for maintaining the security of your account credentials and for all activities under your Account. You agree to notify us immediately of any unauthorized use or security breach.</p>
+      </section>
+
+      <section id="2">
+        <h2>2. Verification & Compliance</h2>
+        <p>We may require identity verification (KYC) and source-of-funds checks in accordance with applicable anti-money laundering and counter-terrorist financing laws (<b>AML/CFT</b>). You agree to provide accurate and up-to-date information and authorize us to make inquiries we consider necessary to validate your identity and eligibility.</p>
+      </section>
+
+      <section id="3">
+        <h2>3. Risk Disclosure</h2>
+        <ul>
+          <li><b>Volatility:</b> Markets for Digital Assets and FX can move rapidly and unpredictably.</li>
+          <li><b>Loss of Funds:</b> You may lose some or all of your capital. Past performance is not indicative of future results.</li>
+          <li><b>Technology Risks:</b> Network congestion, protocol bugs, smart contract risks (if applicable), and cyberattacks can impact the Services.</li>
+          <li><b>Regulatory Risk:</b> Laws may change and could negatively impact your ability to use the Services.</li>
+        </ul>
+      </section>
+
+      <section id="4">
+        <h2>4. No Investment, Legal, or Tax Advice</h2>
+        <p>Information provided through the Services is for general information only and does not constitute investment, legal, or tax advice. You are solely responsible for your trading decisions. Consider your financial situation and consult independent professional advisers before trading.</p>
+      </section>
+
+      <section id="5">
+        <h2>5. Balances, Deposits & Withdrawals</h2>
+        <p>Supported assets, networks, deposit addresses, and minimums/maximums may change without notice. Deposits are credited after required network confirmations. Withdrawals may be subject to risk checks, compliance reviews, limits, and fees. We are not responsible for funds sent to incorrect or incompatible addresses or networks provided by you.</p>
+      </section>
+
+      <section id="6">
+        <h2>6. Trading, Orders & Execution</h2>
+        <p>Order types, tick sizes, and execution venues are described in our platform interface. Orders may fail, be delayed, partially filled, rejected, or canceled due to market conditions, risk controls, or system constraints. You are responsible for monitoring your orders and positions.</p>
+      </section>
+
+      <section id="7">
+        <h2>7. Fees</h2>
+        <p>Fees, including but not limited to trading fees, spreads, overnight financing (FX), network fees, and withdrawal fees, are disclosed in the platform or a separate fee schedule. By using the Services, you agree to the fees as updated from time to time.</p>
+      </section>
+
+      <section id="8">
+        <h2>8. Leverage & Margin (FX)</h2>
+        <p>Opening leveraged positions increases both potential gains and losses. You must maintain required margin at all times. We may, without prior notice, close positions, liquidate collateral, or restrict trading to manage risk and maintain margin requirements.</p>
+      </section>
+
+      <section id="9">
+        <h2>9. Prohibited Activities</h2>
+        <ul>
+          <li>Illegal activities, market manipulation, wash trading, or abusive trading strategies.</li>
+          <li>Use of the Services in sanctioned jurisdictions or by sanctioned persons.</li>
+          <li>Interference with platform security, APIs, or other technical systems.</li>
+          <li>Impersonation or misrepresentation of affiliation with another person or entity.</li>
+        </ul>
+      </section>
+
+      <section id="10">
+        <h2>10. Market Data & Third‑Party Content</h2>
+        <p>Quotes, charts, news, and analytics may be provided by third parties and are offered on an “as is” and “as available” basis. We do not guarantee accuracy, completeness, or timeliness, and we are not responsible for errors, delays, or actions taken based on such data.</p>
+      </section>
+
+      <section id="11">
+        <h2>11. Service Availability, Upgrades & Forks</h2>
+        <p>We may perform maintenance or upgrades that temporarily affect availability. In the event of blockchain forks, airdrops, or protocol changes, we may determine, in our sole discretion, whether and how to support affected assets.</p>
+      </section>
+
+      <section id="12">
+        <h2>12. Limitation of Liability</h2>
+        <p>To the fullest extent permitted by law, <b>Vitron Trade</b> and its affiliates are not liable for any indirect, incidental, special, punitive, or consequential damages; loss of profits, revenues, data, or use; or damages arising from trading losses, market events, or service interruptions, even if advised of the possibility of such damages.</p>
+      </section>
+
+      <section id="13">
+        <h2>13. Indemnification</h2>
+        <p>You agree to indemnify and hold harmless Vitron Trade, its affiliates, and their respective officers, directors, employees, and agents from any claims, damages, liabilities, and expenses arising out of your use of the Services or breach of these Terms.</p>
+      </section>
+
+      <section id="14">
+        <h2>14. Intellectual Property & License</h2>
+        <p>All content and technology within the Services are owned by or licensed to Vitron Trade and are protected by intellectual property laws. We grant you a limited, non-exclusive, non-transferable, revocable license to use the Services in accordance with these Terms.</p>
+      </section>
+
+      <section id="15">
+        <h2>15. Privacy</h2>
+        <p>Your use of the Services is also governed by our Privacy Policy, which describes how we collect, use, and share information. By using the Services, you consent to the processing of your information as described in the Privacy Policy.</p>
+      </section>
+
+      <section id="16">
+        <h2>16. Taxes</h2>
+        <p>You are solely responsible for determining and paying any taxes arising from your trading activities. We may provide you with account statements and history, but we do not provide tax advice.</p>
+      </section>
+
+      <section id="17">
+        <h2>17. Suspension & Termination</h2>
+        <p>We may suspend or terminate your access to the Services at any time for any reason, including suspected violations of these Terms, compliance obligations, or risk management. Upon termination, you remain responsible for all obligations incurred prior to termination.</p>
+      </section>
+
+      <section id="18">
+        <h2>18. Governing Law & Dispute Resolution</h2>
+        <div class="grid">
+          <div>
+            <p><b>Governing Law.</b> These Terms are governed by the laws, without regard to conflict-of-law rules.</p>
+            <p><b>Venue.</b> You agree to submit to the exclusive jurisdiction of the courts located in <u>[Insert City, Jurisdiction]</u>.</p>
+          </div>
+          <div>
+            <p><b>Arbitration (Optional).</b> At our election, disputes may be resolved by binding arbitration pursuant to the rules of a recognized arbitration body. BY USING THE SERVICES, YOU MAY BE WAIVING YOUR RIGHT TO A JURY TRIAL.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="19">
+        <h2>19. Changes to These Terms</h2>
+        <p>We may update these Terms from time to time. Changes take effect when posted, unless otherwise stated. Your continued use of the Services after changes become effective constitutes acceptance of the revised Terms.</p>
+      </section>
+
+      <section id="20">
+        <h2>20. Contact</h2>
+        <p>Vitron Trade<br/>
+          <u>[Vitron Trade]</u>
+          Support: <a href="mailto:support@vitron.trade">support@vitron.trade</a>
+        </p>
+      </section>
+
+      <footer>
+        <p><b>Disclaimer:</b> This template is provided for informational purposes only and does not constitute legal advice. You should consult a qualified attorney to tailor these Terms to your business model, licensing, and jurisdiction(s).</p>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>

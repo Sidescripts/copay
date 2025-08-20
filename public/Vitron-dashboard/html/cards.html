@@ -1,0 +1,800 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="../styles/bootstrap.css">
+    <link rel="stylesheet" href="../fonts/bootstrap-icons.css">
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <meta id="theme-check" name="theme-color" content="#FFFFFF">
+
+ 
+            <title>cards | Vitron-Trade </title>
+    
+    <style>
+        /* Generating Color Pack*/
+
+        /* 
+	Color pack for YELLOW. To create a new color duplicate this file
+	give it a unique name. Replace the light #FFCE54 and  dark #F6BB42 using
+	CTRL+F or CMD+F to replace the main colors with your own HEX 
+	then simply import as the last css file on page
+*/
+
+        .color-highlight {
+            color: #F6BB42 !important;
+        }
+
+        .bg-highlight {
+            background-color: #F6BB42 !important;
+            color: #FFF !important;
+        }
+
+        .border-highlight {
+            border-color: #F6BB42 !important;
+        }
+
+        .gradient-highlight {
+            background-image: linear-gradient(to bottom, #FFCE54, #F6BB42) !important;
+        }
+
+        .splide__pagination__page.is-active {
+            background-color: #F6BB42 !important;
+        }
+
+        .footer-bar-1 .active-nav i,
+        .footer-bar-1 .active-nav span {
+            color: #F6BB42 !important;
+        }
+
+        .footer-bar-2 .active-nav {
+            border-bottom: solid 3px #F6BB42;
+        }
+
+        .footer-bar-3 .active-nav {
+            border-top: solid 3px #F6BB42;
+        }
+
+        .footer-bar-4 .active-nav {
+            background-color: #F6BB42;
+        }
+
+        #footer-bar .circle-nav-1::after,
+        #footer-bar .circle-nav-2::before,
+        #footer-bar .circle-nav-2::after {
+            background-image: linear-gradient(to bottom, #FFCE54, #F6BB42) !important;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            background-color: #F6BB42;
+        }
+
+        .color-highlight {
+            color: #F6BB42;
+        }
+
+        .bg-highlight {
+            background-color: #F6BB42;
+            color: #FFF !important;
+        }
+
+        #header-deco-1,
+        #header-deco-2,
+        #header-deco-3,
+        #header-deco-4 {
+            fill: #F6BB42;
+        }
+
+        .error {
+            color: #d84558 !important;
+            background-color: rgba(218, 68, 83, .2) !important;
+            color: #fff !important;
+            position: relative;
+            padding: 1rem 1rem;
+            padding-right: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: .25rem;
+            transition: opacity .15s linear;
+        }
+    </style>
+
+    <!--
+.card-style {
+  overflow: hidden;
+  border-radius: 22px;
+  margin: 0px 15px 10px 15px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.03) 0px 20px 25px -5px, rgba(0, 0, 0, 0.02) 0px 10px 10px -5px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  padding: 10px 0px 30px 0px;
+}
+-->
+
+
+</head>
+
+
+<body class="theme-light">
+
+    <div id="preloader">
+        <div class="spinner-border color-highlight" role="status"></div>
+    </div>
+
+    <!-- Page Wrapper-->
+    <div id="page">
+
+        <!-- Footer Bar -->
+        <div id="footer-bar" class="footer-bar-1 footer-bar-detached">
+            <a href="?a=deposit"><i class="bi bi-piggy-bank"></i><span>Earn</span></a>
+            <a href="?a=history"><i class="bi bi-calendar4-event"></i><span>Activity</span></a>
+            <a href="?a=account" class="circle-nav-2 "><i class="bi bi-house-fill"></i><span>Wallet</span></a>
+            <a href="?a=explore" class="active-nav"><i class="bi bi-grid"></i><span>Explore</span></a>
+            <a href="?a=edit_account" data-bs-toggle="offcanvas" data-bs-target="#menu-sidebar"><i class="bi bi-gear"></i><span>Settings</span></a>
+        </div>
+
+
+
+        <!-- Page Content - Only Page Elements Here-->
+        <div class="page-content footer-clear">
+
+
+
+            <style>
+                .tabs-pill a[aria-expanded="true"] {
+                    background-color: #FFCE54;
+                    border-color: #F6BB42;
+                    color: #FFF !important;
+                }
+            </style>
+
+            <!-- Page Title-->
+            <div class="pt-3">
+                <div class="page-title d-flex">
+                    <div class="align-self-center">
+                        <a href="/?a=explore" data-back-button class="me-3 ms-0 icon icon-xxs bg-theme rounded-s shadow-m">
+                        <i class="bi bi-chevron-left color-theme font-14"></i>
+                    </a>
+                    </div>
+                    <div class="align-self-center me-auto">
+                        <h1 class="color-theme mb-0 font-18">My cards</h1>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Main card begin -->
+
+            <div class="card card-style bg-5 shadow-card shadow-card-l" style="height:200px">
+
+                <div class="card-center">
+                    <div class="bg-theme px-3 py-2 rounded-end d-inline-block">
+                        <h1 class="font-13 my-n1">
+                            <a class="color-theme collapsed" data-bs-toggle="collapse" href="#balance3" aria-controls="balance2" aria-expanded="false">View Balance</a>
+                        </h1>
+                        <div class="collapse" id="balance3" style="">
+                            <h2 class="color-theme font-26">$0.00</h2>
+                        </div>
+                    </div>
+                </div>
+                <strong class="card-top no-click font-12 p-3 color-white font-monospace">Main Account</strong>
+                <strong class="card-bottom no-click p-3 text-start color-white font-monospace">*** **** **** 5661</strong>
+                <strong class="card-bottom no-click p-3 text-end color-white font-monospace">02 / 2029</strong>
+                <div class="card-overlay bg-black opacity-50"></div>
+            </div>
+
+            <!-- Main card end -->
+
+
+
+            <!-- Tab begin-->
+            <div class="card card-style">
+                <br>
+                <div class="list-group list-custom list-group-m list-group-flush rounded-xs px-4">
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example">
+<option selected="">Card type</option>
+<option value="1">Visa card</option>
+<option value="2">Master card</option>
+<option value="3">Ciqpay card</option>
+</select>
+                </div>
+
+                <div class="content mb-2">
+
+                    <div class="tabs tabs-pill" id="tab-group-2">
+
+                        <div class="tab-controls rounded-m p-1">
+                            <a class="font-13 rounded-m" data-bs-toggle="collapse" href="#tab-4" aria-expanded="true">Settings</a>
+                            <a class="font-13 rounded-m collapsed" data-bs-toggle="collapse" href="#tab-5" aria-expanded="false">Request card</a>
+                        </div>
+
+                        <div class="mt-3"></div>
+                        <div class="collapse show" id="tab-4" data-bs-parent="#tab-group-2" style="">
+
+                            <div class="list-group list-custom list-group-m list-group-flush rounded-xs px-1">
+
+                                <a href="#" class="list-group-item pe-2" data-trigger-switch="switch-5">
+<i class="has-bg gradient-yellow color-white shadow-bg shadow-bg-xs rounded-xs bi bi-gear-fill"></i>
+<div><strong> Use Online Payments</strong><span>Use this card to pay online</span></div>
+<div class="form-switch ios-switch switch-green switch-s">
+<input type="checkbox" class="ios-input" id="switch-5">
+<label class="custom-control-label" for="switch-5"></label>
+</div>
+</a>
+                                <a href="#" class="list-group-item pe-2" data-trigger-switch="switch-51">
+<i class="has-bg gradient-yellow color-white shadow-bg shadow-bg-xs rounded-xs bi bi-wifi"></i>
+<div><strong> Use NFC Payments</strong><span>Pay With Card Contactless</span></div>
+<div class="form-switch ios-switch switch-green switch-s">
+<input type="checkbox" class="ios-input" id="switch-51" checked>
+<label class="custom-control-label" for="switch-51"></label>
+</div>
+</a>
+
+                                <a href="#tab-5" class="list-group-item pe-2" data-bs-toggle="collapse" data-bs-target="">
+<i class="has-bg gradient-blue color-white shadow-bg shadow-bg-xs rounded-xs bi bi-check-circle"></i>
+<div><strong>Activate this Card</strong></div>
+<i class="bi bi-chevron-right"></i>
+
+<a href="#" class="list-group-item pe-2" data-bs-toggle="offcanvas" data-bs-target="#nocard">
+<i class="has-bg gradient-red color-white shadow-bg shadow-bg-xs rounded-xs bi bi-x-circle"></i>
+<div><strong>Remove this Card</strong></div>
+<i class="bi bi-chevron-right"></i>
+</a>
+
+                                <a href="?a=support" class="list-group-item pe-2" data-trigger-switch="switch-3">
+<i class="has-bg gradient-yellow color-white shadow-bg shadow-bg-xs rounded-xs bi bi-question-circle"></i>
+<div class="d-flex text-center"><strong>Report Lost or Stolen</strong></div>
+<i class="bi bi-chevron-right"></i>
+</a>
+
+                            </div>
+                        </div>
+
+                        <!-- tab 2 -->
+
+                        <div class="collapse" id="tab-5" data-bs-parent="#tab-group-2" style="">
+
+                            <div class="list-group list-custom list-group-m list-group-flush rounded-xs">
+
+                                <a href="#" class="list-group-item">
+<i class="bi bi-piggy-bank"></i>
+<div><strong>Active Earning Plan</strong><span>You must have several deposits</span></div>
+<i class="bi bi-chevron-right"></i>
+</a>
+                                <a href="#" class="list-group-item">
+<i class="bi bi-patch-check"></i>
+<div><strong>KYC Verification</strong><span>Your ID must be approved</span></div>
+<i class="bi bi-chevron-right"></i>
+</a>
+                                <a href="#" class="list-group-item">
+<i class="bi bi-people"></i>
+<div><strong>Refer and Earn</strong><span>You must refer someone with your ref link</span></div>
+<i class="bi bi-chevron-right"></i>
+</a>
+                                <a href="#" class="list-group-item">
+<i class="bi bi-bank"></i>
+<div><strong>Optional</strong><span>Bank account holder;</span></div>
+<i class="bi bi-chevron-right"></i>
+</a>
+                            </div>
+
+                            <a class="btn btn-l scale-box px-5 gradient-yellow shadow-bg shadow-bg-s" href="#" data-bs-toggle="offcanvas" data-bs-target="#addcard">Activate card</a> <br> <br>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Tab end -->
+
+
+
+        </div>
+
+    </div>
+    <!-- End of Page ID-->
+
+    <!-- Dialogue box -->
+
+    <div id="nocard" style="width: 320px; display: block; visibility: visible;" class="offcanvas offcanvas-modal offcanvas-detached rounded-m" aria-modal="true" role="dialog">
+        <div class="content text-center">
+            <i style="font-size:65px;" class="scale-box bi bi-question-circle-fill color-yellow-dark shadow-s rounded-circle p-0 mt-3 mb-3 d-inline-block"></i>
+            <h1 class="pt-3 font-28">Inactive card</h1>
+            <p class="font-14">
+                You cannot remove this card as it has not yet been activated. You can activate it, request a new one, or chat with support for assistance
+            </p>
+            <a href="#" data-bs-toggle="offcanvas" class="btn btn-full gradient-yellow shadow-bg shadow-bg-xs">Done</a>
+        </div>
+    </div>
+
+    <!-- -->
+
+    <div id="addcard" style="height: 410px; display: block; visibility: visible;" class="offcanvas offcanvas-bottom rounded-m offcanvas-detached" aria-modal="true" role="dialog">
+        <div class="d-flex m-3">
+            <div class="align-self-center">
+                <h2 class="font-700 mb-0">You are not Eligble</h2>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="icon icon-xs me-n2" data-bs-dismiss="offcanvas">
+<i class="bi bi-x-circle-fill color-red-dark font-16"></i>
+</a>
+            </div>
+        </div>
+        <div class="content mt-0">
+            <div class="card card-style rounded-s m-0 bg-3" style="height:130px; display: block; visibility: visible; background-image: url('https://e0.pxfuel.com/wallpapers/776/366/desktop-wallpaper-mastercard-credit-card.jpg'); background-size: cover;"></div><br>
+            <p class="mb-4">
+                Your profile does not meet the listed creteria yet. Please ensure you meet the requirements before requesting for a debit card. Have futher question? Contact us via <a href="/?a=support">live chat</a> now. We look forward to hearing from
+                you and working together.
+            </p>
+            <a href="#" data-bs-dismiss="offcanvas" class="btn btn-full gradient-highlight shadow-bg shadow-bg-xs">Done!</a>
+        </div>
+    </div>
+
+    <!-- Dialogue box -->
+
+
+
+
+
+    <!--Invest menu-->
+    <div id="invest" style="height:440px;" class="offcanvas offcanvas-bottom">
+        <div class="d-flex mx-3 mt-3 py-1">
+            <div class="align-self-center">
+                <h1 class="mb-0">Start Earning</h1>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
+            </a>
+            </div>
+        </div>
+
+
+
+        <script language="javascript">
+            <!--
+            function openCalculator(id) {
+
+                w = 225;
+                h = 400;
+                t = (screen.height - h - 30) / 2;
+                l = (screen.width - w - 30) / 2;
+                window.open('?a=calendar&type=' + id, 'calculator' + id, "top=" + t + ",left=" + l + ",width=" + w + ",height=" + h + ",resizable=1,scrollbars=0");
+
+
+
+
+            }
+
+            function updateCompound() {
+                var id = 0;
+                var tt = document.spendform.h_id.type;
+                if (tt && tt.toLowerCase() == 'hidden') {
+                    id = document.spendform.h_id.value;
+                } else {
+                    for (i = 0; i < document.spendform.h_id.length; i++) {
+                        if (document.spendform.h_id[i].checked) {
+                            id = document.spendform.h_id[i].value;
+                        }
+                    }
+                }
+
+                var cpObj = document.getElementById('compound_percents');
+                if (cpObj) {
+                    while (cpObj.options.length != 0) {
+                        cpObj.options[0] = null;
+                    }
+                }
+
+                if (cps[id] && cps[id].length > 0) {
+                    document.getElementById('coumpond_block').style.display = '';
+
+                    for (i in cps[id]) {
+                        cpObj.options[cpObj.options.length] = new Option(cps[id][i]);
+                    }
+                } else {
+                    document.getElementById('coumpond_block').style.display = 'none';
+                }
+            }
+            var cps = {};
+            -->
+        </script>
+
+
+        <form method=post name="spendform"><input type="hidden" name="form_id" value="17556449378815"><input type="hidden" name="form_token" value="e88159ec56ae3101b0ff71a79cb23561">
+            <input type=hidden name=a value=deposit>
+
+            <div class="divider divider-margins mt-3"></div>
+            <div class="content mt-0">
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-wallet2 font-14"></i>
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="h_id" value="">
+                
+                
+                   <option value="1">BEGINNER PORTFOLIO (0.02% HOURLY)</option>
+                                            <option value="2">PRESTIGE PORTFOLIO (0.9% DAILY)</option>
+                                            <option value="3">LEGACY PORTFOLIO (1.4% DAILY)</option>
+                                              <option value="4">FORTUNE PORTFOLIO (2.1% DAILY)</option>
+                                                <option value="5">WEALTH EDGE (4.3% DAILY)</option>
+                                                  <option value="6">ELITE PRIME (5.6% DAILY)</option>
+        
+        
+            </select>
+
+                    <label for="c6" class="form-label-always-active color-highlight font-11">Select Revenue Plan</label>
+                </div>
+                <div class="pb-3"></div>
+
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-wallet2 font-14"></i>
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="type" value="">
+                
+                
+                  <option value="account_48" >Bitcoin Wallet</option>
+        <option value="account_69" >Ethereum Wallet</option>
+        <option value="account_92" >USDT Wallet</option>
+        <option value="account_77" >Bitcoin Cash Wallet</option>
+        <option value="account_68" >Litecoin Wallet</option>
+        <option value="account_71" >Dash Wallet</option>
+        <option value="account_94" >BNB Wallet</option>
+        
+            </select>
+
+                    <label for="c6" class="form-label-always-active color-highlight font-11">Select Wallet</label>
+                </div>
+                <div class="pb-3"></div>
+
+
+
+
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
+                    <span class="font-10"></span>
+                </div>
+                <div class="pb-2"></div>
+                <div class="form-check form-check-custom">
+                    <input class="form-check-input" type="checkbox" name="" value="" id="c21">
+                    <label class="form-check-label" for="c21">I accept the Transfer <a href="?a=rules">Terms of Service</a></label>
+                    <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
+                    <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
+                </div>
+
+            </div>
+            <input type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s" value="continue">
+    </div>
+
+
+    </form>
+
+
+    <script language=javascript>
+        for (i = 0; i < document.spendform.type.length; i++) {
+            if ((document.spendform.type[i].value.match(/^process_/))) {
+                document.spendform.type[i].checked = true;
+                break;
+            }
+        }
+        updateCompound();
+    </script>
+
+
+
+
+
+
+    <!--View account menu-->
+    <div id="account" style="height: 400px; width: 320px; display: block; visibility: visible; background-image: url('https://Vitron-Trade/images/360_F_415820132_Jngab5QfKUSmO5MnieRWrVLdLk3yYJxi.jpg'); background-size: cover;" class="offcanvas offcanvas-modal rounded-m"
+        aria-modal="true" role="dialog">
+
+
+        <div class="d-flex m-3">
+            <div class="align-self-center">
+                <h5 class="font-700 mb-0">Account Summary</h5>
+            </div>
+        </div>
+
+
+
+        <div class="col-12 mb-n2 text-start" style="margin-top: 10px;">
+            <a href="#" class="default-link card card-styles" style="height:90px">
+                <div class="card-center px-4">
+                    <div class="d-flex">
+                        <div class="align-self-center">
+                            <span class="icon icon-m rounded-s gradient-dark shadow-bg shadow-bg-xs"><i class="bi bi-clipboard-data font-20 color-white"></i></span>
+                        </div>
+                        <div class="align-self-center ps-3 ms-1">
+                            <h1 class="font-20 mb-n1">$<b></b></h1>
+                            <p class="mb-0 font-12 opacity-80">Active Revenue Plan</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <br/>
+
+        <div class="col-12 mb-n2 text-start">
+            <a href="#" class="default-link card card-styles" style="height:90px">
+                <div class="card-center px-4">
+                    <div class="d-flex">
+                        <div class="align-self-center">
+                            <span class="icon icon-m rounded-s gradient-dark shadow-bg shadow-bg-xs"><i class="bi bi-piggy-bank font-20 color-white"></i></span>
+                        </div>
+                        <div class="align-self-center ps-3 ms-1">
+                            <h1 class="font-20 mb-n1">$<b></b></h1>
+                            <p class="mb-0 font-12 opacity-80">Total Revenue Earned</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <br/>
+
+        <div class="col-12 mb-n2 text-start">
+            <a href="#" class="default-link card card-styles" style="height:90px">
+                <div class="card-center px-4">
+                    <div class="d-flex">
+                        <div class="align-self-center">
+                            <span class="icon icon-m rounded-s gradient-dark shadow-bg shadow-bg-xs"><i class="bi bi-box-arrow-down font-20 color-white"></i></span>
+                        </div>
+                        <div class="align-self-center ps-3 ms-1">
+                            <h1 class="font-20 mb-n1">$<b></b></h1>
+                            <p class="mb-0 font-12 opacity-80">Total Withdrawals</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <br>
+    </div>
+
+
+    <!--Deposit menu-->
+    <div id="deposit" style="height:440px;" class="offcanvas offcanvas-bottom">
+        <div class="d-flex mx-3 mt-3 py-1">
+            <div class="align-self-center">
+                <h1 class="mb-0">Fund your Account</h1>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
+            </a>
+            </div>
+        </div>
+
+        <form method="post"><input type="hidden" name="form_id" value="17556449378815"><input type="hidden" name="form_token" value="e88159ec56ae3101b0ff71a79cb23561">
+            <input type=hidden name=a value=deposit>
+            <input type=hidden name=h_id value=-1>
+
+            <div class="divider divider-margins mt-3"></div>
+            <div class="content mt-0">
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-wallet2 font-14"></i>
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="type" value="">
+                
+                
+                  <option value="process_48" >Deposit using Bitcoin</option>
+        <option value="process_69" >Deposit using Ethereum</option>
+        <option value="process_92" >Deposit using USDT</option>
+        <option value="process_77" >Deposit using Bitcoin Cash</option>
+        <option value="process_68" >Deposit using Litecoin</option>
+        <option value="process_71" >Deposit using Dash</option>
+        <option value="process_94" >Deposit using BNB</option>
+        
+            </select>
+
+                    <label for="c6" class="form-label-always-active color-highlight font-11">Payment Processor</label>
+                </div>
+                <div class="pb-3"></div>
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
+                    <span class="font-10"></span>
+                </div>
+                <div class="pb-2"></div>
+                <div class="form-check form-check-custom">
+                    <input class="form-check-input" type="checkbox" name="" value="" id="c22">
+                    <label class="form-check-label" for="c22">I accept the Transfer <a href="?a=rules">Terms of Service</a></label>
+                    <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
+                    <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
+                </div>
+
+            </div>
+            <input type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s" value="continue">
+    </div>
+    </form>
+
+
+
+    <!--withdrawal-->
+    <div id="withdraw" style="height:440px;" class="offcanvas offcanvas-bottom">
+        <div class="d-flex mx-3 mt-3 py-1">
+            <div class="align-self-center">
+                <h1 class="mb-0">Withdraw Your Funds</h1>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
+            </a>
+            </div>
+        </div>
+
+
+        <form method=post><input type="hidden" name="form_id" value="17556449378815"><input type="hidden" name="form_token" value="e88159ec56ae3101b0ff71a79cb23561">
+            <input type=hidden name=a value=withdraw>
+            <input type=hidden name=action value=preview>
+            <input type=hidden name=say value="">
+
+
+
+
+
+
+            <div class="divider divider-margins mt-3"></div>
+            <div class="content mt-0">
+
+                <!--   <div class="form-custom form-label form-icon">
+          
+            <h3>Account Balance</h3>
+            <p> $ </p>
+            
+        </div>
+        <div class="pb-3"></div>
+        -->
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-wallet2 font-14"></i>
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="ec" value="">
+                
+                
+                  <option value="48" >Bitcoin Wallet </option>
+        <option value="69" >Ethereum Wallet </option>
+        <option value="92" >USDT Wallet </option>
+        <option value="77" >Bitcoin Cash Wallet </option>
+        <option value="68" >Litecoin Wallet </option>
+        <option value="71" >Dash Wallet </option>
+        <option value="94" >BNB Wallet </option>
+        
+            </select>
+
+                    <label for="c6" class="form-label-always-active color-highlight font-11">Withdraw from</label>
+                </div>
+                <div class="pb-3"></div>
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
+                    <span class="font-10"></span>
+                </div>
+                <div class="pb-2"></div>
+                <div class="form-check form-check-custom">
+                    <input class="form-check-input" type="checkbox" checked value="" id="c23">
+                    <label class="form-check-label" for="c23">I accept the Withdrawal <a href="?a=rules">Terms of Service</a></label>
+                    <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
+                    <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
+                </div>
+
+            </div>
+            <button type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s">Continue</button>
+    </div>
+    </form>
+
+
+
+    <!-- trasnfer funds to user-->
+    <div id="send" style="height:440px;" class="offcanvas offcanvas-bottom">
+        <div class="d-flex mx-3 mt-3 py-1">
+            <div class="align-self-center">
+                <h1 class="mb-0">Send funds to another user</h1>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
+            </a>
+            </div>
+        </div>
+
+        <form method=post><input type="hidden" name="form_id" value="17556449378815"><input type="hidden" name="form_token" value="e88159ec56ae3101b0ff71a79cb23561">
+            <input type=hidden name=a value=internal_transfer>
+            <input type=hidden name=action value=preview>
+            <input type=hidden name=say value="">
+
+            <div class="divider divider-margins mt-3"></div>
+            <div class="content mt-0">
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-wallet2 font-14"></i>
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="ec" value="">
+                
+                
+                  <option value="48" >Bitcoin wallet </option>
+        <option value="69" >Ethereum wallet </option>
+        <option value="92" >USDT wallet </option>
+        <option value="77" >Bitcoin Cash wallet </option>
+        <option value="68" >Litecoin wallet </option>
+        <option value="71" >Dash wallet </option>
+        <option value="94" >BNB wallet </option>
+        
+            </select>
+
+                    <label for="c6" class="form-label-always-active color-highlight font-11">Transfer from</label>
+                </div>
+
+                <div class="pb-3"></div>
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
+                    <span class="font-10"></span>
+                </div>
+
+
+                <div class="pb-3"></div>
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="text" class="form-control rounded-xs" id="c4" name=account placeholder="Vitron-Trade" value="" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">To (Username)</label>
+                    <span class="font-10"></span>
+                </div>
+
+                <div class="pb-3"></div>
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="text" class="form-control rounded-xs" id="c4" name="comment" placeholder="" value="" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">Description</label>
+                    <span class="font-10"></span>
+                </div>
+
+
+                <div class="pb-2"></div>
+                <div class="form-check form-check-custom">
+                    <input class="form-check-input" type="checkbox" checked name="" value="" id="c51">
+                    <label class="form-check-label" for="c51">I accept the Transfer <a href="?a=rules">Terms of Service</a></label>
+                    <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
+                    <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
+                </div>
+
+            </div>
+            <button type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s">Continue</button>
+    </div>
+    </form>
+
+
+      <script src="../scripts/bootstrap.min.js"></script>
+    <script src="../scripts/custom.js"></script>
+</body>
+</html>

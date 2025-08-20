@@ -4,7 +4,7 @@ const logger = require('../utils/logger');
 // Admin connection for database creation
 const adminConnection = new Sequelize('', 
   process.env.DB_USER || 'root', 
-  process.env.DB_PASSWORD || 'Dubemernest@23',
+  process.env.DB_PASSWORD || '12345123',
   {
     host: process.env.DB_HOST || 'localhost',
     dialect: 'mysql',
@@ -16,7 +16,7 @@ const adminConnection = new Sequelize('',
 const sequelize = new Sequelize(
   process.env.DB_NAME || 'copay',
   process.env.DB_USER || 'root',
-  process.env.DB_PASSWORD || 'Dubemernest@23',
+  process.env.DB_PASSWORD || '12345123',
   {
     host: process.env.DB_HOST || 'localhost',
     dialect: 'mysql',

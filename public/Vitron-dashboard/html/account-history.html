@@ -1,0 +1,902 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="../styles/bootstrap.css">
+    <link rel="stylesheet" href="../fonts/bootstrap-icons.css">
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <meta id="theme-check" name="theme-color" content="#FFFFFF">
+                <title>Account History | Vitron-Trade </title>
+
+    <style>
+        /* Generating Color Pack*/
+
+        /* 
+	Color pack for YELLOW. To create a new color duplicate this file
+	give it a unique name. Replace the light #FFCE54 and  dark #F6BB42 using
+	CTRL+F or CMD+F to replace the main colors with your own HEX 
+	then simply import as the last css file on page
+*/
+
+        .color-highlight {
+            color: #F6BB42 !important;
+        }
+
+        .bg-highlight {
+            background-color: #F6BB42 !important;
+            color: #FFF !important;
+        }
+
+        .border-highlight {
+            border-color: #F6BB42 !important;
+        }
+
+        .gradient-highlight {
+            background-image: linear-gradient(to bottom, #FFCE54, #F6BB42) !important;
+        }
+
+        .splide__pagination__page.is-active {
+            background-color: #F6BB42 !important;
+        }
+
+        .footer-bar-1 .active-nav i,
+        .footer-bar-1 .active-nav span {
+            color: #F6BB42 !important;
+        }
+
+        .footer-bar-2 .active-nav {
+            border-bottom: solid 3px #F6BB42;
+        }
+
+        .footer-bar-3 .active-nav {
+            border-top: solid 3px #F6BB42;
+        }
+
+        .footer-bar-4 .active-nav {
+            background-color: #F6BB42;
+        }
+
+        #footer-bar .circle-nav-1::after,
+        #footer-bar .circle-nav-2::before,
+        #footer-bar .circle-nav-2::after {
+            background-image: linear-gradient(to bottom, #FFCE54, #F6BB42) !important;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            background-color: #F6BB42;
+        }
+
+        .color-highlight {
+            color: #F6BB42;
+        }
+
+        .bg-highlight {
+            background-color: #F6BB42;
+            color: #FFF !important;
+        }
+
+        #header-deco-1,
+        #header-deco-2,
+        #header-deco-3,
+        #header-deco-4 {
+            fill: #F6BB42;
+        }
+
+        .error {
+            color: #d84558 !important;
+            background-color: rgba(218, 68, 83, .2) !important;
+            color: #fff !important;
+            position: relative;
+            padding: 1rem 1rem;
+            padding-right: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: .25rem;
+            transition: opacity .15s linear;
+        }
+    </style>
+
+    <!--
+.card-style {
+  overflow: hidden;
+  border-radius: 22px;
+  margin: 0px 15px 10px 15px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.03) 0px 20px 25px -5px, rgba(0, 0, 0, 0.02) 0px 10px 10px -5px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  padding: 10px 0px 30px 0px;
+}
+-->
+
+
+</head>
+
+
+<body class="theme-light">
+
+    <div id="preloader">
+        <div class="spinner-border color-highlight" role="status"></div>
+    </div>
+
+    <!-- Page Wrapper-->
+    <div id="page">
+
+        <!-- Footer Bar -->
+        <div id="footer-bar" class="footer-bar-1 footer-bar-detached">
+            <a href="?a=deposit"><i class="bi bi-piggy-bank"></i><span>Earn</span></a>
+            <a href="?a=history" class="active-nav"><i class="bi bi-calendar4-event"></i><span>Activity</span></a>
+            <a href="?a=account" class="circle-nav-2 "><i class="bi bi-house-fill"></i><span>Wallet</span></a>
+            <a href="?a=explore"><i class="bi bi-grid"></i><span>Explore</span></a>
+            <a href="?a=edit_account" data-bs-toggle="offcanvas" data-bs-target="#menu-sidebar"><i class="bi bi-gear"></i><span>Settings</span></a>
+        </div>
+
+
+
+        <!-- Page Content - Only Page Elements Here-->
+        <div class="page-content footer-clear">
+
+
+            <style>
+                .inpts {
+                    border: solid 1px rgba(0, 0, 0, .07);
+                    border-radius: 5px;
+                    color: #000;
+                }
+
+                .btnmula {
+                    font-family: "Source Sans Pro", sans-serif;
+                    text-transform: uppercase;
+                    font-weight: 400;
+                    border-radius: 10px;
+                    font-size: 10px;
+                    box-shadow: 0 5px 14px 0 rgba(0, 0, 0, .1);
+                    color: #fff;
+                    margin-top: 10px;
+                    padding: 0 15px;
+                }
+
+                .pagination {
+                    --bs-pagination-padding-x: 0.75rem;
+                    --bs-pagination-padding-y: 0.375rem;
+                    --bs-pagination-font-size: 1rem;
+                    --bs-pagination-color: var(--bs-link-color);
+                    --bs-pagination-bg: #fff;
+                    --bs-pagination-border-width: 1px;
+                    --bs-pagination-border-color: #dee2e6;
+                    --bs-pagination-border-radius: 0.375rem;
+                    --bs-pagination-hover-color: var(--bs-link-hover-color);
+                    --bs-pagination-hover-bg: #e9ecef;
+                    --bs-pagination-hover-border-color: #dee2e6;
+                    --bs-pagination-focus-color: var(--bs-link-hover-color);
+                    --bs-pagination-focus-bg: #e9ecef;
+                    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+                    --bs-pagination-active-color: #fff;
+                    --bs-pagination-active-bg: #F6BB42;
+                    --bs-pagination-active-border-color: #F6BB42;
+                    --bs-pagination-disabled-color: #6c757d;
+                    --bs-pagination-disabled-bg: #fff;
+                    --bs-pagination-disabled-border-color: #dee2e6;
+                    list-style: none;
+                    --bs-link-color: #212121;
+                    --bs-link-hover-color: #212121;
+                }
+            </style>
+
+
+
+            <!-- Page Title-->
+            <div class="pt-3">
+                <div class="page-title d-flex">
+                    <div class="align-self-center">
+                        <a href="/?a=account" data-back-button class="me-3 ms-0 icon icon-xxs bg-theme rounded-s shadow-m">
+                        <i class="bi bi-chevron-left color-theme font-14"></i>
+                    </a>
+                    </div>
+                    <div class="align-self-center me-auto">
+                        <h1 class="color-theme mb-0 font-18">Account History</h1>
+                    </div>
+
+                </div>
+            </div>
+
+            <script language=javascript>
+                function go(p) {
+                    document.opts.page.value = p;
+                    document.opts.submit();
+                }
+            </script>
+
+
+
+
+            <div class="card overflow-visible card-style">
+                <div class="content mb-0">
+
+                    <div class="table-responsive">
+                        <table class="table color-theme mb-2">
+
+                            <tr>
+                                <form method=post name=opts><input type="hidden" name="form_id" value="17556428717530"><input type="hidden" name="form_token" value="078b0a53ab2da887eaaa099498b5a7e1">
+                                    <input type=hidden name=a value=history>
+                                    <input type=hidden name=page value=1>
+                                    <td>
+                                        <select name=type class=inpts onchange="document.opts.submit();">
+<option value="">All transactions</option>
+<option value="deposit" >Deposit</option>
+<option value="withdrawal" >Withdrawal</option>
+<option value="earning" >Earning</option>
+<option value="commissions" >Referral commission</option>
+   </select>
+                                        <br><img src=images/q.gif width=1 height=4><br>
+                                        <select name=ec class=inpts>
+     <option value=-1>All eCurrencies</option>
+ <option value=48 >Bitcoin</option>
+ <option value=68 >Litecoin</option>
+ <option value=79 >Dogecoin</option>
+ <option value=69 >Ethereum</option>
+ <option value=77 >Bitcoin Cash</option>
+ <option value=71 >Dash</option>
+ <option value=92 >Tether TRC20</option>
+ <option value=94 >BNB</option>
+ <option value=999 >Bank Wire</option>
+   </select>
+                                    </td>
+                                    <td align=right>
+                                        From: <select name=month_from class=inpts>
+<option value=1 >Jan
+<option value=2 >Feb
+<option value=3 >Mar
+<option value=4 >Apr
+<option value=5 selected>May
+<option value=6 >Jun
+<option value=7 >Jul
+<option value=8 >Aug
+<option value=9 >Sep
+<option value=10 >Oct
+<option value=11 >Nov
+<option value=12 >Dec
+</select> &nbsp;
+                                        <select name=day_from class=inpts>
+<option value=1 >1
+<option value=2 >2
+<option value=3 >3
+<option value=4 >4
+<option value=5 >5
+<option value=6 >6
+<option value=7 >7
+<option value=8 >8
+<option value=9 >9
+<option value=10 >10
+<option value=11 >11
+<option value=12 >12
+<option value=13 >13
+<option value=14 >14
+<option value=15 >15
+<option value=16 >16
+<option value=17 >17
+<option value=18 >18
+<option value=19 selected>19
+<option value=20 >20
+<option value=21 >21
+<option value=22 >22
+<option value=23 >23
+<option value=24 >24
+<option value=25 >25
+<option value=26 >26
+<option value=27 >27
+<option value=28 >28
+<option value=29 >29
+<option value=30 >30
+<option value=31 >31
+</select> &nbsp;
+
+                                        <select name=year_from class=inpts>
+<option value=2021 >2021
+<option value=2022 >2022
+<option value=2023 >2023
+<option value=2024 >2024
+<option value=2025 selected>2025
+</select><br><img src=images/q.gif width=1 height=4><br> To: <select name=month_to class=inpts>
+<option value=1 >Jan
+<option value=2 >Feb
+<option value=3 >Mar
+<option value=4 >Apr
+<option value=5 >May
+<option value=6 >Jun
+<option value=7 >Jul
+<option value=8 selected>Aug
+<option value=9 >Sep
+<option value=10 >Oct
+<option value=11 >Nov
+<option value=12 >Dec
+</select> &nbsp;
+                                        <select name=day_to class=inpts>
+<option value=1 >1
+<option value=2 >2
+<option value=3 >3
+<option value=4 >4
+<option value=5 >5
+<option value=6 >6
+<option value=7 >7
+<option value=8 >8
+<option value=9 >9
+<option value=10 >10
+<option value=11 >11
+<option value=12 >12
+<option value=13 >13
+<option value=14 >14
+<option value=15 >15
+<option value=16 >16
+<option value=17 >17
+<option value=18 >18
+<option value=19 >19
+<option value=20 selected>20
+<option value=21 >21
+<option value=22 >22
+<option value=23 >23
+<option value=24 >24
+<option value=25 >25
+<option value=26 >26
+<option value=27 >27
+<option value=28 >28
+<option value=29 >29
+<option value=30 >30
+<option value=31 >31
+</select> &nbsp;
+
+                                        <select name=year_to class=inpts>
+<option value=2021 >2021
+<option value=2022 >2022
+<option value=2023 >2023
+<option value=2024 >2024
+<option value=2025 selected>2025
+</select>
+
+                                    </td>
+                                    <td>
+                                        &nbsp; <input type=submit value="Go" class="btn btn-xxs gradient-yellow">
+                                    </td>
+                            </tr>
+                            </form>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="card card-style">
+                <div class="content">
+
+
+
+                    <!-- Tab Group 1 -->
+                    <div class="collapse show" id="tab-4" data-bs-parent="#tab-group-2">
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+
+            <div class="card card-style">
+                <div class="content pb-0">
+                    <p>No transactions found </p>
+                </div>
+            </div>
+
+
+
+
+
+            <!--
+	<div class="card card-style">
+			<div class="content pb-0"> <p>No transactions found </p>
+			</div></div>
+-->
+
+
+        </div>
+    </div>
+    </div>
+
+
+    <div class="card card-style">
+        <div class="content pb-0">
+
+
+            <!--	<div class="table-responsive">
+					<table class="table color-theme mb-2">
+
+
+</table> -->
+
+            <ul class="pagination">
+                <li class="page-item"><a class="prev page-link disabled">&lt;&lt;</a></li>
+                <li class="page-item active"><a class="page-link">1</a></li>
+                <li class="page-item"><a class="next page-link disabled">&gt;&gt;</a></li>
+            </ul>
+
+
+
+        </div>
+    </div>
+
+
+    </div>
+    <!-- End of Page ID-->
+
+
+
+
+
+    <!--Invest menu-->
+    <div id="invest" style="height:440px;" class="offcanvas offcanvas-bottom">
+        <div class="d-flex mx-3 mt-3 py-1">
+            <div class="align-self-center">
+                <h1 class="mb-0">Start Earning</h1>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
+            </a>
+            </div>
+        </div>
+
+
+
+        <script language="javascript">
+            <!--
+            function openCalculator(id) {
+
+                w = 225;
+                h = 400;
+                t = (screen.height - h - 30) / 2;
+                l = (screen.width - w - 30) / 2;
+                window.open('?a=calendar&type=' + id, 'calculator' + id, "top=" + t + ",left=" + l + ",width=" + w + ",height=" + h + ",resizable=1,scrollbars=0");
+
+
+
+
+            }
+
+            function updateCompound() {
+                var id = 0;
+                var tt = document.spendform.h_id.type;
+                if (tt && tt.toLowerCase() == 'hidden') {
+                    id = document.spendform.h_id.value;
+                } else {
+                    for (i = 0; i < document.spendform.h_id.length; i++) {
+                        if (document.spendform.h_id[i].checked) {
+                            id = document.spendform.h_id[i].value;
+                        }
+                    }
+                }
+
+                var cpObj = document.getElementById('compound_percents');
+                if (cpObj) {
+                    while (cpObj.options.length != 0) {
+                        cpObj.options[0] = null;
+                    }
+                }
+
+                if (cps[id] && cps[id].length > 0) {
+                    document.getElementById('coumpond_block').style.display = '';
+
+                    for (i in cps[id]) {
+                        cpObj.options[cpObj.options.length] = new Option(cps[id][i]);
+                    }
+                } else {
+                    document.getElementById('coumpond_block').style.display = 'none';
+                }
+            }
+            var cps = {};
+            -->
+        </script>
+
+
+        <form method=post name="spendform"><input type="hidden" name="form_id" value="17556428717530"><input type="hidden" name="form_token" value="078b0a53ab2da887eaaa099498b5a7e1">
+            <input type=hidden name=a value=deposit>
+
+            <div class="divider divider-margins mt-3"></div>
+            <div class="content mt-0">
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-wallet2 font-14"></i>
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="h_id" value="">
+                
+                
+                   <option value="1">BEGINNER PORTFOLIO (0.02% HOURLY)</option>
+                                            <option value="2">PRESTIGE PORTFOLIO (0.9% DAILY)</option>
+                                            <option value="3">LEGACY PORTFOLIO (1.4% DAILY)</option>
+                                              <option value="4">FORTUNE PORTFOLIO (2.1% DAILY)</option>
+                                                <option value="5">WEALTH EDGE (4.3% DAILY)</option>
+                                                  <option value="6">ELITE PRIME (5.6% DAILY)</option>
+        
+        
+            </select>
+
+                    <label for="c6" class="form-label-always-active color-highlight font-11">Select Revenue Plan</label>
+                </div>
+                <div class="pb-3"></div>
+
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-wallet2 font-14"></i>
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="type" value="">
+                
+                
+                  <option value="account_48" >Bitcoin Wallet</option>
+        <option value="account_69" >Ethereum Wallet</option>
+        <option value="account_92" >USDT Wallet</option>
+        <option value="account_77" >Bitcoin Cash Wallet</option>
+        <option value="account_68" >Litecoin Wallet</option>
+        <option value="account_71" >Dash Wallet</option>
+        <option value="account_94" >BNB Wallet</option>
+        
+            </select>
+
+                    <label for="c6" class="form-label-always-active color-highlight font-11">Select Wallet</label>
+                </div>
+                <div class="pb-3"></div>
+
+
+
+
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
+                    <span class="font-10"></span>
+                </div>
+                <div class="pb-2"></div>
+                <div class="form-check form-check-custom">
+                    <input class="form-check-input" type="checkbox" name="" value="" id="c21">
+                    <label class="form-check-label" for="c21">I accept the Transfer <a href="?a=rules">Terms of Service</a></label>
+                    <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
+                    <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
+                </div>
+
+            </div>
+            <input type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s" value="continue">
+    </div>
+
+
+    </form>
+
+
+    <script language=javascript>
+        for (i = 0; i < document.spendform.type.length; i++) {
+            if ((document.spendform.type[i].value.match(/^process_/))) {
+                document.spendform.type[i].checked = true;
+                break;
+            }
+        }
+        updateCompound();
+    </script>
+
+
+
+
+
+
+    <!--View account menu-->
+    <div id="account" style="height: 400px; width: 320px; display: block; visibility: visible; background-image: url('https://Vitron-Trade/images/360_F_415820132_Jngab5QfKUSmO5MnieRWrVLdLk3yYJxi.jpg'); background-size: cover;" class="offcanvas offcanvas-modal rounded-m"
+        aria-modal="true" role="dialog">
+
+
+        <div class="d-flex m-3">
+            <div class="align-self-center">
+                <h5 class="font-700 mb-0">Account Summary</h5>
+            </div>
+        </div>
+
+
+
+        <div class="col-12 mb-n2 text-start" style="margin-top: 10px;">
+            <a href="#" class="default-link card card-styles" style="height:90px">
+                <div class="card-center px-4">
+                    <div class="d-flex">
+                        <div class="align-self-center">
+                            <span class="icon icon-m rounded-s gradient-dark shadow-bg shadow-bg-xs"><i class="bi bi-clipboard-data font-20 color-white"></i></span>
+                        </div>
+                        <div class="align-self-center ps-3 ms-1">
+                            <h1 class="font-20 mb-n1">$<b></b></h1>
+                            <p class="mb-0 font-12 opacity-80">Active Revenue Plan</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <br/>
+
+        <div class="col-12 mb-n2 text-start">
+            <a href="#" class="default-link card card-styles" style="height:90px">
+                <div class="card-center px-4">
+                    <div class="d-flex">
+                        <div class="align-self-center">
+                            <span class="icon icon-m rounded-s gradient-dark shadow-bg shadow-bg-xs"><i class="bi bi-piggy-bank font-20 color-white"></i></span>
+                        </div>
+                        <div class="align-self-center ps-3 ms-1">
+                            <h1 class="font-20 mb-n1">$<b></b></h1>
+                            <p class="mb-0 font-12 opacity-80">Total Revenue Earned</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <br/>
+
+        <div class="col-12 mb-n2 text-start">
+            <a href="#" class="default-link card card-styles" style="height:90px">
+                <div class="card-center px-4">
+                    <div class="d-flex">
+                        <div class="align-self-center">
+                            <span class="icon icon-m rounded-s gradient-dark shadow-bg shadow-bg-xs"><i class="bi bi-box-arrow-down font-20 color-white"></i></span>
+                        </div>
+                        <div class="align-self-center ps-3 ms-1">
+                            <h1 class="font-20 mb-n1">$<b></b></h1>
+                            <p class="mb-0 font-12 opacity-80">Total Withdrawals</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <br>
+    </div>
+
+
+    <!--Deposit menu-->
+    <div id="deposit" style="height:440px;" class="offcanvas offcanvas-bottom">
+        <div class="d-flex mx-3 mt-3 py-1">
+            <div class="align-self-center">
+                <h1 class="mb-0">Fund your Account</h1>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
+            </a>
+            </div>
+        </div>
+
+        <form method="post"><input type="hidden" name="form_id" value="17556428717530"><input type="hidden" name="form_token" value="078b0a53ab2da887eaaa099498b5a7e1">
+            <input type=hidden name=a value=deposit>
+            <input type=hidden name=h_id value=-1>
+
+            <div class="divider divider-margins mt-3"></div>
+            <div class="content mt-0">
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-wallet2 font-14"></i>
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="type" value="">
+                
+                
+                  <option value="process_48" >Deposit using Bitcoin</option>
+        <option value="process_69" >Deposit using Ethereum</option>
+        <option value="process_92" >Deposit using USDT</option>
+        <option value="process_77" >Deposit using Bitcoin Cash</option>
+        <option value="process_68" >Deposit using Litecoin</option>
+        <option value="process_71" >Deposit using Dash</option>
+        <option value="process_94" >Deposit using BNB</option>
+        
+            </select>
+
+                    <label for="c6" class="form-label-always-active color-highlight font-11">Payment Processor</label>
+                </div>
+                <div class="pb-3"></div>
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
+                    <span class="font-10"></span>
+                </div>
+                <div class="pb-2"></div>
+                <div class="form-check form-check-custom">
+                    <input class="form-check-input" type="checkbox" name="" value="" id="c22">
+                    <label class="form-check-label" for="c22">I accept the Transfer <a href="?a=rules">Terms of Service</a></label>
+                    <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
+                    <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
+                </div>
+
+            </div>
+            <input type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s" value="continue">
+    </div>
+    </form>
+
+
+
+    <!--withdrawal-->
+    <div id="withdraw" style="height:440px;" class="offcanvas offcanvas-bottom">
+        <div class="d-flex mx-3 mt-3 py-1">
+            <div class="align-self-center">
+                <h1 class="mb-0">Withdraw Your Funds</h1>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
+            </a>
+            </div>
+        </div>
+
+
+        <form method=post><input type="hidden" name="form_id" value="17556428717530"><input type="hidden" name="form_token" value="078b0a53ab2da887eaaa099498b5a7e1">
+            <input type=hidden name=a value=withdraw>
+            <input type=hidden name=action value=preview>
+            <input type=hidden name=say value="">
+
+
+
+
+
+
+            <div class="divider divider-margins mt-3"></div>
+            <div class="content mt-0">
+
+                <!--   <div class="form-custom form-label form-icon">
+          
+            <h3>Account Balance</h3>
+            <p> $ </p>
+            
+        </div>
+        <div class="pb-3"></div>
+        -->
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-wallet2 font-14"></i>
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="ec" value="">
+                
+                
+                  <option value="48" >Bitcoin Wallet </option>
+        <option value="69" >Ethereum Wallet </option>
+        <option value="92" >USDT Wallet </option>
+        <option value="77" >Bitcoin Cash Wallet </option>
+        <option value="68" >Litecoin Wallet </option>
+        <option value="71" >Dash Wallet </option>
+        <option value="94" >BNB Wallet </option>
+        
+            </select>
+
+                    <label for="c6" class="form-label-always-active color-highlight font-11">Withdraw from</label>
+                </div>
+                <div class="pb-3"></div>
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
+                    <span class="font-10"></span>
+                </div>
+                <div class="pb-2"></div>
+                <div class="form-check form-check-custom">
+                    <input class="form-check-input" type="checkbox" checked value="" id="c23">
+                    <label class="form-check-label" for="c23">I accept the Withdrawal <a href="?a=rules">Terms of Service</a></label>
+                    <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
+                    <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
+                </div>
+
+            </div>
+            <button type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s">Continue</button>
+    </div>
+    </form>
+
+
+
+    <!-- trasnfer funds to user-->
+    <div id="send" style="height:440px;" class="offcanvas offcanvas-bottom">
+        <div class="d-flex mx-3 mt-3 py-1">
+            <div class="align-self-center">
+                <h1 class="mb-0">Send funds to another user</h1>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
+            </a>
+            </div>
+        </div>
+
+        <form method=post><input type="hidden" name="form_id" value="17556428717530"><input type="hidden" name="form_token" value="078b0a53ab2da887eaaa099498b5a7e1">
+            <input type=hidden name=a value=internal_transfer>
+            <input type=hidden name=action value=preview>
+            <input type=hidden name=say value="">
+
+            <div class="divider divider-margins mt-3"></div>
+            <div class="content mt-0">
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-wallet2 font-14"></i>
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="ec" value="">
+                
+                
+                  <option value="48" >Bitcoin wallet </option>
+        <option value="69" >Ethereum wallet </option>
+        <option value="92" >USDT wallet </option>
+        <option value="77" >Bitcoin Cash wallet </option>
+        <option value="68" >Litecoin wallet </option>
+        <option value="71" >Dash wallet </option>
+        <option value="94" >BNB wallet </option>
+        
+            </select>
+
+                    <label for="c6" class="form-label-always-active color-highlight font-11">Transfer from</label>
+                </div>
+
+                <div class="pb-3"></div>
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
+                    <span class="font-10"></span>
+                </div>
+
+
+                <div class="pb-3"></div>
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="text" class="form-control rounded-xs" id="c4" name=account placeholder="Vitron-Trade" value="" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">To (Username)</label>
+                    <span class="font-10"></span>
+                </div>
+
+                <div class="pb-3"></div>
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="text" class="form-control rounded-xs" id="c4" name="comment" placeholder="" value="" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">Description</label>
+                    <span class="font-10"></span>
+                </div>
+
+
+                <div class="pb-2"></div>
+                <div class="form-check form-check-custom">
+                    <input class="form-check-input" type="checkbox" checked name="" value="" id="c51">
+                    <label class="form-check-label" for="c51">I accept the Transfer <a href="?a=rules">Terms of Service</a></label>
+                    <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
+                    <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
+                </div>
+
+            </div>
+            <button type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s">Continue</button>
+    </div>
+    </form>
+
+
+    <script src="../scripts/bootstrap.min.js"></script>
+    <script src="../scripts/custom.js"></script>
+   
+</body>
+
+</html>

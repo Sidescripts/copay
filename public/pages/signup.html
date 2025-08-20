@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auth Flow - Signup</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/validation-styles.css">
+</head>
+
+<body>
+  <div class="auth-container">
+    <!-- Signup Page -->
+    <div class="auth-pages active" id="signup-page">
+      <div class="header">
+        <h1>Create Account</h1>
+        <p>Join our community and get started</p>
+      </div>
+
+      <div class="form-container">
+        <div class="error-message" id="signup-error-message"></div>
+        <form id="signup-form">
+          <div class="input-group">
+            <input type="text" name="username" id="username-input" placeholder=" " autocomplete="off">
+            <label for="username-input">Username</label>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+              <path fill="currentColor"
+                d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z" />
+            </svg>
+          </div>
+
+          <div class="input-group">
+            <input type="text" name="country" id="country-input" placeholder=" ">
+            <label for="country-input">Country</label>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 24 24">
+              <path fill="currentColor"
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5.93 6H15c-.2-1.33-.58-2.57-1.07-3.67 1.55.6 2.89 1.63 3.93 2.92zM12 4c.82 1.11 1.41 2.53 1.72 4h-3.44c.31-1.47.9-2.89 1.72-4zm-2.93.33c-.49 1.1-.87 2.34-1.07 3.67H6.07c1.04-1.29 2.38-2.32 3.93-2.92zM4 12c0-.68 1.1-1.35.27-1.98h3.48c-.09.65-.15 1.31-.15 1.98s.06 1.33.15 1.98H4.27C4.1 13.35 4 12.68 4 12zm1.07 4h2.93c.2 1.33.58 2.57 1.07 3.67-1.55-.6-2.89-1.63-3.93-2.92zM12 20c-.82-1.11-1.41-2.53-1.72-4h3.44c-.31 1.47-.9 2.89-1.72 4zm2.93-.33c.49-1.1.87-2.34 1.07-3.67h2.93c-1.04 1.29-2.38 2.32-3.93 2.92zM16.25 12c0-.67-.06-1.33-.15-1.98h3.48c.17.63.27 1.3.27 1.98s-.1 1.35-.27 1.98h-3.48c.09-.65.15-1.31.15-1.98z" />
+            </svg>
+          </div>
+
+          <div class="input-group">
+            <input type="email" name="email" id="email-input" placeholder=" ">
+            <label for="email-input">Email</label>
+            <span style="position: absolute; left: 15px; top: 15px; color: #888;">@</span>
+          </div>
+
+          <div class="input-group">
+            <input type="password" name="password" id="password-input" placeholder=" ">
+            <label for="password-input">Password</label>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+              <path fill="currentColor"
+                d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm240-200q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Z" />
+            </svg>
+            <span class="password-toggle" onclick="togglePassword('password-input')">
+              <i class="far fa-eye"></i>
+            </span>
+          </div>
+
+          <div class="input-group">
+            <input type="password" name="confirm-password" id="confirm-password-input" placeholder=" ">
+            <label for="confirm-password-input">Confirm Password</label>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+              <path fill="currentColor"
+                d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm240-200q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Z" />
+            </svg>
+            <span class="password-toggle" onclick="togglePassword('confirm-password-input')">
+              <i class="far fa-eye"></i>
+            </span>
+          </div>
+
+          <button type="submit">Sign Up</button>
+        </form>
+
+        <!-- <div class="divider">
+          <span>Or continue with</span>
+        </div>
+
+        <div class="social-login">
+          <div class="social-btn">
+            <i class="fab fa-google"></i>
+          </div>
+          <div class="social-btn">
+            <i class="fab fa-facebook-f"></i>
+          </div>
+          <div class="social-btn">
+            <i class="fab fa-twitter"></i>
+          </div>
+        </div> -->
+
+        <div class="footer">
+          <p>Already have an Account? <a href="./login.html" onclick="">Login</a></p>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+<script src="../js/validation.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,785 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="../styles/bootstrap.css">
+    <link rel="stylesheet" href="../fonts/bootstrap-icons.css">
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <meta id="theme-check" name="theme-color" content="#FFFFFF">
+    <title>Explore | Vitron-Trade </title>
+
+    <style>
+      
+        .color-highlight {
+            color: #F6BB42 !important;
+        }
+
+        .bg-highlight {
+            background-color: #F6BB42 !important;
+            color: #FFF !important;
+        }
+
+        .border-highlight {
+            border-color: #F6BB42 !important;
+        }
+
+        .gradient-highlight {
+            background-image: linear-gradient(to bottom, #FFCE54, #F6BB42) !important;
+        }
+
+        .splide__pagination__page.is-active {
+            background-color: #F6BB42 !important;
+        }
+
+        .footer-bar-1 .active-nav i,
+        .footer-bar-1 .active-nav span {
+            color: #F6BB42 !important;
+        }
+
+        .footer-bar-2 .active-nav {
+            border-bottom: solid 3px #F6BB42;
+        }
+
+        .footer-bar-3 .active-nav {
+            border-top: solid 3px #F6BB42;
+        }
+
+        .footer-bar-4 .active-nav {
+            background-color: #F6BB42;
+        }
+
+        #footer-bar .circle-nav-1::after,
+        #footer-bar .circle-nav-2::before,
+        #footer-bar .circle-nav-2::after {
+            background-image: linear-gradient(to bottom, #FFCE54, #F6BB42) !important;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            background-color: #F6BB42;
+        }
+
+        .color-highlight {
+            color: #F6BB42;
+        }
+
+        .bg-highlight {
+            background-color: #F6BB42;
+            color: #FFF !important;
+        }
+
+        #header-deco-1,
+        #header-deco-2,
+        #header-deco-3,
+        #header-deco-4 {
+            fill: #F6BB42;
+        }
+
+        .error {
+            color: #d84558 !important;
+            background-color: rgba(218, 68, 83, .2) !important;
+            color: #fff !important;
+            position: relative;
+            padding: 1rem 1rem;
+            padding-right: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: .25rem;
+            transition: opacity .15s linear;
+        }
+    </style>
+
+
+</head>
+
+
+<body class="theme-light">
+
+    <div id="preloader">
+        <div class="spinner-border color-highlight" role="status"></div>
+    </div>
+
+    <!-- Page Wrapper-->
+    <div id="page">
+
+        <!-- Footer Bar -->
+        <div id="footer-bar" class="footer-bar-1 footer-bar-detached">
+            <a href="?a=deposit"><i class="bi bi-piggy-bank"></i><span>Earn</span></a>
+            <a href="?a=history"><i class="bi bi-calendar4-event"></i><span>Activity</span></a>
+            <a href="?a=account" class="circle-nav-2 "><i class="bi bi-house-fill"></i><span>Wallet</span></a>
+            <a href="?a=explore" class="active-nav"><i class="bi bi-grid"></i><span>Explore</span></a>
+            <a href="?a=edit_account" data-bs-toggle="offcanvas" data-bs-target="#menu-sidebar"><i class="bi bi-gear"></i><span>Settings</span></a>
+        </div>
+
+
+
+        <!-- Page Content - Only Page Elements Here-->
+        <div class="page-content footer-clear">
+
+
+            <!-- Page Title-->
+            <div class="pt-3">
+                <div class="page-title d-flex">
+                    <div class="align-self-center">
+                        <a href="/?a=account" data-back-button class="me-3 ms-0 icon icon-xxs bg-theme rounded-s shadow-m">
+                        <i class="bi bi-chevron-left color-theme font-14"></i>
+                    </a>
+                    </div>
+                    <div class="align-self-center me-auto">
+                        <h1 class="color-theme mb-0 font-18">Explore</h1>
+                    </div>
+
+                    <div class="align-self-center ms-auto">
+                        <a href="#" data-bs-toggle="dropdown" class="icon icon-xxs gradient-highlight color-white shadow-bg shadow-bg-xs rounded-m">
+                          <i class="bi bi-list font-20"></i>
+                    </a>
+                        <!-- Page Title Dropdown Menu-->
+                        <div class="dropdown-menu">
+                            <div class="card card-style shadow-m mt-1 me-1">
+                                <div class="list-group list-custom list-group-s list-group-flush rounded-xs px-3 py-1">
+
+
+                                    <a href="?a=edit_account" class="list-group-item">
+                                    <i class="has-bg gradient-dark shadow-bg shadow-bg-xs rounded-xs color-gray-dark bi bi-person-circle"></i>
+                                    <strong class="font-13">Profile</strong>
+                                </a>
+
+                                    <a href="?a=faq" class="list-group-item">
+                                    <i class="has-bg gradient-dark shadow-bg shadow-bg-xs rounded-xs color-gray-dark bi bi-info-circle"></i>
+                                    <strong class="font-13">FAQs</strong>
+                                </a>
+
+                                    <a href="?a=support" class="list-group-item">
+                                    <i class="has-bg gradient-dark shadow-bg shadow-bg-xs rounded-xs color-gray-dark bi bi-chat-dots"></i>
+                                    <strong class="font-13">Support</strong>
+                                </a>
+
+                                    <a href="?a=logout" class="list-group-item">
+                                    <i class="has-bg gradient-dark shadow-bg shadow-bg-xs rounded-xs color-gray-dark bi bi-power "></i>
+                                    <strong class="font-13">Log Out</strong>
+                                </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <!-- Alert pop up -->
+
+            <div id="alertWrapper" style="display: none; opacity: 0; transition: opacity 0.5s ease-in-out;">
+                <div class="alert p-0 alert-dismissible fade show mb-n3" role="alert">
+                    <div class="card card-style scale-box gradient-dark shadow-bg shadow-bg-s">
+                        <div class="content">
+                            <a href="#" class="d-flex show-offline">
+                                <div class="align-self-center">
+                                    <h1 class="mb-0 font-40"><i class="bi bi-currency-bitcoin color-white pe-3"></i></h1>
+                                </div>
+                                <div class="align-self-center">
+                                    <h5 class="color-white font-700 mb-0 mt-0">
+                                        Another chance to earn reward! <br> Refer your friend to Ciqpay and earn a share of $50,000 in rewards. Start NOW!
+                                    </h5>
+                                </div>
+                                <div class="align-self-center ms-auto">
+                                    <span data-bs-dismiss="alert" class="icon-l"><i class="bi bi-x font-20 pt-1 d-block color-white"></i></span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                // Function to display the alert with animation
+                function displayAlert() {
+                    var alertWrapper = document.getElementById('alertWrapper');
+                    alertWrapper.style.display = 'block';
+                    setTimeout(function() {
+                        alertWrapper.style.opacity = '1';
+                    }, 500); // Add a small delay before setting opacity to allow transition effect to work
+                }
+
+                // Call displayAlert function after 5 seconds
+                setTimeout(displayAlert, 5000); // 5000 milliseconds = 5 seconds
+            </script>
+
+
+
+            <!-- Alert pop up -->
+
+
+
+            <div class="row text-center">
+                <div class="col-6 mb-n2">
+                    <a href="?a=cards" class="card card-style me-0" style="height:180px">
+                        <div class="card-center">
+                            <span class="icon icon-xl rounded-m gradient-yellow shadow-bg shadow-bg-xs"><i class="bi bi-credit-card font-24 color-white"></i></span>
+                            <h1 class="font-22 pt-3">Cards</h1>
+                        </div>
+                        <div class="card-bottom">
+                            <p class="font-11 mb-0 opacity-40">view all cards</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 mb-n2">
+                    <a href="?a=exchange" class="card card-style ms-0" style="height:180px">
+                        <div class="card-center">
+                            <span class="icon icon-xl rounded-m gradient-yellow shadow-bg shadow-bg-xs"><i class="bi bi-currency-exchange font-24 color-white"></i></span>
+                            <h1 class="font-22 pt-3">Swap</h1>
+                        </div>
+                        <div class="card-bottom">
+                            <p class="font-11 mb-0 opacity-40">Exchange tokens</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 mb-n2">
+                    <a href="?a=referals" class="card card-style me-0" style="height:180px">
+                        <div class="card-center">
+                            <span class="icon icon-xl rounded-m gradient-yellow shadow-bg shadow-bg-xs"><i class="bi bi-people font-24 color-white"></i></span>
+                            <h1 class="font-22 pt-3">Refer & Earn</h1>
+                        </div>
+                        <div class="card-bottom">
+                            <p class="font-11 mb-0 opacity-40">Share & Earn</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-6 mb-n2">
+                    <a href="?a=faq" class="card card-style ms-0" style="height:180px">
+                        <div class="card-center">
+                            <span class="icon icon-xl rounded-m gradient-yellow shadow-bg shadow-bg-xs"><i class="bi bi-question-circle font-24 color-white"></i></span>
+                            <h1 class="font-22 pt-3">Help Center</h1>
+                        </div>
+                        <div class="card-bottom">
+                            <p class="font-11 mb-0 opacity-40">Get answers in FAQs</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- <a href="?a=watchlist" class="default-link card card-style" style="height:90px"> -->
+                <div class="col-12 mb-n2 text-start">
+                    <a href="?a=watchlist" class="card card-style " style="height:90px">
+                        <div class="card-center px-4">
+                            <div class="d-flex">
+                                <div class="align-self-center">
+                                    <span class="icon icon-m rounded-s gradient-dark shadow-bg shadow-bg-xs"><i class="bi bi-graph-up font-20 color-white"></i></span>
+                                </div>
+                                <div class="align-self-center ps-3 ms-1">
+                                    <h1 class="font-20 mb-n1">Coin Watchlists</h1>
+                                    <p class="mb-0 font-12 opacity-50">Explore your favorite crypto.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+
+                <div class="col-12 mb-n2 text-start">
+                    <a href="?a=app" class="card card-style" style="height:90px">
+                        <div class="card-center px-4">
+                            <div class="d-flex">
+                                <div class="align-self-center">
+                                    <span class="icon icon-m rounded-s gradient-dark shadow-bg shadow-bg-xs"><i class="bi bi-download font-20 color-white"></i></span>
+                                </div>
+                                <div class="align-self-center ps-3 ms-1">
+                                    <h1 class="font-20 mb-n1">Install App</h1>
+                                    <p class="mb-0 font-12 opacity-50">Install our app to access our site easily</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+
+
+                <div class="col-12 mb-n2 text-start">
+                    <a href="?a=support" class=" card card-style" style="height:90px">
+                        <div class="card-center px-4">
+                            <div class="d-flex">
+                                <div class="align-self-center">
+                                    <span class="icon icon-m rounded-s gradient-dark shadow-bg shadow-bg-xs"><i class="bi bi-chat-dots font-20 color-white"></i></span>
+                                </div>
+                                <div class="align-self-center ps-3 ms-1">
+                                    <h1 class="font-20 mb-n1">Contact Support</h1>
+                                    <p class="mb-0 font-12 opacity-50">Need an assistant? Chat an agent</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+            </div>
+
+        </div>
+        <!-- End of Page Content-->
+
+
+
+
+    </div>
+    <!-- End of Page ID-->
+
+
+
+
+    <!--Invest menu-->
+    <div id="invest" style="height:440px;" class="offcanvas offcanvas-bottom">
+        <div class="d-flex mx-3 mt-3 py-1">
+            <div class="align-self-center">
+                <h1 class="mb-0">Start Earning</h1>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
+            </a>
+            </div>
+        </div>
+
+
+
+        <script language="javascript">
+            <!--
+            function openCalculator(id) {
+
+                w = 225;
+                h = 400;
+                t = (screen.height - h - 30) / 2;
+                l = (screen.width - w - 30) / 2;
+                window.open('?a=calendar&type=' + id, 'calculator' + id, "top=" + t + ",left=" + l + ",width=" + w + ",height=" + h + ",resizable=1,scrollbars=0");
+
+
+
+
+            }
+
+            function updateCompound() {
+                var id = 0;
+                var tt = document.spendform.h_id.type;
+                if (tt && tt.toLowerCase() == 'hidden') {
+                    id = document.spendform.h_id.value;
+                } else {
+                    for (i = 0; i < document.spendform.h_id.length; i++) {
+                        if (document.spendform.h_id[i].checked) {
+                            id = document.spendform.h_id[i].value;
+                        }
+                    }
+                }
+
+                var cpObj = document.getElementById('compound_percents');
+                if (cpObj) {
+                    while (cpObj.options.length != 0) {
+                        cpObj.options[0] = null;
+                    }
+                }
+
+                if (cps[id] && cps[id].length > 0) {
+                    document.getElementById('coumpond_block').style.display = '';
+
+                    for (i in cps[id]) {
+                        cpObj.options[cpObj.options.length] = new Option(cps[id][i]);
+                    }
+                } else {
+                    document.getElementById('coumpond_block').style.display = 'none';
+                }
+            }
+            var cps = {};
+            -->
+        </script>
+
+
+        <form method=post name="spendform"><input type="hidden" name="form_id" value="17556436117246"><input type="hidden" name="form_token" value="94230dcd23f20302f4cad8998bd818c4">
+            <input type=hidden name=a value=deposit>
+
+            <div class="divider divider-margins mt-3"></div>
+            <div class="content mt-0">
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-wallet2 font-14"></i>
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="h_id" value="">
+                
+                
+                   <option value="1">BEGINNER PORTFOLIO (0.02% HOURLY)</option>
+                                            <option value="2">PRESTIGE PORTFOLIO (0.9% DAILY)</option>
+                                            <option value="3">LEGACY PORTFOLIO (1.4% DAILY)</option>
+                                              <option value="4">FORTUNE PORTFOLIO (2.1% DAILY)</option>
+                                                <option value="5">WEALTH EDGE (4.3% DAILY)</option>
+                                                  <option value="6">ELITE PRIME (5.6% DAILY)</option>
+        
+        
+            </select>
+
+                    <label for="c6" class="form-label-always-active color-highlight font-11">Select Revenue Plan</label>
+                </div>
+                <div class="pb-3"></div>
+
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-wallet2 font-14"></i>
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="type" value="">
+                
+                
+                  <option value="account_48" >Bitcoin Wallet</option>
+        <option value="account_69" >Ethereum Wallet</option>
+        <option value="account_92" >USDT Wallet</option>
+        <option value="account_77" >Bitcoin Cash Wallet</option>
+        <option value="account_68" >Litecoin Wallet</option>
+        <option value="account_71" >Dash Wallet</option>
+        <option value="account_94" >BNB Wallet</option>
+        
+            </select>
+
+                    <label for="c6" class="form-label-always-active color-highlight font-11">Select Wallet</label>
+                </div>
+                <div class="pb-3"></div>
+
+
+
+
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
+                    <span class="font-10"></span>
+                </div>
+                <div class="pb-2"></div>
+                <div class="form-check form-check-custom">
+                    <input class="form-check-input" type="checkbox" name="" value="" id="c21">
+                    <label class="form-check-label" for="c21">I accept the Transfer <a href="?a=rules">Terms of Service</a></label>
+                    <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
+                    <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
+                </div>
+
+            </div>
+            <input type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s" value="continue">
+    </div>
+
+
+    </form>
+
+
+    <script language=javascript>
+        for (i = 0; i < document.spendform.type.length; i++) {
+            if ((document.spendform.type[i].value.match(/^process_/))) {
+                document.spendform.type[i].checked = true;
+                break;
+            }
+        }
+        updateCompound();
+    </script>
+
+
+
+
+
+
+    <!--View account menu-->
+    <div id="account" style="height: 400px; width: 320px; display: block; visibility: visible; background-image: url('https://Vitron-Trade/images/360_F_415820132_Jngab5QfKUSmO5MnieRWrVLdLk3yYJxi.jpg'); background-size: cover;" class="offcanvas offcanvas-modal rounded-m"
+        aria-modal="true" role="dialog">
+
+
+        <div class="d-flex m-3">
+            <div class="align-self-center">
+                <h5 class="font-700 mb-0">Account Summary</h5>
+            </div>
+        </div>
+
+
+
+        <div class="col-12 mb-n2 text-start" style="margin-top: 10px;">
+            <a href="#" class="default-link card card-styles" style="height:90px">
+                <div class="card-center px-4">
+                    <div class="d-flex">
+                        <div class="align-self-center">
+                            <span class="icon icon-m rounded-s gradient-dark shadow-bg shadow-bg-xs"><i class="bi bi-clipboard-data font-20 color-white"></i></span>
+                        </div>
+                        <div class="align-self-center ps-3 ms-1">
+                            <h1 class="font-20 mb-n1">$<b></b></h1>
+                            <p class="mb-0 font-12 opacity-80">Active Revenue Plan</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <br/>
+
+        <div class="col-12 mb-n2 text-start">
+            <a href="#" class="default-link card card-styles" style="height:90px">
+                <div class="card-center px-4">
+                    <div class="d-flex">
+                        <div class="align-self-center">
+                            <span class="icon icon-m rounded-s gradient-dark shadow-bg shadow-bg-xs"><i class="bi bi-piggy-bank font-20 color-white"></i></span>
+                        </div>
+                        <div class="align-self-center ps-3 ms-1">
+                            <h1 class="font-20 mb-n1">$<b></b></h1>
+                            <p class="mb-0 font-12 opacity-80">Total Revenue Earned</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <br/>
+
+        <div class="col-12 mb-n2 text-start">
+            <a href="#" class="default-link card card-styles" style="height:90px">
+                <div class="card-center px-4">
+                    <div class="d-flex">
+                        <div class="align-self-center">
+                            <span class="icon icon-m rounded-s gradient-dark shadow-bg shadow-bg-xs"><i class="bi bi-box-arrow-down font-20 color-white"></i></span>
+                        </div>
+                        <div class="align-self-center ps-3 ms-1">
+                            <h1 class="font-20 mb-n1">$<b></b></h1>
+                            <p class="mb-0 font-12 opacity-80">Total Withdrawals</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <br>
+    </div>
+
+
+    <!--Deposit menu-->
+    <div id="deposit" style="height:440px;" class="offcanvas offcanvas-bottom">
+        <div class="d-flex mx-3 mt-3 py-1">
+            <div class="align-self-center">
+                <h1 class="mb-0">Fund your Account</h1>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
+            </a>
+            </div>
+        </div>
+
+        <form method="post"><input type="hidden" name="form_id" value="17556436117246"><input type="hidden" name="form_token" value="94230dcd23f20302f4cad8998bd818c4">
+            <input type=hidden name=a value=deposit>
+            <input type=hidden name=h_id value=-1>
+
+            <div class="divider divider-margins mt-3"></div>
+            <div class="content mt-0">
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-wallet2 font-14"></i>
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="type" value="">
+                
+                
+                  <option value="process_48" >Deposit using Bitcoin</option>
+        <option value="process_69" >Deposit using Ethereum</option>
+        <option value="process_92" >Deposit using USDT</option>
+        <option value="process_77" >Deposit using Bitcoin Cash</option>
+        <option value="process_68" >Deposit using Litecoin</option>
+        <option value="process_71" >Deposit using Dash</option>
+        <option value="process_94" >Deposit using BNB</option>
+        
+            </select>
+
+                    <label for="c6" class="form-label-always-active color-highlight font-11">Payment Processor</label>
+                </div>
+                <div class="pb-3"></div>
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
+                    <span class="font-10"></span>
+                </div>
+                <div class="pb-2"></div>
+                <div class="form-check form-check-custom">
+                    <input class="form-check-input" type="checkbox" name="" value="" id="c22">
+                    <label class="form-check-label" for="c22">I accept the Transfer <a href="?a=rules">Terms of Service</a></label>
+                    <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
+                    <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
+                </div>
+
+            </div>
+            <input type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s" value="continue">
+    </div>
+    </form>
+
+
+
+    <!--withdrawal-->
+    <div id="withdraw" style="height:440px;" class="offcanvas offcanvas-bottom">
+        <div class="d-flex mx-3 mt-3 py-1">
+            <div class="align-self-center">
+                <h1 class="mb-0">Withdraw Your Funds</h1>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
+            </a>
+            </div>
+        </div>
+
+
+        <form method=post><input type="hidden" name="form_id" value="17556436117246"><input type="hidden" name="form_token" value="94230dcd23f20302f4cad8998bd818c4">
+            <input type=hidden name=a value=withdraw>
+            <input type=hidden name=action value=preview>
+            <input type=hidden name=say value="">
+
+
+
+
+
+
+            <div class="divider divider-margins mt-3"></div>
+            <div class="content mt-0">
+
+                <!--   <div class="form-custom form-label form-icon">
+          
+            <h3>Account Balance</h3>
+            <p> $ </p>
+            
+        </div>
+        <div class="pb-3"></div>
+        -->
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-wallet2 font-14"></i>
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="ec" value="">
+                
+                
+                  <option value="48" >Bitcoin Wallet </option>
+        <option value="69" >Ethereum Wallet </option>
+        <option value="92" >USDT Wallet </option>
+        <option value="77" >Bitcoin Cash Wallet </option>
+        <option value="68" >Litecoin Wallet </option>
+        <option value="71" >Dash Wallet </option>
+        <option value="94" >BNB Wallet </option>
+        
+            </select>
+
+                    <label for="c6" class="form-label-always-active color-highlight font-11">Withdraw from</label>
+                </div>
+                <div class="pb-3"></div>
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
+                    <span class="font-10"></span>
+                </div>
+                <div class="pb-2"></div>
+                <div class="form-check form-check-custom">
+                    <input class="form-check-input" type="checkbox" checked value="" id="c23">
+                    <label class="form-check-label" for="c23">I accept the Withdrawal <a href="?a=rules">Terms of Service</a></label>
+                    <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
+                    <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
+                </div>
+
+            </div>
+            <button type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s">Continue</button>
+    </div>
+    </form>
+
+
+
+    <!-- trasnfer funds to user-->
+    <div id="send" style="height:440px;" class="offcanvas offcanvas-bottom">
+        <div class="d-flex mx-3 mt-3 py-1">
+            <div class="align-self-center">
+                <h1 class="mb-0">Send funds to another user</h1>
+            </div>
+            <div class="align-self-center ms-auto">
+                <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
+            </a>
+            </div>
+        </div>
+
+        <form method=post><input type="hidden" name="form_id" value="17556436117246"><input type="hidden" name="form_token" value="94230dcd23f20302f4cad8998bd818c4">
+            <input type=hidden name=a value=internal_transfer>
+            <input type=hidden name=action value=preview>
+            <input type=hidden name=say value="">
+
+            <div class="divider divider-margins mt-3"></div>
+            <div class="content mt-0">
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-wallet2 font-14"></i>
+                    <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="ec" value="">
+                
+                
+                  <option value="48" >Bitcoin wallet </option>
+        <option value="69" >Ethereum wallet </option>
+        <option value="92" >USDT wallet </option>
+        <option value="77" >Bitcoin Cash wallet </option>
+        <option value="68" >Litecoin wallet </option>
+        <option value="71" >Dash wallet </option>
+        <option value="94" >BNB wallet </option>
+        
+            </select>
+
+                    <label for="c6" class="form-label-always-active color-highlight font-11">Transfer from</label>
+                </div>
+
+                <div class="pb-3"></div>
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
+                    <span class="font-10"></span>
+                </div>
+
+
+                <div class="pb-3"></div>
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="text" class="form-control rounded-xs" id="c4" name=account placeholder="Vitron-Trade" value="" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">To (Username)</label>
+                    <span class="font-10"></span>
+                </div>
+
+                <div class="pb-3"></div>
+
+
+                <div class="form-custom form-label form-icon">
+                    <i class="bi bi-code-square font-14"></i>
+                    <input type="text" class="form-control rounded-xs" id="c4" name="comment" placeholder="" value="" />
+                    <label for="c4" class="form-label-always-active color-highlight font-11">Description</label>
+                    <span class="font-10"></span>
+                </div>
+
+
+                <div class="pb-2"></div>
+                <div class="form-check form-check-custom">
+                    <input class="form-check-input" type="checkbox" checked name="" value="" id="c51">
+                    <label class="form-check-label" for="c51">I accept the Transfer <a href="?a=rules">Terms of Service</a></label>
+                    <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
+                    <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
+                </div>
+
+            </div>
+            <button type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s">Continue</button>
+    </div>
+    </form>
+
+
+    <script src="../scripts/bootstrap.min.js"></script>
+    <script src="../scripts/custom.js"></script>
+</body>
+</html>
