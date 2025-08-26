@@ -19,4 +19,5 @@ function ErrorHandler() {
     };
   }
   
-  module.exports = ErrorHandler().handle;
+module.exports = ErrorHandler().handle;
+

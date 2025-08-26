@@ -149,18 +149,45 @@ module.exports = (sequelize) => {
       allowNull: false
     }
   }, {
+    tableName: 'users', // FIXED: Single options object
+    freezeTableName: true, // ADDED: Prevent automatic pluralization
     timestamps: true,
     paranoid: true,
     indexes: [
       {
         unique: true,
-        fields: ['username', 'email']
+        fields: ['username']
       },
       {
-        fields: ['country', 'state']
+        unique: true,
+        fields: ['email']
+      },
+      {
+        fields: ['country']
+      },
+      {
+        fields: ['state']
       }
     ]
   });
+
+  // FIXED: Single associate function with all relationships
+  User.associate = function(models) {
+    User.hasMany(models.Deposit, {
+      foreignKey: 'userId',
+      as: 'deposits'
+    });
+
+    User.hasMany(models.Withdrawal, {
+      foreignKey: 'userId',
+      as: 'withdrawals'
+    });
+
+    User.hasMany(models.Investment, {
+      foreignKey: 'userId',
+      as: 'investments' // FIXED: Changed to plural
+    });
+  };
 
   // Generate UUID if not provided
   User.beforeValidate((user) => {

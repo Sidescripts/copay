@@ -1,4 +1,4 @@
-    // Wait for DOM to be fully loaded
+// Wait for DOM to be fully loaded
     document.addEventListener('DOMContentLoaded', function() {
       // Global functions
       window.showPage = function(pageId) {
