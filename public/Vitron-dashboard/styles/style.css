@@ -141,7 +141,7 @@
 
 .color-icon-highlight {
     stroke: #4A89DC !important;
-    fill:  !important;
+    /* fill:  !important; */
 }
 
 .bg-highlight-dark {
@@ -157,9 +157,7 @@
     border-color: #4A89DC !important;
 }
 
-.border-fade-highlight {
-    border-color:  !important;
-}
+
 
 .focus-highlight:focus {
     border-color: #4A89DC !important;
@@ -4763,3 +4761,139 @@ input[type=range] {
 .card-stack.card-stack-active .card:last-child {
     margin-bottom: 20px !important;
 }
+
+
+
+
+
+     /* FUTURE CARD STYLES */
+
+        /* Enhanced card styling */
+        /* .card.bg-5 {
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6fa5 100%) !important;
+            border-radius: 20px !important;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .card.bg-5:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .card.bg-5::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.2) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .card-top, .card-bottom {
+            z-index: 2;
+            position: relative;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-center {
+            z-index: 2;
+            position: relative;
+        }
+
+        .bg-theme.px-3.py-2.rounded-end {
+            background: rgba(255, 255, 255, 0.15) !important;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .bg-theme.px-3.py-2.rounded-end:hover {
+            background: rgba(255, 255, 255, 0.25) !important;
+        }
+
+        .bg-theme.px-3.py-2.rounded-end a {
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .bg-theme.px-3.py-2.rounded-end a:hover {
+            letter-spacing: 0.5px;
+        }
+
+        .bg-theme.px-3.py-2.rounded-end h2 {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+        }
+
+        /* Balance reveal animation */
+        /* .collapse#balance3 {
+            transition: all 0.5s ease;
+        }
+
+        .collapse#balance3.show {
+            animation: balanceReveal 0.5s ease;
+        }
+
+        @keyframes balanceReveal {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        } */ */
+
+        /* Card number styling */
+        /* .font-monospace {
+            letter-spacing: 1.5px;
+            font-weight: 500;
+        } */
+
+        /* Card overlay enhancement */
+        /* .card-overlay.bg-black {
+            opacity: 0.4 !important;
+        } */
+
+        /* Chip simulation */
+        /* .card.bg-5::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 30px;
+            background: linear-gradient(135deg, #FFCE54 0%, #F6BB42 100%);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        } */
+
+        /* Hologram effect */
+        .card.bg-5 .card-bottom::before {
+            content: '';
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .card.bg-5 {
+                height: 180px !important;
+            }
+            
+            .card-top, .card-bottom {
+                font-size: 11px !important;
+            }
+            
+            .card.bg-5::after {
+                width: 30px;
+                height: 22px;
+            }
+        }

@@ -935,3 +935,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     init_template();
 });
+
+
+// const confirmModal = document.getElementById('confirmModal');
+// if (confirmModal) {
+//   new bootstrap.Modal(confirmModal);
+// }
+
+// const myToast = document.getElementById('myToast');
+// if (myToast) {
+//   new bootstrap.Toast(myToast);
+// }
+
+// const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+// if (tooltipTriggerList.length > 0) {
+//   tooltipTriggerList.map(function (tooltipTriggerEl) {
+//     return new bootstrap.Tooltip(tooltipTriggerEl);
+//   });
+// }

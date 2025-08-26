@@ -19,6 +19,14 @@
          <title>Support | Vitron-Trade </title>
     <style>
 
+       :root {
+            --highlight: #F6BB42;
+            --light-bg: #f8f9fa;
+            --dark-text: #333;
+            --light-text: #6c757d;
+            --border-color: #e9ecef;
+        }
+        
         .color-highlight {
             color: #F6BB42 !important;
         }
@@ -76,13 +84,6 @@
             color: #FFF !important;
         }
 
-        #header-deco-1,
-        #header-deco-2,
-        #header-deco-3,
-        #header-deco-4 {
-            fill: #F6BB42;
-        }
-
         .error {
             color: #d84558 !important;
             background-color: rgba(218, 68, 83, .2) !important;
@@ -95,22 +96,151 @@
             border-radius: .25rem;
             transition: opacity .15s linear;
         }
+
+
+
+
+        /* .color-highlight {
+            color: var(--highlight) !important;
+        }
+
+        .bg-highlight {
+            background-color: var(--highlight) !important;
+            color: #FFF !important;
+        } */
+
+
+        .card-style {
+            overflow: hidden;
+            border-radius: 12px;
+            margin: 15px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: white;
+        }
+
+        .card-style:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+            min-height: 45px;
+            resize: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--highlight);
+            box-shadow: 0 0 0 0.25rem rgba(246, 187, 66, 0.25);
+        }
+
+        .form-control.expandable {
+            min-height: 45px;
+            height: 45px;
+            transition: height 0.3s ease;
+        }
+
+        .form-control.expandable:focus {
+            height: 120px;
+        }
+
+        .btn-send {
+            background: linear-gradient(to bottom, #FFCE54, #F6BB42);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn-send:hover {
+            background: linear-gradient(to bottom, #F6BB42, #E8A721);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(246, 187, 66, 0.3);
+        }
+
+    
+        .user-info {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--highlight);
+        }
+
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+
+   
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateX(150%);
+            transition: transform 0.4s ease;
+            z-index: 1000;
+            border-left: 4px solid;
+            max-width: 350px;
+        }
+
+        .notification.success {
+            border-left-color: #28a745;
+        }
+
+        .notification.error {
+            border-left-color: #dc3545;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .contact-info {
+            background-color: #e9f7fe;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            border-left: 4px solid #2c3e50;
+        }
+
+        .contact-email {
+            color: #2c3e50;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .contact-email:hover {
+            text-decoration: underline;
+        }
     </style>
-
-    <!--
-.card-style {
-  overflow: hidden;
-  border-radius: 22px;
-  margin: 0px 15px 10px 15px;
-  border: none;
-  box-shadow: rgba(0, 0, 0, 0.03) 0px 20px 25px -5px, rgba(0, 0, 0, 0.02) 0px 10px 10px -5px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  padding: 10px 0px 30px 0px;
-}
--->
-
 
 </head>
 
@@ -121,18 +251,21 @@
         <div class="spinner-border color-highlight" role="status"></div>
     </div>
 
+    <div id="notification" class="notification">
+        <span id="notification-message"></span>
+    </div>
+
     <!-- Page Wrapper-->
     <div id="page">
 
         <!-- Footer Bar -->
         <div id="footer-bar" class="footer-bar-1 footer-bar-detached">
-            <a href="?a=deposit"><i class="bi bi-piggy-bank"></i><span>Earn</span></a>
-            <a href="?a=history"><i class="bi bi-calendar4-event"></i><span>Activity</span></a>
-            <a href="?a=account" class="circle-nav-2 "><i class="bi bi-house-fill"></i><span>Wallet</span></a>
-            <a href="?a=explore"><i class="bi bi-grid"></i><span>Explore</span></a>
-            <a href="?a=edit_account" class="active-nav" data-bs-toggle="offcanvas" data-bs-target="#menu-sidebar"><i class="bi bi-gear"></i><span>Settings</span></a>
+            <a href="../Vitron-dashboard/html/earn.html"><i class="bi bi-piggy-bank"></i><span>Earn</span></a>
+            <a href="../Vitron-dashboard/html/account-history.html"><i class="bi bi-calendar4-event"></i><span>Activity</span></a>
+            <a href="../Vitron-dashboard/Dashboard.html" class="circle-nav-2"><i class="bi bi-house-fill"></i><span>Wallet</span></a>
+            <a href="../Vitron-dashboard/html/explore.html"><i class="bi bi-grid"></i><span>Explore</span></a>
+            <a href="../Vitron-dashboard/html/profile-settings.html" data-bs-toggle="offcanvas" data-bs-target="#menu-sidebar"><i class="bi bi-gear"></i><span>Settings</span></a>
         </div>
-
 
 
         <!-- Page Content - Only Page Elements Here-->
@@ -144,7 +277,7 @@
             <div class="pt-3">
                 <div class="page-title d-flex">
                     <div class="align-self-center">
-                        <a href="/?a=edit_account" data-back-button class="me-3 ms-0 icon icon-xxs bg-theme rounded-s shadow-m">
+                        <a href="../Dashboard.html" data-back-button class="me-3 ms-0 icon icon-xxs bg-theme rounded-s shadow-m">
                         <i class="bi bi-chevron-left color-theme font-14"></i>
                     </a>
                     </div>
@@ -156,7 +289,7 @@
             </div>
 
 
-            <div class="card card-style shadow-card shadow-card-l bg-8" data-card-height="150" style="height: 150px; background-image: url('https://Vitron-Trade/images/panorama-focus-hand-holding-headset-260nw-2296039729.jpg'); background-size: cover; background-position: center;">
+            <div class="card card-style shadow-card shadow-card-l bg-8" data-card-height="150" style="height: 150px; background-image: url('../images/panorama-focus-hand-holding-headset-260nw-2296039729.jpg'); background-size: cover; background-position: center;">
                 <div class="card-bottom pb-3 px-3">
                     <h3 class="color-white">Help desk</h3>
                     <p class="color-white opacity-70 mb-0 mt-n1">Discover, learn and grow</p>
@@ -165,510 +298,201 @@
             </div>
 
 
-            <div class="card card-style">
-                <div class="content">
+      <div class="mt-4">
+      
+        <div class="card card-style">
+            <div class="content">
+                <p class="mb-4">Need assistance? Fill out our support form below and we'll get back to you as soon as possible.</p>
 
+                <h3 class="mb-4">Support Form:</h3>
 
-
-
-                    <script language=javascript>
-                        function checkform() {
-                            if (document.mainform.message.value == '') {
-                                alert("Please type your message!");
-                                document.mainform.message.focus();
-                                return false;
-                            }
-                            return true;
-                        }
-                    </script>
-
-                    <p>Want to get in touch? You have two easy ways: Click the chat bubble below to chat with a live agent instantly, or fill out our support form. We're ready to assist you! <br> (Note: If the chat bubble doesn't show, kindly refresh this
-                        page)</p>
-
-                    <h3>Support Form:</h3><br>
-
-                    <form method=post name=mainform onsubmit="return checkform()"><input type="hidden" name="form_id" value="17556421995631"><input type="hidden" name="form_token" value="f243eaec12c1e3885c53a2fa227e8ef8">
-                        <input type=hidden name=a value=support>
-                        <input type=hidden name=action value=send>
-
-
-
-                        <td>Your Name:</td>
-                        <td><b>Mark Hatter</b></td>
-                        <br>
-
-                        <td>Your Email:</td>
-                        <td><b>markhatter78@gmail.com</b></td>
-                        <br><br>
-
-                        <div class="form-custom form-label form-icon mb-3">
-                            <i class="bi bi-pencil-fill font-14"></i>
-                            <textarea name=message class="form-control rounded-xs" cols=45 rows=4 placeholder="Your Message"></textarea>
+                <div class="user-info">
+                    <div class="d-flex justify-content-between flex-wrap">
+                        <div class="mb-2">
+                            <strong>Your Name:</strong> Mark Hatter
                         </div>
+                        <div>
+                            <strong>Your Email:</strong> markhatter78@gmail.com
+                        </div>
+                    </div>
+                </div>
+
+                <form method="post" name="mainform" id="supportForm">
+                    <input type="hidden" name="form_id" value="17556421995631">
+                    <input type="hidden" name="form_token" value="f243eaec12c1e3885c53a2fa227e8ef8">
+                    <input type="hidden" name="a" value="support">
+                    <input type="hidden" name="action" value="send">
+                    <input type="hidden" name="to_email" value="support@vitron-trade.com">
+
+                    <div class="form-group mb-4">
+                        <label for="message" class="form-label">Your Message</label>
+                        <textarea name="message" id="message" class="form-control expandable" cols="45" rows="1" placeholder="Click to type your message"></textarea>
+                        <div class="form-text text-end"><span id="charCount">0</span>/1000 characters</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-send">
+                        <i class="fas fa-paper-plane me-2"></i> Send Message
+                    </button>
+                </form>
+
+                <div class="contact-info">
+                    <h5><i class="fas fa-envelope me-2"></i>Email Support</h5>
+                    <p class="mb-1">Prefer to email us directly?</p>
+                    <a href="mailto:support@vitron-trade.com" class="contact-email">support@vitron-trade.com</a>
+                </div>
+            </div>
+        </div>
+
+     
+      <div class="card card-style">
+        <div class="content">
+          <div class="accordion accordion-m border-0" id="accordion-group-7">
 
 
-                        <input type=submit value="Send" class="btn btn-full gradient-yellow shadow-bg shadow-bg-m text-uppercase font-700 w-100 btn-s mt-4" class=sbmt></td>
+            <div class="accordion-item border border-fade-highlight border-bottom-0 rounded-top rounded-m">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#accordion7-1" aria-expanded="false">
+                <i class="bi bi-question-circle color-dark-dark pe-3 font-14"></i>
+                <span class="font-600 font-13"> How long does it take to get a response?</span>
+                <i class="bi bi-arrow-down-short font-20"></i>
+              </button>
+              <div id="accordion7-1" class="accordion-collapse collapse" data-bs-parent="#accordion-group-7" style="">
+                <p class="px-3 mb-0 pb-3 pt-1">
+                   Our support team typically responds within 24 business hours.
+                </p>
+              </div>
+            </div>
 
-                    </form>
+            <div class="accordion-item border border-fade-highlight border-bottom-0">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#accordion7-2" aria-expanded="false">
+                <i class="bi bi-question-circle color-dark-dark pe-3 font-14"></i>
+                <span class="font-600 font-13">What information should I include in my support request?</span>
+                <i class="bi bi-arrow-down-short font-20"></i>
+              </button>
+              <div id="accordion7-2" class="accordion-collapse collapse" data-bs-parent="#accordion-group-7" style="">
+                <p class="px-3 mb-0 pb-3 pt-1">
+               Please include your account name and email, a detailed description of the issue, and any relevant screenshots.
+                </p>
+              </div>
+            </div>
 
+            <div class="accordion-item border border-fade-highlight border-bottom-0">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#accordion7-3" aria-expanded="false">
+                <i class="bi bi-question-circle color-dark-dark pe-3 font-14"></i>
+                <span class="font-600 font-13">What are your support hours?</span>
+                <i class="bi bi-arrow-down-short font-20"></i>
+              </button>
+              <div id="accordion7-3" class="accordion-collapse collapse" data-bs-parent="#accordion-group-7" style="">
+                <p class="px-3 mb-0 pb-3 pt-1">
+                  Our support team is available 24/5 from Monday to Friday.
+                </p>
+              </div>
+            </div>
 
 
                 </div>
-            </div>
+              </div>
+          </div>
 
-            <script src="//code.jivosite.com/widget/Pq2nAt02kP" async></script>
+
+    </div>
 
             <!-- End of Page ID-->
 
 
-
-
-
-            <!--Invest menu-->
-            <div id="invest" style="height:440px;" class="offcanvas offcanvas-bottom">
-                <div class="d-flex mx-3 mt-3 py-1">
-                    <div class="align-self-center">
-                        <h1 class="mb-0">Start Earning</h1>
-                    </div>
-                    <div class="align-self-center ms-auto">
-                        <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
-                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
-            </a>
-                    </div>
-                </div>
-
-
-
-                <script language="javascript">
-                    <!--
-                    function openCalculator(id) {
-
-                        w = 225;
-                        h = 400;
-                        t = (screen.height - h - 30) / 2;
-                        l = (screen.width - w - 30) / 2;
-                        window.open('?a=calendar&type=' + id, 'calculator' + id, "top=" + t + ",left=" + l + ",width=" + w + ",height=" + h + ",resizable=1,scrollbars=0");
-
-
-
-
-                    }
-
-                    function updateCompound() {
-                        var id = 0;
-                        var tt = document.spendform.h_id.type;
-                        if (tt && tt.toLowerCase() == 'hidden') {
-                            id = document.spendform.h_id.value;
-                        } else {
-                            for (i = 0; i < document.spendform.h_id.length; i++) {
-                                if (document.spendform.h_id[i].checked) {
-                                    id = document.spendform.h_id[i].value;
-                                }
-                            }
-                        }
-
-                        var cpObj = document.getElementById('compound_percents');
-                        if (cpObj) {
-                            while (cpObj.options.length != 0) {
-                                cpObj.options[0] = null;
-                            }
-                        }
-
-                        if (cps[id] && cps[id].length > 0) {
-                            document.getElementById('coumpond_block').style.display = '';
-
-                            for (i in cps[id]) {
-                                cpObj.options[cpObj.options.length] = new Option(cps[id][i]);
-                            }
-                        } else {
-                            document.getElementById('coumpond_block').style.display = 'none';
-                        }
-                    }
-                    var cps = {};
-                    -->
-                </script>
-
-
-                <form method=post name="spendform"><input type="hidden" name="form_id" value="17556421995631"><input type="hidden" name="form_token" value="f243eaec12c1e3885c53a2fa227e8ef8">
-                    <input type=hidden name=a value=deposit>
-
-                    <div class="divider divider-margins mt-3"></div>
-                    <div class="content mt-0">
-
-
-                        <div class="form-custom form-label form-icon">
-                            <i class="bi bi-wallet2 font-14"></i>
-                            <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="h_id" value="">
-                
-                
-                   <option value="1">BEGINNER PORTFOLIO (0.02% HOURLY)</option>
-                                            <option value="2">PRESTIGE PORTFOLIO (0.9% DAILY)</option>
-                                            <option value="3">LEGACY PORTFOLIO (1.4% DAILY)</option>
-                                              <option value="4">FORTUNE PORTFOLIO (2.1% DAILY)</option>
-                                                <option value="5">WEALTH EDGE (4.3% DAILY)</option>
-                                                  <option value="6">ELITE PRIME (5.6% DAILY)</option>
-        
-        
-            </select>
-
-                            <label for="c6" class="form-label-always-active color-highlight font-11">Select Revenue Plan</label>
-                        </div>
-                        <div class="pb-3"></div>
-
-
-
-                        <div class="form-custom form-label form-icon">
-                            <i class="bi bi-wallet2 font-14"></i>
-                            <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="type" value="">
-                
-                
-                  <option value="account_48" >Bitcoin Wallet</option>
-        <option value="account_69" >Ethereum Wallet</option>
-        <option value="account_92" >USDT Wallet</option>
-        <option value="account_77" >Bitcoin Cash Wallet</option>
-        <option value="account_68" >Litecoin Wallet</option>
-        <option value="account_71" >Dash Wallet</option>
-        <option value="account_94" >BNB Wallet</option>
-        
-            </select>
-
-                            <label for="c6" class="form-label-always-active color-highlight font-11">Select Wallet</label>
-                        </div>
-                        <div class="pb-3"></div>
-
-
-
-
-
-
-                        <div class="form-custom form-label form-icon">
-                            <i class="bi bi-code-square font-14"></i>
-                            <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
-                            <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
-                            <span class="font-10"></span>
-                        </div>
-                        <div class="pb-2"></div>
-                        <div class="form-check form-check-custom">
-                            <input class="form-check-input" type="checkbox" name="" value="" id="c21">
-                            <label class="form-check-label" for="c21">I accept the Transfer <a href="?a=rules">Terms of Service</a></label>
-                            <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
-                            <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
-                        </div>
-
-                    </div>
-                    <input type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s" value="continue">
-            </div>
-
-
-            </form>
-
-
-            <script language=javascript>
-                for (i = 0; i < document.spendform.type.length; i++) {
-                    if ((document.spendform.type[i].value.match(/^process_/))) {
-                        document.spendform.type[i].checked = true;
-                        break;
-                    }
-                }
-                updateCompound();
-            </script>
-
-
-
-
-
-
-            <!--View account menu-->
-            <div id="account" style="height: 400px; width: 320px; display: block; visibility: visible; background-image: url('https://Vitron-Trade/images/360_F_415820132_Jngab5QfKUSmO5MnieRWrVLdLk3yYJxi.jpg'); background-size: cover;" class="offcanvas offcanvas-modal rounded-m"
-                aria-modal="true" role="dialog">
-
-
-                <div class="d-flex m-3">
-                    <div class="align-self-center">
-                        <h5 class="font-700 mb-0">Account Summary</h5>
-                    </div>
-                </div>
-
-
-
-                <div class="col-12 mb-n2 text-start" style="margin-top: 10px;">
-                    <a href="#" class="default-link card card-styles" style="height:90px">
-                        <div class="card-center px-4">
-                            <div class="d-flex">
-                                <div class="align-self-center">
-                                    <span class="icon icon-m rounded-s gradient-dark shadow-bg shadow-bg-xs"><i class="bi bi-clipboard-data font-20 color-white"></i></span>
-                                </div>
-                                <div class="align-self-center ps-3 ms-1">
-                                    <h1 class="font-20 mb-n1">$<b></b></h1>
-                                    <p class="mb-0 font-12 opacity-80">Active Revenue Plan</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <br/>
-
-                <div class="col-12 mb-n2 text-start">
-                    <a href="#" class="default-link card card-styles" style="height:90px">
-                        <div class="card-center px-4">
-                            <div class="d-flex">
-                                <div class="align-self-center">
-                                    <span class="icon icon-m rounded-s gradient-dark shadow-bg shadow-bg-xs"><i class="bi bi-piggy-bank font-20 color-white"></i></span>
-                                </div>
-                                <div class="align-self-center ps-3 ms-1">
-                                    <h1 class="font-20 mb-n1">$<b></b></h1>
-                                    <p class="mb-0 font-12 opacity-80">Total Revenue Earned</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <br/>
-
-                <div class="col-12 mb-n2 text-start">
-                    <a href="#" class="default-link card card-styles" style="height:90px">
-                        <div class="card-center px-4">
-                            <div class="d-flex">
-                                <div class="align-self-center">
-                                    <span class="icon icon-m rounded-s gradient-dark shadow-bg shadow-bg-xs"><i class="bi bi-box-arrow-down font-20 color-white"></i></span>
-                                </div>
-                                <div class="align-self-center ps-3 ms-1">
-                                    <h1 class="font-20 mb-n1">$<b></b></h1>
-                                    <p class="mb-0 font-12 opacity-80">Total Withdrawals</p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <br>
-            </div>
-
-
-            <!--Deposit menu-->
-            <div id="deposit" style="height:440px;" class="offcanvas offcanvas-bottom">
-                <div class="d-flex mx-3 mt-3 py-1">
-                    <div class="align-self-center">
-                        <h1 class="mb-0">Fund your Account</h1>
-                    </div>
-                    <div class="align-self-center ms-auto">
-                        <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
-                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
-            </a>
-                    </div>
-                </div>
-
-                <form method="post"><input type="hidden" name="form_id" value="17556421995631"><input type="hidden" name="form_token" value="f243eaec12c1e3885c53a2fa227e8ef8">
-                    <input type=hidden name=a value=deposit>
-                    <input type=hidden name=h_id value=-1>
-
-                    <div class="divider divider-margins mt-3"></div>
-                    <div class="content mt-0">
-                        <div class="form-custom form-label form-icon">
-                            <i class="bi bi-wallet2 font-14"></i>
-                            <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="type" value="">
-                
-                
-                  <option value="process_48" >Deposit using Bitcoin</option>
-        <option value="process_69" >Deposit using Ethereum</option>
-        <option value="process_92" >Deposit using USDT</option>
-        <option value="process_77" >Deposit using Bitcoin Cash</option>
-        <option value="process_68" >Deposit using Litecoin</option>
-        <option value="process_71" >Deposit using Dash</option>
-        <option value="process_94" >Deposit using BNB</option>
-        
-            </select>
-
-                            <label for="c6" class="form-label-always-active color-highlight font-11">Payment Processor</label>
-                        </div>
-                        <div class="pb-3"></div>
-
-
-                        <div class="form-custom form-label form-icon">
-                            <i class="bi bi-code-square font-14"></i>
-                            <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
-                            <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
-                            <span class="font-10"></span>
-                        </div>
-                        <div class="pb-2"></div>
-                        <div class="form-check form-check-custom">
-                            <input class="form-check-input" type="checkbox" name="" value="" id="c22">
-                            <label class="form-check-label" for="c22">I accept the Transfer <a href="?a=rules">Terms of Service</a></label>
-                            <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
-                            <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
-                        </div>
-
-                    </div>
-                    <input type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s" value="continue">
-            </div>
-            </form>
-
-
-
-            <!--withdrawal-->
-            <div id="withdraw" style="height:440px;" class="offcanvas offcanvas-bottom">
-                <div class="d-flex mx-3 mt-3 py-1">
-                    <div class="align-self-center">
-                        <h1 class="mb-0">Withdraw Your Funds</h1>
-                    </div>
-                    <div class="align-self-center ms-auto">
-                        <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
-                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
-            </a>
-                    </div>
-                </div>
-
-
-                <form method=post><input type="hidden" name="form_id" value="17556421995631"><input type="hidden" name="form_token" value="f243eaec12c1e3885c53a2fa227e8ef8">
-                    <input type=hidden name=a value=withdraw>
-                    <input type=hidden name=action value=preview>
-                    <input type=hidden name=say value="">
-
-
-
-
-
-
-                    <div class="divider divider-margins mt-3"></div>
-                    <div class="content mt-0">
-
-                        <!--   <div class="form-custom form-label form-icon">
-          
-            <h3>Account Balance</h3>
-            <p> $ </p>
-            
-        </div>
-        <div class="pb-3"></div>
-        -->
-
-                        <div class="form-custom form-label form-icon">
-                            <i class="bi bi-wallet2 font-14"></i>
-                            <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="ec" value="">
-                
-                
-                  <option value="48" >Bitcoin Wallet </option>
-        <option value="69" >Ethereum Wallet </option>
-        <option value="92" >USDT Wallet </option>
-        <option value="77" >Bitcoin Cash Wallet </option>
-        <option value="68" >Litecoin Wallet </option>
-        <option value="71" >Dash Wallet </option>
-        <option value="94" >BNB Wallet </option>
-        
-            </select>
-
-                            <label for="c6" class="form-label-always-active color-highlight font-11">Withdraw from</label>
-                        </div>
-                        <div class="pb-3"></div>
-
-
-                        <div class="form-custom form-label form-icon">
-                            <i class="bi bi-code-square font-14"></i>
-                            <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
-                            <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
-                            <span class="font-10"></span>
-                        </div>
-                        <div class="pb-2"></div>
-                        <div class="form-check form-check-custom">
-                            <input class="form-check-input" type="checkbox" checked value="" id="c23">
-                            <label class="form-check-label" for="c23">I accept the Withdrawal <a href="?a=rules">Terms of Service</a></label>
-                            <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
-                            <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
-                        </div>
-
-                    </div>
-                    <button type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s">Continue</button>
-            </div>
-            </form>
-
-
-
-            <!-- trasnfer funds to user-->
-            <div id="send" style="height:440px;" class="offcanvas offcanvas-bottom">
-                <div class="d-flex mx-3 mt-3 py-1">
-                    <div class="align-self-center">
-                        <h1 class="mb-0">Send funds to another user</h1>
-                    </div>
-                    <div class="align-self-center ms-auto">
-                        <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
-                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
-            </a>
-                    </div>
-                </div>
-
-                <form method=post><input type="hidden" name="form_id" value="17556421995631"><input type="hidden" name="form_token" value="f243eaec12c1e3885c53a2fa227e8ef8">
-                    <input type=hidden name=a value=internal_transfer>
-                    <input type=hidden name=action value=preview>
-                    <input type=hidden name=say value="">
-
-                    <div class="divider divider-margins mt-3"></div>
-                    <div class="content mt-0">
-                        <div class="form-custom form-label form-icon">
-                            <i class="bi bi-wallet2 font-14"></i>
-                            <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example" name="ec" value="">
-                
-                
-                  <option value="48" >Bitcoin wallet </option>
-        <option value="69" >Ethereum wallet </option>
-        <option value="92" >USDT wallet </option>
-        <option value="77" >Bitcoin Cash wallet </option>
-        <option value="68" >Litecoin wallet </option>
-        <option value="71" >Dash wallet </option>
-        <option value="94" >BNB wallet </option>
-        
-            </select>
-
-                            <label for="c6" class="form-label-always-active color-highlight font-11">Transfer from</label>
-                        </div>
-
-                        <div class="pb-3"></div>
-
-
-                        <div class="form-custom form-label form-icon">
-                            <i class="bi bi-code-square font-14"></i>
-                            <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
-                            <label for="c4" class="form-label-always-active color-highlight font-11">Amount ($)</label>
-                            <span class="font-10"></span>
-                        </div>
-
-
-                        <div class="pb-3"></div>
-
-
-                        <div class="form-custom form-label form-icon">
-                            <i class="bi bi-code-square font-14"></i>
-                            <input type="text" class="form-control rounded-xs" id="c4" name=account placeholder="Vitron-Trade" value="" />
-                            <label for="c4" class="form-label-always-active color-highlight font-11">To (Username)</label>
-                            <span class="font-10"></span>
-                        </div>
-
-                        <div class="pb-3"></div>
-
-
-                        <div class="form-custom form-label form-icon">
-                            <i class="bi bi-code-square font-14"></i>
-                            <input type="text" class="form-control rounded-xs" id="c4" name="comment" placeholder="" value="" />
-                            <label for="c4" class="form-label-always-active color-highlight font-11">Description</label>
-                            <span class="font-10"></span>
-                        </div>
-
-
-                        <div class="pb-2"></div>
-                        <div class="form-check form-check-custom">
-                            <input class="form-check-input" type="checkbox" checked name="" value="" id="c51">
-                            <label class="form-check-label" for="c51">I accept the Transfer <a href="?a=rules">Terms of Service</a></label>
-                            <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
-                            <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
-                        </div>
-
-                    </div>
-                    <button type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s">Continue</button>
-            </div>
-            </form>
-
-
-           <script src="../scripts/bootstrap.min.js"></script>
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Hide preloader when page is loaded
+    setTimeout(function () {
+      document.getElementById('preloader').style.opacity = '0';
+      setTimeout(function () {
+        document.getElementById('preloader').style.display = 'none';
+      }, 500);
+    }, 1000);
+
+    // Initialize EmailJS
+    emailjs.init("YOUR_PUBLIC_KEY"); // replace with your EmailJS Public Key
+
+    // Get DOM elements
+    const form = document.getElementById('supportForm');
+    const messageTextarea = document.getElementById('message');
+    const charCount = document.getElementById('charCount');
+    const notification = document.getElementById('notification');
+    const notificationMessage = document.getElementById('notification-message');
+
+    // Auto-expand textarea
+    messageTextarea.addEventListener('focus', function () {
+      this.style.height = '120px';
+    });
+
+    // Collapse textarea
+    messageTextarea.addEventListener('blur', function () {
+      if (this.value === '') {
+        this.style.height = '45px';
+      }
+    });
+
+    // Character count
+    messageTextarea.addEventListener('input', function () {
+      charCount.textContent = this.value.length;
+      if (this.value.length > 1000) {
+        charCount.classList.add('text-danger');
+      } else {
+        charCount.classList.remove('text-danger');
+      }
+    });
+
+    // Form submission handler
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      if (messageTextarea.value.trim() === '') {
+        showNotification('Please type your message before submitting', 'error');
+        messageTextarea.focus();
+        return false;
+      }
+
+      if (messageTextarea.value.length > 1000) {
+        showNotification('Message must be less than 1000 characters', 'error');
+        messageTextarea.focus();
+        return false;
+      }
+
+      // Send using EmailJS
+      emailjs.sendForm("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", form)
+        .then(() => {
+          showNotification('Your message has been sent! We will respond shortly.', 'success');
+          form.reset();
+          messageTextarea.style.height = '45px';
+          charCount.textContent = '0';
+          charCount.classList.remove('text-danger');
+        })
+        .catch(() => {
+          showNotification('There was an error sending your message. Please try again.', 'error');
+        });
+
+      return false;
+    });
+
+    // Notification function
+    function showNotification(message, type) {
+      notificationMessage.textContent = message;
+      notification.className = 'notification ' + type;
+      notification.classList.add('show');
+
+      setTimeout(function () {
+        notification.classList.remove('show');
+      }, 5000);
+    }
+  });
+</script>
+
+
+    <!-- <script src="//code.jivosite.com/widget/Pq2nAt02kP" async></script> -->
+    <script src="../scripts/bootstrap.min.js"></script>
     <script src="../scripts/custom.js"></script>
 
 </body>

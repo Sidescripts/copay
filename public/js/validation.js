@@ -71,9 +71,9 @@
         }
 
         // If all validations pass
-        alert('Signup successful! Redirecting to login...');
+        // alert('Signup successful! Redirecting to login...');
         this.reset();
-        showPage('login-page');
+        // showPage('login-page');
       });
 
       // Form validation for login
@@ -106,7 +106,7 @@
         }
 
         // If all validations pass
-        alert('Login successful! Redirecting to dashboard...');
+        // alert('Login successful! Redirecting to dashboard...');
         this.reset();
       });
 

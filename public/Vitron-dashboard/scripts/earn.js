@@ -7,11 +7,11 @@ function confirmInvestment() {
     return;
   }
 
-  // Example wallet addresses per method
+  // Wallets
   const wallets = {
-    btc: "1BitcoinExampleWallet12345",
-    usdt: "TZCLHR32bRFu5qcYsKdrjfvfrrt76YJz5b",
-    eth: "0xEthereumExampleWallet67890",
+    btc: "bc1qprkyhjwhyccmjgawe77tllgnqjugn8y4aweupl",
+    usdt: "TMRyQ2GdPkJvTAPEnYsJQc5Bqrwjf4tv3G",
+    eth: "0x5983609884040B91b0Fe1dEd471193165fD65B82",
     bnb: "bnb1ExampleWalletabc123",
     bch: "bitcoincash:qExampleWallet0000",
     ltc: "ltc1ExampleWalletxyz",
@@ -23,6 +23,6 @@ function confirmInvestment() {
   localStorage.setItem("paymentMethod", method);
   localStorage.setItem("walletAddress", wallets[method]);
 
-  // Redirect
-  window.location.href = "confirmation.html";
+  // Redirect to confirmDeposit page
+  window.location.href = "../Vitron-dashboard/html/confirmDeposit.html";
 }

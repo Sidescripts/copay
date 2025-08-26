@@ -15,130 +15,11 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
     <meta id="theme-check" name="theme-color" content="#FFFFFF">
     <title>Dashboard | Vitron-trade </title>
 
-    <style>
-        .color-highlight {
-            color: #F6BB42 !important;
-        }
-
-        .bg-highlight {
-            background-color: #F6BB42 !important;
-            color: #FFF !important;
-        }
-
-        .border-highlight {
-            border-color: #F6BB42 !important;
-        }
-
-        .gradient-highlight {
-            background-image: linear-gradient(to bottom, #FFCE54, #F6BB42) !important;
-        }
-
-        .splide__pagination__page.is-active {
-            background-color: #F6BB42 !important;
-        }
-
-        .footer-bar-1 .active-nav i,
-        .footer-bar-1 .active-nav span {
-            color: #F6BB42 !important;
-        }
-
-        .footer-bar-2 .active-nav {
-            border-bottom: solid 3px #F6BB42;
-        }
-
-        .footer-bar-3 .active-nav {
-            border-top: solid 3px #F6BB42;
-        }
-
-        .footer-bar-4 .active-nav {
-            background-color: #F6BB42;
-        }
-
-        #footer-bar .circle-nav-1::after,
-        #footer-bar .circle-nav-2::before,
-        #footer-bar .circle-nav-2::after {
-            background-image: linear-gradient(to bottom, #FFCE54, #F6BB42) !important;
-        }
-
-        input[type=range]::-webkit-slider-thumb {
-            background-color: #F6BB42;
-        }
-
-        .color-highlight {
-            color: #F6BB42;
-        }
-
-        .bg-highlight {
-            background-color: #F6BB42;
-            color: #FFF !important;
-        }
-
-        #header-deco-1,
-        #header-deco-2,
-        #header-deco-3,
-        #header-deco-4 {
-            fill: #F6BB42;
-        }
-
-        .error {
-            color: #d84558 !important;
-            background-color: rgba(218, 68, 83, .2) !important;
-            color: #fff !important;
-            position: relative;
-            padding: 1rem 1rem;
-            padding-right: 1rem;
-            margin-bottom: 1rem;
-            border: 1px solid transparent;
-            border-radius: .25rem;
-            transition: opacity .15s linear;
-        }
-
-        .card-styles {
-            overflow: hidden;
-            border-radius: 22px;
-            margin: 0px 15px 10px 15px;
-            border: none;
-            box-shadow: rgba(0, 0, 0, 0.03) 0px 20px 25px -5px, rgba(0, 0, 0, 0.02) 0px 10px 10px -5px;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center center;
-        }
-
-        #deposit.offcanvas {
-            background: linear-gradient(135deg, #f8f6f6, #f0f4f7);
-            color: #212529;
-            border-radius: 16px 16px 0 0;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .c6.form-select {
-            background-color: #f8f9fa;
-            color: #212529;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 8px;
-            font-size: 15px;
-        }
-
-        /* Remove the default blue on focus */
-        .c6.form-select:focus {
-            border-color: #ffb347;
-            box-shadow: 0 0 5px rgba(255, 179, 71, 0.6);
-            outline: none;
-        }
-
-        .c6.form-select option {
-            background: #ffffff;
-            color: #212529;
-        }
-
-        .c6.form-select option:hover {
-            background: #ffebcc;
-        }
-    </style>
+ 
 </head>
 
 <body class="theme-light">
@@ -152,12 +33,11 @@
 
         <!-- Footer Bar -->
         <div id="footer-bar" class="footer-bar-1 footer-bar-detached">
-            <a href="./html/earn.html"><i class="bi bi-piggy-bank"></i><span>Earn</span></a>
-            <a href="?a=history"><i class="bi bi-calendar4-event"></i><span>Activity</span></a>
-            <a href="?a=account" class="circle-nav-2"><i class="bi bi-house-fill"></i><span>Wallet</span></a>
-            <a href="?a=explore"><i class="bi bi-grid"></i><span>Explore</span></a>
-            <a href="?a=edit_account" data-bs-toggle="offcanvas" data-bs-target="#menu-sidebar"><i
-                    class="bi bi-gear"></i><span>Settings</span></a>
+            <a href="../Vitron-dashboard/html/earn.html"><i class="bi bi-piggy-bank"></i><span>Earn</span></a>
+            <a href="../Vitron-dashboard/html/account-history.html"><i class="bi bi-calendar4-event"></i><span>Activity</span></a>
+            <a href="../Vitron-dashboard/Dashboard.html" class="circle-nav-2"><i class="bi bi-house-fill"></i><span>Wallet</span></a>
+            <a href="../Vitron-dashboard/html/explore.html"><i class="bi bi-grid"></i><span>Explore</span></a>
+            <a href="../Vitron-dashboard/html/profile-settings.html" data-bs-toggle="offcanvas" data-bs-target="#menu-sidebar"><i class="bi bi-gear"></i><span>Settings</span></a>
         </div>
 
 
@@ -190,16 +70,22 @@
                                         <strong class="font-13">Profile</strong>
                                     </a>
 
-                                    <a href="?a=faq" class="list-group-item">
+                                    <a href="../Vitron-dashboard/html/faq.html" class="list-group-item">
                                         <i
                                             class="has-bg gradient-dark shadow-bg shadow-bg-xs rounded-xs color-gray-dark bi bi-info-circle"></i>
                                         <strong class="font-13">FAQs</strong>
                                     </a>
 
-                                    <a href="?a=support" class="list-group-item">
+                                    <a href="../Vitron-dashboard/html/support.html" class="list-group-item">
+                                        <i
+                                            class="has-bg gradient-dark shadow-bg shadow-bg-xs rounded-xs color-gray-dark bi bi-envelope"></i>
+                                        <strong class="font-13">Support</strong>
+                                    </a>
+
+                                    <a href="../Vitron-dashboard/html/livechat.html" class="list-group-item">
                                         <i
                                             class="has-bg gradient-dark shadow-bg shadow-bg-xs rounded-xs color-gray-dark bi bi-chat-dots"></i>
-                                        <strong class="font-13">Support</strong>
+                                        <strong class="font-13">Chat</strong>
                                     </a>
 
                                     <a href="?a=logout" class="list-group-item">
@@ -218,45 +104,33 @@
 
             <!-- Alert pop up -->
 
-            <!-- <div id="alertWrapper" style="display: none; opacity: 0; transition: opacity 0.5s ease-in-out;">
-                <div class="alert p-0 alert-dismissible fade show mb-n3" role="alert">
-                    <div class="card card-style scale-box gradient-dark shadow-bg shadow-bg-s">
-                        <div class="content">
-                            <a href="#" class="d-flex show-offline">
-                                <div class="align-self-center">
-                                    <h1 class="mb-0 font-40"><i class="fa-solid fa-bitcoin-sign color-white pe-3 font-25"></i></h1>
-                                </div>
-                                <div class="align-self-center">
-                                    <h5 class="color-white font-700 mb-0 mt-0">
-                                        Another chance to earn reward! <br> Refer your friend to Ciqpay and earn a share of $50,000 in rewards. Start NOW!
-                                    </h5>
-                                </div>
-                                <div class="align-self-center ms-auto">
-                                    <span data-bs-dismiss="alert" class="icon-l"><i class="fa-solid fa-xmark font-16 pt-1 d-block color-white"></i></span>
-                                </div>
-                            </a>
+        <!-- Notification System -->
+        <div id="alertWrapper">
+            <div class="cyber-notification">
+                <div class="cyber-grid"></div>
+                <div class="cyber-content">
+                    <div class="d-flex">
+                        <div class="align-self-center">
+                            <div class="cyber-icon">
+                                <i class="fa-solid fa-shield-check"></i>
+                            </div>
+                        </div>
+                        <div class="align-self-center ps-3">
+                            <div class="cyber-message">
+                                Security Alert: KYC Verification is highly recommended for account protection.
+                                <div class="cyber-action">Enable kyc</div>
+                            </div>
+                        </div>
+                        <div class="align-self-center ms-auto">
+                            <div class="cyber-close">
+                                <i class="fa-solid fa-xmark"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div> -->
-
-            <!-- <script>
-                // Function to display the alert with animation
-                function displayAlert() {
-                    var alertWrapper = document.getElementById('alertWrapper');
-                    alertWrapper.style.display = 'block';
-                    setTimeout(function() {
-                        alertWrapper.style.opacity = '1';
-                    }, 500); // Add a small delay before setting opacity to allow transition effect to work
-                }
-
-                // Call displayAlert function after 5 seconds
-                setTimeout(displayAlert, 8000); // 5000 milliseconds = 5 seconds
-            </script> -->
-
-
-
-            <!-- Alert pop up -->
+            </div>
+        </div>
+            <!-- Alert pop up finished-->
 
             <!-- Main Card Slider-->
 
@@ -313,9 +187,6 @@
             </div>
 
 
-
-
-
             <!-- Recent Activity Title-->
             <div class="content my-0 mt-n2 px-1">
                 <div class="d-flex">
@@ -329,7 +200,6 @@
 
 
             <!-- BTC -->
-
 
             <div class="card card-styles">
                 <div class="content pb-0">
@@ -573,7 +443,7 @@
 
 
             <!--Invest menu-->
-            <div id="invest" style="height:440px;" class="offcanvas offcanvas-bottom">
+            <div id="invest" style="height:540px;" class="offcanvas offcanvas-bottom">
                 <div class="d-flex mx-3 mt-3 py-1">
                     <div class="align-self-center">
                         <h1 class="mb-0">Start Earning</h1>
@@ -759,16 +629,16 @@
                         <div class="form-custom form-label form-icon">
                             <i class="bi bi-wallet2 font-14"></i>
 
-                            <select class="form-select rounded-xs c6" aria-label="Floating label select example"
-                                name="type" value="">
-                                <option value="">Deposit using Bitcoin</option>
-                                <option value="">Deposit using Ethereum</option>
-                                <option value="">Deposit using USDT</option>
-                                <option value="">Deposit using Bitcoin Cash</option>
-                                <option value="">Deposit using Litecoin</option>
-                                <option value="">Deposit using Dash</option>
-                                <option value="">Deposit using BNB</option>
-                            </select>
+                <!-- In Dashboard.html - fix your select element -->
+                        <select class="form-select rounded-xs c6 color-theme" name="payment_method" id="paymentMethod">
+                            <option value="btc">Deposit using Bitcoin</option>
+                            <option value="eth">Deposit using Ethereum</option>
+                            <option value="usdt">Deposit using USDT</option>
+                            <option value="bch">Deposit using Bitcoin Cash</option>
+                            <option value="ltc">Deposit using Litecoin</option>
+                            <option value="dash">Deposit using Dash</option>
+                            <option value="bnb">Deposit using BNB</option>
+                        </select>
 
                             <label class="form-label-always-active text-warning font-12"
                                 style="margin-top: -7px;">Payment
@@ -780,7 +650,8 @@
 
                         <div class="form-custom form-label form-icon">
                             <i class="bi bi-currency-dollar"></i>
-                            <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
+                            <!-- <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" /> -->
+                             <input type="number" class="form-control rounded-xs" id="investmentAmount" name="amount" />
                             <label class="form-label-always-active text-warning font-12"
                                 style="margin-top: -7px;">Amount ($)</label>
                             <span class="font-10"></span>
@@ -790,17 +661,18 @@
                         <div class="form-check form-check-custom">
                             <input class="form-check-input" type="checkbox" name="" value="" id="c22">
                             <label class="form-check-label" for="c22">I accept the Transfer <a
-                                    href="./html/terms.html">Terms of
+                                    href="../Vitron-dashboard/html/terms.html">Terms of
                                     Service</a></label>
                             <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
                             <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
                         </div>
 
                     </div>
-                    <button type="button" class="btn btn-warning mx-3"
-                        onclick="window.location.href='./html/confirmation.html'">
-                        Continue
-                    </button>
+             <button type="button" class="btn btn-warning mx-3"
+                onclick="confirmInvestment()">
+                Continue
+            </button>
+
                 </form>
             </div>
 
@@ -820,7 +692,7 @@
 
                 <form method="post">
                     <input type="hidden" name="form_id" value="">
-                    <input type="hidden" name="form_token" value="91447936ce58e87ed0e358faa9d75dd2">
+                    <input type="hidden" name="form_token" value="">
                     <input type="hidden" name="a" value="withdraw">
                     <input type="hidden" name="h_id" value="-1">
 
@@ -828,7 +700,7 @@
                     <div class="content mt-0">
                         <div class="form-custom form-label form-icon">
                             <i class="bi bi-wallet2 font-14"></i>
-                            <select class="form-select rounded-xs c6" aria-label="Withdrawal Method" name="type">
+                            <select class="form-select rounded-xs c6 color-theme" aria-label="Withdrawal Method" name="type">
                                 <option value="">Bitcoin Wallet</option>
                                 <option value="">Ethereum Wallet</option>
                                 <option value="">USDT Wallet</option>
@@ -845,7 +717,8 @@
 
                         <div class="form-custom form-label form-icon">
                             <i class="bi bi-currency-dollar"></i>
-                            <input type="number" class="form-control rounded-xs" id="c5" value="" name="amount" />
+                            <!-- <input type="number" class="form-control rounded-xs" id="c5" value="" name="amount" /> -->
+                            <input type="number" class="form-control rounded-xs" id="amount" placeholder="Enter amount">
                             <label class="form-label-always-active text-warning font-12"
                                 style="margin-top: -7px;">Amount ($)</label>
                             <span class="font-10"></span>
@@ -861,18 +734,16 @@
                             <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
                         </div>
                     </div>
-
-                    <button type="button" class="btn btn-warning mx-3"
-                        onclick="window.location.href='./html/confirmation.html'">
+                    <button type="button" class="btn btn-warning mx-3" onclick="validateBeforeRedirect()">
                         Continue
                     </button>
+
                 </form>
             </div>
 
 
-
             <!-- trasnfer funds to user-->
-            <div id="send" style="height:440px;" class="offcanvas offcanvas-bottom">
+            <div id="send" style="height:600px;" class="offcanvas offcanvas-bottom">
                 <div class="d-flex mx-3 mt-3 py-1">
                     <div class="align-self-center">
                         <h1 class="mb-0">Send funds to another user</h1>
@@ -884,8 +755,8 @@
                     </div>
                 </div>
 
-                <form method=post><input type="hidden" name="form_id" value=""><input type="hidden" name="form_token"
-                        value="91447936ce58e87ed0e358faa9d75dd2">
+                <form method=post><input type="hidden" name="form_id" value=""><input type="hidden" name=""
+                        value="">
                     <input type=hidden name=a value=internal_transfer>
                     <input type=hidden name=action value=preview>
                     <input type=hidden name=say value="">
@@ -894,7 +765,7 @@
                     <div class="content mt-0">
                         <div class="form-custom form-label form-icon">
                             <i class="bi bi-wallet2 font-14"></i>
-                            <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example"
+                            <select class="form-select rounded-xs color-theme" id="c6" aria-label="Floating label select example"
                                 name="ec" value="">
 
 
@@ -962,64 +833,48 @@
             </div>
             </form>
 
+       <!-- Withdrawal Modal -->
+ 
+        <div style="width: 320px; display: block;" id="error1" class="offcanvas offcanvas-modal offcanvas-detached rounded-m" tabindex="-1" aria-modal="true" role="dialog">
+            <div class="content text-center">
+                <i style="font-size:65px;" class="scale-box bi bi-x-circle-fill color-red-dark shadow-s rounded-circle p-0 mt-3 mb-3 d-inline-block"></i>
+                <h1 class="pt-3 font-28">Failed</h1>
+                <p class="font-14 mb-0">
+                    You have requested an amount larger than the one on your balance. 
+                </p>
+                <a href="#" data-bs-dismiss="offcanvas" class="btn btn-full gradient-red shadow-bg shadow-bg-xs">Okay</a>
+            </div>
+        </div>
 
+        <div style="width: 320px; display: block;" id="error2" class="offcanvas offcanvas-modal offcanvas-detached rounded-m" tabindex="-1" aria-modal="true" role="dialog">
+            <div class="content text-center">
+                <i style="font-size:65px;" class="scale-box bi bi-x-circle-fill color-red-dark shadow-s rounded-circle p-0 mt-3 mb-3 d-inline-block"></i>
+                <h1 class="pt-3 font-28">Invalid Input</h1>
+                <p class="font-14 mb-0">
+                    Please enter a valid number greater than 0. 
+                </p>
+                <a href="#" data-bs-dismiss="offcanvas" class="btn btn-full gradient-red shadow-bg shadow-bg-xs">Okay</a>
+            </div>
+        </div>
 
-            <script>
-                const coins = [
-                    { id: "bitcoin", symbol: "btc" },
-                    { id: "ethereum", symbol: "eth" },
-                    { id: "litecoin", symbol: "ltc" },
-                    { id: "tether", symbol: "usdt" },
-                    { id: "bitcoin-cash", symbol: "bch" },
-                    { id: "dash", symbol: "dash" },
-                    { id: "binancecoin", symbol: "bnb" },
-                    { id: "dogecoin", symbol: "doge" }
-                ];
+        <div style="width: 320px; display: block;" id="error3" class="offcanvas offcanvas-modal offcanvas-detached rounded-m" tabindex="-1" aria-modal="true" role="dialog">
+            <div class="content text-center">
+                <i style="font-size:65px;" class="scale-box bi bi-x-circle-fill color-red-dark shadow-s rounded-circle p-0 mt-3 mb-3 d-inline-block"></i>
+                <h1 class="pt-3 font-28">Empty Field</h1>
+                <p class="font-14 mb-0">
+                    Amount field cannot be empty. Please enter a value. 
+                </p>
+                <a href="#" data-bs-dismiss="offcanvas" class="btn btn-full gradient-red shadow-bg shadow-bg-xs">Okay</a>
+            </div>
+        </div>
+          
 
-                async function getCryptoData() {
-                    try {
-                        const ids = coins.map(c => c.id).join(",");
-                        const url = `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`;
-                        const res = await fetch(url);
-                        const data = await res.json();
-
-                        coins.forEach(coin => {
-                            const price = data[coin.id].usd;
-                            const change = data[coin.id].usd_24h_change;
-
-                            // Price
-                            const priceEl = document.getElementById(`${coin.symbol}Price`);
-                            if (priceEl) priceEl.textContent = `$${price.toLocaleString()}`;
-
-                            // Change + icon
-                            const changeEl = document.getElementById(`${coin.symbol}Change`);
-                            const iconEl = document.getElementById(`${coin.symbol}Icon`);
-                            if (changeEl && iconEl) {
-                                changeEl.textContent = change.toFixed(2) + "%";
-                                const color = change >= 0 ? "green" : "red";
-                                iconEl.className = change >= 0 ? "fa-solid fa-caret-up" : "fa-solid fa-caret-down";
-                                iconEl.style.color = color;
-                                changeEl.style.color = color;
-                                priceEl.style.color = color;
-                            }
-                        });
-                    } catch (err) {
-                        console.error(err);
-                    }
-                }
-
-                // run once when page loads
-                getCryptoData();
-
-                // auto-update every 30 seconds
-                setInterval(getCryptoData, 30000);
-            </script>
-
-
+            <script src="../Vitron-dashboard/scripts/confirmation.js"></script>
+            <script src="../Vitron-dashboard/scripts/earn.js"></script>
             <script src="scripts/bootstrap.min.js"></script>
             <script src="scripts/custom.js"></script>
-            <script src="./html/confirmation.js"></script>
-            <script src="./html/earn.js"></script>
-
+            <script src="../Vitron-dashboard/scripts/subDashboard.js"></script>
+            <script src="../js/mainAuth.js"></script>
+        
 </body>
 </html>

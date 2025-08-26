@@ -1,0 +1,496 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="../styles/bootstrap.css">
+    <link rel="stylesheet" href="../fonts/bootstrap-icons.css">
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <meta id="theme-check" name="theme-color" content="#FFFFFF">
+
+    <title>Deposit Confirmation | Vitron-trade </title>
+
+    <style>
+        .color-highlight {
+            color: #F6BB42 !important;
+        }
+
+        .bg-highlight {
+            background-color: #F6BB42 !important;
+            color: #FFF !important;
+        }
+
+        .border-highlight {
+            border-color: #F6BB42 !important;
+        }
+
+        .gradient-highlight {
+            background-image: linear-gradient(to bottom, #FFCE54, #F6BB42) !important;
+        }
+
+        .splide__pagination__page.is-active {
+            background-color: #F6BB42 !important;
+        }
+
+        .footer-bar-1 .active-nav i,
+        .footer-bar-1 .active-nav span {
+            color: #F6BB42 !important;
+        }
+
+        .footer-bar-2 .active-nav {
+            border-bottom: solid 3px #F6BB42;
+        }
+
+        .footer-bar-3 .active-nav {
+            border-top: solid 3px #F6BB42;
+        }
+
+        .footer-bar-4 .active-nav {
+            background-color: #F6BB42;
+        }
+
+        #footer-bar .circle-nav-1::after,
+        #footer-bar .circle-nav-2::before,
+        #footer-bar .circle-nav-2::after {
+            background-image: linear-gradient(to bottom, #FFCE54, #F6BB42) !important;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            background-color: #F6BB42;
+        }
+
+        .color-highlight {
+            color: #F6BB42;
+        }
+
+        .bg-highlight {
+            background-color: #F6BB42;
+            color: #FFF !important;
+        }
+
+        #header-deco-1,
+        #header-deco-2,
+        #header-deco-3,
+        #header-deco-4 {
+            fill: #F6BB42;
+        }
+
+        .error {
+            color: #d84558 !important;
+            background-color: rgba(218, 68, 83, .2) !important;
+            color: #fff !important;
+            position: relative;
+            padding: 1rem 1rem;
+            padding-right: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: .25rem;
+            transition: opacity .15s linear;
+        }
+
+        #paymentModal .modal-dialog {
+            margin: 6vh auto 0;
+        }
+
+        @media (max-width: 768px) {
+            #paymentModal .modal-dialog {
+                margin: -170px auto 0;
+            }
+        }
+
+        #walletAddress {
+        display: inline-block;
+        white-space: nowrap;
+        }
+
+    /* Form-specific enhancements - won't affect other elements */
+    .card-style .content {
+        padding: 20px;
+    }
+    
+    .card-style .table {
+        margin-bottom: 25px;
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 8px;
+    }
+    
+    /* Light Mode Rows */
+    .card-style .table tr {
+    /* background-color: #f9fafb;  */
+    border-radius: 12px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    }
+
+    /* Dark Mode Rows */
+    body.theme-dark .card-style .table tr {
+    /* background-color: #2b3b55; */
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Hover Effect (both modes) */
+    .card-style .table tr:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    }
+
+        
+    .card-style .table th,
+    .card-style .table td {
+        padding: 15px 12px;
+        vertical-align: middle;
+        border: none;
+    }
+    
+    .card-style .table th {
+        font-weight: 600;
+        width: 40%;
+        padding-left: 20px;
+    }
+    
+    .card-style .table td {
+        font-weight: 500;
+        padding-right: 20px;
+    }
+    
+    /* Wallet address section improvements */
+    #walletAddress {
+        font-family: 'Courier New', monospace;
+        background: rgba(0, 0, 0, 0.05);
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    body.theme-dark #walletAddress {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .copy-btn {
+        background: #F6BB42;
+        color: #000;
+        border-radius: 6px;
+        padding: 6px 12px;
+        border: none;
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    }
+    
+    .copy-btn:hover {
+        background: #FFCE54;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Payment instructions */
+    #paymentInstruction {
+        background: rgba(246, 187, 66, 0.1);
+        border-left: 4px solid #F6BB42;
+        border-radius: 4px;
+        padding: 15px;
+        margin: 20px 0;
+        font-size: 0.9rem;
+    }
+    
+    /* Confirm button enhancements */
+    .card-style .btn-warning {
+        background: #F6BB42;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 30px;
+        font-weight: 600;
+        font-size: 1rem;
+        box-shadow: 0 4px 10px rgba(246, 187, 66, 0.35);
+        transition: all 0.3s ease;
+    }
+    
+    .card-style .btn-warning:hover {
+        background: #FFCE54;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(246, 187, 66, 0.45);
+    }
+    
+    /* Modal enhancements */
+    #paymentModal .modal-content {
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+        transition: all 0.3s ease-in-out;
+        overflow: hidden;
+    }
+    
+    #paymentModal .modal-header {
+        border-bottom: 1px solid rgba(246, 187, 66, 0.2);
+        padding: 20px 25px 10px;
+    }
+    
+    #paymentModal .modal-body {
+        padding: 25px;
+    }
+    
+    #paymentModal .spinner-border {
+        width: 2.5rem;
+        height: 2.5rem;
+        color: #F6BB42;
+    }
+    
+    #paymentModal .btn-secondary {
+        /* background: #6c757d; */
+        border: none;
+        border-radius: 8px;
+        padding: 8px 20px;
+        transition: all 0.2s ease;
+    }
+    
+    #paymentModal .btn-secondary:hover {
+        background: #5a6268;
+        transform: translateY(-1px);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .card-style .table th,
+        .card-style .table td {
+            padding: 12px 8px;
+            font-size: 0.9rem;
+        }
+        
+        .card-style .table th {
+            padding-left: 15px;
+            width: 45%;
+        }
+        
+        .card-style .table td {
+            padding-right: 15px;
+        }
+        
+        #walletAddress {
+            max-width: 120px;
+            font-size: 0.8rem;
+            padding: 6px 10px;
+        }
+        
+        .copy-btn {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+        
+        .card-style .btn-warning {
+            padding: 10px 20px;
+            font-size: 0.95rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .card-style .content {
+            padding: 5px;
+        }
+        
+        .card-style .table {
+            border-spacing: 0 6px;
+        }
+        
+        .card-style .table th,
+        .card-style .table td {
+            padding: 10px 6px;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .card-style .table th {
+            padding-top: 15px;
+            padding-bottom: 5px;
+            /* background-color: #2b3b55; */
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        
+        .card-style .table td {
+            padding: 10px 10px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            border: 1px solid #2b3b55;
+            /* background-color: rgba(246, 187, 66, 0.15); */
+        }
+        
+        #walletAddress {
+            max-width: 250px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .copy-btn {
+            margin-top: 8px;
+            max-width: 150px;
+            margin-top: -2px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 8px 10px;
+        }
+    }
+            </style>
+</head>
+
+<body class="theme-light">
+
+    <div id="preloader">
+        <div class="spinner-border color-highlight" role="status"></div>
+    </div>
+
+    <!-- Page Wrapper-->
+    <!-- <div id="page"> -->
+
+    <!-- Footer Bar -->
+    <div id="footer-bar" class="footer-bar-1 footer-bar-detached">
+        <a href="?a=deposit"><i class="bi bi-piggy-bank"></i><span>Earn</span></a>
+        <a href="?a=history"><i class="bi bi-calendar4-event"></i><span>Activity</span></a>
+        <a href="?a=account" class="circle-nav-2"><i class="bi bi-house-fill"></i><span>Wallet</span></a>
+        <a href="?a=explore"><i class="bi bi-grid"></i><span>Explore</span></a>
+        <a href="?a=edit_account" data-bs-toggle="offcanvas" data-bs-target="#menu-sidebar"><i
+                class="bi bi-gear"></i><span>Settings</span></a>
+    </div>
+
+
+
+    <!-- Page Content - Only Page Elements Here-->
+    <!-- <div class="page-content footer-clear">
+
+ -->
+
+
+
+    <!-- Page Title-->
+    <div class="pt-3">
+        <div class="page-title d-flex">
+            <div class="align-self-center">
+                <a href="../Dashboard.html" onclick="window.location.href='../Dashboard.html'; return false;"
+                    class="me-3 ms-0 icon icon-xxs bg-theme rounded-s shadow-m">
+                    <i class="bi bi-chevron-left color-theme font-14"></i>
+                </a>
+
+            </div>
+            <div class="align-self-center me-auto">
+                <h1 class="color-theme mb-0 font-18">Deposit confirmation</h1>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="card overflow-visible card-style">
+        <div class="content mb-0">
+
+            <div class="table-responsive">
+                <table class="table color-theme mb-2">
+                    <tr>
+                        <th class="color-theme" style="white-space: nowrap;">Credit Amount:</th>
+                        <td class="color-theme" id="depositAmount">$00.00</td>
+                    </tr>
+            
+                    <tr>
+                        <th class="color-theme" style="white-space: nowrap;">Payment Method:</th>
+                        <td class="color-theme" id="selectedMethod"></td>
+                    </tr>
+                <tr>
+
+                 <th class="color-theme">Wallet Address:</th>
+                    <td class="color-theme" style="display: flex; align-items: center;">
+                        <span id="walletAddress" class="wallet-address color-theme"></span>
+                        <button class="btn btn-sm copy-btn ms-2" onclick="copyWallet()">Copy</button>
+                    </td>
+                 </tr>
+
+                </table>
+                <div id="paymentInstruction" class="mt-2 p-2 text-muted"></div>
+
+                <!-- Confirm Payment Button -->
+                <div class="text-center mt-3">
+                    <button class="btn btn-warning px-4 py-2 mb-3" onclick="openPaymentModal()">
+                        Confirm Payment
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+
+        <div class="modal fade p-2" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content text-center theme-dark p-4" style="border-radius: 16px; 
+                   box-shadow: 0 8px 25px rgba(0,0,0,0.25); transition: all 0.3s ease-in-out;">
+                    <h5 id="paymentModalLabel" class="mb-3">Processing Payment</h5>
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="spinner-border text-success" role="status" style="width: 2.5rem; height: 2.5rem;"></div>
+                    </div>
+                    <p class="theme-dark">Please wait while we verify your payment.<br>This may take a few minutes.</p>
+                    <button type="button" class="btn btn-secondary mt-2" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <script src="../scripts/earn.js"></script>
+    <script src="../scripts/confirmation.js"></script>
+    <script src="../scripts/bootstrap.min.js"></script>
+    <script src="../scripts/custom.js"></script>
+
+<script>
+    // Define the pwaName variable that matches your main JS file
+    const pwaName = "PayApp";
+    
+    // Function to apply the theme from localStorage
+    function applyStoredTheme() {
+        const savedTheme = localStorage.getItem(pwaName + '-Theme');
+        console.log("Stored theme:", savedTheme); // For debugging
+        
+        if (savedTheme === 'dark-mode') {
+            document.body.classList.add('theme-dark');
+            document.body.classList.remove('theme-light');
+            console.log("Applied dark theme"); // For debugging
+        } else if (savedTheme === 'light-mode') {
+            document.body.classList.add('theme-light');
+            document.body.classList.remove('theme-dark');
+            console.log("Applied light theme"); // For debugging
+        }
+        
+        // Update theme-color meta tag
+        const themeColor = savedTheme === 'dark-mode' ? '#1f1f1f' : '#FFFFFF';
+        document.getElementById('theme-check').setAttribute('content', themeColor);
+    }
+    
+    // Apply the theme when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        applyStoredTheme();
+        
+        // Optional: Add an event listener to handle theme changes
+        // This would be useful if you have a theme toggle on this page
+        window.addEventListener('storage', function(e) {
+            if (e.key === pwaName + '-Theme') {
+                applyStoredTheme();
+            }
+        });
+    });
+</script>
+    
+</body>
+</html>
