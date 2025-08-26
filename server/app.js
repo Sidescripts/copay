@@ -4,11 +4,16 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const { Sequelize } = require('sequelize');
+const {startROICron} = require("./modules/invest/cronjobInvestment");
 const {sequelize,connectDB} = require("./config/db");
 const errorHandler = require("./errors/errorHandler");
 const logger = require("./utils/logger");
 const userRoute = require("./modules/dashboardModule/dashboardRouter");
 const authRoute = require("./modules/auth/authRouter");
+const depositRoute = require("./modules/depositModule/depositRouter");
+const withdrawalRoute = require("./modules/withdrawal/withdrawalRouter");
+const investRoute = require("./modules/invest/investRouter");
+const adminRoutes = require("./adminModule/adminRoute");
 const path = require('path');
 const app = express();
 
@@ -25,6 +30,12 @@ app.set('trust proxy', true);
 //routes
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/auth', authRoute);
+app.use('/api/v1/deposit', depositRoute);
+app.use('/api/v1/withdrawal', withdrawalRoute);
+app.use('/api/v1/invest', investRoute);
+// Admin base route
+app.use("/api/v1/admin", adminRoutes);
+
 
 // Basic route example
 app.get("/health", async (req, res) => {
@@ -53,17 +64,43 @@ const startServer = async () => {
     const port = process.env.PORT || 2000;
     try {
         await connectDB();
-        // await ensureDatabase();
+        
+        startROICron();
+        logger.info('✅ ROI cron job started');
+
         app.listen(port, () => {
             logger.info(`Server running on http://localhost:${port}`);
-            // console.log(`Server is running on http://localhost:${port}`);
-        });
+            logger.info('⏰ ROI auto-payouts scheduled every 12 hours');
+          });
     } catch (error) {
         logger.error('Failed to start application:', error);
-        // console.error("Failed to start the server:", error);
+        console.error(error);
         process.exit(1); // Exit the process with a failure code
     }
 };
-
 startServer();
+
+function gracefulShutdown(){
+  console.log('Starting graceful shutdown...');
+
+  Server.close(() =>{
+    console.log('Server stopped!!')
+  });
+
+  sequelize.close().then(() =>{
+    console.log("Database connections closed");
+    process.exit(0);
+  }).catch(err =>{
+    console.error('Error closing database: ', err);
+    process.exit(1);
+  });
+
+  setTimeout(() =>{
+    console.log('Forcing shutdown after timeout')
+    process.exit(1);
+  }, 10000);
+}
+
+process.on('SIGINT', gracefulShutdown);
+process.on('SIGTERM', gracefulShutdown);
 

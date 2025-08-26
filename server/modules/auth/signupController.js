@@ -1,7 +1,7 @@
 const { User } = require('../../model');
 const {hashPassword, generateToken} = require('../../utils/authUtils');
 const { validationResult } = require('express-validator');
-
+const EmailService = require("./welcomeEmail");
 
 async function Register (req,res) {
   try {
@@ -16,7 +16,8 @@ async function Register (req,res) {
       return res.status(400).json({erorr: 'Field(s) cannot be empty'})
     }
 
-    console.log(req.body)
+    const loginLink = `${process.env.FRONTEND_URL}/public/pages/login.html`;
+
 
     // check if username already exist
     const existingUsername = await User.findOne({ where: { username } });
@@ -50,6 +51,11 @@ async function Register (req,res) {
     const userResponse = user.toJSON();
     delete userResponse.password;
 
+    await EmailService.welcomeEmail({
+      email: email, 
+      username:username,
+      loginLink: loginLink
+    });
     return res.status(201).json({
       user: userResponse,
       token

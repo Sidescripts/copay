@@ -1,0 +1,21 @@
+const express = require("express");
+const AuthMiddleware = require("../../middlewares/userAuthMiddleware");
+const {investmentValidation}= require("../../middlewares/investmentVal");
+const InvestmentController = require("./investController");
+const AdminInvestmentController = require("../../adminModule/investAdminModule/adminInvestController");
+const router = express.Router();
+
+// createInvestment
+router.post("/invest-now", AuthMiddleware, investmentValidation, InvestmentController().createInvestment);
+
+// allInvestment
+router.get("/invest-history", AuthMiddleware, InvestmentController().getUserInvestments);
+
+// oneInvestment
+router.get("/:id", AuthMiddleware, InvestmentController().getSingleInvestment);
+
+// getInvestment plan
+router.get("/invest-plan", AuthMiddleware, AdminInvestmentController.getAllInvestments);
+
+
+module.exports = router;
