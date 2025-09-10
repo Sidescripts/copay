@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Financial System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="stylesheet" href="../css/global.css">
+</head>
+
+      <style>
+        /* Form Styles */
+        .form-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #444;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+        
+       
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eaeaea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            font-size: 20px;
+            color: #333;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #eaeaea;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .actions-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+          }
+
+        @media (max-width: 576px) {
+            .modal {
+                width: 95%;
+                margin: 10px;
+            }
+        
+          }
+
+
+        /* Overlay for mobile when sidebar is active */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        
+        .sidebar-overlay.active {
+            display: block;
+        }
+        
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+        
+        .col-md-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+            padding: 0 10px;
+        }
+        
+        .col-12 {
+            flex: 0 0 100%;
+            max-width: 100%;
+            padding: 0 10px;
+        }
+        
+        .d-flex {
+            display: flex;
+        }
+        
+        .justify-content-end {
+            justify-content: flex-end;
+        }
+        
+        .gap-2 {
+            gap: 10px;
+        }
+        
+        .me-2 {
+            margin-right: 10px;
+        }
+    </style>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-chart-line"></i> Admin Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item" data-page="dashboard">
+                        <a href="./adminDash.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item" data-page="users">
+                        <a href="./users.html"><i class="fas fa-users"></i> Users</a>
+                    </li>
+                    <li class="nav-item" data-page="deposits">
+                        <a href="./deposits.html"><i class="fas fa-money-bill-wave"></i> Deposits</a>
+                    </li>
+                    <li class="nav-item" data-page="withdrawals">
+                        <a href="./withdrawal.html"><i class="fas fa-wallet"></i> Withdrawals</a>
+                    </li>
+                    <li class="nav-item active" data-page="investments">
+                        <a href="./plans.html"><i class="fas fa-chart-pie"></i> Investment Plans</a>
+                    </li>
+                    <li class="nav-item" data-page="settings">
+                        <a href="./settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../index.html" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Investment Plans Page -->
+            <div id="investments">
+                <header class="content-header">
+                    <div class="header-left">
+                        <h1>Investment Plans Management</h1>
+                        <p>Create and manage investment plans</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" id="addPlanBtn"><i class="fas fa-plus me-2"></i>Add New Plan</button>
+                    </div>
+                </header>
+                
+                <div id="plans-list">
+                    <div class="form-card">
+                        <h3><i class="fas fa-list me-2"></i>Current Investment Plans</h3>
+                        
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Plan Name</th>
+                                        <th>Return Rate</th>
+                                        <th>Duration</th>
+                                        <th>Min Deposit</th>
+                                        <th>Max Deposit</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="plans-table-body">
+                                    <tr data-plan-id="1">
+                                        <td>Starter Plan</td>
+                                        <td>15% monthly</td>
+                                        <td>6 months</td>
+                                        <td>$100</td>
+                                        <td>$1,000</td>
+                                        <td><span class="badge badge-approved">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary edit-plan-btn" data-plan-id="1">Edit</button>
+                                            <button class="btn btn-sm btn-danger disable-plan-btn" data-plan-id="1">Disable</button>
+                                        </td>
+                                    </tr>
+                                    <tr data-plan-id="2">
+                                        <td>Premium Plan</td>
+                                        <td>25% monthly</td>
+                                        <td>12 months</td>
+                                        <td>$1,000</td>
+                                        <td>$10,000</td>
+                                        <td><span class="badge badge-approved">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary edit-plan-btn" data-plan-id="2">Edit</button>
+                                            <button class="btn btn-sm btn-danger disable-plan-btn" data-plan-id="2">Disable</button>
+                                        </td>
+                                    </tr>
+                                    <tr data-plan-id="3">
+                                        <td>VIP Plan</td>
+                                        <td>35% monthly</td>
+                                        <td>24 months</td>
+                                        <td>$10,000</td>
+                                        <td>$100,000</td>
+                                        <td><span class="badge badge-approved">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary edit-plan-btn" data-plan-id="3">Edit</button>
+                                            <button class="btn btn-sm btn-danger disable-plan-btn" data-plan-id="3">Disable</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="add-plan-form" class="form-card" style="display: none;">
+                    <h3><i class="fas fa-plus-circle me-2"></i>Add New Investment Plan</h3>
+                    
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="planName">Plan Name</label>
+                            <input type="text" class="form-control" id="planName" placeholder="Enter plan name">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="returnRate">Return Rate (%)</label>
+                            <input type="number" class="form-control" id="returnRate" placeholder="Enter return rate">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="duration">Duration (months)</label>
+                            <input type="number" class="form-control" id="duration" placeholder="Enter duration">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="minDeposit">Minimum Deposit ($)</label>
+                            <input type="number" class="form-control" id="minDeposit" placeholder="Enter minimum deposit">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="maxDeposit">Maximum Deposit ($)</label>
+                            <input type="number" class="form-control" id="maxDeposit" placeholder="Enter maximum deposit">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="planStatus">Status</label>
+                            <select class="form-control" id="planStatus">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="planDescription">Description</label>
+                            <textarea class="form-control" id="planDescription" rows="3" placeholder="Enter plan description"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-end gap-2">
+                        <button class="btn" id="cancelAddPlan">Cancel</button>
+                        <button class="btn btn-primary" id="saveNewPlan">Save Plan</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Edit Plan -->
+    <div class="modal-overlay" id="editPlanModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Edit Investment Plan</h3>
+                <button class="modal-close" id="closeEditModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editPlanForm">
+                    <input type="hidden" id="editPlanId">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="editPlanName">Plan Name</label>
+                            <input type="text" class="form-control" id="editPlanName" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editReturnRate">Return Rate (%)</label>
+                            <input type="number" class="form-control" id="editReturnRate" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editDuration">Duration (months)</label>
+                            <input type="number" class="form-control" id="editDuration" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editMinDeposit">Minimum Deposit ($)</label>
+                            <input type="number" class="form-control" id="editMinDeposit" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editMaxDeposit">Maximum Deposit ($)</label>
+                            <input type="number" class="form-control" id="editMaxDeposit" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="editPlanStatus">Status</label>
+                            <select class="form-control" id="editPlanStatus">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="editPlanDescription">Description</label>
+                            <textarea class="form-control" id="editPlanDescription" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancelEditPlan">Cancel</button>
+                <button class="btn btn-primary" id="saveEditPlan">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Confirmation -->
+    <div class="modal-overlay" id="confirmationModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="confirmationTitle">Confirm Action</h3>
+                <button class="modal-close" id="closeConfirmationModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmationMessage">Are you sure you want to perform this action?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancelAction">Cancel</button>
+                <button class="btn btn-primary" id="confirmAction">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Success/Error Messages -->
+    <div class="modal-overlay" id="messageModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="messageTitle">Message</h3>
+                <button class="modal-close" id="closeMessageModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="messageText"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="closeMessage">OK</button>
+            </div>
+        </div>
+    </div>
+
+
+<script src="../js/global.js"></script>
+<script src="../js/plans.js"></script>
+</body>
+</html>
