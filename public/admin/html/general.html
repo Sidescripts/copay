@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Financial System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="stylesheet" href="../css/global.css">
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-chart-line"></i> Admin Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active" data-page="dashboard">
+                        <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item" data-page="users">
+                        <a href="#"><i class="fas fa-users"></i> Users</a>
+                    </li>
+                    <li class="nav-item" data-page="deposits">
+                        <a href="#"><i class="fas fa-money-bill-wave"></i> Deposits</a>
+                    </li>
+                    <li class="nav-item" data-page="withdrawals">
+                        <a href="#"><i class="fas fa-wallet"></i> Withdrawals</a>
+                    </li>
+                    <li class="nav-item" data-page="investments">
+                        <a href="#"><i class="fas fa-chart-pie"></i> Investment Plans</a>
+                    </li>
+                    <li class="nav-item" data-page="settings">
+                        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+                <header class="content-header">
+                    <div class="header-left">
+                        <h1>Dashboard Overview</h1>
+                        <p>Welcome back, Admin! Here's what's happening with your platform today.</p>
+                    </div>
+                    <div class="header-right">
+                        <div class="user-info">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzY2N2VlYSI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgM2MyLjIxIDAgNCAxLjc5IDQgNHMtMS43OSA0LTQgNC00LTEuNzktNC00IDEuNzktNCA0LTR6bTAgMTcuMDNjLTMuNjcgMC02LjgzLTIuMTQtOC4zNC01LjE0LjgzLTEuNTcgMi4wNC0yLjc4IDMuNDgtMy41MkM4LjUgMTMuOTggMTAuMTMgMTQgMTIgMTRzMy41LS4wMiA1Ljg2LTEuMTljMS40NC43NCAyLjY2IDEuOTUgMy40OCAzLjUyLTEuNTEgMy0zLjY3IDUuMTQtOC4zNCA1LjE0eiIvPjwvc3ZnPg==" alt="Admin Avatar">
+                            <span>Administrator</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Dashboard Stats -->
+                <section class="dashboard-stats">
+                    <h2>Platform Statistics</h2>
+                    
+                    <div class="stats-grid">
+                        <!-- Overall Stats -->
+                        <div class="stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stats-info">
+                                <h3 id="totalUsers">0</h3>
+                                <p>Total Users</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <div class="stats-info">
+                                <h3 id="activeUsers">0</h3>
+                                <p>Active Users</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-badge-check"></i>
+                            </div>
+                            <div class="stats-info">
+                                <h3 id="verifiedUsers">0</h3>
+                                <p>Verified Users</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="stats-info">
+                                <h3 id="totalDeposits">$0</h3>
+                                <p>Total Deposits</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="stats-info">
+                                <h3 id="totalWithdrawals">$0</h3>
+                                <p>Total Withdrawals</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <div class="stats-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <div class="stats-info">
+                                <h3 id="totalInvestments">$0</h3>
+                                <p>Total Investments</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Today's Stats -->
+                    <h2>Today's Activity</h2>
+                    <div class="stats-grid">
+                        <div class="stats-card">
+                            <div class="stats-icon today">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div class="stats-info">
+                                <h3 id="todayDeposits">$0</h3>
+                                <p>Today's Deposits</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <div class="stats-icon today">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="stats-info">
+                                <h3 id="todayWithdrawals">$0</h3>
+                                <p>Today's Withdrawals</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <div class="stats-icon today">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="stats-info">
+                                <h3 id="todayRegistrations">0</h3>
+                                <p>New Registrations</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <div class="stats-icon today">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <div class="stats-info">
+                                <h3 id="todayInvestments">$0</h3>
+                                <p>Today's Investments</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Pending Actions -->
+                <section class="pending-actions">
+                    <h2>Pending Actions</h2>
+                    
+                    <div class="actions-grid">
+                        <div class="action-card">
+                            <div class="action-header">
+                                <h3><i class="fas fa-money-bill-wave"></i> Pending Deposits</h3>
+                                <span class="badge" id="pendingDepositsCount">0</span>
+                            </div>
+                            <div class="action-body" id="pendingDepositsList">
+                                <p class="no-pending">No pending deposits</p>
+                            </div>
+                            <div class="action-footer">
+                                <a href="#" onclick="showPage('deposits'); return false;">View all deposits →</a>
+                            </div>
+                        </div>
+                        
+                        <div class="action-card">
+                            <div class="action-header">
+                                <h3><i class="fas fa-wallet"></i> Pending Withdrawals</h3>
+                                <span class="badge" id="pendingWithdrawalsCount">0</span>
+                            </div>
+                            <div class="action-body" id="pendingWithdrawalsList">
+                                <p class="no-pending">No pending withdrawals</p>
+                            </div>
+                            <div class="action-footer">
+                                <a href="#" onclick="showPage('withdrawals'); return false;">View all withdrawals →</a>
+                            </div>
+                        </div>
+                        
+                        <div class="action-card">
+                            <div class="action-header">
+                                <h3><i class="fas fa-user-clock"></i> Unverified Users</h3>
+                                <span class="badge" id="unverifiedUsersCount">0</span>
+                            </div>
+                            <div class="action-body" id="unverifiedUsersList">
+                                <p class="no-pending">No unverified users</p>
+                            </div>
+                            <div class="action-footer">
+                                <a href="#" onclick="showPage('users'); return false;">View all users →</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- Users Management Page -->
+            <div id="users" class="page">
+                <header class="content-header">
+                    <div class="header-left">
+                        <h1>User Management</h1>
+                        <p>Manage all users in the system</p>
+                    </div>
+                </header>
+                
+                <div class="form-card">
+                    <h3><i class="fas fa-search me-2"></i>Search & Filter</h3>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <input type="text" class="form-control" placeholder="Search by name, email, or ID">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <select class="form-control">
+                                <option value="">All Statuses</option>
+                                <option value="verified">Verified</option>
+                                <option value="unverified">Unverified</option>
+                                <option value="banned">Banned</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <select class="form-control">
+                                <option value="">All Plans</option>
+                                <option value="basic">Basic Plan</option>
+                                <option value="premium">Premium Plan</option>
+                                <option value="vip">VIP Plan</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary w-100">Search</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Joined</th>
+                                <th>Status</th>
+                                <th>Balance</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#USR-001</td>
+                                <td>John Doe</td>
+                                <td>john@example.com</td>
+                                <td>2023-05-15</td>
+                                <td><span class="badge badge-approved">Verified</span></td>
+                                <td>$1,250.00</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">View</button>
+                                    <button class="btn btn-sm">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#USR-002</td>
+                                <td>Jane Smith</td>
+                                <td>jane@example.com</td>
+                                <td>2023-06-20</td>
+                                <td><span class="badge badge-pending">Unverified</span></td>
+                                <td>$850.00</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">View</button>
+                                    <button class="btn btn-sm">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#USR-003</td>
+                                <td>Robert Johnson</td>
+                                <td>robert@example.com</td>
+                                <td>2023-07-10</td>
+                                <td><span class="badge badge-approved">Verified</span></td>
+                                <td>$3,450.00</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">View</button>
+                                    <button class="btn btn-sm">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Deposits Management Page -->
+            <div id="deposits" class="page">
+                <header class="content-header">
+                    <div class="header-left">
+                        <h1>Deposit Management</h1>
+                        <p>Review and manage user deposits</p>
+                    </div>
+                </header>
+                
+                <div class="nav-tabs">
+                    <button class="nav-link active" data-tab="pending-deposits">Pending <span class="badge badge-pending">5</span></button>
+                    <button class="nav-link" data-tab="approved-deposits">Approved <span class="badge badge-approved">42</span></button>
+                </div>
+                
+                <div id="pending-deposits" class="tab-content active">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>User</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#DEP-7821</td>
+                                    <td>John Doe</td>
+                                    <td>$500.00</td>
+                                    <td>Bitcoin</td>
+                                    <td>2023-10-05 14:32</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Approve</button>
+                                        <button class="btn btn-sm btn-danger">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#DEP-7822</td>
+                                    <td>Jane Smith</td>
+                                    <td>$1,200.00</td>
+                                    <td>Bank Transfer</td>
+                                    <td>2023-10-05 13:45</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Approve</button>
+                                        <button class="btn btn-sm btn-danger">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#DEP-7823</td>
+                                    <td>Robert Johnson</td>
+                                    <td>$750.00</td>
+                                    <td>Ethereum</td>
+                                    <td>2023-10-05 12:18</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Approve</button>
+                                        <button class="btn btn-sm btn-danger">Reject</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="approved-deposits" class="tab-content">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>User</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#DEP-7819</td>
+                                    <td>Michael Brown</td>
+                                    <td>$2,500.00</td>
+                                    <td>Bank Transfer</td>
+                                    <td>2023-10-04 16:20</td>
+                                    <td><span class="badge badge-approved">Approved</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#DEP-7818</td>
+                                    <td>Sarah Wilson</td>
+                                    <td>$1,000.00</td>
+                                    <td>Bitcoin</td>
+                                    <td>2023-10-04 15:10</td>
+                                    <td><span class="badge badge-approved">Approved</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Withdrawals Management Page -->
+            <div id="withdrawals" class="page">
+                <header class="content-header">
+                    <div class="header-left">
+                        <h1>Withdrawal Management</h1>
+                        <p>Review and manage user withdrawal requests</p>
+                    </div>
+                </header>
+                
+                <div class="nav-tabs">
+                    <button class="nav-link active" data-tab="pending-withdrawals">Pending <span class="badge badge-pending">3</span></button>
+                    <button class="nav-link" data-tab="approved-withdrawals">Approved <span class="badge badge-approved">28</span></button>
+                </div>
+                
+                <div id="pending-withdrawals" class="tab-content active">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>User</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#WTH-4521</td>
+                                    <td>John Doe</td>
+                                    <td>$300.00</td>
+                                    <td>Bank Transfer</td>
+                                    <td>2023-10-05 15:45</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Approve</button>
+                                        <button class="btn btn-sm btn-danger">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#WTH-4522</td>
+                                    <td>Jane Smith</td>
+                                    <td>$500.00</td>
+                                    <td>Bitcoin</td>
+                                    <td>2023-10-05 14:30</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Approve</button>
+                                        <button class="btn btn-sm btn-danger">Reject</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="approved-withdrawals" class="tab-content">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>User</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#WTH-4519</td>
+                                    <td>Robert Johnson</td>
+                                    <td>$1,200.00</td>
+                                    <td>Bank Transfer</td>
+                                    <td>2023-10-04 11:20</td>
+                                    <td><span class="badge badge-approved">Approved</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#WTH-4518</td>
+                                    <td>Michael Brown</td>
+                                    <td>$750.00</td>
+                                    <td>Ethereum</td>
+                                    <td>2023-10-04 10:15</td>
+                                    <td><span class="badge badge-approved">Approved</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Investment Plans Page -->
+            <div id="investments" class="page">
+                <header class="content-header">
+                    <div class="header-left">
+                        <h1>Investment Plans Management</h1>
+                        <p>Create and manage investment plans</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" id="addPlanBtn"><i class="fas fa-plus me-2"></i>Add New Plan</button>
+                    </div>
+                </header>
+                
+                <div id="plans-list">
+                    <div class="form-card">
+                        <h3><i class="fas fa-list me-2"></i>Current Investment Plans</h3>
+                        
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Plan Name</th>
+                                        <th>Return Rate</th>
+                                        <th>Duration</th>
+                                        <th>Min Deposit</th>
+                                        <th>Max Deposit</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Starter Plan</td>
+                                        <td>15% monthly</td>
+                                        <td>6 months</td>
+                                        <td>$100</td>
+                                        <td>$1,000</td>
+                                        <td><span class="badge badge-approved">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary">Edit</button>
+                                            <button class="btn btn-sm btn-danger">Disable</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Premium Plan</td>
+                                        <td>25% monthly</td>
+                                        <td>12 months</td>
+                                        <td>$1,000</td>
+                                        <td>$10,000</td>
+                                        <td><span class="badge badge-approved">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary">Edit</button>
+                                            <button class="btn btn-sm btn-danger">Disable</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>VIP Plan</td>
+                                        <td>35% monthly</td>
+                                        <td>24 months</td>
+                                        <td>$10,000</td>
+                                        <td>$100,000</td>
+                                        <td><span class="badge badge-approved">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary">Edit</button>
+                                            <button class="btn btn-sm btn-danger">Disable</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="add-plan-form" class="form-card" style="display: none;">
+                    <h3><i class="fas fa-plus-circle me-2"></i>Add New Investment Plan</h3>
+                    
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="planName">Plan Name</label>
+                            <input type="text" class="form-control" id="planName" placeholder="Enter plan name">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="returnRate">Return Rate (%)</label>
+                            <input type="number" class="form-control" id="returnRate" placeholder="Enter return rate">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="duration">Duration (months)</label>
+                            <input type="number" class="form-control" id="duration" placeholder="Enter duration">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="minDeposit">Minimum Deposit ($)</label>
+                            <input type="number" class="form-control" id="minDeposit" placeholder="Enter minimum deposit">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="maxDeposit">Maximum Deposit ($)</label>
+                            <input type="number" class="form-control" id="maxDeposit" placeholder="Enter maximum deposit">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="planStatus">Status</label>
+                            <select class="form-control" id="planStatus">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="planDescription">Description</label>
+                            <textarea class="form-control" id="planDescription" rows="3" placeholder="Enter plan description"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-end gap-2">
+                        <button class="btn" id="cancelAddPlan">Cancel</button>
+                        <button class="btn btn-primary">Save Plan</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Settings Page -->
+            <div id="settings" class="page">
+                <header class="content-header">
+                    <div class="header-left">
+                        <h1>System Settings</h1>
+                        <p>Configure your platform settings</p>
+                    </div>
+                </header>
+                
+                <div class="form-card">
+                    <h3><i class="fas fa-cog me-2"></i>General Settings</h3>
+                    
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="siteName">Site Name</label>
+                            <input type="text" class="form-control" id="siteName" value="Financial Investment Platform">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="adminEmail">Admin Email</label>
+                            <input type="email" class="form-control" id="adminEmail" value="admin@example.com">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="currency">Default Currency</label>
+                            <select class="form-control" id="currency">
+                                <option value="USD" selected>US Dollar (USD)</option>
+                                <option value="EUR">Euro (EUR)</option>
+                                <option value="GBP">British Pound (GBP)</option>
+                                <option value="BTC">Bitcoin (BTC)</option>
+                                <option value="ETH">Ethereum (ETH)</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="timezone">Timezone</label>
+                            <select class="form-control" id="timezone">
+                                <option value="UTC-12">UTC-12:00</option>
+                                <option value="UTC-5" selected>UTC-05:00 (EST)</option>
+                                <option value="UTC">UTC</option>
+                                <option value="UTC+1">UTC+01:00</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-primary">Save Settings</button>
+                    </div>
+                </div>
+                
+                <div class="form-card">
+                    <h3><i class="fas fa-paint-brush me-2"></i>Theme & Appearance</h3>
+                    
+                    <div class="theme-options">
+                        <div class="theme-option active">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                            <div class="theme-info">
+                                <h4>Default Theme</h4>
+                                <p>Purple gradient</p>
+                            </div>
+                        </div>
+                        
+                        <div class="theme-option">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                            <div class="theme-info">
+                                <h4>Blue Theme</h4>
+                                <p>Blue gradient</p>
+                            </div>
+                        </div>
+                        
+                        <div class="theme-option">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                            <div class="theme-info">
+                                <h4>Pink Theme</h4>
+                                <p>Pink gradient</p>
+                            </div>
+                        </div>
+                        
+                        <div class="theme-option">
+                            <div class="theme-preview" style="background: linear-gradient(135deg, #5ee7df 0%, #b490ca 100%);"></div>
+                            <div class="theme-info">
+                                <h4>Teal Theme</h4>
+                                <p>Teal gradient</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-end mt-4">
+                        <button class="btn btn-primary">Apply Theme</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+<script src="../js/global.js"></script>
+</body>
+</html>

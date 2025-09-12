@@ -6,7 +6,90 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Auth Flow - Signup</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../css/validation-styles.css">
+
+  <style>
+    .modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-visible {
+  display: flex;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.modal-body {
+  margin-bottom: 15px;
+}
+
+.modal-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.modal-button-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.modal-button-primary:hover {
+  background-color: #0056b3;
+}
+
+.modal-button-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.modal-button-secondary:hover {
+  background-color: #545b62;
+}
+
+.text-end {
+  text-align: right;
+}
+  </style>
 </head>
 
 <body>
@@ -27,6 +110,15 @@
             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
               <path fill="currentColor"
                 d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z" />
+            </svg>
+          </div>
+
+          <div class="input-group">
+            <input type="text" name="fullname" id="fullname-input" placeholder=" ">
+            <label for="country-input">Full Name</label>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 24 24">
+              <path fill="currentColor"
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5.93 6H15c-.2-1.33-.58-2.57-1.07-3.67 1.55.6 2.89 1.63 3.93 2.92zM12 4c.82 1.11 1.41 2.53 1.72 4h-3.44c.31-1.47.9-2.89 1.72-4zm-2.93.33c-.49 1.1-.87 2.34-1.07 3.67H6.07c1.04-1.29 2.38-2.32 3.93-2.92zM4 12c0-.68 1.1-1.35.27-1.98h3.48c-.09.65-.15 1.31-.15 1.98s.06 1.33.15 1.98H4.27C4.1 13.35 4 12.68 4 12zm1.07 4h2.93c.2 1.33.58 2.57 1.07 3.67-1.55-.6-2.89-1.63-3.93-2.92zM12 20c-.82-1.11-1.41-2.53-1.72-4h3.44c-.31 1.47-.9 2.89-1.72 4zm2.93-.33c.49-1.1.87-2.34 1.07-3.67h2.93c-1.04 1.29-2.38 2.32-3.93 2.92zM16.25 12c0-.67-.06-1.33-.15-1.98h3.48c.17.63.27 1.3.27 1.98s-.1 1.35-.27 1.98h-3.48c.09-.65.15-1.31.15-1.98z" />
             </svg>
           </div>
 
@@ -94,9 +186,26 @@
       </div>
     </div>
 
-
   </div>
-<script src="../js/validation.js"></script>
+
+    <!-- Bootstrap Modal -->
+  <div class="modal fade" id="feedbackModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">Message</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="modalBody">...</div>
+      </div>
+    </div>
+  </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+<!-- <script src="../js/validation.js"></script> -->
+<script src="../js/signUp.js"></script>
 </body>
 
 </html>

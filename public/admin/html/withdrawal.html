@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Financial System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="stylesheet" href="../css/global.css">
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-chart-line"></i> Admin Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item" data-page="dashboard">
+                        <a href="./adminDash.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item" data-page="users">
+                        <a href="./users.html"><i class="fas fa-users"></i> Users</a>
+                    </li>
+                    <li class="nav-item" data-page="deposits">
+                        <a href="./deposits.html"><i class="fas fa-money-bill-wave"></i> Deposits</a>
+                    </li>
+                    <li class="nav-item active" data-page="withdrawals">
+                        <a href="./withdrawal.html"><i class="fas fa-wallet"></i> Withdrawals</a>
+                    </li>
+                    <li class="nav-item" data-page="investments">
+                        <a href="./plans.html"><i class="fas fa-chart-pie"></i> Investment Plans</a>
+                    </li>
+                    <li class="nav-item" data-page="settings">
+                        <a href="./settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../index.html" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            
+            <!-- Withdrawals Management Page -->
+            <div id="withdrawals" class="page">
+                <header class="content-header">
+                    <div class="header-left">
+                        <h1>Withdrawal Management</h1>
+                        <p>Review and manage user withdrawal requests</p>
+                    </div>
+                </header>
+                
+                <div class="nav-tabs">
+                    <button class="nav-link active" data-tab="pending-withdrawals">Pending <span class="badge badge-pending">3</span></button>
+                    <button class="nav-link" data-tab="approved-withdrawals">Approved <span class="badge badge-approved">28</span></button>
+                </div>
+                
+                <div id="pending-withdrawals" class="tab-content active">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>User</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#WTH-4521</td>
+                                    <td>John Doe</td>
+                                    <td>$300.00</td>
+                                    <td>Bank Transfer</td>
+                                    <td>2023-10-05 15:45</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Approve</button>
+                                        <button class="btn btn-sm btn-danger">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#WTH-4522</td>
+                                    <td>Jane Smith</td>
+                                    <td>$500.00</td>
+                                    <td>Bitcoin</td>
+                                    <td>2023-10-05 14:30</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Approve</button>
+                                        <button class="btn btn-sm btn-danger">Reject</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="approved-withdrawals" class="tab-content">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>User</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#WTH-4519</td>
+                                    <td>Robert Johnson</td>
+                                    <td>$1,200.00</td>
+                                    <td>Bank Transfer</td>
+                                    <td>2023-10-04 11:20</td>
+                                    <td><span class="badge badge-approved">Approved</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#WTH-4518</td>
+                                    <td>Michael Brown</td>
+                                    <td>$750.00</td>
+                                    <td>Ethereum</td>
+                                    <td>2023-10-04 10:15</td>
+                                    <td><span class="badge badge-approved">Approved</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+          
+        </main>
+    </div>
+
+
+<script src="../js/global.js"></script>
+<script src="../js/withdrawal.js"></script>
+</body>
+</html>

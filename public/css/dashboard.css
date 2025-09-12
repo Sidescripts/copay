@@ -1,0 +1,349 @@
+
+        .color-highlight {
+            color: #F6BB42 !important;
+        }
+
+        .bg-highlight {
+            background-color: #F6BB42 !important;
+            color: #FFF !important;
+        }
+
+        .border-highlight {
+            border-color: #F6BB42 !important;
+        }
+
+        .gradient-highlight {
+            background-image: linear-gradient(to bottom, #FFCE54, #F6BB42) !important;
+        }
+
+        .splide__pagination__page.is-active {
+            background-color: #F6BB42 !important;
+        }
+
+        .footer-bar-1 .active-nav i,
+        .footer-bar-1 .active-nav span {
+            color: #F6BB42 !important;
+        }
+
+        .footer-bar-2 .active-nav {
+            border-bottom: solid 3px #F6BB42;
+        }
+
+        .footer-bar-3 .active-nav {
+            border-top: solid 3px #F6BB42;
+        }
+
+        .footer-bar-4 .active-nav {
+            background-color: #F6BB42;
+        }
+
+        #footer-bar .circle-nav-1::after,
+        #footer-bar .circle-nav-2::before,
+        #footer-bar .circle-nav-2::after {
+            background-image: linear-gradient(to bottom, #FFCE54, #F6BB42) !important;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            background-color: #F6BB42;
+        }
+
+        .color-highlight {
+            color: #F6BB42;
+        }
+
+        .bg-highlight {
+            background-color: #F6BB42;
+            color: #FFF !important;
+        }
+
+        #header-deco-1,
+        #header-deco-2,
+        #header-deco-3,
+        #header-deco-4 {
+            fill: #F6BB42;
+        }
+
+        .error {
+            color: #d84558 !important;
+            background-color: rgba(218, 68, 83, .2) !important;
+            color: #fff !important;
+            position: relative;
+            padding: 1rem 1rem;
+            padding-right: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: .25rem;
+            transition: opacity .15s linear;
+        }
+
+        .card-styles {
+            overflow: hidden;
+            border-radius: 22px;
+            margin: 0px 15px 10px 15px;
+            border: none;
+            box-shadow: rgba(0, 0, 0, 0.03) 0px 20px 25px -5px, rgba(0, 0, 0, 0.02) 0px 10px 10px -5px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+
+           /* Hologram effect */
+        .card.bg-5 .card-bottom::before {
+            content: '';
+            position: absolute;
+            bottom: 125px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+
+          .card.bg-5 .card-bottom::after {
+            content: '';
+            position: absolute;
+            bottom: 125px;
+            right: 50px;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+
+        #deposit.offcanvas {
+            /* background: linear-gradient(135deg, #f8f6f6, #f0f4f7); */
+            /* color: #262a2e; */
+            border-radius: 16px 16px 0 0;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .c6.form-select {
+            /* background-color: #f8f9fa; */
+            /* color: #212529; */
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 15px;
+        }
+
+        /* Remove the default blue on focus */
+        .c6.form-select:focus {
+            border-color: #ffb347;
+            box-shadow: 0 0 5px rgba(255, 179, 71, 0.6);
+            outline: none;
+        }
+
+        .c6.form-select option {
+            background: #ffffff;
+            color: #212529;
+        }
+
+        .c6.form-select option:hover {
+            background: #ffebcc;
+        }
+
+    /* Preloader animation */
+    /* #preloader {
+        background: #fff;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .spinner-border {
+        width: 3rem;
+        height: 3rem;
+    } */
+
+     /* Notification System */
+    #alertWrapper {
+        position: relative;
+        margin: 0 15px 20px 15px;
+        display: none;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    #alertWrapper.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .cyber-notification {
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 
+            0 10px 30px rgba(0, 0, 0, 0.2),
+            0 0 0 1px rgba(246, 187, 66, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .cyber-notification::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #FFCE54, #F6BB42, #FFCE54);
+        background-size: 200% 100%;
+        animation: gradientShift 3s ease infinite;
+    }
+    
+    .cyber-content {
+        padding: 20px;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .cyber-grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 20px 20px;
+        opacity: 0.3;
+        z-index: 1;
+    }
+    
+    .cyber-icon {
+        background: linear-gradient(135deg, rgba(246, 187, 66, 0.15) 0%, rgba(255, 206, 84, 0.15) 100%);
+        border-radius: 16px;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 20px rgba(246, 187, 66, 0.3);
+        border: 1px solid rgba(255, 206, 84, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .cyber-icon::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            to bottom right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(255, 255, 255, 0) 100%
+        );
+        transform: rotate(30deg);
+        animation: shine 3s infinite;
+    }
+    
+    .cyber-icon i {
+        font-size: 24px;
+        background: linear-gradient(135deg, #FFCE54, #F6BB42);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 5px rgba(246, 187, 66, 0.5));
+    }
+    
+    .cyber-message {
+        color: #e2e8f0;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 1.5;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    
+    .cyber-action {
+        color: #F6BB42;
+        font-size: 13px;
+        font-weight: 600;
+        margin-top: 8px;
+        display: inline-block;
+        position: relative;
+        cursor: pointer;
+    }
+    
+    .cyber-action::after {
+        content: '→';
+        margin-left: 5px;
+        display: inline-block;
+        transition: transform 0.3s ease;
+    }
+    
+    .cyber-action:hover::after {
+        transform: translateX(3px);
+    }
+    
+    .cyber-close {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .cyber-close:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: rotate(90deg);
+    }
+    
+    .cyber-close i {
+        color: #94a3b8;
+        font-size: 14px;
+    }
+    
+    /* Animations */
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes shine {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(30deg); }
+        20% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+        100% { transform: translateX(100%) translateY(100%) rotate(30deg); }
+    }
+    
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(246, 187, 66, 0.4); }
+        70% { box-shadow: 0 0 0 10px rgba(246, 187, 66, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(246, 187, 66, 0); }
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 575px) {
+        .cyber-content {
+            padding: 15px;
+        }
+        
+        .cyber-icon {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .cyber-icon i {
+            font-size: 20px;
+        }
+        
+        .cyber-message {
+            font-size: 14px;
+        }
+    }

@@ -3,25 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Vitron-dashboard/styles/bootstrap.css">
+    <link rel="stylesheet" href="../Vitron-dashboard/fonts/bootstrap-icons.css">
+    <link rel="stylesheet" href="../Vitron-dashboard/fonts/bootstrap-icons.css" />
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="../css/contact.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
     <title>Contact Us | Modern Design</title>
     <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body {
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      color: #fff;
-    }
-
+   
     .contact-container {
       width: 100%;
       max-width: 500px;
@@ -31,6 +24,7 @@
       overflow: hidden;
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 206, 84, 0.1);
+      margin: 20px auto;
     }
 
     .header {
@@ -207,6 +201,7 @@
     @media (max-width: 576px) {
       .contact-container {
         border-radius: 10px;
+        margin: 15px;
       }
 
       .form-container {
@@ -233,65 +228,149 @@
     </style>
 </head>
 <body>
-    <div class="contact-container">
-        <div class="header">
-            <h1>Contact Us</h1>
-            <p>We'd love to hear from you</p>
+      <!-- Header & Navigation -->
+    <header id="header">
+        <div class="container header-container">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="../assests/images/logo.png" alt="Logo" />
+                </div>
+                <a href="#" class="logo-text">VITRON</a>
+            </div>
+
+            <nav>
+                <ul>
+               <li><a href="../index.html">Home</a></li>
+                <li><a href="../pages/about.html">About</a></li>
+                <li><a href="../pages/contact.html" class="active">Contact Us</a></li>
+                <li><a href="#faq">Faq</a></li>
+
+                </ul>
+            </nav>
+
+            <div class="auth-buttons desktop-auth">
+                <a href="#" class="login-btn">Log In</a>
+                <a href="../pages/signup.html" class="signup-btn">Sign Up</a>
+            </div>
+
+            <div class="menu-toggle" id="mobile-menu">
+                <a href="#">
+                    <i class="fa-solid fa-bars"></i>
+                    <i class="fa-solid fa-times"></i>
+                </a>
+            </div>
         </div>
+
+        <!-- Mobile Menu (hidden by default) -->
+        <div class="mobile-menu" id="mobile-nav">
+            <ul>
+                <li><a href="/public/index.html">Home</a></li>
+                <li><a href="../pages/about.html">About</a></li>
+                <li><a href="../pages/contact.html" class="active">Contact Us</a></li>
+
+            </ul>
+            <div class="mobile-auth">
+                <a href="../pages/login.html" class="login-btn" style="text-align: center">Log In</a>
+                <a href="../pages/signup.html" class="signup-btn" style="text-align: center">Sign Up</a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="page-content-wrapper" style="padding: 20px; display: flex; flex-direction: column; align-items: center;">
+        <!-- Phone Gallery Section -->
+        <section class="scroll-phone-display">
+            <!-- <div class="phone-display-wrapper">
+             
+                <div class="flanking-image left-side">
+                    <img src="../assests/images/28.png" alt="App Feature 1">
+                </div>
+                
+                <div class="main-phone-image">
+                    <img src="../assests/images/vitronphone-bg.png" alt="Mobile App">
+                </div>
+                
+                <div class="flanking-image right-side">
+                    <img src="../assests/images/crypto-card1.jpeg" alt="App Feature 2">
+                </div>
+            </div> -->
+
+            <div class="full-width-container">
+                <h3 class="heading">Send us a message</h3>
+                <p class="description">With Vitron, you can securely store all your payment cards. Say goodbye to bulky wallets and hello to a sleek, organized digital solution that fits right in your pocket.</p>
+         
+                
+                <div class="icon-list">
+                    <a href="#" class="icon-list-item">
+                        <span class="icon-list-icon">
+                            <i class="fas fa-clock"></i>
+                        </span>
+                        <span class="icon-list-text">Monday - Sunday(8am to 10pm).</span>
+                    </a>
+                </div>
+            </div>
+        </section>
         
-        <div class="form-container">
-            <div class="success-message" id="successMessage">
-                Thank you! Your message has been sent successfully.
+        <div class="contact-container">
+            <div class="header">
+                <h1 style="background: none !important;-webkit-background-clip: initial !important; -webkit-text-fill-color: initial !important; color: black !important;
+                 ">Contact Us </h1>
+                <p>We'd love to hear from you</p>
             </div>
             
-            <div class="error-message" id="errorMessage">
-                Please fill all required fields correctly.
+            <div class="form-container">
+                <div class="success-message" id="successMessage">
+                    Thank you! Your message has been sent successfully.
+                </div>
+                
+                <div class="error-message" id="errorMessage">
+                    Please fill all required fields correctly.
+                </div>
+                
+                <form id="contactForm">
+                    <div class="input-group">
+                        <input type="text" id="name" placeholder=" " required>
+                        <label for="name">Full Name</label>
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" class="svg-inline--fa fa-user fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path>
+                        </svg>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="email" id="email" placeholder=" " required>
+                        <label for="email">Email Address</label>
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope" class="svg-inline--fa fa-envelope fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path fill="currentColor" d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"></path>
+                        </svg>
+                    </div>
+                    
+                    <div class="input-group">
+                        <textarea id="message" placeholder=" " required></textarea>
+                        <label for="message">Your Message</label>
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="comment" class="svg-inline--fa fa-comment fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path fill="currentColor" d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4 0 256-93.1 256-208S397.4 32 256 32z"></path>
+                        </svg>
+                    </div>
+                    
+                    <button type="submit">Send Message</button>
+                </form>
+                
+                <div class="contact-info">
+                    <div class="contact-method">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="phone" class="svg-inline--fa fa-phone fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path fill="currentColor" d="M493.4 24.6l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-36 76.7-98.9 140.5-177.2 177.2l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48C3.9 366.5-2 378.1.6 389.4l24 104C27.1 504.2 36.7 512 48 512c256.1 0 464-207.5 464-464 0-11.2-7.7-20.9-18.6-23.4z"></path>
+                        </svg>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope" class="svg-inline--fa fa-envelope fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path fill="currentColor" d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"></path>
+                        </svg>
+                        <span>support@Vitron-trade.com</span>
+                    </div>
+                </div>
+                
             </div>
-            
-            <form id="contactForm">
-                <div class="input-group">
-                    <input type="text" id="name" placeholder=" " required>
-                    <label for="name">Full Name</label>
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" class="svg-inline--fa fa-user fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                        <path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path>
-                    </svg>
-                </div>
-                
-                <div class="input-group">
-                    <input type="email" id="email" placeholder=" " required>
-                    <label for="email">Email Address</label>
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope" class="svg-inline--fa fa-envelope fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                        <path fill="currentColor" d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"></path>
-                    </svg>
-                </div>
-                
-                <div class="input-group">
-                    <textarea id="message" placeholder=" " required></textarea>
-                    <label for="message">Your Message</label>
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="comment" class="svg-inline--fa fa-comment fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                        <path fill="currentColor" d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4 0 256-93.1 256-208S397.4 32 256 32z"></path>
-                    </svg>
-                </div>
-                
-                <button type="submit">Send Message</button>
-            </form>
-            
-            <div class="contact-info">
-                <div class="contact-method">
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="phone" class="svg-inline--fa fa-phone fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                        <path fill="currentColor" d="M493.4 24.6l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-36 76.7-98.9 140.5-177.2 177.2l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48C3.9 366.5-2 378.1.6 389.4l24 104C27.1 504.2 36.7 512 48 512c256.1 0 464-207.5 464-464 0-11.2-7.7-20.9-18.6-23.4z"></path>
-                    </svg>
-                    <span>+1 (555) 123-4567</span>
-                </div>
-                
-                <div class="contact-method">
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope" class="svg-inline--fa fa-envelope fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                        <path fill="currentColor" d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"></path>
-                    </svg>
-                    <span>support@Vitron-trade.com</span>
-                </div>
-            </div>
-            
         </div>
     </div>
 
@@ -333,5 +412,9 @@
             this.reset();
         });
     </script>
+    
+    <script src="../Vitron-dashboard/scripts/bootstrap.min.js"></script>
+    <script src="../Vitron-dashboard/scripts/custom.js"></script>
+    <script src="../js/home.js"></script>
 </body>
 </html>
