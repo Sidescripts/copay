@@ -104,3 +104,9 @@ function gracefulShutdown(){
 process.on('SIGINT', gracefulShutdown);
 process.on('SIGTERM', gracefulShutdown);
 
+// // Graceful shutdown
+// process.on('SIGTERM', async () => {
+//   clearInterval(sequelize.options.checkIntervalId);
+//   await sequelize.close();
+//   process.exit(0);
+// });

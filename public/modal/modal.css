@@ -1,0 +1,28 @@
+/* Modal Styles */
+.offcanvas-modal {
+    width: 320px; /* Match your existing modal width */
+}
+
+.gradient-green {
+    background: linear-gradient(to right, #28a745, #34c759); /* Adjust to your theme */
+}
+
+.gradient-red {
+    background: linear-gradient(to right, #dc3545, #ff6b6b); /* Adjust to your theme */
+}
+
+.color-green-dark {
+    color: #28a745; /* Adjust to your theme */
+}
+
+.color-red-dark {
+    color: #dc3545; /* Adjust to your theme */
+}
+
+.shadow-bg {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adjust to your theme */
+}
+
+.shadow-s {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adjust to your theme */
+}

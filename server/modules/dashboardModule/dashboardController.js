@@ -1,5 +1,4 @@
 const { User, Investment, Sequelize } = require('../../model');
-const { Op } = require('sequelize');
 
 async function getCurrentUser(req, res) {
     try {
@@ -31,8 +30,8 @@ async function getCurrentUser(req, res) {
         }
       });
 
-      const userResponse = user.toJson();
-      userResponse.dashboard = {
+      
+      return res.status(200).json({ success:true,
         walletBalance: user.walletBalance || 0,
         totalRevenue: parseFloat(user.totalRevenue || 0),
         totalWithdrawal: parseFloat(user.totalWithdrawal || 0),
@@ -45,10 +44,9 @@ async function getCurrentUser(req, res) {
         dashBal: parseFloat(user.dashBal || 0),
         bnbBal: parseFloat(user.bnbBal || 0),
         dogeBal: parseFloat(user.dogeBal || 0),
-      }
-
-      return res.status(200).json(user);
+      });
     } catch (error) {
+      console.log(error)
       return res.status(500).json({ error: 'Failed to fetch user' });
     }
 }

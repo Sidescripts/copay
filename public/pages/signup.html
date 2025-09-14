@@ -4,90 +4,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Auth Flow - Signup</title>
+  <title>Signup</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../css/validation-styles.css">
-
   <style>
-    .modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
+    .modal-backdrop {
+    z-index: 1040;
 }
 
-.modal-visible {
-  display: flex;
+.modal {
+    z-index: 1050;
+    display: none;
 }
 
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.modal.show {
+    display: block;
 }
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
 }
 
-.modal-title {
-  margin: 0;
-  font-size: 1.5em;
-  font-weight: bold;
+.input-group input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: all 0.3s;
 }
 
-.modal-close {
-  background: none;
-  border: none;
-  font-size: 1.2em;
-  cursor: pointer;
+.input-group input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-.modal-body {
-  margin-bottom: 15px;
+.input-group label {
+    position: absolute;
+    top: 12px;
+    left: 45px;
+    font-size: 16px;
+    color: #999;
+    pointer-events: none;
+    transition: all 0.3s;
 }
 
-.modal-button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1em;
+.input-group input:focus + label,
+.input-group input.has-value + label {
+    top: -10px;
+    left: 10px;
+    font-size: 12px;
+    background-color: white;
+    padding: 0 5px;
+    color: #007bff;
 }
 
-.modal-button-primary {
-  background-color: #007bff;
-  color: white;
+.input-group svg {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    width: 20px;
+    height: 20px;
 }
 
-.modal-button-primary:hover {
-  background-color: #0056b3;
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999;
 }
 
-.modal-button-secondary {
-  background-color: #6c757d;
-  color: white;
-}
-
-.modal-button-secondary:hover {
-  background-color: #545b62;
-}
-
-.text-end {
-  text-align: right;
+/* Email input specific styling */
+.input-group input[type="email"] {
+    padding-left: 35px;
 }
   </style>
 </head>
@@ -103,6 +99,8 @@
 
       <div class="form-container">
         <div class="error-message" id="signup-error-message"></div>
+        <div class="success-message" id="signup-success-message"></div>
+
         <form id="signup-form">
           <div class="input-group">
             <input type="text" name="username" id="username-input" placeholder=" " autocomplete="off">
@@ -161,24 +159,9 @@
             </span>
           </div>
 
-          <button type="submit">Sign Up</button>
+          <button id="submitButton" type="submit">Sign Up</button>
         </form>
 
-        <!-- <div class="divider">
-          <span>Or continue with</span>
-        </div>
-
-        <div class="social-login">
-          <div class="social-btn">
-            <i class="fab fa-google"></i>
-          </div>
-          <div class="social-btn">
-            <i class="fab fa-facebook-f"></i>
-          </div>
-          <div class="social-btn">
-            <i class="fab fa-twitter"></i>
-          </div>
-        </div> -->
 
         <div class="footer">
           <p>Already have an Account? <a href="./login.html" onclick="">Login</a></p>
@@ -188,24 +171,11 @@
 
   </div>
 
-    <!-- Bootstrap Modal -->
-  <div class="modal fade" id="feedbackModal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalTitle">Message</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body" id="modalBody">...</div>
-      </div>
-    </div>
-  </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-<!-- <script src="../js/validation.js"></script> -->
-<script src="../js/signUp.js"></script>
+<script src="../js/signup.js"></script>
+<!-- <script src="../js/reg.js"></script> -->
 </body>
 
 </html>
