@@ -221,8 +221,8 @@
                         </div>
                         <div class="ms-auto text-end"
                             style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px;">
-                            <h5 class="mb-2" id="btcBalance">0.00</h5>
-                            <h5 class="mb-0 mt-n2" id="btcBalance">$0.00</h5>
+                            <h5 class="mb-2 btcBal" id="btcBalance">0.00</h5>
+                            <h5 class="mb-0 mt-n2 btcEqu" id="btcBalance">$0.00</h5>
                         </div>
                     </div>
                 </div>
@@ -252,8 +252,8 @@
                         </div>
                         <div class="ms-auto text-end"
                             style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px;">
-                            <h5 class="mb-2" id="ethBalanceQty">0.00</h5>
-                            <h5 class="mb-0 mt-n2" id="ethBalance">$0.00</h5>
+                            <h5 class="mb-2 ethBal" id="ethBalanceQty">0.00</h5>
+                            <h5 class="mb-0 mt-n2 ethEqu" id="ethBalance">$0.00</h5>
                         </div>
                     </div>
                 </div>
@@ -282,8 +282,8 @@
                         </div>
                         <div class="ms-auto text-end"
                             style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px;">
-                            <h5 class="mb-2" id="usdtBalanceQty">2300.00</h5>
-                            <h5 class="mb-0 mt-n2" id="usdtBalance">$2,300.00</h5>
+                            <h5 class="mb-2 usdtBal" id="usdtBalanceQty">0.00</h5>
+                            <h5 class="mb-0 mt-n2 usdtEqu" id="usdtBalance">$0.00</h5>
                         </div>
                     </div>
                 </div>
@@ -303,7 +303,7 @@
                             <div style="display: flex;">
                                 <small class="opacity-70 me-1">
                                     <span id="bnbPrice" class="font-13"
-                                        style="font-weight: 600; margin-left: 3px;">$0.00</span>
+                                        style="font-weight: 600; margin-left: 3px;">$</span>
                                 </small>
                                 <span>
                                     <i id="bnbIcon"></i><span id="bnbChange"></span>
@@ -867,13 +867,15 @@
             </div>
         </div>
           
-
+        
+        <script src="../Vitron-dashboard/scripts/bootstrap.min.js"></script>
             <script src="../Vitron-dashboard/scripts/confirmation.js"></script>
             <script src="../Vitron-dashboard/scripts/earn.js"></script>
             <script src="scripts/bootstrap.min.js"></script>
             <script src="scripts/custom.js"></script>
             <script src="../Vitron-dashboard/scripts/subDashboard.js"></script>
+           <script src="../modal/modal.js"></script>
             <script src="../js/mainAuth.js"></script>
-        
+        <script src="../js/dashboard.js"></script>
 </body>
 </html>

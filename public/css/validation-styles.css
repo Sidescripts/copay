@@ -60,6 +60,18 @@
       border-left: 4px solid #ff5252;
     }
 
+    .success-message {
+      background: rgba(58, 252, 252, 0.2);
+      color: #0ea03a;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 14px;
+      border-left: 4px solid #076924;
+    }
+
+
     .input-group {
       margin-bottom: 20px;
       position: relative;
