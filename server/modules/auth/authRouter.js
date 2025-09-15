@@ -15,6 +15,16 @@ router.post(
     passwordResetController.requestReset
 );
 
+// router.post("/forget-password", async(req,res) =>{
+//     try {
+//         console.log(req);
+//         console.log("ije uwa");
+//     } catch (error) {
+//         console.log(error);
+//     }
+// });
+
+
 // Verify reset token
 router.get(
     '/verify',

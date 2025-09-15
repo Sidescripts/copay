@@ -10,7 +10,7 @@ function EmailTemplate(){
             const mailOptions = {
                 from: process.env.EMAIL_USER,
                 to: email,
-                subject: 'Investment confirmation - VitronTrade',
+                subject: 'Investment confirmation - Vitron-trade',
                 html: `
                 <!DOCTYPE html>
                 <html>
@@ -93,7 +93,7 @@ function EmailTemplate(){
                     </div>
                     
                     <div class="footer">
-                        <p>© ${new Date().getFullYear()} VitronTrade. All rights reserved.</p>
+                        <p>© ${new Date().getFullYear()} Vitron-trade. All rights reserved.</p>
                         <p>Happy investing! 📊</p>
                     </div>
                 

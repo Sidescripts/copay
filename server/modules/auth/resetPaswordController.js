@@ -15,7 +15,6 @@ function PasswordResetController() {
         }
 
         const { email } = req.body;
-
         // Find user by email
         const user = await User.findOne({ where: { email } });
         if (!user) {

@@ -47,7 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
             usdtBal
         } = data;
       // Update Total Balance and Revenue
-      document.querySelector('.card-top h1').textContent = `$${Number(data.walletBalance.toFixed(2))}`;
+      // document.querySelector('.card-top h1').textContent = `$${Number(data.walletBalance.toFixed(2))}`;
+      document.querySelector('.card-top h1').textContent = `$${data.walletBalance}`;
       document.querySelector('.card-bottom h1').textContent = `$${data.totalRevenue.toFixed(2)}`;
   
       // Update Account Summary
@@ -61,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementsByClassName('usdtEqu').textContent = `$${usdtBal.toFixed(2)}`;
 
     
-    
+  
     }
   
     // Initialize dashboard

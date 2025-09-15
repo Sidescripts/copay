@@ -15,7 +15,7 @@ function EmailTemplates() {
                 <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Welcome to VitronoTrade</title>
+                    <title>Welcome to Vitron-trade</title>
                     <style>
                         body {
                             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -111,14 +111,14 @@ function EmailTemplates() {
                 </head>
                 <body>
                     <div class="header">
-                        <h1 class="logo">💎 VitronTrade/h1>
+                        <h1 class="logo">💎 Vitron-trade </h1>
                         <p class="tagline">Trading Made Simple</p>
                     </div>
                     
                     <div class="content">
-                        <h2 class="greeting">Welcome to VitronTrades, ${username}! 👋</h2>
+                        <h2 class="greeting">Welcome to Vitron-trade, ${username}! 👋</h2>
                         
-                        <p>We're thrilled to have you join our community of crypto enthusiasts and businesses. Get ready to experience seamless trading opportunities and investments.</p>
+                        <p>We're thrilled to have you join our community of forex and crypto enthusiasts and businesses. Get ready to experience seamless trading opportunities and investments.</p>
                         
                         <div class="features">
                             <div class="feature-item">
@@ -168,13 +168,13 @@ function EmailTemplates() {
                             <a href="#" class="social-link">Telegram</a> • 
                             <a href="#" class="social-link">Discord</a>
                         </div>
-                        <p>© ${new Date().getFullYear()} VitronTrade. All rights reserved.</p>
+                        <p>© ${new Date().getFullYear()} Vitron-trade. All rights reserved.</p>
                         
                         
-                        <p>You're receiving this email because you created an account on VitronTrade.</p>
+                        <p>You're receiving this email because you created an account on Vitron-trade.</p>
                         
                         <p style="font-size: 12px; color: #a0aec0;">
-                            VitronTrade Technologies Ltd.
+                            Vitron-trade Technologies Ltd.
                         </p>
                     </div>
                 </body>

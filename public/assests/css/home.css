@@ -947,7 +947,7 @@ nav ul li a:hover::after {
 .fullphone-image-v {
   flex: 1;
   min-width: 300px;
-  max-width: 500px;
+  max-width: 400px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0,0,0,0.2);
@@ -960,6 +960,7 @@ nav ul li a:hover::after {
   object-fit: cover; /* prevents stretching */
   border-radius: 20px;
 }
+
 /* unleash-section ends  */
 
 /* Features Section */
@@ -2131,6 +2132,10 @@ footer::before {
     display: none;
   }
 
+  .unleash{
+  padding: 30px 10pX;
+}
+
   .flanking-image.left-side {
     left: 10%;
   }
@@ -2262,9 +2267,15 @@ footer::before {
   .swiper {
     padding: 20px 5px 60px;
   }
+  .swiper-slide {
+  /* height: auto; Allow slide to adjust to content height  */
+    height: 340px   !important;
+}
 
   .testimonial-card {
     padding: 20px;
+    height: 340px   !important;
+
   }
 /* FAQ Section - IMPROVED */
   #faq {

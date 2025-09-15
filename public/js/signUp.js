@@ -12,6 +12,7 @@ function togglePassword(inputId) {
     }
 }
 
+  
 // Function to create and show modal
 function showModal(type, message) {
     // Remove existing modal if any
@@ -158,6 +159,9 @@ async function handleSignup(event) {
     const errors = validateForm(formData);
     
     if (errors.length > 0) {
+                // Always re-enable the button
+        submitButton.disabled = false;
+        submitButton.textContent = 'Sign Up';
         // Show error modal with all validation errors
         showModal('error', errors.join('<br>'));
         return;
@@ -175,6 +179,9 @@ async function handleSignup(event) {
 
         const data = await response.json();
         console.log(data)
+                // Always re-enable the button
+        submitButton.disabled = false;
+        submitButton.textContent = 'Sign Up';
         
         if(response.ok){
             localStorage.setItem('token', data.token);
@@ -192,7 +199,9 @@ async function handleSignup(event) {
             } else if (data.details && Array.isArray(data.details)) {
                 errorMessage = data.details.map(detail => detail.message).join(', ');
             }
-            
+                // Always re-enable the button
+                submitButton.disabled = false;
+                submitButton.textContent = 'Sign Up';
             showModal('error', errorMessage);
 
         }
