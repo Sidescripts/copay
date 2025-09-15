@@ -1,20 +1,43 @@
-<!-- Vitron-dashboard/components/modals.html -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <link rel="stylesheet" href="./modal.css">
+</head>
+<body> -->
+    <!-- Vitron-dashboard/components/modals.html -->
 <!-- Success Modal -->
-<div id="successModal" class="offcanvas offcanvas-modal offcanvas-detached rounded-m" tabindex="-1" aria-modal="true" role="dialog">
-    <div class="content text-center">
-        <i style="font-size:65px;" class="scale-box bi bi-check-circle-fill color-green-dark shadow-s rounded-circle p-0 mt-3 mb-3 d-inline-block"></i>
-        <h1 class="pt-3 font-28">Success</h1>
-        <p class="font-14 mb-0" id="successModalMessage">Operation completed successfully.</p>
-        <a href="#" data-bs-dismiss="offcanvas" class="btn btn-full gradient-green shadow-bg shadow-bg-xs mt-3">Okay</a>
+<div id="successModal" class="modal-wrapper" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="modal-header">
+            <i class="fas fa-check-circle modal-icon success-icon"></i>
+            <h2 class="modal-title">Success</h2>
+        </div>
+        <div class="modal-body">
+            <p id="successModalMessage">Operation completed successfully.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-btn modal-btn-success" onclick="closeModal('successModal')">Okay</button>
+        </div>
     </div>
 </div>
 
 <!-- Error Modal -->
-<div id="errorModal" class="offcanvas offcanvas-modal offcanvas-detached rounded-m" tabindex="-1" aria-modal="true" role="dialog">
-    <div class="content text-center">
-        <i style="font-size:65px;" class="scale-box bi bi-x-circle-fill color-red-dark shadow-s rounded-circle p-0 mt-3 mb-3 d-inline-block"></i>
-        <h1 class="pt-3 font-28">Error</h1>
-        <p class="font-14 mb-0" id="errorModalMessage">An error occurred. Please try again.</p>
-        <a href="#" data-bs-dismiss="offcanvas" class="btn btn-full gradient-red shadow-bg shadow-bg-xs mt-3">Okay</a>
+<div id="errorModal" class="modal-wrapper" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="modal-header">
+            <i class="fas fa-times-circle modal-icon error-icon"></i>
+            <h2 class="modal-title">Error</h2>
+        </div>
+        <div class="modal-body">
+            <p id="errorModalMessage">An error occurred. Please try again.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-btn modal-btn-error" onclick="closeModal('errorModal')">Okay</button>
+        </div>
     </div>
 </div>
+<!-- </body> -->
+<!-- </html> -->

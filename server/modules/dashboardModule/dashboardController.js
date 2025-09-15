@@ -7,7 +7,6 @@ async function getCurrentUser(req, res) {
         attributes: { exclude: [
           'password',
           'fullname',
-          'username',
           'country',
           'state',
           'homeAddress',
@@ -32,6 +31,7 @@ async function getCurrentUser(req, res) {
 
       
       return res.status(200).json({ success:true,
+        username:user.username,
         walletBalance: user.walletBalance || 0,
         totalRevenue: parseFloat(user.totalRevenue || 0),
         totalWithdrawal: parseFloat(user.totalWithdrawal || 0),

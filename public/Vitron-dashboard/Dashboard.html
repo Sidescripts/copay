@@ -15,6 +15,10 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" type="text/css" href="styles/style.css">
+     <!-- #### -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../modal/modal.css">
+    <!-- #### -->
     <link rel="stylesheet" href="../css/dashboard.css">
     <meta id="theme-check" name="theme-color" content="#FFFFFF">
     <title>Dashboard | Vitron-trade </title>
@@ -678,68 +682,73 @@
 
 
             <!-- Withdrawal menu -->
-            <div id="withdraw" style="height:440px;" class="offcanvas offcanvas-bottom">
-                <div class="d-flex mx-3 mt-3 py-1">
-                    <div class="align-self-center">
-                        <h1 class="mb-0">Withdraw Funds</h1>
-                    </div>
-                    <div class="align-self-center ms-auto">
-                        <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
-                            <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
-                        </a>
-                    </div>
-                </div>
+<div id="withdraw" style="height:520px;" class="offcanvas offcanvas-bottom">
+    <div class="d-flex mx-3 mt-3 py-1">
+        <div class="align-self-center">
+            <h1 class="mb-0">Withdraw Funds</h1>
+        </div>
+        <div class="align-self-center ms-auto">
+            <a href="#" class="ps-4 shadow-0 me-n2" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x color-red-dark font-26 line-height-xl"></i>
+            </a>
+        </div>
+    </div>
 
-                <form method="post">
-                    <input type="hidden" name="form_id" value="">
-                    <input type="hidden" name="form_token" value="">
-                    <input type="hidden" name="a" value="withdraw">
-                    <input type="hidden" name="h_id" value="-1">
+    <form method="post">
+        <input type="hidden" name="form_id" value="">
+        <input type="hidden" name="form_token" value="">
+        <input type="hidden" name="a" value="withdraw">
+        <input type="hidden" name="h_id" value="-1">
 
-                    <div class="divider divider-margins mt-3"></div>
-                    <div class="content mt-0">
-                        <div class="form-custom form-label form-icon">
-                            <i class="bi bi-wallet2 font-14"></i>
-                            <select class="form-select rounded-xs c6 color-theme" aria-label="Withdrawal Method" name="type">
-                                <option value="">Bitcoin Wallet</option>
-                                <option value="">Ethereum Wallet</option>
-                                <option value="">USDT Wallet</option>
-                                <option value="">Bitcoin Cash Wallet</option>
-                                <option value="">Litecoin Wallet</option>
-                                <option value="">Dash Wallet</option>
-                                <option value="">BNB Wallet</option>
-                            </select>
-
-                            <label class="form-label-always-active text-warning font-12"
-                                style="margin-top: -7px;">Withdrawal Method</label>
-                        </div>
-                        <div class="pb-3"></div>
-
-                        <div class="form-custom form-label form-icon">
-                            <i class="bi bi-currency-dollar"></i>
-                            <!-- <input type="number" class="form-control rounded-xs" id="c5" value="" name="amount" /> -->
-                            <input type="number" class="form-control rounded-xs" id="amount" placeholder="Enter amount">
-                            <label class="form-label-always-active text-warning font-12"
-                                style="margin-top: -7px;">Amount ($)</label>
-                            <span class="font-10"></span>
-                        </div>
-
-                        <div class="pb-2"></div>
-                        <div class="form-check form-check-custom">
-                            <input class="form-check-input" type="checkbox" name="" value="" id="c23">
-                            <label class="form-check-label" for="c23">
-                                I accept the Withdrawal <a href="./html/terms.html">Terms of Service</a>
-                            </label>
-                            <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
-                            <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-warning mx-3" onclick="validateBeforeRedirect()">
-                        Continue
-                    </button>
-
-                </form>
+        <div class="divider divider-margins mt-2"></div>
+        <div class="content mt-0" style="padding-bottom: 20px;">
+            <div class="form-custom form-label form-icon mb-3">
+                <i class="bi bi-wallet2 font-14"></i>
+                <select class="form-select rounded-xs c6 color-theme" aria-label="Withdrawal Method" name="type">
+                    <option value="BTC">Bitcoin Wallet</option>
+                    <option value="ETH">Ethereum Wallet</option>
+                    <option value="USDT">USDT Wallet</option>
+                    <option value="BCH">Bitcoin Cash Wallet</option>
+                    <option value="LTC">Litecoin Wallet</option>
+                    <option value="DASH">Dash Wallet</option>
+                    <option value="BNB">BNB Wallet</option>
+                    
+                </select>
+                <label class="form-label-always-active text-warning font-12" style="margin-top: -7px;">Withdrawal Method</label>
             </div>
+
+            <div class="form-custom form-label form-icon mb-3">
+                <i class="bi bi-currency-dollar"></i>
+                <input type="number" class="form-control rounded-xs" id="amount" placeholder="Enter amount">
+                <label class="form-label-always-active text-warning font-12" style="margin-top: -7px;">Amount ($)</label>
+                <span class="font-10"></span>
+            </div>
+
+            <div class="form-custom form-label form-icon mb-3">
+                <i class="bi bi-wallet"></i>
+                <input type="text" class="form-control rounded-xs" id="walletAddress" placeholder="Enter wallet address">
+                <label class="form-label-always-active text-warning font-12" style="margin-top: -7px;">Wallet Address</label>
+                <span class="font-10"></span>
+            </div>
+
+            <div class="form-check form-check-custom mb-4">
+                <input class="form-check-input" type="checkbox" name="" value="" id="c23">
+                <label class="form-check-label" for="c23">
+                    I accept the Withdrawal <a href="./html/terms.html">Terms of Service</a>
+                </label>
+                <i class="is-checked color-yellow-dark font-14 bi bi-check-circle-fill"></i>
+                <i class="is-unchecked color-yellow-dark font-14 bi bi-circle"></i>
+            </div>
+
+            <!-- Button container with proper spacing -->
+            <div class="text-center mt-3">
+                <button type="button" class="btn btn-warning btn-lg w-100" style="padding: 12px; font-size: 16px; font-weight: 600;" onclick="validateBeforeRedirect()">
+                    Continue
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
 
 
             <!-- trasnfer funds to user-->
@@ -878,5 +887,6 @@
            <script src="../modal/modal.js"></script>
             <script src="../js/mainAuth.js"></script>
         <script src="../js/dashboard.js"></script>
+        <script src="../js/withdrawal.js"></script>
 </body>
 </html>

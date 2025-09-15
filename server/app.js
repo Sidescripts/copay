@@ -3,7 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const { Sequelize } = require('sequelize');
+const cors = require("cors");
 const {startROICron} = require("./modules/invest/cronjobInvestment");
 const {sequelize,connectDB} = require("./config/db");
 const errorHandler = require("./errors/errorHandler");
@@ -19,8 +19,63 @@ const app = express();
 
 
 // config
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "https://cdn.jsdelivr.net",
+          "https://cdnjs.cloudflare.com",
+          "https://www.smartsuppchat.com",
+          "https://*.smartsuppcdn.com",
+          "'unsafe-inline'"
+        ],
+        scriptSrcAttr: ["'unsafe-inline'"],
+        styleSrc: [
+          "'self'",
+          "https://cdn.jsdelivr.net",
+          "https://cdnjs.cloudflare.com",
+          "https://*.smartsuppcdn.com",
+          "https://fonts.googleapis.com",
+          "'unsafe-inline'"
+        ],
+        fontSrc: [
+          "'self'",
+          "https://cdnjs.cloudflare.com",
+          "https://*.smartsuppcdn.com",
+          "https://fonts.gstatic.com"
+        ],
+        imgSrc: [
+          "'self'",
+          "data:",
+          "https://*.smartsupp.com",
+          "https://*.smartsuppcdn.com",
+          "https://app.ciqpay.com",
+          "https://cdn.pixabay.com"
+        ],
+        mediaSrc: ["https://*.smartsuppcdn.com"],
+        connectSrc: [
+          "'self'",
+          "https://bootstrap.smartsuppchat.com",
+          "https://*.smartsupp.com",
+          "https://*.smartsuppchat.com",
+          "https://*.smartsuppcdn.com",
+          "wss://*.smartsupp.com",
+          "https://api.coingecko.com"
+        ],
+        frameSrc: [
+          "https://*.smartsupp.com",
+          "https://*.smartsuppcdn.com"
+        ],
+        mediaSrc: ["https://*.smartsuppcdn.com"] // For video/audio in chat
+      },
+    },
+  })
+);
 app.use(express.json());
+app.use(cors());
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(morgan('combined'));
 app.use(bodyParser.json());

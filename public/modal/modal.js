@@ -13,31 +13,55 @@ async function loadModals() {
     }
   }
   
-  // Function to show success modal with a custom message
-  function showSuccessModal(message) {
-    const modalElement = document.getElementById('successModal');
-    const messageElement = document.getElementById('successModalMessage');
-    if (modalElement && messageElement) {
+  // Function to show a modal
+  function showModal(modalId, message) {
+    const modal = document.getElementById(modalId);
+    const messageElement = document.getElementById(`${modalId}Message`);
+    if (modal && messageElement) {
       messageElement.textContent = message || 'Operation completed successfully.';
-      const modal = new bootstrap.Offcanvas(modalElement);
-      modal.show();
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden'; // Prevent scrolling
     } else {
-      console.error('Success modal not found. Ensure modals are loaded.');
+      console.error(`${modalId} not found. Ensure modals are loaded.`);
     }
   }
   
-  // Function to show error modal with a custom message
-  function showErrorModal(message) {
-    const modalElement = document.getElementById('errorModal');
-    const messageElement = document.getElementById('errorModalMessage');
-    if (modalElement && messageElement) {
-      messageElement.textContent = message || 'An error occurred. Please try again.';
-      const modal = new bootstrap.Offcanvas(modalElement);
-      modal.show();
-    } else {
-      console.error('Error modal not found. Ensure modals are loaded.');
+  // Function to close a modal
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = ''; // Restore scrolling
     }
   }
+  
+  // Function to show success modal
+  function showSuccessModal(message) {
+    showModal('successModal', message);
+  }
+  
+  // Function to show error modal
+  function showErrorModal(message) {
+    showModal('errorModal', message || 'An error occurred. Please try again.');
+  }
+  
+  // Add event listener to close modals on overlay click
+  document.addEventListener('click', (event) => {
+    if (event.target.classList.contains('modal-wrapper')) {
+      closeModal('successModal');
+      closeModal('errorModal');
+    }
+  });
+  
+  // Add event listener for ESC key to close modals
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeModal('successModal');
+      closeModal('errorModal');
+    }
+  });
   
   // Load modals when the script runs
   loadModals();

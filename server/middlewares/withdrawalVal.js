@@ -1,25 +1,10 @@
 const { body, param } = require('express-validator');
 
 const createWithdrawalValidation = [
-    body('amount')
-        .isDecimal({ decimal_digits: '0,8' })
-        .custom((value) => {
-            if (parseFloat(value) < 1000) {
-                throw new Error('Amount must be at least 1000.00');
-            }
-            return true;
-        }),
-    body('withdrawalMethod')
-        .isIn(['BTC', 'ETH', 'USDT', 'LTC', 'BCH', 'BNB', 'DOGE', 'DASH'])
-        .withMessage('Invalid withdrawal method'),
-    body('walletAddress')
-        .notEmpty()
-        .withMessage('Wallet address is required')
-        .isString()
-        .withMessage('Wallet address must be a string'),
-    body('userId')
-        .isUUID()
-        .withMessage('Invalid user ID'),
+    // body('userId').notEmpty().withMessage('User ID is required'),
+    body('amount').isFloat({ min: 0 }).withMessage('Amount must be a positive number'),
+    body('withdrawalMethod').notEmpty().withMessage('Withdrawal method is required'),
+    body('walletAddress').notEmpty().withMessage('Wallet address is required')
 ];
 
 const userWithdrawalsValidation = [

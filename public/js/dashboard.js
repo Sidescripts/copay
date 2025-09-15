@@ -17,9 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
   
+        
         if (!response.ok) {
-            showErrorModal("Failed to fetch dashboard data")
-        //   throw new Error('Failed to fetch dashboard data');
+          showErrorModal("Failed to fetch dashboard data")
+          //   throw new Error('Failed to fetch dashboard data');
         }
   
         const data = await response.json();
