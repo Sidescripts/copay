@@ -2,22 +2,30 @@ const { Withdrawal, sequelize, User } = require('../../model');
 const { handleValidationErrors, sendErrorResponse,generateTransactionId } = require('../../utils/commonUtils');
 const { v4: uuidv4 } = require('uuid');
 const EmailTemplate = require("./withdrawalEmail");
+const { Op, } = require('sequelize');
+const { validationResult } = require('express-validator');
 
 const userWithdrawalController = {
     // Create a new withdrawal
     createWithdrawal: async (req, res) => {
         // Start transaction early to maintain data consistency
-        const transaction = await sequelize.transaction();
+        // const transaction = await sequelize.transaction();
         
         try {
-            // Input validation
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
+            }
+
+            // // Input validation
             const validationError = handleValidationErrors(req);
             if (validationError) {
-                await transaction.rollback();
+                
                 return validationError;
             }
     
-            const { amount, withdrawalMethod, walletAddress, userId } = req.body;
+            const { amount, withdrawalMethod, walletAddress } = req.body;
+            const userId = req.user.id;
             
             // Verify all required fields are present
             const missingFields = [];
@@ -27,7 +35,7 @@ const userWithdrawalController = {
             if (!userId) missingFields.push('userId');
             
             if (missingFields.length > 0) {
-                await transaction.rollback();
+                // await transaction.rollback();
                 return res.status(400).json({
                     success: false,
                     error: `Missing required fields: ${missingFields.join(', ')}`
@@ -35,8 +43,8 @@ const userWithdrawalController = {
             }
     
             // Security check: ensure authenticated user matches requested userId
-            if (req.user.id !== userId) {
-                await transaction.rollback();
+            if (!req.user || !req.user.id) {
+                // await transaction.rollback();
                 return res.status(403).json({
                     success: false,
                     error: "Unauthorized: Cannot create withdrawal for another user"
@@ -45,12 +53,11 @@ const userWithdrawalController = {
     
             // Retrieve user with necessary attributes
             const user = await User.findByPk(userId, {
-                attributes: ['id', 'walletBalance', 'totalRevenue', 'isVerified', 'email'],
-                transaction
+                attributes: ['id', 'walletBalance', 'totalRevenue', 'isVerified', 'email']
             });
     
             if (!user) {
-                await transaction.rollback();
+                // await transaction.rollback();
                 return res.status(404).json({
                     success: false,
                     error: "User not found"
@@ -61,15 +68,18 @@ const userWithdrawalController = {
     
             // Business rule validation
             if (amount < 2000) {
-                await transaction.rollback();
+                // await transaction.rollback();
+                console.log("type shit amount")
                 return res.status(400).json({
                     success: false,
+                    
                     error: "Minimum withdrawal is $2,000"
                 });
             }
             
             if (amount > walletBalance) {
-                await transaction.rollback();
+                // await transaction.rollback();
+                console.log("type shit balance")
                 return res.status(400).json({
                     success: false,
                     error: "Insufficient wallet balance"
@@ -77,7 +87,7 @@ const userWithdrawalController = {
             }
     
             if (!isVerified) {
-                await transaction.rollback();
+                // await transaction.rollback();
                 return res.status(400).json({
                     success: false,
                     error: "Withdrawal cannot be processed now. Please contact support to verify your account"
@@ -85,24 +95,28 @@ const userWithdrawalController = {
             }
     
             if (totalRevenue < 3000) {
-                await transaction.rollback();
+                // await transaction.rollback();
                 return res.status(400).json({
                     success: false,
                     error: "Total revenue should be more than $3,000 before your withdrawal can be processed"
                 });
             }
-    
+            const now = new Date();
+            const timestamp = now.toISOString().replace(/[-:T.]/g, '').slice(0, 14); // YYYYMMDDHHMMSS
+            const random = Math.floor(10000 + Math.random() * 90000); // 5-digit random    
+            console.log(`txn_${timestamp}${random}`)
+            
             // Create withdrawal record
             const withdrawal = await Withdrawal.create({
                 id: uuidv4(),
                 amount,
                 withdrawalMethod,
                 walletAddress,
-                transaction_id: generateTransactionId(),
+                transaction_id: `txn_${timestamp}${random}`,
                 userId,
                 status: 'pending',
                 createdAt: new Date(),
-            }, { transaction });
+            });
     
             // Update user wallet balance
             await User.update(
@@ -110,7 +124,7 @@ const userWithdrawalController = {
                     walletBalance: walletBalance - amount, 
                     totalWithdrawal: (totalWithdrawal || 0) + amount
                 },
-                { where: { id: userId }, transaction }
+                { where: { id: userId } }
             );
 
            
@@ -130,16 +144,15 @@ const userWithdrawalController = {
             }
     
             // Commit transaction
-            await transaction.commit();
-            
+            // await transaction.commit();
+            console.log(withdrawal)
             return res.status(201).json({
                 success: true,
                 message: 'Withdrawal created successfully',
-                data: withdrawal,
+                withdrawal
             });
         } catch (error) {
-            // Always rollback on error
-            await transaction.rollback();
+            
             
             // Log the error for debugging
             console.error("Withdrawal creation error:", error);

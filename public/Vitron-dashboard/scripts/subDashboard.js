@@ -135,39 +135,3 @@
 
                 // ---------------Withdraw modal triggers ----------------------
 
-function validateBeforeRedirect() {
-    let amountField = document.getElementById("amount"); 
-    let amountValue = amountField.value.trim();
-    let amount = parseFloat(amountValue);
-    let balance = 500; // replace with real balance (from server or localStorage)
-
-    // ✅ Validation checks
-    if (!amountValue) {
-        showModal("error3"); // empty field
-        return;
-    }
-
-    if (isNaN(amount)) {
-        showModal("error2"); // not a number
-        return;
-    }
-
-    if (amount <= 0) {
-        showModal("error2"); // negative or zero
-        return;
-    }
-
-    if (amount > balance) {
-        showModal("error1"); // exceeds balance
-        return;
-    }
-
-    // ✅ all good → redirect
-    window.location.href = "./html/confirmation.html";
-}
-
-function showModal(id) {
-    let modalElement = document.getElementById(id);
-    let modal = new bootstrap.Offcanvas(modalElement);
-    modal.show();
-}

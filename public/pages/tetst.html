@@ -220,7 +220,7 @@
                     <table class="table color-theme mb-4">
                         <tr>
                             <th class="color-theme" style="white-space: nowrap;">Withdrawal Amount:</th>
-                            <td class="color-theme" id="withdrawalAmount">$0.00</td>
+                            <td class="color-theme" id="withdrawalAmount">$500.00</td>
                         </tr>
                         <tr>
                             <th class="color-theme" style="white-space: nowrap;">Processing Fee:</th>
@@ -228,17 +228,21 @@
                         </tr>
                         <tr>
                             <th class="color-theme" style="white-space: nowrap;">Net Amount:</th>
-                            <td class="color-theme" id="netAmount">$0.00</td>
+                            <td class="color-theme" id="netAmount">$495.00</td>
                         </tr>
                         <tr>
                             <th class="color-theme" style="white-space: nowrap;">Payment Method:</th>
                             <td class="color-theme" id="selectedMethod">BTC</td>
                         </tr>
-                        <tr>
-                            <th class="color-theme" style="white-space: nowrap;">wallet Address</th>
-                            <td class="color-theme" id="walletAddress">xxxxx</td>
-                        </tr>
                     </table>
+
+
+                    <div class="mb-4">
+                        <label class="form-label color-theme">Wallet Address</label>
+                        <input type="text" id="walletAddressInput" class="wallet-input color-theme" 
+                               placeholder="Enter your wallet address">
+                        <small class="color-theme">Make sure to enter the correct address.</small>
+                    </div>
 
                     <div class="mb-4 p-3 color-theme rounded" style="background-color: rgba(255, 179, 26, 0.37); box-shadow: 0 8px 25px rgba(0,0,0,0.25);">
                         <h6 class="color-theme">Important Notice</h6>
@@ -247,7 +251,7 @@
 
                     <!-- Confirm Withdrawal Button -->
                     <div class="text-center mt-3">
-                        <button class="btn btn btn-warning px-4 py-3 mb-3 w-100" id="confirmWithdrawalBtn">
+                        <button class="btn btn btn-warning px-4 py-3 mb-3 w-100" onclick="confirmWithdrawal()">
                             Confirm Withdrawal
                         </button>
                     </div>
@@ -286,52 +290,26 @@
                 </div>
             </div>
         </div>
-        <script src="../scripts/bootstrap.min.js"></script>
-        <script src="../scripts/custom.js"></script>
-        <script src="../../js/mainAuth.js"></script>
-        <script src="../../js/withdrawal.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function(){
-            const withdrawalData = JSON.parse(localStorage.getItem('pendingWithdrawal'));
-        
-            if (!withdrawalData) {
-                // Redirect back if no data
-                window.location.href = '../dashboard.html';
-                return;
-            }
-            displayWithdrawalDetails(withdrawalData);
-            document.getElementById('confirmWithdrawalBtn').addEventListener('click', function() {
-                 processWithdrawal(withdrawalData);
-            });
-        });
 
-        function displayWithdrawalDetails(data) {
-            document.getElementById('selectedMethod').textContent = data.displayMethod;
-            document.getElementById('withdrawalAmount').textContent = `$${data.amount.toFixed(2)}`;
-            document.getElementById('netAmount').textContent = `$${data.amount.toFixed(2)}`;
-            document.getElementById('walletAddress').textContent = data.walletAddress;
-            // document.getElementById('confirmationDate').textContent = new Date(data.timestamp).toLocaleString();
-        }
+  <script>
+      function confirmWithdrawal() {
+        const modalElement = document.getElementById("withdrawalModal");
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
 
-        async function processWithdrawal(formData){
-          const submitBtn = document.getElementById('confirmWithdrawalBtn')           
-          submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
+        setTimeout(() => {
+          const label = document.getElementById("withdrawalModalLabel");
+          label.innerText = "Withdrawal Under Review";
+          label.style.color = "goldenrod"; 
+        }, 3000);
 
-            try {
-                const result = await submitWithdrawal(formData);
-                // Clear stored data
-                localStorage.removeItem('pendingWithdrawal');
-            } catch (error) {
-                console.log(error)
-                // Re-enable buttons
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Confirm Withdrawal';
-            }
-        }
+        // Redirect to dashboard.html after modal is closed
+        modalElement.addEventListener("hidden.bs.modal", () => {
+          window.location.href = "../Dashboard.html";
+        }, { once: true }); 
+}
 
-    
-    </script>
+</script>
 
 <script>
     // Define the pwaName variable that matches your main JS file
@@ -370,10 +348,8 @@
         });
     });
 </script>
-    <!-- <script src="../scripts/bootstrap.min.js"></script>
+   <script src="../scripts/bootstrap.min.js"></script>
     <script src="../scripts/custom.js"></script>
-    <script src="../../js/mainAuth.js"></script>
-    <script src="../../js/withdrawal.js"></script> -->
 </body>
 
 </html>

@@ -1,28 +1,123 @@
-/* Modal Styles */
-.offcanvas-modal {
-    width: 320px; /* Match your existing modal width */
+/* Vitron-dashboard/css/modals.css */
+.modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Dark semi-transparent overlay */
+    display: none;
+    justify-content: center;
+    align-items: center; /* Center on mobile */
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
 }
 
-.gradient-green {
-    background: linear-gradient(to right, #28a745, #34c759); /* Adjust to your theme */
+.modal-wrapper.active {
+    display: flex;
+    opacity: 1;
 }
 
-.gradient-red {
-    background: linear-gradient(to right, #dc3545, #ff6b6b); /* Adjust to your theme */
+.modal-content {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    text-align: center;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
 }
 
-.color-green-dark {
-    color: #28a745; /* Adjust to your theme */
+.modal-wrapper.active .modal-content {
+    transform: translateY(0);
+    opacity: 1;
 }
 
-.color-red-dark {
-    color: #dc3545; /* Adjust to your theme */
+.modal-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10px;
 }
 
-.shadow-bg {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adjust to your theme */
+.modal-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
 }
 
-.shadow-s {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adjust to your theme */
+.success-icon {
+    color: #28a745; /* Green for success */
+}
+
+.error-icon {
+    color: #dc3545; /* Red for error */
+}
+
+.modal-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #222;
+    margin: 0;
+}
+
+.modal-body {
+    padding: 10px 0;
+}
+
+.modal-body p {
+    font-size: 16px;
+    color: #444;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.modal-footer {
+    padding-top: 10px;
+}
+
+.modal-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.modal-btn:hover {
+    transform: translateY(-2px);
+}
+
+.modal-btn-success {
+    background: linear-gradient(135deg, #28a745, #34c759);
+    color: #fff;
+}
+
+.modal-btn-success:hover {
+    background: linear-gradient(135deg, #218838, #2cb44a);
+}
+
+.modal-btn-error {
+    background: linear-gradient(135deg, #dc3545, #ff6b6b);
+    color: #fff;
+}
+
+.modal-btn-error:hover {
+    background: linear-gradient(135deg, #c82333, #e44d5a);
+}
+
+/* Responsive: Top-aligned on larger screens */
+@media (min-width: 768px) {
+    .modal-wrapper {
+        align-items: flex-start;
+        padding-top: 60px; /* Space from top */
+    }
+    .modal-content {
+        max-width: 450px;
+    }
 }
