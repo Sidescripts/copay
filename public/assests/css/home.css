@@ -712,9 +712,7 @@ nav ul li a:hover::after {
 }
 
 /* -------------unleash-section------------------ */
-.unleash{
-  padding: 30px 20pX;
-}
+
 .words-gen {
   display: flex;
   justify-content: center;
@@ -2133,6 +2131,10 @@ footer::before {
   .desktop-auth {
     display: none;
   }
+
+  .unleash{
+  padding: 30px 10pX;
+}
 
   .flanking-image.left-side {
     left: 10%;

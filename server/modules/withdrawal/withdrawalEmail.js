@@ -9,7 +9,7 @@ function EmailTemplate(){
             const mailOptions = {
                 from: process.env.EMAIL_USER,
                 to: email,
-                subject: 'Withdrawal transaction - VitronTrade',
+                subject: 'Withdrawal transaction - Vitron-trade',
                 html: `
                 <!DOCTYPE html>
                 <html>
@@ -78,9 +78,9 @@ function EmailTemplate(){
                     </div>
                     
                     <div class="footer">
-                        <p>© ${new Date().getFullYear()} VitronTrade. All rights reserved.</p>
+                        <p>© ${new Date().getFullYear()} Vitron-trade. All rights reserved.</p>
                         
-                        <p>Security Team • support@VitronTrade.com</p>
+                        <p>Security Team • support@Vitron-trade.com</p>
                     </div>
                 </body>
                 </html>

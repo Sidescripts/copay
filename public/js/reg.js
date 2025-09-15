@@ -1,233 +1,200 @@
-// Function to toggle password visibility
-function togglePassword(inputId) {
-    const passwordInput = document.getElementById(inputId);
-    const toggleIcon = passwordInput.parentNode.querySelector('.password-toggle i');
-    
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
-    } else {
-        passwordInput.type = 'password';
-        toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
-    }
-}
-
-// Function to create and show modal
-function showModal(type, message) {
-    // Remove existing modal if any
-    const existingModal = document.getElementById('custom-modal');
-    const existingBackdrop = document.querySelector('.modal-backdrop');
-    
-    if (existingModal) {
-        existingModal.remove();
-    }
-    if (existingBackdrop) {
-        existingBackdrop.remove();
-    }
-    
-    // Create modal elements
-    const modalBackdrop = document.createElement('div');
-    modalBackdrop.className = 'modal-backdrop fade show';
-    
-    const modal = document.createElement('div');
-    modal.className = 'modal fade show';
-    modal.style.display = 'block';
-    modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
-    modal.style.color = 'black';
-    modal.style.textAlign = 'center';
-    modal.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
-    modal.style.borderRadius = '12px';
-    modal.id = 'custom-modal';
-    
-    modal.innerHTML = `
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header ${type === 'error' ? 'bg-danger' : 'bg-success'} text-white">
-                    <h5 class="modal-title">${type === 'error' ? 'Error' : 'Success'}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>${message}</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn ${type === 'error' ? 'btn-danger' : 'btn-success'}" id="modal-ok-button">OK</button>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Add to document
-    document.body.appendChild(modalBackdrop);
-    document.body.appendChild(modal);
-    
-    // Add event listener to OK button
-    const okButton = document.getElementById('modal-ok-button');
-    okButton.addEventListener('click', function() {
-        if (type === 'success') {
-            // Redirect to dashboard on success
-            window.location.href = '../Vitron-dashboard/dashboard.html';
-        } else {
-            // Just close the modal on error
-            modalBackdrop.remove();
-            modal.remove();
-        }
-    });
-    
-    // Close modal when clicking close button
-    const closeButton = modal.querySelector('.btn-close');
-    closeButton.addEventListener('click', function() {
-        modalBackdrop.remove();
-        modal.remove();
-    });
-    
-    // Close modal when clicking outside
-    modalBackdrop.addEventListener('click', function() {
-        modalBackdrop.remove();
-        modal.remove();
-    });
-}
-
-// Form validation function
-function validateForm(formData) {
-    const errors = [];
-    
-    if(!formData){
-        errors.push('All field(s) are required');
-    }
-
-    // Username validation
-    if (!formData.username.trim()) {
-        errors.push('Username is required');
-    } else if (formData.username.length < 3) {
-        errors.push('Username must be at least 3 characters long');
-    }
-    
-    // Full name validation
-    if (!formData.fullname.trim()) {
-        errors.push('Full name is required');
-    }
-    
-    // Country validation
-    if (!formData.country.trim()) {
-        errors.push('Country is required');
-    }
-    
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email.trim()) {
-        errors.push('Email is required');
-    } else if (!emailRegex.test(formData.email)) {
-        errors.push('Please enter a valid email address');
-    }
-    
-    // Password validation
-    if (!formData.password) {
-        errors.push('Password is required');
-    } else if (formData.password.length < 6) {
-        errors.push('Password must be at least 6 characters long');
-    }
-    
-    // Confirm password validation
-    if (formData.password !== formData.confirmPassword) {
-        errors.push('Passwords do not match');
-    }
-    
-    return errors;
-}
-const submitButton = document.getElementById('submitButton');
-
-// Function to handle form submission
-async function handleSignup(event) {
-    event.preventDefault();
-    
-    // Get form data
-    const formData = {
-        username: document.getElementById('username-input').value,
-        fullname: document.getElementById('fullname-input').value,
-        country: document.getElementById('country-input').value,
-        email: document.getElementById('email-input').value,
-        password: document.getElementById('password-input').value,
-        confirmPassword: document.getElementById('confirm-password-input').value
-    };
-    
-    
-    submitButton.disabled = true;
-    submitButton.textContent = 'Processing...';
-    
-    // Validate form
-    const errors = validateForm(formData);
-    
-    if (errors.length > 0) {
-        // Show error modal with all validation errors
-        showModal('error', errors.join('<br>'));
-        return;
-    }
-    
-    try {
+       // API configuration
+        const API_BASE_URL = 'https://api.coingecko.com/api/v3';
+        const CRYPTO_IDS = ['bitcoin', 'ethereum', 'binancecoin', 'ripple', 'cardano', 'solana', 'polkadot'];
+        const CURRENCY = 'usd';
         
-        const response = await fetch('/api/v1/auth/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        });
-
-        const data = await response.json();
-        console.log(data)
+        // DOM elements
+        const amountInput = document.getElementById('amount');
+        const cryptoSelect = document.getElementById('crypto');
+        const resultElement = document.getElementById('result');
+        const exchangeRateElement = document.getElementById('exchange-rate');
+        const lastUpdatedElement = document.getElementById('last-updated');
+        const marketDataElement = document.getElementById('market-data');
+        const historyBodyElement = document.getElementById('history-body');
         
-        if(response.ok){
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('email', data.user.email);
-            // console.log('Token received:', data.token);
-            showModal('success', 'Account created successfully! Redirecting to dashboard...');
-        }else{
-            // Enhanced error handling
-            let errorMessage = 'Network error. Please try again later.';
+        // State
+        let exchangeRates = {};
+        let conversionHistory = [];
+        
+        // Initialize the application
+        async function init() {
+            await fetchExchangeRates();
+            await fetchMarketData();
+            updateConversion();
             
-            if (data.error) {
-                errorMessage = data.error;
-            } else if (data.message) {
-                errorMessage = data.message;
-            } else if (data.details && Array.isArray(data.details)) {
-                errorMessage = data.details.map(detail => detail.message).join(', ');
+            // Set up event listeners
+            amountInput.addEventListener('input', updateConversion);
+            cryptoSelect.addEventListener('change', updateConversion);
+            
+            // Set up periodic updates
+            setInterval(fetchExchangeRates, 60000); // Update every minute
+            setInterval(fetchMarketData, 120000); // Update market data every 2 minutes
+        }
+        
+        // Fetch exchange rates from CoinGecko API
+        async function fetchExchangeRates() {
+            try {
+                const response = await fetch(
+                    `${API_BASE_URL}/simple/price?ids=${CRYPTO_IDS.join(',')}&vs_currencies=${CURRENCY}&include_last_updated_at=true`
+                );
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch exchange rates');
+                }
+                
+                const data = await response.json();
+                
+                // Process the data
+                for (const [cryptoId, cryptoData] of Object.entries(data)) {
+                    exchangeRates[cryptoId] = {
+                        price: cryptoData[CURRENCY],
+                        lastUpdated: cryptoData.last_updated_at
+                    };
+                }
+                
+                // Update the UI
+                updateConversion();
+                updateLastUpdatedTime();
+                
+            } catch (error) {
+                console.error('Error fetching exchange rates:', error);
+                resultElement.innerHTML = '<span style="color: #f87171;">Error fetching data. Please try again later.</span>';
+            }
+        }
+        
+        // Fetch market data for top cryptocurrencies
+        async function fetchMarketData() {
+            try {
+                const response = await fetch(
+                    `${API_BASE_URL}/coins/markets?vs_currency=${CURRENCY}&ids=${CRYPTO_IDS.join(',')}&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=24h`
+                );
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch market data');
+                }
+                
+                const data = await response.json();
+                renderMarketData(data);
+                
+            } catch (error) {
+                console.error('Error fetching market data:', error);
+                marketDataElement.innerHTML = '<p style="color: #f87171; text-align: center;">Error loading market data</p>';
+            }
+        }
+        
+        // Render market data to the UI
+        function renderMarketData(data) {
+            marketDataElement.innerHTML = data.map(crypto => {
+                const changeClass = crypto.price_change_percentage_24h >= 0 ? 'positive' : 'negative';
+                const changeIcon = crypto.price_change_percentage_24h >= 0 ? '▲' : '▼';
+                
+                return `
+                    <div class="crypto-card">
+                        <div class="crypto-icon" style="background: rgba(247, 147, 26, 0.2); color: #f7931a;">
+                            <img src="${crypto.image}" alt="${crypto.name}" width="30" height="30">
+                        </div>
+                        <div class="crypto-info">
+                            <div class="crypto-name">${crypto.name}</div>
+                            <div class="crypto-price">$${formatNumber(crypto.current_price)}</div>
+                        </div>
+                        <div class="crypto-change ${changeClass}">
+                            ${changeIcon} ${Math.abs(crypto.price_change_percentage_24h).toFixed(2)}%
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Update conversion result
+        function updateConversion() {
+            const amount = parseFloat(amountInput.value);
+            const cryptoId = cryptoSelect.value;
+            
+            if (isNaN(amount) || amount <= 0) {
+                resultElement.textContent = 'Please enter a valid amount';
+                return;
             }
             
-            showModal('error', errorMessage);
-
-        }
-        
-    } catch (error) {
-        console.error('Signup error:', error);
-        showModal('error', 'Network error. Please check your connection and try again.');
-    } finally {
-        // Always re-enable the button
-        submitButton.disabled = false;
-        submitButton.textContent = 'Sign Up';
-    }
-}
-
-// Add event listener when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    const signupForm = document.getElementById('signup-form');
-    if (signupForm) {
-        signupForm.addEventListener('submit', handleSignup);
-    }
-    
-    // Add input event listeners for real-time validation styling
-    const inputs = document.querySelectorAll('input');
-    inputs.forEach(input => {
-        input.addEventListener('blur', function() {
-            if (this.value.trim() !== '') {
-                this.classList.add('has-value');
+            if (!exchangeRates[cryptoId]) {
+                resultElement.innerHTML = '<span class="loader"></span> Loading...';
+                return;
+            }
+            
+            const rate = exchangeRates[cryptoId].price;
+            const result = amount / rate;
+            
+            // Format the result based on the cryptocurrency
+            let formattedResult;
+            if (cryptoId === 'bitcoin') {
+                formattedResult = result.toFixed(6) + ' BTC';
+            } else if (cryptoId === 'ethereum') {
+                formattedResult = result.toFixed(4) + ' ETH';
+            } else if (cryptoId === 'ripple' || cryptoId === 'cardano') {
+                formattedResult = result.toFixed(2) + ' ' + cryptoId.toUpperCase();
             } else {
-                this.classList.remove('has-value');
+                formattedResult = result.toFixed(3) + ' ' + cryptoId.toUpperCase();
             }
-        });
-        
-        // Initialize has-value class for pre-filled inputs
-        if (input.value.trim() !== '') {
-            input.classList.add('has-value');
+            
+            resultElement.textContent = formattedResult;
+            
+            // Update the exchange rate display
+            exchangeRateElement.textContent = 
+                `Exchange Rate: 1 ${cryptoSelect.options[cryptoSelect.selectedIndex].text} = $${formatNumber(rate)}`;
+                
+            // Add to history
+            addToHistory(amount, cryptoId, formattedResult);
         }
-    });
-});
+        
+        // Update last updated time
+        function updateLastUpdatedTime() {
+            const cryptoId = cryptoSelect.value;
+            if (exchangeRates[cryptoId]) {
+                const timestamp = exchangeRates[cryptoId].lastUpdated;
+                const date = new Date(timestamp * 1000);
+                lastUpdatedElement.textContent = `Last updated: ${date.toLocaleTimeString()}`;
+            }
+        }
+   
+        // Add conversion to history
+        function addToHistory(amount, cryptoId, result) {
+            // Get the cryptocurrency name
+            const cryptoName = cryptoSelect.options[cryptoSelect.selectedIndex].text;
+            
+            // Add to history array
+            conversionHistory.unshift({
+                from: 'USDT',
+                to: cryptoName,
+                amount: amount,
+                result: result,
+                time: new Date().toLocaleTimeString()
+            });
+            
+            // Keep only the last 5 conversions
+            if (conversionHistory.length > 5) {
+                conversionHistory.pop();
+            }
+            
+            // Update history table
+            renderConversionHistory();
+        }
+        
+        // Render conversion history
+        function renderConversionHistory() {
+            historyBodyElement.innerHTML = conversionHistory.map(conversion => `
+                <tr>
+                    <td>${conversion.amount} ${conversion.from}</td>
+                    <td>${conversion.to}</td>
+                    <td>${conversion.result}</td>
+                    <td>$${formatNumber(conversion.amount)}</td>
+                    <td>${conversion.time}</td>
+                </tr>
+            `).join('');
+        }
+        
+        // Helper function to format numbers with commas
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        
+        // Initialize the application
+        init();

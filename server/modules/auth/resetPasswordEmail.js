@@ -7,7 +7,7 @@ function EmailService() {
         const mailOptions = {
           from: process.env.EMAIL_USER,
           to: email,
-          subject: 'Password Reset Request - VitronTrade',
+          subject: 'Password Reset Request - Vitron-trade',
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               <h2>Password Reset Request</h2>
@@ -19,7 +19,7 @@ function EmailService() {
               <p>This link will expire in 1 hour.</p>
               <p>If you didn't request this, please ignore this email.</p>
               <hr>
-              <p>© ${new Date().getFullYear()} VitronTrade. All rights reserved.</p>
+              <p>© ${new Date().getFullYear()} Vitron-trade. All rights reserved.</p>
             </div>
           `
         };

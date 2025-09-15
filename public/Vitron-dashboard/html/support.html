@@ -416,7 +416,7 @@
     }, 1000);
 
     // Initialize EmailJS
-    emailjs.init("YOUR_PUBLIC_KEY"); // replace with your EmailJS Public Key
+    emailjs.init("cnfgwXNFrYm4kgxrs"); // replace with your EmailJS Public Key
 
     // Get DOM elements
     const form = document.getElementById('supportForm');
@@ -464,7 +464,7 @@
       }
 
       // Send using EmailJS
-      emailjs.sendForm("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", form)
+      emailjs.sendForm("service_hjlguhq", "template_7gb9n2k", form)
         .then(() => {
           showNotification('Your message has been sent! We will respond shortly.', 'success');
           form.reset();

@@ -13,14 +13,14 @@ function EmailTemplate(){
             const mailOptions = {
                 from: process.env.EMAIL_USER,
                 to: email,
-                subject: 'Deposit request - VitronTrade',
+                subject: 'Deposit request - Vitron-trade',
                 html: `
                 <!DOCTYPE html>
                 <html>
                 <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Deposit Confirmation - VitronTrade</title>
+                    <title>Deposit Confirmation - Vitron-trade</title>
                     <style>
                         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
                         .header { background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
@@ -77,9 +77,9 @@ function EmailTemplate(){
                     </div>
                     
                     <div class="footer">
-                        <p>© ${new Date().getFullYear()} VitronTrade. All rights reserved.</p>
+                        <p>© ${new Date().getFullYear()} Vitron-trade. All rights reserved.</p>
                         
-                        <p>Need help? Contact support@VitronTrade.com</p>
+                        <p>Need help? Contact support@Vitron-trade.com</p>
                     </div>
                 </body>
                 </html>
