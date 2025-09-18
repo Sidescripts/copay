@@ -15,10 +15,11 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="../../modal/modal.css">    
+    <link rel="stylesheet" href="../../modal/modal.css">
+    <!-- <link rel="stylesheet" href="../../modal/modal.css"> -->
     <meta id="theme-check" name="theme-color" content="#FFFFFF">
 
-    <title>Deposit Confirmation | Vitron-trade </title>
+    <title>Earn Confirmation | Vitron-trade </title>
 
     <style>
         .color-highlight {
@@ -387,7 +388,7 @@
 
             </div>
             <div class="align-self-center me-auto">
-                <h1 class="color-theme mb-0 font-18">Deposit confirmation</h1>
+                <h1 class="color-theme mb-0 font-18">Revenue confirmation</h1>
             </div>
 
         </div>
@@ -400,8 +401,8 @@
             <div class="table-responsive">
                 <table class="table color-theme mb-2">
                     <tr>
-                        <th class="color-theme" style="white-space: nowrap;">Credit Amount:</th>
-                        <td class="color-theme" id="depositAmount">$00.00</td>
+                        <th class="color-theme" style="white-space: nowrap;">Revenue plan</th>
+                        <td class="color-theme" id="revPlan"></td>
                     </tr>
             
                     <tr>
@@ -409,20 +410,15 @@
                         <td class="color-theme" id="selectedMethod"></td>
                     </tr>
                     <tr>
-                        <th class="color-theme" style="white-space: nowrap;">Asset Equivalent</th>
-                        <td class="color-theme" id="assetEqu">0</td>
+                        <th class="color-theme" style="white-space: nowrap;">Amount</th>
+                        <td class="color-theme" id="revAmount">0</td>
                     </tr>
-                <tr>
-
-                 <th class="color-theme">Wallet Address:</th>
-                    <td class="color-theme" style="display: flex; align-items: center;">
-                        <span id="walletAddress" class="wallet-address color-theme"></span>
-                        <button class="btn btn-sm copy-btn ms-2" onclick="copyWallet()">Copy</button>
-                    </td>
-                 </tr>
+                
 
                 </table>
-                <div id="paymentInstruction" class="mt-2 p-2 text-muted"></div>
+                <div id="paymentInstruction" style="color: #FFF;" class="mt-2 p-2 text-muted">
+                    Click confirm payment to processed
+                </div>
 
                 <!-- Confirm Payment Button -->
                 <div class="text-center mt-3">
@@ -441,11 +437,11 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content text-center theme-dark p-4" style="border-radius: 16px; 
                    box-shadow: 0 8px 25px rgba(0,0,0,0.25); transition: all 0.3s ease-in-out;">
-                    <h5 id="paymentModalLabel" class="mb-3">Processing Payment</h5>
+                    <h5 id="paymentModalLabel" class="mb-3">Processing</h5>
                     <div class="d-flex justify-content-center mb-3">
                         <div class="spinner-border text-success" role="status" style="width: 2.5rem; height: 2.5rem;"></div>
                     </div>
-                    <p class="theme-dark">Please wait while we verify your payment.<br>This may take a few minutes.</p>
+                    <p class="theme-dark">Please click the button below to continue</p>
                     <button type="button" class="btn btn-secondary mt-2" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -455,9 +451,9 @@
 
 
     <script src="../../js/mainAuth.js"></script>
-    <script src="../../js/depositFE.js"></script>
+    <script src="../scripts/investRev.js"></script>
     <script src="../../modal/modal.js"></script>
-    <script src="../scripts/earn.js"></script>
+    <!-- <script src="../scripts/earn.js"></script> -->
     <script src="../scripts/confirmation.js"></script>
     <script src="../scripts/bootstrap.min.js"></script>
     <script src="../scripts/custom.js"></script>

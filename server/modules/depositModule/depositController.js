@@ -38,10 +38,11 @@ const userDepositController = {
           errors: errors.array()
         });
       }
+      const userId = req.user.id
       const email = req.user.email
-      const { amount, asset, userId } = req.body;
+      const { amount, asset} = req.body;
       
-
+      console.log(req.body)
       const deposit = await Deposit.create({
         id: uuidv4(),
         amount,
@@ -69,7 +70,7 @@ const userDepositController = {
       console.error('Create deposit error:', error);
       res.status(500).json({
         success: false,
-        message: 'Internal server error'
+        error: 'Internal server error'
       });
     }
   },

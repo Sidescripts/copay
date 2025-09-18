@@ -66,7 +66,7 @@ function showModal(type, message) {
     okButton.addEventListener('click', function() {
         if (type === 'success') {
             // Redirect to dashboard on success
-            window.location.href = '../Vitron-dashboard/dashboard.html';
+            window.location.href = '../Vitron-dashboard/Dashboard.html';
         } else {
             // Just close the modal on error
             modalBackdrop.remove();
@@ -163,7 +163,7 @@ async function handleSignup(event) {
         submitButton.disabled = false;
         submitButton.textContent = 'Sign Up';
         // Show error modal with all validation errors
-        showModal('error', errors.join('<br>'));
+        Modal.error('Signup Error', errors.join('<br>'));
         return;
     }
     
@@ -178,7 +178,7 @@ async function handleSignup(event) {
         });
 
         const data = await response.json();
-        console.log(data)
+        // console.log(data)
                 // Always re-enable the button
         submitButton.disabled = false;
         submitButton.textContent = 'Sign Up';
@@ -186,8 +186,11 @@ async function handleSignup(event) {
         if(response.ok){
             localStorage.setItem('token', data.token);
             localStorage.setItem('email', data.user.email);
-            // console.log('Token received:', data.token);
-            showModal('success', 'Account created successfully! Redirecting to dashboard...');
+            localStorage.setItem('username', data.user.username);
+            Modal.success('success', 'Account created successfully! Redirecting to dashboard...');
+            setTimeout(() =>{
+                window.location.href = "../Vitron-Dashboard/Dashboard.html"
+            }, 2000)
         }else{
             // Enhanced error handling
             let errorMessage = 'Network error. Please try again later.';
@@ -202,13 +205,13 @@ async function handleSignup(event) {
                 // Always re-enable the button
                 submitButton.disabled = false;
                 submitButton.textContent = 'Sign Up';
-            showModal('error', errorMessage);
+            Modal.error('error', errorMessage);
 
         }
         
     } catch (error) {
         console.error('Signup error:', error);
-        showModal('error', 'Network error. Please check your connection and try again.');
+        Modal.error('error', 'Network error. Please check your connection and try again.');
     } finally {
         // Always re-enable the button
         submitButton.disabled = false;

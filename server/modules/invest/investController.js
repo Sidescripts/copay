@@ -2,41 +2,51 @@ const { Investment, InvestmentPlan, User } = require('../../model');
 const { validationResult } = require('express-validator');
 const { v4: uuidv4 } = require('uuid');
 const EmailTemplate = require("./investEmail");
+// const { where } = require('sequelize');
 
 function InvestmentController() {
   return {
     
     // User: Invest in a plan
     createInvestment: async function(req, res) {
-      // Start transaction early for data consistency
-      const transaction = await sequelize.transaction();
+      
       
       try {
           // Input validation
           const errors = validationResult(req);
           if (!errors.isEmpty()) {
-              await transaction.rollback();
+              
               return res.status(400).json({ 
                   success: false,
                   errors: errors.array() 
               });
           }
   
-          const { plan_id, amount } = req.body;
+          const { paymentMethod, amount,  name} = req.body;
+          console.log(req.body)
           const userId = req.user.id;
-  
+        
+          const plan = await InvestmentPlan.findOne({ where: { name} })
+        // const plan = await InvestmentPlan.findAll({})
+          
+        console.log(plan)
+          if(!plan){
+            console.log("Hola your stuck. Investment plan has not been created")
+          }
+          const {id} = plan;
+          
           // Validate required fields
-          if (!plan_id || !amount) {
-              await transaction.rollback();
+          if (!amount || !paymentMethod || !name) {
+              
               return res.status(400).json({
                   success: false,
-                  error: 'Plan ID and amount are required'
+                  error: 'All values are required'
               });
           }
   
           // Validate amount is a positive number
           if (amount <= 0) {
-              await transaction.rollback();
+              
               return res.status(400).json({
                   success: false,
                   error: 'Amount must be a positive value'
@@ -44,13 +54,10 @@ function InvestmentController() {
           }
   
           // Get the investment plan with transaction lock to prevent race conditions
-          const plan = await InvestmentPlan.findByPk(plan_id, {
-              lock: transaction.LOCK.UPDATE,
-              transaction
-          });
+          
           
           if (!plan) {
-              await transaction.rollback();
+              
               return res.status(404).json({ 
                   success: false,
                   error: 'Investment plan not found' 
@@ -58,7 +65,7 @@ function InvestmentController() {
           }
           
           if (!plan.is_active) {
-              await transaction.rollback();
+              
               return res.status(400).json({ 
                   success: false,
                   error: 'Investment plan is inactive' 
@@ -67,7 +74,7 @@ function InvestmentController() {
   
           // Validate amount range
           if (amount < plan.min_amount) {
-              await transaction.rollback();
+              
               return res.status(400).json({ 
                   success: false,
                   error: `Amount must be at least ${plan.min_amount}` 
@@ -75,7 +82,7 @@ function InvestmentController() {
           }
           
           if (amount > plan.max_amount) {
-              await transaction.rollback();
+              
               return res.status(400).json({ 
                   success: false,
                   error: `Amount cannot exceed ${plan.max_amount}` 
@@ -84,13 +91,19 @@ function InvestmentController() {
   
           // Check user balance with transaction lock
           const user = await User.findByPk(userId, {
-              attributes: ['id', 'walletBalance', 'totalRevenue', 'email'],
-              lock: transaction.LOCK.UPDATE,
-              transaction
+              attributes: [
+                'id', 
+                'walletBalance', 
+                'totalRevenue', 
+                'email',
+                'btcBal',
+                'ethBal',
+                'usdtBal'
+            ],
           });
           
           if (!user) {
-              await transaction.rollback();
+              
               return res.status(404).json({ 
                   success: false,
                   error: 'User not found' 
@@ -98,7 +111,7 @@ function InvestmentController() {
           }
   
           if (user.walletBalance < amount) {
-              await transaction.rollback();
+              
               return res.status(400).json({ 
                   success: false,
                   error: 'Insufficient balance' 
@@ -119,20 +132,33 @@ function InvestmentController() {
               status: 'active',
               start_date: startDate,
               end_date: endDate,
-              transaction_id: `inv_${uuidv4()}`,
+              transaction_id: `rev_${uuidv4()}`,
               userId,
-              InvestmentPlanId: plan_id
-          }, { transaction });
-  
-          // Update user wallet balance and total revenue
-          await User.update({
-              walletBalance: user.walletBalance - amount,
-              totalRevenue: (user.totalRevenue || 0) + amount
-          }, {
-              where: { id: userId },
-              transaction
+              planName: plan.name,
+              InvestmentPlanId: id
           });
   
+          // Update user wallet balance and total revenue
+          if (paymentMethod = 'bitcoin'){
+            await User.update({
+                btcBal: user.btcBal - amount,    
+                walletBalance: user.walletBalance - amount,
+                totalRevenue: (user.totalRevenue) + amount
+            }, {where: { id: userId }});
+          }else if(paymentMethod = 'ethereum'){
+            await User.update({
+                btcBal: user.ethBal - amount,    
+                walletBalance: user.walletBalance - amount,
+                totalRevenue: (user.totalRevenue) + amount
+              }, {where: { id: userId }});
+          }else if(paymentMethod = 'usdt'){
+            await User.update({
+                btcBal: user.usdtBal - amount,    
+                walletBalance: user.walletBalance - amount,
+                totalRevenue: (user.totalRevenue) + amount
+              }, {where: { id: userId }});
+          }
+
           // Send investment confirmation email
           try {
               await EmailTemplate.investmentEmail({
@@ -150,8 +176,6 @@ function InvestmentController() {
               console.error("Failed to send investment email:", emailError);
           }
   
-          // Commit transaction
-          await transaction.commit();
           
           return res.status(201).json({
               success: true,
@@ -160,8 +184,6 @@ function InvestmentController() {
           });
   
       } catch (error) {
-          // Always rollback on error
-          await transaction.rollback();
           
           // Log the error for debugging
           console.error('Create investment error:', error);

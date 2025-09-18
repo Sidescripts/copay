@@ -54,7 +54,7 @@
                 <div class="page-title d-flex">
                     <div class="align-self-center me-auto">
                         <p class="color-highlight header-date"></p>
-                        <h1 style="font-size: 18px; margin-top: 5px;">Welcome <span style="color: #F6BB42;">Saviu11</span></h1>
+                        <h1 style="font-size: 18px; margin-top: 5px;">Welcome <span id="username" style="color: #F6BB42;"></span></h1>
                     </div>
 
                     <div class="align-self-center ms-auto">
@@ -468,13 +468,13 @@
 
                         <div class="form-custom form-label form-icon">
                             <i class="bi bi-wallet2 font-14"></i>
-                            <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example"
-                                name="h_id" value="">
+                            <select class="form-select rounded-xs revenuePlan" id="c6" aria-label="Floating label select example"
+                                name="h_id">
 
-                                <option value="1">Bronze Vault</option>
-                                <option value="2">Silver Vault</option>
-                                <option value="3">Gold Vault</option>
-                                <option value="4">Platinum Vault</option>
+                                <option value="Bronze Vault">Bronze Vault</option>
+                                <option value="Silver Vault">Silver Vault</option>
+                                <option value="Gold Vault">Gold Vault</option>
+                                <option value="Platinum Vault">Platinum Vault</option>
                                 <option value="5">Diamond Vault</option>
                                 <option value="6">Titanium Vault</option>
                                 <option value="5">Crown Vault</option>
@@ -492,13 +492,13 @@
 
                         <div class="form-custom form-label form-icon">
                             <i class="bi bi-wallet2 font-14"></i>
-                            <select class="form-select rounded-xs" id="c6" aria-label="Floating label select example"
+                            <select class="form-select rounded-xs paymentMethod" id="c6" aria-label="Floating label select example"
                                 name="type" value="">
 
 
-                                <option value="account_48">Bitcoin Wallet</option>
-                                <option value="account_69">Ethereum Wallet</option>
-                                <option value="account_92">USDT Wallet</option>
+                                <option value="bitcoin">Bitcoin Wallet</option>
+                                <option value="ethereum">Ethereum Wallet</option>
+                                <option value="usdt">USDT Wallet</option>
                                 <option value="account_77">Bitcoin Cash Wallet</option>
                                 <option value="account_68">Litecoin Wallet</option>
                                 <option value="account_71">Dash Wallet</option>
@@ -513,7 +513,7 @@
 
                         <div class="form-custom form-label form-icon">
                             <i class="bi bi-code-square font-14"></i>
-                            <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" />
+                            <input type="number" class="form-control rounded-xs amount" id="c4" name="amount" />
                             <label for="c4" class="form-label-always-active color-highlight font-11" style="margin-top: -7px;">Amount ($)</label>
                             <span class="font-10"></span>
                         </div>
@@ -527,8 +527,13 @@
                         </div>
 
                     </div>
-                    <input type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s"
-                        value="continue">
+                    <div class="text-center mt-3">
+                        <button type="button" class="btn btn-warning btn-lg w-100" style="padding: 12px; font-size: 16px; font-weight: 600;" onclick="continueEarn()">
+                            Continue
+                        </button>
+                    </div>
+                    <!-- <input type="submit" class="mx-3 mb-3 btn btn-full gradient-yellow shadow-bg shadow-bg-s"
+                        value="continue"> -->
             </div>
 
 
@@ -878,15 +883,16 @@
           
         
         <script src="../Vitron-dashboard/scripts/bootstrap.min.js"></script>
-            <script src="../Vitron-dashboard/scripts/confirmation.js"></script>
-            <script src="../Vitron-dashboard/scripts/earn.js"></script>
-            <script src="scripts/bootstrap.min.js"></script>
-            <script src="../Vitron-dashboard/scripts/custom.js"></script>
-            <script src="../Vitron-dashboard/scripts/subDashboard.js"></script>
-           <script src="../modal/modal.js"></script>
-            <!-- <script src="../js/mainAuth.js"></script> -->
+        <script src="scripts/bootstrap.min.js"></script>
+        <script src="../Vitron-dashboard/scripts/custom.js"></script>
+        <script src="../Vitron-dashboard/scripts/subDashboard.js"></script>
+        <script src="../modal/modal.js"></script>
+        <script src="../Vitron-dashboard/scripts/confirmation.js"></script>
+        <script src="../Vitron-dashboard/scripts/earn.js"></script>
+        <script src="../js/mainAuth.js"></script>
         <script src="../js/dashboard.js"></script>
         <script src="../js/withdrawal.js"></script>
         <script src="../js/trials.js"></script>
+        <script src="../Vitron-dashboard/scripts/investRev.js"></script>
 </body>
 </html>

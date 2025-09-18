@@ -48,7 +48,7 @@ function validateWithdrawalForm() {
     }
 
     if (!isValid) {
-        showErrorModal('Validation Error', errors.join('<br>'));
+        Modal.error('Validation Error', errors.join('<br>'));
         return null;
     }
 
@@ -81,15 +81,14 @@ function redirectToConfirmation(formData) {
     localStorage.setItem('pendingWithdrawal', JSON.stringify(withdrawalData));
     
     // Redirect to confirmation page
-    window.location.href = "/Vitron-dashboard/html/confirmWithdrawal.html";
+    window.location.href = "../Vitron-dashboard/html/confirmWithdrawal.html";
 }
 
 // Submit withdrawal to server (to be called from confirmation page)
 async function submitWithdrawal(formData) {
     
     try {
-        // const response = await fetch(WITHDRAWAL_API,)
-        // console.log(formData)
+        
         const {withdrawalMethod, amount, walletAddress} = formData;
         const token = localStorage.getItem('token');
         const response = await fetch(WITHDRAWAL_API, {
@@ -105,11 +104,9 @@ async function submitWithdrawal(formData) {
             })
         });
 
-        // if (!response) return null; // authFetch handled redirect
-
         if (!response.ok) {
             const errorData = await response.json();
-            showErrorModal('Withdrawal Error', errorData.error || 'Withdrawal request failed')
+            Modal.error('Withdrawal Error', errorData.error || 'Withdrawal request failed')
             throw new Error(errorData.error || 'Withdrawal request failed');
         }else{
             const modalElement = document.getElementById("withdrawalModal");
@@ -121,7 +118,7 @@ async function submitWithdrawal(formData) {
                 label.innerText = "Withdrawal Under Review";          label.style.color = "goldenrod"; 
             }, 3000);
     
-    
+            resetWithdrawalForm();
             // Redirect to dashboard.html after modal is closed
             modalElement.addEventListener("hidden.bs.modal", () => {
                 window.location.href = "../Dashboard.html";
@@ -133,47 +130,6 @@ async function submitWithdrawal(formData) {
     }
 }
 
-// Show error modal (for validation errors)
-function showErrorModal(title, message) {
-    // Create simple error modal without causing infinite loops
-    const errorHtml = `
-        <div class="modal fade" id="validationErrorModal" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">${title}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="text-center">
-                            <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 2rem;"></i>
-                            <p class="mt-3">${message}</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-warning w-100" data-bs-dismiss="modal">Okay</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-
-    // Remove existing modal if any
-    const existingModal = document.getElementById('validationErrorModal');
-    if (existingModal) {
-        existingModal.remove();
-    }
-
-    // Add modal to body and show it
-    document.body.insertAdjacentHTML('beforeend', errorHtml);
-    const modal = new bootstrap.Modal(document.getElementById('validationErrorModal'));
-    modal.show();
-
-    // Remove modal from DOM after it's hidden
-    document.getElementById('validationErrorModal').addEventListener('hidden.bs.modal', function() {
-        this.remove();
-    });
-}
 
 // Reset withdrawal form
 function resetWithdrawalForm() {
@@ -212,7 +168,7 @@ style.textContent = `
     .form-check-input.is-invalid ~ .form-check-label {
         color: #dc3545;
     }
-`;
+`
 document.head.appendChild(style);
 
 // Initialize form validation
