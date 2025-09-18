@@ -74,11 +74,8 @@
         }, 8000);
     }
 
-    // Show first notification after 3 seconds
-    setTimeout(showRandomNotification, 3000);
-    
     // Rotate notifications every 30 seconds (optional)
-    setInterval(showRandomNotification, 30000);
+    setInterval(showRandomNotification, 120000);
 
 
 // fetching crypto market price

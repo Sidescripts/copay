@@ -1,17 +1,8 @@
-//Removing Preloader
-// setTimeout(function() {
-//     var preloader = document.getElementById('preloader')
-//     if (preloader) {
-//         preloader.classList.add('preloader-hide');
-//     }
-// }, 150);
-
 document.addEventListener('DOMContentLoaded', () => {
     'use strict'
 
     //Global Variables
     let isPWA = true; // Enables or disables the service worker and PWA
-    let isAJAX = true; // AJAX transitions. Requires local server or server
     var pwaName = "PayApp"; //Local Storage Names for PWA
     var pwaRemind = 1; //Days to re-remind to add to home
     var pwaNoCache = false; //Requires server and HTTPS/SSL. Will clear cache with each visit
@@ -52,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     cardStackClick.classList.add('no-click');
                     cardStacked.classList.add('card-stack-active');
                 }
-
             }
             cardStackClick.addEventListener('click', function(e) {
                 stackEffect()
@@ -62,74 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         }
 
-
         //Activating the Page - Required to improve CLS Performance
         document.querySelectorAll('#page')[0].style.display = "block";
 
-        //Image Sliders
-        var splide = document.getElementsByClassName('splide');
-        if (splide.length) {
-            var singleSlider = document.querySelectorAll('.single-slider');
-            if (singleSlider.length) {
-                singleSlider.forEach(function(e) {
-                    var single = new Splide('#' + e.id, {
-                        type: 'loop',
-                        autoplay: true,
-                        interval: 4000,
-                        perPage: 1,
-                    }).mount();
-                    var sliderNext = document.querySelectorAll('.slider-next');
-                    var sliderPrev = document.querySelectorAll('.slider-prev');
-                    sliderNext.forEach(el => el.addEventListener('click', el => {
-                        single.go('>');
-                    }));
-                    sliderPrev.forEach(el => el.addEventListener('click', el => {
-                        single.go('<');
-                    }));
-                });
-            }
-
-            var doubleSlider = document.querySelectorAll('.double-slider');
-            if (doubleSlider.length) {
-                doubleSlider.forEach(function(e) {
-                    var double = new Splide('#' + e.id, {
-                        type: 'loop',
-                        autoplay: true,
-                        interval: 4000,
-                        arrows: false,
-                        perPage: 2,
-                    }).mount();
-                });
-            }
-
-            var tripleSlider = document.querySelectorAll('.triple-slider');
-            if (tripleSlider.length) {
-                tripleSlider.forEach(function(e) {
-                    var triple = new Splide('#' + e.id, {
-                        type: 'loop',
-                        autoplay: true,
-                        interval: 4000,
-                        arrows: false,
-                        perPage: 3,
-                        perMove: 1,
-                    }).mount();
-                });
-            }
-
-            var quadSlider = document.querySelectorAll('.quad-slider');
-            if (quadSlider.length) {
-                quadSlider.forEach(function(e) {
-                    var quad = new Splide('#' + e.id, {
-                        type: 'loop',
-                        autoplay: true,
-                        interval: 4000,
-                        arrows: false,
-                        perPage: 4,
-                        perMove: 1,
-                    }).mount();
-                });
-            }
-        }
 
         //Don't jump when Empty Links
         const emptyHref = document.querySelectorAll('a[href="#"]')
@@ -183,65 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     submenus();
                 }
             }
-        }
-
-        //Search Page
-        var searchField = document.querySelectorAll('[data-search]');
-        if (searchField.length) {
-            var searchResults = document.querySelectorAll('.search-results')
-            var searchNoResults = document.querySelectorAll('.search-no-results');
-            var searchTotal = document.querySelectorAll(".search-results div")[0].childElementCount;
-
-            function searchFunction() {
-                var searchStr = searchField[0].value;
-                var searchVal = searchStr.toLowerCase();
-                if (searchVal != '') {
-                    searchResults[0].classList.remove('disabled-search-list');
-                    var searchFilterItem = document.querySelectorAll('[data-filter-item]');
-                    for (let i = 0; i < searchFilterItem.length; i++) {
-                        var searchData = searchFilterItem[i].getAttribute('data-filter-name');
-                        if (searchData.includes(searchVal)) {
-                            searchFilterItem[i].classList.remove('disabled');
-                        } else {
-                            searchFilterItem[i].classList.add('disabled');
-                        }
-                        var disabledResults = document.querySelectorAll(".search-results div")[0].getElementsByClassName("disabled").length;
-                        if (disabledResults === searchTotal) {
-                            searchNoResults[0].classList.remove('disabled');
-                        } else {
-                            searchNoResults[0].classList.add('disabled');
-                        }
-                    }
-                }
-                if (searchVal === '') {
-                    searchResults[0].classList.add('disabled-search-list');
-                    searchNoResults[0].classList.add('disabled');
-                    var searchFilterItem = document.querySelectorAll('[data-filter-item]');
-                    for (let i = 0; i < searchFilterItem.length; i++) {
-                        searchFilterItem[i].classList.remove('disabled');
-                    }
-                }
-                if (searchVal.length === 0) {
-                    searchResults[0].classList.add('disabled-search-list');
-                    searchNoResults[0].classList.add('disabled');
-                    var searchFilterItem = document.querySelectorAll('[data-filter-item]');
-                    for (let i = 0; i < searchFilterItem.length; i++) {
-                        searchFilterItem[i].classList.remove('disabled');
-                    }
-                }
-            };
-            searchField[0].addEventListener('change', function() {
-                searchFunction();
-            })
-            searchField[0].addEventListener('keyup', function() {
-                searchFunction();
-            })
-            searchField[0].addEventListener('keydown', function() {
-                searchFunction();
-            })
-            searchField[0].addEventListener('click', function() {
-                searchFunction();
-            })
         }
 
         //Back Button
@@ -396,7 +262,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         darkMode();
 
-
         //File Upload
         const inputArray = document.getElementsByClassName('upload-file');
         if (inputArray.length) {
@@ -447,7 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }).catch(function() {
                     e.innerHTML = "<h5 class='font-16 px-4 py-4 mb-0'>Please use a Local Server such as AMPPS or WAMP to see externally loaded menus or put " + pwaName + " files on your server. <br> To load menus from inside your HTML you must remove the data-menu-load=`your-menu.html` and copy what is inside your-menu.html in this div. <br>Using external menus, editing a single menu will show in all pages. <br><br> For more information please read the Documentation -> Menu Chapter.</h5>";
                 });
-
         })
 
         //Adding Local Storage for Visited Links
@@ -528,7 +392,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }))
         }
 
-
         //Header Date
         var headerLarge = document.querySelectorAll('.header-date')[0];
         if (headerLarge) {
@@ -565,14 +428,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //Form Validation
         var bootstrapForms = document.querySelectorAll('.needs-validation')
-        // Loop over them and prevent submission
         Array.prototype.slice.call(bootstrapForms).forEach(function(bootstrapForms) {
             bootstrapForms.addEventListener('submit', function(event) {
                 if (!bootstrapForms.checkValidity()) {
                     event.preventDefault();
                     event.stopPropagation();
                 } else {
-                    //Remove the code below to allow form submission.
                     event.preventDefault();
                     event.stopPropagation();
                     qrFunction(event);
@@ -697,8 +558,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('online', updateOnlineStatus);
         window.addEventListener('offline', updateOfflineStatus);
 
-    
-
         //PWA Settings
         if (isPWA === true) {
             //Defining PWA Windows
@@ -723,7 +582,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
 
-              
                 //Trigger Install Prompt for Android
                 const pwaWindows = document.querySelectorAll('#menu-install-pwa-android, #menu-install-pwa-ios');
                 if (pwaWindows.length) {
@@ -831,29 +689,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Check Documentation folder for detailed explanations on
         // Externally loading Javascript files for better performance.
 
-        var plugIdent, plugClass, plugMain, plugCall;
-        var plugLoc = "plugins/"
-
-        let plugins = [{
-                //Example of how to call an external script.
-                id: 'uniqueID', // to detect if loaded and unload if no longer required.
-                plug: 'pluginName/plugin.js', // the main plugin javascript file
-                call: 'pluginName/pluginName-call.js', // the plugin call functions
-                style: 'pluginName/pluginName-style.css', // the plugin stylesheet
-                trigger: '.pluginTriggerClass' // the class inside the page that will activate plugin load
-            },
-            {
-                id: 'apex-chart',
-                plug: 'apex/apexcharts.js',
-                call: 'apex/apex-call.js',
-                trigger: '.chart'
-            },
-            {
-                id: 'demo-functions', // can be deleted
-                call: 'demo/demo.js', // can be deleted
-                trigger: '.demo-boxed' // can be deleted
-            }
-        ];
 
         //External Script Loader
         for (let i = 0; i < plugins.length; i++) {
@@ -911,45 +746,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    //Fix Scroll for AJAX pages.
-    if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
-
-    //End of Init Template
-    if (isAJAX === true) {
-        if (window.location.protocol !== "file:") {
-            const options = {
-                containers: ["#page"],
-                cache: false,
-                animateHistoryBrowsing: false,
-                plugins: [
-                    new SwupPreloadPlugin()
-                ],
-                linkSelector: 'a:not(.external-link):not(.default-link):not([href^="https"]):not([href^="http"]):not([data-gallery])'
-            };
-            const swup = new Swup(options);
-            document.addEventListener('swup:pageView', (e) => {
-                init_template();
-            })
-        }
-    }
-
     init_template();
 });
-
-
-// const confirmModal = document.getElementById('confirmModal');
-// if (confirmModal) {
-//   new bootstrap.Modal(confirmModal);
-// }
-
-// const myToast = document.getElementById('myToast');
-// if (myToast) {
-//   new bootstrap.Toast(myToast);
-// }
-
-// const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-// if (tooltipTriggerList.length > 0) {
-//   tooltipTriggerList.map(function (tooltipTriggerEl) {
-//     return new bootstrap.Tooltip(tooltipTriggerEl);
-//   });
-// }

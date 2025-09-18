@@ -166,16 +166,17 @@
   </div>
 
   <!-- Page Wrapper -->
-  <div id="page">
+  <div>
 
     <!-- Footer Bar -->
     <div id="footer-bar" class="footer-bar-1 footer-bar-detached">
-      <a href="./earn.html"><i class="bi bi-piggy-bank"></i><span>Earn</span></a>
-      <a href="./account-history.html"><i class="bi bi-calendar4-event"></i><span>Activity</span></a>
-      <a href="../Dashboard.html" class="circle-nav-2"><i class="bi bi-house-fill"></i><span>Wallet</span></a>
-      <a href="./explore.html"><i class="bi bi-grid"></i><span>Explore</span></a>
-      <a href="./profile-settings.html" data-bs-toggle="offcanvas" data-bs-target="#menu-sidebar"><i
-          class="bi bi-gear"></i><span>Settings</span></a>
+      <a href="/Vitron-dashboard/html/earn.html"><i class="bi bi-piggy-bank"></i><span>Earn</span></a>
+      <a href="/Vitron-dashboard/html/histest.html" class="active-nav"><i
+          class="bi bi-calendar4-event"></i><span>Activity</span></a>
+      <a href="/Vitron-dashboard/Dashboard.html" class="circle-nav-2"><i
+          class="bi bi-house-fill"></i><span>Wallet</span></a>
+      <a href="/Vitron-dashboard/html/explore.html"><i class="bi bi-grid"></i><span>Explore</span></a>
+      <a href="/Vitron-dashboard/html/profile-settings.html"><i class="bi bi-gear"></i><span>Settings</span></a>
     </div>
 
     <!-- Page Content -->
@@ -185,7 +186,7 @@
       <div class="pt-3">
         <div class="page-title d-flex">
           <div class="align-self-center">
-            <a href="../Dashboard.html" class="me-3 ms-0 icon icon-xxs bg-theme rounded-s shadow-m">
+            <a href="/Vitron-dashboard/Dashboard.html" class="me-3 ms-0 icon icon-xxs bg-theme rounded-s shadow-m">
               <i class="bi bi-chevron-left color-theme font-14"></i>
             </a>
           </div>
@@ -193,51 +194,51 @@
             <h1 class="color-theme mb-0 font-18">Account History</h1>
           </div>
           <div class="align-self-center">
-            <a href="#" class="icon icon-xxs bg-theme rounded-s shadow-m" id="export-history">
+            <a class="icon icon-xxs bg-theme rounded-s shadow-m" id="export-history">
               <i class="bi bi-download color-theme font-14"></i>
             </a>
           </div>
         </div>
       </div>
 
+      <!-- Error Message -->
+      <div id="errorMessage" class="error" style="display: none;"></div>
+
       <!-- Filter Form -->
       <div class="card overflow-visible card-style">
         <div class="content mb-0">
-          <form method="post" name="opts">
+          <form method="post" name="opts" class="needs-validation" novalidate>
             <input type="hidden" name="a" value="history">
             <input type="hidden" name="page" value="1">
-
             <div class="row g-2">
               <div class="col-md-4">
                 <div class="form-group">
                   <label class="form-label color-theme">Transaction Type</label>
-                  <select name="type" class="form-select inpts" style="background-color: transparent !important; " onchange="this.form.submit();">
+                  <select name="type" class="form-select inpts">
                     <option value="">All transactions</option>
                     <option value="deposit">Deposit</option>
                     <option value="withdrawal">Withdrawal</option>
-                    <option value="earning">Earning</option>
-                    <option value="commissions">Referral commission</option>
+                    <option value="investment">Investment</option>
                   </select>
                 </div>
               </div>
-
               <div class="col-md-5">
                 <div class="form-group">
                   <label class="form-label color-theme">Date Range</label>
                   <div class="dropdown color-theme">
                     <button class="date-filter-btn w-100 color-theme" type="button" id="dateFilterDropdown"
-                      data-bs-toggle="dropdown" aria-expanded="false" style="background-color: transparent !important;">
+                      data-bs-toggle="dropdown" aria-expanded="false">
                       <span id="dateRangeText">All dates</span>
                       <i class="bi bi-chevron-down"></i>
                     </button>
                     <div class="dropdown-menu filter-dropdown" aria-labelledby="dateFilterDropdown">
                       <div class="mb-3">
                         <label class="form-label">From</label>
-                        <input type="date" class="form-control" name="date_from" id="dateFrom">
+                        <input type="date" class="form-control" id="dateFrom">
                       </div>
                       <div class="mb-3">
                         <label class="form-label">To</label>
-                        <input type="date" class="form-control" name="date_to" id="dateTo">
+                        <input type="date" class="form-control" id="dateTo">
                       </div>
                       <div class="d-flex justify-content-between">
                         <button type="button" class="btn btn-sm btn-outline-secondary" id="clearDates">Clear</button>
@@ -247,9 +248,9 @@
                   </div>
                 </div>
               </div>
-
               <div class="col-md-3 d-flex align-items-end p-3">
-                <button type="submit" class="btn btn-highlight w-60 bg-yellow-dark">Apply Filters</button>
+                <button type="button" class="btn btn-highlight w-60 bg-yellow-dark" id="applyFilters">Apply
+                  Filters</button>
               </div>
             </div>
           </form>
@@ -260,125 +261,24 @@
       <div class="card card-style">
         <div class="content">
           <h4 class="mb-3">Recent Transactions</h4>
-
-          <!-- Sample Transaction List (would be dynamically generated) -->
-          <div class="transaction-list">
-            <div class="transaction-card p-3 mb-3  rounded shadow-sm transaction-deposit">
-              <div class="d-flex justify-content-between transaction-details">
-                <div>
-                  <h6 class="mb-1">Deposit</h6>
-                  <p class="text-muted small mb-0">Completed • May 15, 2023</p>
-                </div>
-                <div class="transaction-amount text-end">
-                  <div class="amount-positive">+ $500.00</div>
-                  <span class="status-badge status-completed">Completed</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="transaction-card p-3 mb-3 rounded shadow-sm transaction-earning">
-              <div class="d-flex justify-content-between transaction-details">
-                <div>
-                  <h6 class="mb-1">Daily Earnings</h6>
-                  <p class="text-muted small mb-0">Sep 15, 2025</p>
-                </div>
-                <div class="transaction-amount text-end">
-                  <div class="amount-positive">+ $1100.00</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="transaction-card p-3 mb-3 rounded shadow-sm transaction-earning">
-              <div class="d-flex justify-content-between transaction-details">
-                <div>
-                  <h6 class="mb-1">Daily Earnings</h6>
-                  <p class="text-muted small mb-0">Sep 14, 2025</p>
-                </div>
-                <div class="transaction-amount text-end">
-                  <div class="amount-positive">+ $1100.00</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="transaction-card p-3 mb-3 rounded shadow-sm transaction-earning">
-              <div class="d-flex justify-content-between transaction-details">
-                <div>
-                  <h6 class="mb-1">Daily Earnings</h6>
-                  <p class="text-muted small mb-0">Sep 13, 2025</p>
-                </div>
-                <div class="transaction-amount text-end">
-                  <div class="amount-positive">+ $1200.00</div>
-                </div>
-              </div>
-            </div>
-
-  
-<!-- 
-            <div class="transaction-card p-3 mb-3 rounded shadow-sm transaction-commission">
-              <div class="d-flex justify-content-between transaction-details">
-                <div>
-                  <h6 class="mb-1">Referral Commission</h6>
-                  <p class="text-muted small mb-0">From: john_doe • May 13, 2023</p>
-                </div>
-                <div class="transaction-amount text-end">
-                  <div class="amount-positive">+ $15.00</div>
-                </div>
-              </div>
-            </div> -->
-
-           <div class="transaction-card p-3 mb-3  rounded shadow-sm transaction-deposit">
-              <div class="d-flex justify-content-between transaction-details">
-                <div>
-                  <h6 class="mb-1">Deposit</h6>
-                  <p class="text-muted small mb-0">Completed • May 15, 2025</p>
-                </div>
-                <div class="transaction-amount text-end">
-                  <div class="amount-positive">+ $200.00</div>
-                  <span class="status-badge status-completed">Completed</span>
-                </div>
-              </div>
-            </div>
-
-
-
-            <!-- <div class="transaction-card p-3 mb-3 rounded shadow-sm transaction-withdrawal">
-              <div class="d-flex justify-content-between transaction-details">
-                <div>
-                  <h6 class="mb-1">Withdrawal Request</h6>
-                  <p class="text-muted small mb-0">Processing • May 12, 2023</p>
-                </div>
-                <div class="transaction-amount text-end">
-                  <div class="amount-negative">- $200.00</div>
-                  <span class="status-badge status-pending">Pending</span>
-                </div>
-              </div>
-            </div> -->
+          <div class="transaction-list" id="transactionList">
+            <!-- Transactions will be rendered here -->
           </div>
-
-          <!-- Empty state (hidden when transactions exist) -->
-          <div class="empty-state" style="display: none;">
+          <div class="empty-state" id="emptyState" style="display: none;">
             <i class="bi bi-clock-history"></i>
             <h4>No transactions yet</h4>
             <p>Your transaction history will appear here once you start using your account.</p>
-            <a href="?a=deposit" class="btn btn-highlight mt-2">Make Your First Deposit</a>
+            <a href="/Vitron-dashboard/html/deposit.html" class="btn btn-highlight mt-2">Make Your First Deposit</a>
           </div>
         </div>
       </div>
 
       <!-- Pagination -->
-      <div class="card card-style">
+      <div class="card card-style" id="paginationCard" style="display: none;">
         <div class="content">
           <nav aria-label="Transaction history pagination">
-            <ul class="pagination justify-content-center">
-              <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-              </li>
-              <li class="page-item active"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-              </li>
+            <ul class="pagination justify-content-center" id="pagination">
+              <!-- Pagination will be rendered here -->
             </ul>
           </nav>
         </div>
@@ -390,107 +290,334 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
     crossorigin="anonymous"></script>
   <script>
-    // Page navigation
-    function go(p) {
-      document.opts.page.value = p;
-      document.opts.submit();
+    // Configuration
+    const API_BASE_URL = 'http://localhost:2000/api/v1'; // Updated to match frontend port
+    const ITEMS_PER_PAGE = 10;
+
+    // Helper to format date
+    function formatDate(dateString) {
+      console.log(`Formatting date: ${dateString}`);
+      const date = new Date(dateString);
+      const formatted = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+      console.log(`Formatted date: ${formatted}`);
+      return formatted;
     }
 
-    // Open calculator popup
-    function openCalculator(id) {
-      const w = 225, h = 400;
-      const t = (screen.height - h) / 2, l = (screen.width - w) / 2;
-      window.open('?a=calendar&type=' + id, 'calculator' + id,
-        `top=${t},left=${l},width=${w},height=${h},resizable=1,scrollbars=0`);
+    // Helper to get transaction type class
+    function getTransactionClass(type) {
+      console.log(`Getting class for transaction type: ${type}`);
+      if (type === 'deposit') return 'transaction-deposit';
+      if (type === 'withdrawal') return 'transaction-withdrawal';
+      if (type === 'investment') return 'transaction-investment';
+      console.log(`No class found for type: ${type}`);
+      return '';
     }
 
-    // Compound handling
-    const cps = {};
-    function updateCompound() {
-      let id = 0;
-      if (document.spendform && document.spendform.h_id) {
-        const tt = document.spendform.h_id.type;
-        if (tt && tt.toLowerCase() === 'hidden') {
-          id = document.spendform.h_id.value;
-        } else {
-          for (let i = 0; i < document.spendform.h_id.length; i++) {
-            if (document.spendform.h_id[i].checked) {
-              id = document.spendform.h_id[i].value;
-            }
-          }
+    // Helper to get amount class and prefix
+    function getAmountClassAndPrefix(type, amount) {
+      console.log(`Getting amount class for type: ${type}, amount: ${amount}`);
+      if (type === 'deposit' || type === 'investment') {
+        return { class: 'amount-positive', prefix: '+ ' };
+      } else if (type === 'withdrawal') {
+        return { class: 'amount-negative', prefix: '- ' };
+      }
+      console.log(`No amount class for type: ${type}`);
+      return { class: '', prefix: '' };
+    }
+
+    // Helper to get status class
+    function getStatusClass(status) {
+      console.log(`Getting status class for: ${status}`);
+      if (status === 'completed') return 'status-completed';
+      if (status === 'pending') return 'status-pending';
+      if (status === 'cancelled') return 'status-cancelled';
+      console.log(`No status class for: ${status}`);
+      return '';
+    }
+
+    // Show error message in UI
+    function showError(message) {
+      const errorDiv = document.getElementById('errorMessage');
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+      console.error(`UI Error: ${message}`);
+    }
+
+    // Hide error message
+    function hideError() {
+      const errorDiv = document.getElementById('errorMessage');
+      errorDiv.style.display = 'none';
+      console.log('Cleared UI error message');
+    }
+
+    // Fetch all transactions
+    async function fetchTransactions() {
+      console.log('Fetching transactions...');
+      try {
+        const [depositsRes, withdrawalsRes, investmentsRes] = await Promise.all([
+          fetch(`${API_BASE_URL}/deposit/deposit-history`).catch(err => {
+            console.error(`Deposit API failed: ${err.message}`);
+            throw new Error('Deposit API failed');
+          }),
+          fetch(`${API_BASE_URL}/withdrawal/withdrawal-history`).catch(err => {
+            console.error(`Withdrawal API failed: ${err.message}`);
+            throw new Error('Withdrawal API failed');
+          }),
+          fetch(`${API_BASE_URL}/invest/invest-history`).catch(err => {
+            console.error(`Investment API failed: ${err.message}`);
+            throw new Error('Investment API failed');
+          })
+        ]);
+
+        if (!depositsRes.ok) {
+          console.error(`Deposit API returned status: ${depositsRes.status}`);
+          throw new Error(`Deposit API failed with status ${depositsRes.status}`);
         }
+        if (!withdrawalsRes.ok) {
+          console.error(`Withdrawal API returned status: ${withdrawalsRes.status}`);
+          throw new Error(`Withdrawal API failed with status ${withdrawalsRes.status}`);
+        }
+        if (!investmentsRes.ok) {
+          console.error(`Investment API returned status: ${investmentsRes.status}`);
+          throw new Error(`Investment API failed with status ${investmentsRes.status}`);
+        }
+
+        const [deposits, withdrawals, investments] = await Promise.all([
+          depositsRes.json().catch(err => {
+            console.error(`Failed to parse deposit response: ${err.message}`);
+            throw err;
+          }),
+          withdrawalsRes.json().catch(err => {
+            console.error(`Failed to parse withdrawal response: ${err.message}`);
+            throw err;
+          }),
+          investmentsRes.json().catch(err => {
+            console.error(`Failed to parse investment response: ${err.message}`);
+            throw err;
+          })
+        ]);
+
+        console.log(`Fetched ${deposits.data.length} deposits, ${withdrawals.data.length} withdrawals, ${investments.data.length} investments`);
+
+        const allTransactions = [
+          ...deposits.data.map(d => ({ ...d, type: 'deposit' })),
+          ...withdrawals.data.map(w => ({ ...w, type: 'withdrawal' })),
+          ...investments.data.map(i => ({ ...i, type: 'investment' }))
+        ];
+
+        allTransactions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        console.log(`Combined and sorted ${allTransactions.length} transactions`);
+        return allTransactions;
+      } catch (error) {
+        console.error(`Error fetching transactions: ${error.message}`);
+        showError('Failed to load transactions. Please try again later.');
+        return [];
+      }
+    }
+
+    // Render transactions
+    function renderTransactions(transactions, page = 1) {
+      console.log(`Rendering transactions for page ${page}, total: ${transactions.length}`);
+      const list = document.getElementById('transactionList');
+      list.innerHTML = '';
+
+      if (transactions.length === 0) {
+        document.getElementById('emptyState').style.display = 'block';
+        document.getElementById('paginationCard').style.display = 'none';
+        console.log('No transactions to display, showing empty state');
+        return;
       }
 
-      const cpObj = document.getElementById('compound_percents');
-      if (cpObj) {
-        cpObj.innerHTML = "";
-        if (cps[id] && cps[id].length > 0) {
-          document.getElementById('coumpond_block').style.display = '';
-          cps[id].forEach(cp => cpObj.add(new Option(cp)));
-        } else {
-          document.getElementById('coumpond_block').style.display = 'none';
-        }
-      }
+      hideError();
+      document.getElementById('emptyState').style.display = 'none';
+      document.getElementById('paginationCard').style.display = 'block';
+
+      const start = (page - 1) * ITEMS_PER_PAGE;
+      const end = start + ITEMS_PER_PAGE;
+      const paginated = transactions.slice(start, end);
+
+      paginated.forEach(tx => {
+        const typeClass = getTransactionClass(tx.type);
+        const { class: amountClass, prefix: amountPrefix } = getAmountClassAndPrefix(tx.type, tx.amount);
+        const statusClass = getStatusClass(tx.status || 'pending');
+        const date = formatDate(tx.createdAt || new Date());
+
+        const card = `
+          <div class="transaction-card p-3 mb-3 rounded shadow-sm ${typeClass}">
+            <div class="d-flex justify-content-between transaction-details">
+              <div>
+                <h6 class="mb-1">${tx.type.charAt(0).toUpperCase() + tx.type.slice(1)}</h6>
+                <p class="text-muted small mb-0">${tx.status || 'Processing'} • ${date}</p>
+              </div>
+              <div class="transaction-amount text-end">
+                <div class="${amountClass}">${amountPrefix}$${tx.amount.toFixed(2)}</div>
+                <span class="status-badge ${statusClass}">${tx.status || 'Pending'}</span>
+              </div>
+            </div>
+          </div>
+        `;
+        list.insertAdjacentHTML('beforeend', card);
+      });
+
+      console.log(`Rendered ${paginated.length} transactions on page ${page}`);
+      renderPagination(transactions.length, page);
     }
 
-    // Date filter functionality
-    document.addEventListener('DOMContentLoaded', function () {
-      const dateFrom = document.getElementById('dateFrom');
-      const dateTo = document.getElementById('dateTo');
-      const clearDates = document.getElementById('clearDates');
-      const applyDates = document.getElementById('applyDates');
-      const dateRangeText = document.getElementById('dateRangeText');
+    // Render pagination
+    function renderPagination(totalItems, currentPage) {
+      console.log(`Rendering pagination: ${totalItems} items, page ${currentPage}`);
+      const pagination = document.getElementById('pagination');
+      pagination.innerHTML = '';
 
-      // Set today as default for "to" date
+      const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+
+      pagination.insertAdjacentHTML('beforeend', `
+        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+          <a class="page-link" href="#" onclick="handlePageChange(${currentPage - 1})" ${currentPage === 1 ? 'tabindex="-1" aria-disabled="true"' : ''}>Previous</a>
+        </li>
+      `);
+
+      for (let i = 1; i <= totalPages; i++) {
+        pagination.insertAdjacentHTML('beforeend', `
+          <li class="page-item ${i === currentPage ? 'active' : ''}">
+            <a class="page-link" href="#" onclick="handlePageChange(${i})">${i}</a>
+          </li>
+        `);
+      }
+
+      pagination.insertAdjacentHTML('beforeend', `
+        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+          <a class="page-link" href="#" onclick="handlePageChange(${currentPage + 1})" ${currentPage === totalPages ? 'tabindex="-1" aria-disabled="true"' : ''}>Next</a>
+        </li>
+      `);
+
+      console.log(`Pagination rendered: ${totalPages} pages`);
+    }
+
+    // Handle page change
+    function handlePageChange(page) {
+      event.preventDefault();
+      console.log(`Changing to page ${page}`);
+      renderTransactions(filteredTransactions, page);
+    }
+
+    // Filter transactions
+    function filterTransactions(transactions, type, fromDate, toDate) {
+      console.log(`Filtering transactions: type=${type}, from=${fromDate}, to=${toDate}`);
+      const filtered = transactions.filter(tx => {
+        let matchesType = true;
+        let matchesDate = true;
+
+        if (type && tx.type !== type) {
+          matchesType = false;
+        }
+
+        const txDate = new Date(tx.createdAt);
+        if (fromDate && txDate < new Date(fromDate)) {
+          matchesDate = false;
+        }
+        if (toDate && txDate > new Date(toDate)) {
+          matchesDate = false;
+        }
+
+        return matchesType && matchesDate;
+      });
+      console.log(`Filtered ${filtered.length} transactions`);
+      return filtered;
+    }
+
+    // Export to CSV
+    function exportToCSV(transactions) {
+      console.log(`Exporting ${transactions.length} transactions to CSV`);
+      const csvHeaders = ['Type', 'Amount', 'Status', 'Date'];
+      const csvRows = transactions.map(tx => [
+        tx.type,
+        tx.amount,
+        tx.status || 'Pending',
+        formatDate(tx.createdAt)
+      ]);
+
+      let csvContent = csvHeaders.join(',') + '\n';
+      csvRows.forEach(row => {
+        csvContent += row.join(',') + '\n';
+      });
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'transaction_history.csv';
+      link.click();
+      console.log('CSV export completed');
+    }
+
+    // Global variables
+    let allTransactions = [];
+    let filteredTransactions = [];
+
+    // Page load
+    document.addEventListener('DOMContentLoaded', async function () {
+      console.log('Page loaded, initializing...');
+      allTransactions = await fetchTransactions();
+      filteredTransactions = allTransactions;
+      renderTransactions(filteredTransactions, 1);
+
       const today = new Date();
-      dateTo.value = today.toISOString().split('T')[0];
-
-      // Set 30 days ago as default for "from" date
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(today.getDate() - 30);
-      dateFrom.value = thirtyDaysAgo.toISOString().split('T')[0];
-
+      document.getElementById('dateTo').value = today.toISOString().split('T')[0];
+      document.getElementById('dateFrom').value = thirtyDaysAgo.toISOString().split('T')[0];
       updateDateRangeText();
+      console.log('Default date range set');
 
-      // Clear dates button
-      clearDates.addEventListener('click', function () {
-        dateFrom.value = '';
-        dateTo.value = '';
+      document.getElementById('applyFilters').addEventListener('click', function (e) {
+        e.preventDefault();
+        const type = document.querySelector('select[name="type"]').value;
+        const fromDate = document.getElementById('dateFrom').value;
+        const toDate = document.getElementById('dateTo').value;
+        filteredTransactions = filterTransactions(allTransactions, type, fromDate, toDate);
+        renderTransactions(filteredTransactions, 1);
+      });
+
+      document.getElementById('clearDates').addEventListener('click', function () {
+        console.log('Clearing date filters');
+        document.getElementById('dateFrom').value = '';
+        document.getElementById('dateTo').value = '';
         updateDateRangeText();
       });
 
-      // Apply dates button
-      applyDates.addEventListener('click', function () {
+      document.getElementById('applyDates').addEventListener('click', function () {
+        console.log('Applying date filters');
         updateDateRangeText();
-        // Close the dropdown
-        const dropdown = document.querySelector('.dropdown-menu');
         bootstrap.Dropdown.getInstance(document.getElementById('dateFilterDropdown')).hide();
       });
 
-      function updateDateRangeText() {
-        if (dateFrom.value && dateTo.value) {
-          const fromDate = new Date(dateFrom.value).toLocaleDateString();
-          const toDate = new Date(dateTo.value).toLocaleDateString();
-          dateRangeText.textContent = `${fromDate} - ${toDate}`;
-        } else if (dateFrom.value) {
-          dateRangeText.textContent = `From ${new Date(dateFrom.value).toLocaleDateString()}`;
-        } else if (dateTo.value) {
-          dateRangeText.textContent = `Until ${new Date(dateTo.value).toLocaleDateString()}`;
-        } else {
-          dateRangeText.textContent = 'All dates';
-        }
-      }
-
-      // Export history button
       document.getElementById('export-history').addEventListener('click', function (e) {
         e.preventDefault();
-        alert('Export functionality would be implemented here. This would download a CSV of your transaction history.');
+        exportToCSV(filteredTransactions);
       });
-    });
-  </script>
 
-  <script src="../scripts/bootstrap.min.js"></script>
-  <script src="../scripts/custom.js"></script>
+      console.log('Event listeners initialized');
+    });
+
+    function updateDateRangeText() {
+      console.log('Updating date range text');
+      const dateFrom = document.getElementById('dateFrom').value;
+      const dateTo = document.getElementById('dateTo').value;
+      const dateRangeText = document.getElementById('dateRangeText');
+      if (dateFrom && dateTo) {
+        const fromDate = new Date(dateFrom).toLocaleDateString();
+        const toDate = new Date(dateTo).toLocaleDateString();
+        dateRangeText.textContent = `${fromDate} - ${toDate}`;
+      } else if (dateFrom) {
+        dateRangeText.textContent = `From ${new Date(dateFrom).toLocaleDateString()}`;
+      } else if (dateTo) {
+        dateRangeText.textContent = `Until ${new Date(dateTo).toLocaleDateString()}`;
+      } else {
+        dateRangeText.textContent = 'All dates';
+      }
+      console.log(`Date range text updated: ${dateRangeText.textContent}`);
+    }
+  </script>
 </body>
 
 </html>

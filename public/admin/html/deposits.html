@@ -3,10 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | Financial System</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-     <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/global.css">
+
+    <title>Admin Dashboard | Deposit History</title>
+</head>
+    <style>
+
+        .btn-edit {
+            background: #F6BB42;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #e8ae39;
+        }
+
+        /* Action buttons container */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+
+        /* Modal Styles */
+        .modal-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            padding: 20px;
+        }
+
+        .modal-wrapper.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            padding: 0;
+            overflow: hidden;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        .modal-wrapper.active .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eaeaea;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .balance-form {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-control {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            font-family: "Poppins", sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-success:hover {
+            background: #219653;
+        }
+
+        .transaction-info {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: #444;
+        }
+
+        .info-value {
+            color: #666;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 250px;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Mobile Menu Toggle -->
@@ -88,8 +275,13 @@
                                     <td>Bitcoin</td>
                                     <td>2023-10-05 14:32</td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary">Approve</button>
-                                        <button class="btn btn-sm btn-danger">Reject</button>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm btn-edit edit-deposit" data-id="7821" data-user="John Doe" data-amount="500.00" data-method="Bitcoin">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-primary">Approve</button>
+                                            <button class="btn btn-sm btn-danger">Reject</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -99,8 +291,13 @@
                                     <td>Bank Transfer</td>
                                     <td>2023-10-05 13:45</td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary">Approve</button>
-                                        <button class="btn btn-sm btn-danger">Reject</button>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm btn-edit edit-deposit" data-id="7822" data-user="Jane Smith" data-amount="1200.00" data-method="Bank Transfer">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-primary">Approve</button>
+                                            <button class="btn btn-sm btn-danger">Reject</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -110,8 +307,13 @@
                                     <td>Ethereum</td>
                                     <td>2023-10-05 12:18</td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary">Approve</button>
-                                        <button class="btn btn-sm btn-danger">Reject</button>
+                                        <div class="action-buttons">
+                                            <button class="btn btn-sm btn-edit edit-deposit" data-id="7823" data-user="Robert Johnson" data-amount="750.00" data-method="Ethereum">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-primary">Approve</button>
+                                            <button class="btn btn-sm btn-danger">Reject</button>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -158,8 +360,54 @@
         </main>
     </div>
 
+    <!-- Edit Deposit Modal -->
+    <div id="editDepositModal" class="modal-wrapper">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Adjust Deposit Balance</h2>
+                <button class="modal-close" id="closeEditModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="transaction-info">
+                    <div class="info-item">
+                        <span class="info-label">Transaction ID:</span>
+                        <span class="info-value" id="modalTransactionId">#DEP-7821</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">User:</span>
+                        <span class="info-value" id="modalUser">John Doe</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Current Amount:</span>
+                        <span class="info-value" id="modalAmount">$500.00</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Payment Method:</span>
+                        <span class="info-value" id="modalMethod">Bitcoin</span>
+                    </div>
+                </div>
+                
+                <form action="" method="post" class="balance-form">
+                    <div class="form-row">
+                        <input type="number" name="addBalance" min="1" placeholder="Amount to Add" class="form-control" required>
+                        <button class="btn btn-success" type="submit">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                </form>
 
-<script src="../js/global.js"></script>
-<script src="../js/deposit.js"></script>t>
+                <form action="" method="post" class="balance-form">
+                    <div class="form-row">
+                        <input type="number" name="subtractBalance" min="1" placeholder="Amount to Subtract" class="form-control" required>
+                        <button class="btn btn-danger" type="submit">
+                            <i class="fas fa-minus"></i> Subtract
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script src="../js/deposit.js"></script>
 </body>
 </html>

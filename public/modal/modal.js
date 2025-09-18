@@ -118,6 +118,7 @@ const Modal = (function() {
       }
   }
   
+
   // Public methods
   return {
       // Show a modal with custom configuration
