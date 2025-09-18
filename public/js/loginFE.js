@@ -65,7 +65,7 @@ function showModal(type, message) {
     okButton.addEventListener('click', function() {
         if (type === 'success') {
             // Redirect to dashboard on success
-            window.location.href = '../Vitron-dashboard/Dashboard.html';
+            window.location.href = '../Vitron-Dashboard/Dashboard.html';
         } else {
             // Just close the modal on error
             modalBackdrop.remove();
@@ -134,7 +134,7 @@ async function handleLogin(event) {
     
     if (errors.length > 0) {
         // Show error modal with all validation errors
-        showModal('error', errors.join('<br>'));
+        Modal.error('error', errors.join('<br>'));
         submitButton.disabled = false;
         submitButton.textContent = 'Login';
         return;
@@ -151,7 +151,7 @@ async function handleLogin(event) {
         });
 
         const data = await response.json();
-        console.log(data)
+        // console.log(data)
         submitButton.disabled = false;
         submitButton.textContent = 'Login';
 
@@ -159,10 +159,14 @@ async function handleLogin(event) {
             localStorage.removeItem('token')
             localStorage.setItem('token', data.token);
             localStorage.setItem('email', data.user.email);
+            localStorage.setItem('username', data.user.username);
             submitButton.disabled = false;
             submitButton.textContent = 'Login';
             // console.log('Token received:', data.token);
-            showModal('success', 'Welcome back to Vitron-trade. Redirecting to dashboard...');
+            Modal.success('success', 'Welcome back to Vitron-trade. Redirecting to dashboard...');
+            setTimeout(() =>{
+                window.location.href = "../Vitron-Dashboard/Dashboard.html"
+            }, 2000)
         }else{
             // Enhanced error handling
             let errorMessage = 'Network error. Please try again later.';
@@ -176,7 +180,7 @@ async function handleLogin(event) {
             }
             submitButton.disabled = false;
             submitButton.textContent = 'Login';
-            showModal('error', errorMessage);
+            Modal.error('error', errorMessage);
 
         }
         
@@ -184,7 +188,7 @@ async function handleLogin(event) {
         console.error('Signup error:', error);
         submitButton.disabled = false;
         submitButton.textContent = 'Login';
-        showModal('error', 'Network error. Please check your connection and try again.');
+        Modal.error('error', 'Network error. Please check your connection and try again.');
     } finally {
         // Always re-enable the button
         submitButton.disabled = false;

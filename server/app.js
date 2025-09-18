@@ -32,7 +32,7 @@ app.use(
           "https://*.smartsuppcdn.com",
           "'unsafe-inline'"
         ],
-        scriptSrcAttr: ["'unsafe-inline'"],
+        scriptSrcAttr: ["'none'"],
         styleSrc: [
           "'self'",
           "https://cdn.jsdelivr.net",
@@ -40,12 +40,6 @@ app.use(
           "https://*.smartsuppcdn.com",
           "https://fonts.googleapis.com",
           "'unsafe-inline'"
-        ],
-        fontSrc: [
-          "'self'",
-          "https://cdnjs.cloudflare.com",
-          "https://*.smartsuppcdn.com",
-          "https://fonts.gstatic.com"
         ],
         imgSrc: [
           "'self'",
@@ -55,7 +49,20 @@ app.use(
           "https://app.ciqpay.com",
           "https://cdn.pixabay.com"
         ],
-        mediaSrc: ["https://*.smartsuppcdn.com"],
+        fontSrc: [
+          "'self'",
+          "https://cdnjs.cloudflare.com",
+          "https://*.smartsuppcdn.com",
+          "https://fonts.gstatic.com",
+          "https://cdn.jsdelivr.net",
+          "data:",
+          "http://localhost:2000", // Add for development
+          "https://vitron-trade.com/"
+        ],
+        mediaSrc: [
+          "'self'", // Allow media from vitron-trade.com
+          "https://*.smartsuppcdn.com"
+        ],
         connectSrc: [
           "'self'",
           "https://bootstrap.smartsuppchat.com",
@@ -63,17 +70,32 @@ app.use(
           "https://*.smartsuppchat.com",
           "https://*.smartsuppcdn.com",
           "wss://*.smartsupp.com",
+          "wss://websocket-visitors.smartsupp.com", // Explicitly allow Smartsupp WebSocket
           "https://api.coingecko.com"
         ],
+        scriptSrcAttr: ["'unsafe-inline'"],
         frameSrc: [
           "https://*.smartsupp.com",
           "https://*.smartsuppcdn.com"
-        ],
-        mediaSrc: ["https://*.smartsuppcdn.com"] // For video/audio in chat
-      },
-    },
+        ]
+      }
+    }
   })
 );
+
+app.use((req, res, next) => {
+  if (req.url.endsWith('.css')) {
+    res.setHeader('Content-Type', 'text/css');
+  }
+  if (req.url.endsWith('.mp4')) {
+    res.setHeader('Content-Type', 'video/mp4');
+  }
+  if (req.url.endsWith('.woff2')) {
+    res.setHeader('Content-Type', 'font/woff2');
+  }
+  next();
+});
+
 app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../public')));

@@ -6,7 +6,7 @@ const AdminInvestmentController = require("../../adminModule/investAdminModule/a
 const router = express.Router();
 
 // createInvestment
-router.post("/invest-now", AuthMiddleware, investmentValidation, InvestmentController().createInvestment);
+router.post("/invest-now", AuthMiddleware, InvestmentController().createInvestment);
 
 // allInvestment
 router.get("/invest-history", AuthMiddleware, InvestmentController().getUserInvestments);

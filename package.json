@@ -6,10 +6,15 @@
   "scripts": {
     "dev": "nodemon ./server/app.js",
     "start": "node ./server/app.js",
+    "build": "npm install",
     "db:create": "sequelize db:create",
     "db:migrate": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
     "db:reset": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all"
+  },
+  "engines": {
+    "node": ">=18.16.0",    
+    "npm": ">=6.0.0"
   },
   "repository": {
     "type": "git",

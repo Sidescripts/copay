@@ -9,6 +9,13 @@ module.exports = (sequelize) => {
       primaryKey: true,
       allowNull: false
     },
+    planName: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
     amount: {
       type: DataTypes.DECIMAL(20, 8),
       allowNull: false,

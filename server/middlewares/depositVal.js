@@ -13,27 +13,8 @@ const validateCreateDeposit = [
         }),
     body('asset')
         .isIn(['BTC', 'ETH', 'USDT', 'LTC', 'BCH', 'BNB', 'DOGE', 'DASH'])
-        .withMessage('Invalid deposit method'),
-    body('transaction_id')
-        .notEmpty()
-        .withMessage('Transaction ID is required')
-        .custom(async (value) => {
-            const existingDeposit = await Deposit.findOne({ where: { transaction_id: value } });
-            if (existingDeposit) {
-                throw new Error('Transaction ID already exists');
-            }
-            return true;
-        }),
-    body('userId')
-        .notEmpty()
-        .withMessage('User ID is required')
-        .custom(async (value) => {
-        const user = await User.findByPk(value);
-            if (!user) {
-                throw new Error('User not found');
-            }
-            return true;
-        })
+        .withMessage('Invalid deposit method')
+    
 ];
 
 const validateUpdateDeposit = [
