@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
+  <link rel="stylesheet" type="text/css" href="../styles/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="../fonts/bootstrap-icons.css">
+  <link rel="stylesheet" href="../styles/style.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@500;600;700&amp;family=Roboto:wght@400;500;700&amp;display=swap"
+    rel="stylesheet">
+  <meta id="theme-check" name="theme-color" content="#FFFFFF">
+
+  <style>
+    .color-highlight {
+      color: #F6BB42 !important;
+    }
+
+    .bg-highlight {
+      background-color: #F6BB42 !important;
+      color: #FFF !important;
+    }
+
+    .border-highlight {
+      border-color: #F6BB42 !important;
+    }
+
+    .gradient-highlight {
+      background-image: linear-gradient(to bottom, #FFCE54, #F6BB42) !important;
+    }
+
+    .splide__pagination__page.is-active {
+      background-color: #F6BB42 !important;
+    }
+
+    .footer-bar-1 .active-nav i,
+    .footer-bar-1 .active-nav span {
+      color: #F6BB42 !important;
+    }
+
+    .footer-bar-2 .active-nav {
+      border-bottom: solid 3px #F6BB42;
+    }
+
+    .footer-bar-3 .active-nav {
+      border-top: solid 3px #F6BB42;
+    }
+
+    .footer-bar-4 .active-nav {
+      background-color: #F6BB42;
+    }
+
+    #footer-bar .circle-nav-1::after,
+    #footer-bar .circle-nav-2::before,
+    #footer-bar .circle-nav-2::after {
+      background-image: linear-gradient(to bottom, #FFCE54, #F6BB42) !important;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      background-color: #F6BB42;
+    }
+
+    .color-highlight {
+      color: #F6BB42;
+    }
+
+    .bg-highlight {
+      background-color: #F6BB42;
+      color: #FFF !important;
+    }
+
+    #header-deco-1,
+    #header-deco-2,
+    #header-deco-3,
+    #header-deco-4 {
+      fill: #F6BB42;
+    }
+
+    .error {
+      color: #d84558 !important;
+      background-color: rgba(218, 68, 83, .2) !important;
+      color: #fff !important;
+      position: relative;
+      padding: 1rem 1rem;
+      padding-right: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid transparent;
+      border-radius: .25rem;
+      transition: opacity .15s linear;
+    }
+
+    .card-center {
+      top: 30%;
+      transform: translateY(-50%);
+    }
+
+    .card-bottom {
+      bottom: 0px;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .button-selected,
+    .btn-primary:active,
+    .btn-primary.active {
+      background: #212121 !important;
+    }
+
+    .plan-card {
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      border-radius: 22px;
+      margin: 0px 15px 30px 15px;
+      border: none;
+      /* background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center; */
+    }
+
+    .plan-card .card-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #FFD700, #B8860B);
+    }
+
+    .plan-title {
+      font-size: 22px;
+      font-weight: 700;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      color: #8B7500;
+      margin-bottom: 5px;
+      margin-top: 15px;
+    }
+
+    .plan-sub {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .plan-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 15px 0;
+    }
+
+    .plan-features li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      margin-bottom: 8px;
+      position: relative;
+      padding-left: 25px;
+    }
+
+    .plan-features li::before {
+      content: "✔";
+      color: #C9A43B;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+
+    .btn-plan {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: linear-gradient(90deg, #FFD700, #B8860B);
+      color: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 0.3s;
+      border: none;
+    }
+
+    .btn-plan:hover {
+      opacity: 0.9;
+    }
+
+    .earn-box {
+      background: #fff8e1;
+      border: 1px solid #ffd54f;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    .earn-box b {
+      color: #b8860b;
+    }
+
+    .modal {
+      z-index: 2000 !important;
+    }
+
+    .modal-backdrop {
+      z-index: 1990 !important;
+    }
+    
+    /* Modal container */
+.modal-content {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  overflow: hidden;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Header */
+.modal-header {
+  background: var(--bs-light, #f8f9fa);
+  border-bottom: 1px solid #dee2e6;
+  padding: 15px 20px;
+}
+
+.modal-title {
+  color: var(--bs-warning, #ffc107);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.btn-close {
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+.btn-close:hover {
+  opacity: 1;
+}
+
+/* Body */
+.modal-body {
+  padding: 20px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--bs-warning, #ffc107);
+}
+
+/* Inputs */
+.form-control, .form-select {
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  padding: 10px 12px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--bs-warning, #ffc107);
+  box-shadow: 0 0 8px rgba(255, 193, 7, 0.35);
+}
+
+/* Custom dropdown arrow */
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffc107'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 16px 12px;
+}
+
+/* Footer */
+.modal-footer {
+  background: var(--bs-light, #f8f9fa);
+  border-top: 1px solid #dee2e6;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Buttons */
+.modal-footer .btn {
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-danger {
+  background: #dc3545;
+  border: none;
+}
+.btn-danger:hover {
+  background: #b02a37;
+}
+
+.btn-warning {
+  background: #ffc107;
+  color: #000;
+  border: none;
+}
+.btn-warning:hover {
+  background: #e0a800;
+  color: #111;
+}
+
+/* Dark mode support */
+[data-bs-theme="dark"] .modal-content {
+  background: #1e1e1e;
+  color: #fff;
+}
+
+[data-bs-theme="dark"] .modal-header,
+[data-bs-theme="dark"] .modal-footer {
+  background: #121212;
+  border-color: #333;
+}
+
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  color: #fff;
+}
+
+[data-bs-theme="dark"] .form-control:focus,
+[data-bs-theme="dark"] .form-select:focus {
+  border-color: #ffc107;
+  box-shadow: 0 0 8px rgba(255, 193, 7, 0.4);
+}
+
+/* Mobile tweaks */
+@media (max-width: 576px) {
+  .modal-content {
+    border-radius: 12px;
+  }
+  .modal-title {
+    font-size: 16px;
+  }
+  .form-control,
+  .form-select {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+  .modal-footer .btn {
+    flex: 1;
+    margin: 0 5px;
+  }
+}
+
+  </style>
+
+
+</head>
+
+<body class="theme-light">
+
+  <div id="preloader" class="preloader-hide">
+    <div class="spinner-border color-highlight" role="status"></div>
+  </div>
+
+  <!-- Page Wrapper-->
+  <div id="page" data-swup="0" style="display: block;">
+
+<!-- Footer Bar -->
+  <div id="footer-bar" class="footer-bar-1 footer-bar-detached">
+      <a href="./earn.html" class="active-nav"><i class="bi bi-piggy-bank"></i><span>Earn</span></a>
+      <a href="./account-history.html"><i class="bi bi-calendar4-event"></i><span>Activity</span></a>
+      <a href="../Dashboard.html" class="circle-nav-2"><i class="bi bi-house-fill"></i><span>Wallet</span></a>
+      <a href="./explore.html"><i class="bi bi-grid"></i><span>Explore</span></a>
+      <a href="./profile-settings.html" data-bs-toggle="offcanvas" data-bs-target="#menu-sidebar"><i class="bi bi-gear"></i><span>Settings</span></a>
+  </div>
+
+
+
+    <!-- Page Content - Only Page Elements Here-->
+    <div class="page-content footer-clear">
+
+
+      <title>Start earning | Vitron-trade </title>
+
+
+      <!-- Page Title-->
+      <div class="pt-3">
+        <div class="page-title d-flex">
+          <div class="align-self-center">
+            <a href="../Dashboard.html" data-back-button="" class="me-3 ms-0 icon icon-xxs bg-theme rounded-s shadow-m">
+              <i class="bi bi-chevron-left color-theme font-14"></i>
+            </a>
+          </div>
+          <div class="align-self-center me-auto">
+            <h1 class="color-theme mb-0 font-18">Start earning</h1>
+          </div>
+          <div class="align-self-center ms-auto">
+            <a href="#" data-bs-toggle="dropdown"
+              class="icon icon-xxs gradient-highlight color-white shadow-bg shadow-bg-xs rounded-m">
+              <i class="bi bi-list font-20"></i>
+            </a>
+            <!-- Page Title Dropdown Menu-->
+            <div class="dropdown-menu">
+              <div class="card card-style shadow-m mt-1 me-1">
+                <div class="list-group list-custom list-group-s list-group-flush rounded-xs px-3 py-1">
+
+                    <a href="./profile-settings.html" class="list-group-item">
+                        <i
+                            class="has-bg gradient-dark shadow-bg shadow-bg-xs rounded-xs color-gray-dark bi bi-person-circle"></i>
+                        <strong class="font-13">Profile</strong>
+                    </a>
+
+                    <a href="./faq.html" class="list-group-item">
+                        <i
+                            class="has-bg gradient-dark shadow-bg shadow-bg-xs rounded-xs color-gray-dark bi bi-info-circle"></i>
+                        <strong class="font-13">FAQs</strong>
+                    </a>
+
+                    <a href="./support.html" class="list-group-item">
+                        <i
+                            class="has-bg gradient-dark shadow-bg shadow-bg-xs rounded-xs color-gray-dark bi bi-envelope"></i>
+                        <strong class="font-13">Support</strong>
+                    </a>
+
+                    <a href="./livechat.html" class="list-group-item">
+                        <i
+                            class="has-bg gradient-dark shadow-bg shadow-bg-xs rounded-xs color-gray-dark bi bi-chat-dots"></i>
+                        <strong class="font-13">Chat</strong>
+                    </a>
+
+                    <a href="?a=logout" class="list-group-item">
+                        <i
+                            class="has-bg gradient-dark shadow-bg shadow-bg-xs rounded-xs color-gray-dark bi bi-power "></i>
+                        <strong class="font-13">Log Out</strong>
+                    </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Page title End-->
+
+      <div class="card card-style shadow-card shadow-card-l" data-card-height="150"
+        style="height: 150px; background-image: url('../images/card\ mockup.jpg'); background-size: cover; background-position: center;">
+        <div class="card-bottom pb-3 px-3">
+          <h3 class="color-white">Revenue Plan</h3>
+          <p class="color-white opacity-70 mb-0 mt-n1">Select a revenue plan that suits your need and budget</p>
+        </div>
+        <div class="card-overlay bg-gradient-fade opacity-80"></div>
+      </div>
+
+
+      <form method="post" name="spendform"><input type="hidden" name="form_id" value="17554279341302"><input
+          type="hidden" name="form_token" value="1844de4430bd1954a6f6b0c1d999125c">
+        <input type="hidden" name="a" value="deposit">
+
+        <div class="row text-center">
+
+          <!-- Plan 1 -->
+          <div class="col-12 col-md-6 pe-0">
+            <div class="card plan-card me-4">
+              <!-- Image -->
+              <!-- <img class="img-fluid card-img-top" src="../images/plan-1.jpg" alt="Plan Image"> -->
+
+              <!-- Content -->
+              <div class="card-body">
+                <h3 class="plan-title">Bronze Vault</h3>
+                <p class="plan-sub">⏰ 3-Day Trading</p>
+
+                <ul class="plan-features">
+                  <li><span>Min Investment</span> <b>$200</b></li>
+                  <li><span>Max Investment</span> <b>$299</b></li>
+                  <li><span>Capital Back</span> <b>Yes</b></li>
+                  <li><span>Instant Withdrawal</span> <b>Yes</b></li>
+                </ul>
+
+                <!-- Earnings Info -->
+                <div class="earn-box">
+                  <p class="mb-1"><b>$200 → Earn $3,500 in 3 days</b></p>
+                </div>
+
+                <!-- Buttons -->
+                <label class="btn btn-plan mb-3" data-bs-toggle="modal" data-bs-target="#investNowModal">Invest
+                  Now</label>
+                <label class="btn btn-plan" data-bs-toggle="modal" data-bs-target="#investBalanceModal">Invest Using
+                  Balance</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Plan 2 -->
+          <div class="col-12 col-md-6 pe-0">
+            <div class="card plan-card me-4">
+              <!-- Image -->
+              <!-- <img class="img-fluid card-img-top" src="../images/plan-1.jpg" alt="Plan Image"> -->
+
+              <!-- Content -->
+              <div class="card-body">
+                <h3 class="plan-title">Silver Vault</h3>
+                <p class="plan-sub">⏰ 3-Day Trading</p>
+
+                <ul class="plan-features">
+                  <li><span>Min Investment</span> <b>$300</b></li>
+                  <li><span>Max Investment</span> <b>$499</b></li>
+                  <li><span>Capital Back</span> <b>Yes</b></li>
+                  <li><span>Instant Withdrawal</span> <b>Yes</b></li>
+                </ul>
+
+                <!-- Earnings Info -->
+                <div class="earn-box">
+                  <p class="mb-1"><b>$300 → Earn $5,500 in 3 days</b></p>
+                </div>
+
+                   <!-- Buttons -->
+                <label class="btn btn-plan mb-3" data-bs-toggle="modal" data-bs-target="#investNowModal">Invest
+                  Now</label>
+                <label class="btn btn-plan" data-bs-toggle="modal" data-bs-target="#investBalanceModal">Invest Using
+                  Balance</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Plan 3 -->
+          <div class="col-12 col-md-6 pe-0">
+            <div class="card plan-card me-4">
+              <!-- Image -->
+              <!-- <img class="img-fluid card-img-top" src="../images/plan-1.jpg" alt="Plan Image"> -->
+
+              <!-- Content -->
+              <div class="card-body">
+                <h3 class="plan-title">Gold Vault</h3>
+                <p class="plan-sub">⏰ 3-Day Trading</p>
+
+                <ul class="plan-features">
+                  <li><span>Min Investment</span> <b>$500</b></li>
+                  <li><span>Max Investment</span> <b>$999</b></li>
+                  <li><span>Capital Back</span> <b>Yes</b></li>
+                  <li><span>Instant Withdrawal</span> <b>Yes</b></li>
+                </ul>
+
+                <!-- Earnings Info -->
+                <div class="earn-box">
+                  <p class="mb-1"><b>$500 → Earn $9,500 in 3 days</b></p>
+                </div>
+
+                   <!-- Buttons -->
+                <label class="btn btn-plan mb-3" data-bs-toggle="modal" data-bs-target="#investNowModal">Invest
+                  Now</label>
+                <label class="btn btn-plan" data-bs-toggle="modal" data-bs-target="#investBalanceModal">Invest Using
+                  Balance</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Plan 4 -->
+          <div class="col-12 col-md-6 pe-0">
+            <div class="card plan-card me-4">
+              <!-- Image -->
+              <!-- <img class="img-fluid card-img-top" src="../images/plan-1.jpg" alt="Plan Image"> -->
+
+              <!-- Content -->
+              <div class="card-body">
+                <h3 class="plan-title">Platinum Vault</h3>
+                <p class="plan-sub">⏰ 3-Day Trading</p>
+
+                <ul class="plan-features">
+                  <li><span>Min Investment</span> <b>$1,000</b></li>
+                  <li><span>Max Investment</span> <b>$1,999</b></li>
+                  <li><span>Capital Back</span> <b>Yes</b></li>
+                  <li><span>Instant Withdrawal</span> <b>Yes</b></li>
+                </ul>
+
+                <!-- Earnings Info -->
+                <div class="earn-box">
+                  <p class="mb-1"><b>$1,000 → Earn $14,500 in 3 days</b></p>
+                </div>
+
+                   <!-- Buttons -->
+                <label class="btn btn-plan mb-3" data-bs-toggle="modal" data-bs-target="#investNowModal">Invest
+                  Now</label>
+                <label class="btn btn-plan" data-bs-toggle="modal" data-bs-target="#investBalanceModal">Invest Using
+                  Balance</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Plan 5 -->
+          <div class="col-12 col-md-6 pe-0">
+            <div class="card plan-card me-4">
+              <!-- Image -->
+              <!-- <img class="img-fluid card-img-top" src="../images/plan-1.jpg" alt="Plan Image"> -->
+
+              <!-- Content -->
+              <div class="card-body">
+                <h3 class="plan-title">Diamond Vault</h3>
+                <p class="plan-sub">⏰ 3-Day Trading</p>
+
+                <ul class="plan-features">
+                  <li><span>Min Investment</span> <b>$2,000</b></li>
+                  <li><span>Max Investment</span> <b>$2,999</b></li>
+                  <li><span>Capital Back</span> <b>Yes</b></li>
+                  <li><span>Instant Withdrawal</span> <b>Yes</b></li>
+                </ul>
+
+                <!-- Earnings Info -->
+                <div class="earn-box">
+                  <p class="mb-1"><b>$2,000 → Earn $20,500 in 3 days</b></p>
+                </div>
+
+                   <!-- Buttons -->
+                <label class="btn btn-plan mb-3" data-bs-toggle="modal" data-bs-target="#investNowModal">Invest
+                  Now</label>
+                <label class="btn btn-plan" data-bs-toggle="modal" data-bs-target="#investBalanceModal">Invest Using
+                  Balance</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Plan 6 -->
+          <div class="col-12 col-md-6 pe-0">
+            <div class="card plan-card me-4">
+              <!-- Image -->
+              <!-- <img class="img-fluid card-img-top" src="../images/plan-1.jpg" alt="Plan Image"> -->
+
+              <!-- Content -->
+              <div class="card-body">
+                <h3 class="plan-title">Titanium Vault</h3>
+                <p class="plan-sub">⏰ 3-Day Trading</p>
+
+                <ul class="plan-features">
+                  <li><span>Min Investment</span> <b>$3,000</b></li>
+                  <li><span>Max Investment</span> <b>$3,999</b></li>
+                  <li><span>Capital Back</span> <b>Yes</b></li>
+                  <li><span>Instant Withdrawal</span> <b>Yes</b></li>
+                </ul>
+
+                <!-- Earnings Info -->
+                <div class="earn-box">
+                  <p class="mb-1"><b>$3,000 → Earn $30,500 in 3 days</b></p>
+                </div>
+
+                   <!-- Buttons -->
+                <label class="btn btn-plan mb-3" data-bs-toggle="modal" data-bs-target="#investNowModal">Invest
+                  Now</label>
+                <label class="btn btn-plan" data-bs-toggle="modal" data-bs-target="#investBalanceModal">Invest Using
+                  Balance</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Plan 7 -->
+          <div class="col-12 col-md-6 pe-0">
+            <div class="card plan-card me-4">
+              <!-- Image -->
+              <!-- <img class="img-fluid card-img-top" src="../images/plan-1.jpg" alt="Plan Image"> -->
+
+              <!-- Content -->
+              <div class="card-body">
+                <h3 class="plan-title">Crown Vault</h3>
+                <p class="plan-sub">⏰ 3-Day Trading</p>
+
+                <ul class="plan-features">
+                  <li><span>Min Investment</span> <b>$4,000</b></li>
+                  <li><span>Max Investment</span> <b>$4,999</b></li>
+                  <li><span>Capital Back</span> <b>Yes</b></li>
+                  <li><span>Instant Withdrawal</span> <b>Yes</b></li>
+                </ul>
+
+                <!-- Earnings Info -->
+                <div class="earn-box">
+                  <p class="mb-1"><b>$4,000 → Earn $40,500 in 3 days</b></p>
+                </div>
+
+                   <!-- Buttons -->
+                <label class="btn btn-plan mb-3" data-bs-toggle="modal" data-bs-target="#investNowModal">Invest
+                  Now</label>
+                <label class="btn btn-plan" data-bs-toggle="modal" data-bs-target="#investBalanceModal">Invest Using
+                  Balance</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Plan 8 -->
+          <div class="col-12 col-md-6 pe-0">
+            <div class="card plan-card me-4">
+              <!-- Image -->
+              <!-- <img class="img-fluid card-img-top" src="../images/plan-1.jpg" alt="Plan Image"> -->
+
+              <!-- Content -->
+              <div class="card-body">
+                <h3 class="plan-title">Royal Vault</h3>
+                <p class="plan-sub">⏰ 3-Day Trading</p>
+
+                <ul class="plan-features">
+                  <li><span>Min Investment</span> <b>$5,000</b></li>
+                  <li><span>Max Investment</span> <b>$5,000</b></li>
+                  <li><span>Capital Back</span> <b>Yes</b></li>
+                  <li><span>Instant Withdrawal</span> <b>Yes</b></li>
+                </ul>
+
+                <!-- Earnings Info -->
+                <div class="earn-box">
+                  <p class="mb-1"><b>$5,000 → Earn $50,500 in 3 days</b></p>
+                </div>
+
+                   <!-- Buttons -->
+                <label class="btn btn-plan mb-3" data-bs-toggle="modal" data-bs-target="#investNowModal">Invest
+                  Now</label>
+                <label class="btn btn-plan" data-bs-toggle="modal" data-bs-target="#investBalanceModal">Invest Using
+                  Balance</label>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <br>
+      </form>
+
+
+
+
+    </div>
+
+  </div>
+
+  <!-- ============================= -->
+  <!-- Invest Now (Crypto Payment) -->
+  <!-- ============================= -->
+  <div class="modal fade" id="investNowModal" tabindex="-1" aria-labelledby="investNowModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="investNowModalLabel">Invest Now</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form>
+            <!-- Amount -->
+            <div class="mb-3">
+              <label for="investmentAmount" class="form-label">Amount ($)</label>
+              <input type="number" class="form-control" id="investmentAmount" placeholder="Enter amount">
+            </div>
+
+            <!-- Payment Method -->
+            <div class="mb-3">
+              <label for="paymentMethod" class="form-label">Payment Method</label>
+              <select class="form-select" id="paymentMethod">
+                <option selected disabled>Select Method</option>
+                <option value="btc">Bitcoin (BTC)</option>
+                <option value="usdt">Tether (USDT)</option>
+                <option value="">Ethereum wallet </option>
+                <option value="">BNB wallet </option>
+                <option value="">Bitcoin Cash wallet </option>
+                <option value="">Litecoin wallet </option>
+                <option value="">Dash wallet </option>
+             
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button> -->
+        <button type="button" class="btn btn-warning" onclick="confirmInvestment()">Confirm & Get Wallet</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Invest Using Balance -->
+
+  <div class="modal fade" id="investBalanceModal" tabindex="-1" aria-labelledby="investBalanceModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="investBalanceModalLabel">Invest Using Balance</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Show Current Balance -->
+          <p><strong>Available Balance:</strong> $250</p>
+
+          <form>
+            <!-- Amount -->
+            <div class="mb-3">
+              <label for="balanceAmount" class="form-label">Amount ($)</label>
+              <input type="number" class="form-control" id="balanceAmount" placeholder="Enter amount">
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-warning">Confirm Investment</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+  function confirmInvestment() {
+  const amount = document.getElementById("investmentAmount").value;
+  const method = document.getElementById("paymentMethod").value;
+
+  if (!amount || !method) {
+    alert("Please enter an amount and select a payment method.");
+    return;
+  }
+
+  // Wallets
+  const wallets = {
+    btc: "bc1qprkyhjwhyccmjgawe77tllgnqjugn8y4aweupl",
+    usdt: "TMRyQ2GdPkJvTAPEnYsJQc5Bqrwjf4tv3G",
+    eth: "0x5983609884040B91b0Fe1dEd471193165fD65B82",
+    bnb: "bnb1ExampleWalletabc123",
+    bch: "bitcoincash:qExampleWallet0000",
+    ltc: "ltc1ExampleWalletxyz",
+    dash: "XdashExampleWallet11111"
+  };
+
+  // Save to localStorage
+  localStorage.setItem("investmentAmount", amount);
+  localStorage.setItem("paymentMethod", method);
+  localStorage.setItem("walletAddress", wallets[method]);
+
+  // Redirect to confirmDeposit page
+  window.location.href = "../html/confirmDeposit.html";
+}
+
+</script>
+</body>
+<script src="../scripts/bootstrap.min.js"></script>
+<script src="../scripts/custom.js"></script>
+<!-- <script src="../scripts/earn.js"></script> -->
+<body>
+
+</html>

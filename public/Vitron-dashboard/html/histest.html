@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <title>Account History | Vitron-trade</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous">
+
+  <!-- Icons & Styles -->
+  <link rel="stylesheet" href="../styles/bootstrap.css">
+  <link rel="stylesheet" href="../fonts/bootstrap-icons.css">
+  <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+
+  <style>
+    :root {
+      --highlight: #F6BB42;
+      --light-bg: #f8f9fa;
+      --dark-bg: #343a40;
+    }
+
+    .color-highlight {
+      color: var(--highlight) !important;
+    }
+
+    .bg-highlight {
+      background-color: var(--highlight) !important;
+      color: #FFF !important;
+    }
+
+    .border-highlight {
+      border-color: var(--highlight) !important;
+    }
+
+    .gradient-highlight {
+      background-image: linear-gradient(to bottom, #FFCE54, #F6BB42) !important;
+    }
+
+    .footer-bar-1 .active-nav i,
+    .footer-bar-1 .active-nav span {
+      color: var(--highlight) !important;
+    }
+
+    .pagination {
+      --bs-pagination-active-bg: var(--highlight);
+      --bs-pagination-active-border-color: var(--highlight);
+    }
+
+    .error {
+      background-color: rgba(218, 68, 83, .2) !important;
+      color: #fff !important;
+      padding: 1rem;
+      border-radius: .25rem;
+    }
+
+    .transaction-card {
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+
+    .transaction-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .transaction-deposit {
+      border-left-color: #28a745;
+    }
+
+    .transaction-withdrawal {
+      border-left-color: #dc3545;
+    }
+
+    .transaction-earning {
+      border-left-color: #17a2b8;
+    }
+
+    .transaction-commission {
+      border-left-color: #ffc107;
+    }
+
+    .status-badge {
+      padding: 0.35em 0.65em;
+      font-size: 0.75em;
+      font-weight: 700;
+      border-radius: 0.25rem;
+    }
+
+    .status-completed {
+      background-color: rgba(40, 167, 69, 0.2);
+      color: #28a745;
+    }
+
+    .status-pending {
+      background-color: rgba(255, 193, 7, 0.2);
+      color: #ffc107;
+    }
+
+    .status-cancelled {
+      background-color: rgba(220, 53, 69, 0.2);
+      color: #dc3545;
+    }
+
+    .date-filter-btn {
+      border: 1px solid #dee2e6;
+      background: white;
+      padding: 0.375rem 0.75rem;
+      border-radius: 0.375rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .date-filter-btn:hover {
+      background-color: #f8f9fa;
+    }
+
+    .filter-dropdown {
+      min-width: 300px;
+      padding: 1rem;
+    }
+
+    .amount-positive {
+      color: #28a745;
+      font-weight: 600;
+    }
+
+    .amount-negative {
+      color: #dc3545;
+      font-weight: 600;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 576px) {
+      .transaction-details {
+        flex-direction: column;
+      }
+
+      .transaction-amount {
+        margin-top: 0.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body class="theme-light">
+
+  <!-- Loader -->
+  <div id="preloader">
+    <div class="spinner-border color-highlight" role="status"></div>
+  </div>
+
+  <!-- Page Wrapper -->
+  <div id="page">
+
+    <!-- Footer Bar -->
+    <div id="footer-bar" class="footer-bar-1 footer-bar-detached">
+      <a href="./earn.html"><i class="bi bi-piggy-bank"></i><span>Earn</span></a>
+      <a href="./account-history.html"><i class="bi bi-calendar4-event"></i><span>Activity</span></a>
+      <a href="../Dashboard.html" class="circle-nav-2"><i class="bi bi-house-fill"></i><span>Wallet</span></a>
+      <a href="./explore.html"><i class="bi bi-grid"></i><span>Explore</span></a>
+      <a href="./profile-settings.html"><i
+          class="bi bi-gear"></i><span>Settings</span></a>
+    </div>
+
+    <!-- Page Content -->
+    <div class="page-content footer-clear">
+
+      <!-- Page Title -->
+      <div class="pt-3">
+        <div class="page-title d-flex">
+          <div class="align-self-center">
+            <a href="../Dashboard.html" class="me-3 ms-0 icon icon-xxs bg-theme rounded-s shadow-m">
+              <i class="bi bi-chevron-left color-theme font-14"></i>
+            </a>
+          </div>
+          <div class="align-self-center me-auto">
+            <h1 class="color-theme mb-0 font-18">Account History</h1>
+          </div>
+          <div class="align-self-center">
+            <a href="#" class="icon icon-xxs bg-theme rounded-s shadow-m" id="export-history">
+              <i class="bi bi-download color-theme font-14"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Form -->
+      <div class="card overflow-visible card-style">
+        <div class="content mb-0">
+          <form method="post" name="opts">
+            <input type="hidden" name="a" value="history">
+            <input type="hidden" name="page" value="1">
+
+            <div class="row g-2">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="form-label color-theme">Transaction Type</label>
+                  <select name="type" class="form-select inpts" style="background-color: transparent !important; " onchange="this.form.submit();">
+                    <option value="">All transactions</option>
+                    <option value="deposit">Deposit</option>
+                    <option value="withdrawal">Withdrawal</option>
+                    <option value="earning">Earning</option>
+                    <option value="commissions">Referral commission</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label class="form-label color-theme">Date Range</label>
+                  <div class="dropdown color-theme">
+                    <button class="date-filter-btn w-100 color-theme" type="button" id="dateFilterDropdown"
+                      data-bs-toggle="dropdown" aria-expanded="false" style="background-color: transparent !important;">
+                      <span id="dateRangeText">All dates</span>
+                      <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu filter-dropdown" aria-labelledby="dateFilterDropdown">
+                      <div class="mb-3">
+                        <label class="form-label">From</label>
+                        <input type="date" class="form-control" name="date_from" id="dateFrom">
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">To</label>
+                        <input type="date" class="form-control" name="date_to" id="dateTo">
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="clearDates">Clear</button>
+                        <button type="button" class="btn btn-sm btn-highlight" id="applyDates">Apply</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 d-flex align-items-end p-3">
+                <button type="submit" class="btn btn-highlight w-60 bg-yellow-dark">Apply Filters</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Transactions -->
+      <div class="card card-style">
+        <div class="content">
+          <h4 class="mb-3">Recent Transactions</h4>
+
+          <!-- Sample Transaction List (would be dynamically generated) -->
+          <div class="transaction-list">
+
+           <div class="transaction-card p-3 mb-3 rounded shadow-sm transaction-withdrawal">
+              <div class="d-flex justify-content-between transaction-details">
+                <div>
+                  <h6 class="mb-1">Withdrawal Request</h6>
+                  <p class="text-muted small mb-0">Processing • May 12, 2023</p>
+                </div>
+                <div class="transaction-amount text-end">
+                  <div class="amount-negative">- $200.00</div>
+                  <span class="status-badge status-pending">Pending</span>
+                </div>
+              </div>
+            </div> 
+
+            <div class="transaction-card p-3 mb-3 rounded shadow-sm transaction-earning">
+              <div class="d-flex justify-content-between transaction-details">
+                <div>
+                  <h6 class="mb-1">Investment</h6>
+                  <p class="text-muted small mb-0">Sep 13, 2025</p>
+                </div>
+                <div class="transaction-amount text-end">
+                  <div class="amount-positive">$1200.00</div>
+                  <span class="status-badge status-completed">Completed</span>
+                </div>
+              </div>
+            </div>
+
+
+           <div class="transaction-card p-3 mb-3  rounded shadow-sm transaction-deposit">
+              <div class="d-flex justify-content-between transaction-details">
+                <div>
+                  <h6 class="mb-1">Deposit</h6>
+                  <p class="text-muted small mb-0">Completed • May 15, 2025</p>
+                </div>
+                <div class="transaction-amount text-end">
+                  <div class="amount-positive">+ $2000.00</div>
+                  <span class="status-badge status-completed">Completed</span>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+          <!-- Empty state (hidden when transactions exist) -->
+          <div class="empty-state" style="display: none;">
+            <i class="bi bi-clock-history"></i>
+            <h4>No transactions yet</h4>
+            <p>Your transaction history will appear here once you start using your account.</p>
+            <a href="?a=deposit" class="btn btn-highlight mt-2">Make Your First Deposit</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="card card-style">
+        <div class="content">
+          <nav aria-label="Transaction history pagination">
+            <ul class="pagination justify-content-center">
+              <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+              </li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+  <script>
+    // Page navigation
+    function go(p) {
+      document.opts.page.value = p;
+      document.opts.submit();
+    }
+
+    // Open calculator popup
+    function openCalculator(id) {
+      const w = 225, h = 400;
+      const t = (screen.height - h) / 2, l = (screen.width - w) / 2;
+      window.open('?a=calendar&type=' + id, 'calculator' + id,
+        `top=${t},left=${l},width=${w},height=${h},resizable=1,scrollbars=0`);
+    }
+
+    // Compound handling
+    const cps = {};
+    function updateCompound() {
+      let id = 0;
+      if (document.spendform && document.spendform.h_id) {
+        const tt = document.spendform.h_id.type;
+        if (tt && tt.toLowerCase() === 'hidden') {
+          id = document.spendform.h_id.value;
+        } else {
+          for (let i = 0; i < document.spendform.h_id.length; i++) {
+            if (document.spendform.h_id[i].checked) {
+              id = document.spendform.h_id[i].value;
+            }
+          }
+        }
+      }
+
+      const cpObj = document.getElementById('compound_percents');
+      if (cpObj) {
+        cpObj.innerHTML = "";
+        if (cps[id] && cps[id].length > 0) {
+          document.getElementById('coumpond_block').style.display = '';
+          cps[id].forEach(cp => cpObj.add(new Option(cp)));
+        } else {
+          document.getElementById('coumpond_block').style.display = 'none';
+        }
+      }
+    }
+
+    // Date filter functionality
+    document.addEventListener('DOMContentLoaded', function () {
+      const dateFrom = document.getElementById('dateFrom');
+      const dateTo = document.getElementById('dateTo');
+      const clearDates = document.getElementById('clearDates');
+      const applyDates = document.getElementById('applyDates');
+      const dateRangeText = document.getElementById('dateRangeText');
+
+      // Set today as default for "to" date
+      const today = new Date();
+      dateTo.value = today.toISOString().split('T')[0];
+
+      // Set 30 days ago as default for "from" date
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(today.getDate() - 30);
+      dateFrom.value = thirtyDaysAgo.toISOString().split('T')[0];
+
+      updateDateRangeText();
+
+      // Clear dates button
+      clearDates.addEventListener('click', function () {
+        dateFrom.value = '';
+        dateTo.value = '';
+        updateDateRangeText();
+      });
+
+      // Apply dates button
+      applyDates.addEventListener('click', function () {
+        updateDateRangeText();
+        // Close the dropdown
+        const dropdown = document.querySelector('.dropdown-menu');
+        bootstrap.Dropdown.getInstance(document.getElementById('dateFilterDropdown')).hide();
+      });
+
+      function updateDateRangeText() {
+        if (dateFrom.value && dateTo.value) {
+          const fromDate = new Date(dateFrom.value).toLocaleDateString();
+          const toDate = new Date(dateTo.value).toLocaleDateString();
+          dateRangeText.textContent = `${fromDate} - ${toDate}`;
+        } else if (dateFrom.value) {
+          dateRangeText.textContent = `From ${new Date(dateFrom.value).toLocaleDateString()}`;
+        } else if (dateTo.value) {
+          dateRangeText.textContent = `Until ${new Date(dateTo.value).toLocaleDateString()}`;
+        } else {
+          dateRangeText.textContent = 'All dates';
+        }
+      }
+
+      // Export history button
+      document.getElementById('export-history').addEventListener('click', function (e) {
+        e.preventDefault();
+        alert('Export functionality would be implemented here. This would download a CSV of your transaction history.');
+      });
+    });
+  </script>
+
+  <script src="../scripts/bootstrap.min.js"></script>
+  <script src="../scripts/custom.js"></script>
+</body>
+
+</html>
