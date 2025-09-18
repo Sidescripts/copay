@@ -65,3 +65,4 @@ async function loadModals() {
   
   // Load modals when the script runs
   loadModals();
+

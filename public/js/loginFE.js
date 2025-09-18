@@ -65,7 +65,7 @@ function showModal(type, message) {
     okButton.addEventListener('click', function() {
         if (type === 'success') {
             // Redirect to dashboard on success
-            window.location.href = '../Vitron-dashboard/dashboard.html';
+            window.location.href = '../Vitron-dashboard/Dashboard.html';
         } else {
             // Just close the modal on error
             modalBackdrop.remove();
