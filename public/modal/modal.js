@@ -8,7 +8,7 @@ const Modal = (function() {
       // Create modal HTML structure if it doesn't exist
       if (!document.getElementById('globalModalOverlay')) {
           const modalHTML = `
-              <div class="modal-overlay" id="globalModalOverlay">
+              <div class="modal-overlay-m" id="globalModalOverlay">
                   <div class="modal">
                       <div class="modal-header info" id="globalModalHeader">
                           <div class="modal-icon">i</div>

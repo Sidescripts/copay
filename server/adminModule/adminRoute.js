@@ -30,7 +30,7 @@ router.get('/dashboard/pending-actions', AdminAuthMiddleware, AdminMiddleware, a
 // ADMIN DEPOSIT ROUTE
 router.get('/deposit/all-deposit', AdminAuthMiddleware, AdminMiddleware, adminDepositController.getAllDeposits)
 router.patch('/deposit/:userId', AdminAuthMiddleware, AdminMiddleware, validateUpdateDeposit,adminDepositController.adminProcessDeposit)
-router.get('/depsit/stat', AdminAuthMiddleware, AdminMiddleware, adminDepositController.getDepositStats)
+router.get('/deposit/stat', AdminAuthMiddleware, AdminMiddleware, adminDepositController.getDepositStats)
 
 // ADMIN INVESTMENT ROUTE
 router.post('/invest/create-plan', AdminAuthMiddleware, AdminMiddleware, planValidation,AdminInvestmentController.createPlan);
