@@ -13,6 +13,8 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+    padding: 20px;
+    box-sizing: border-box; 
 }
 
 .modal-overlay.active {
@@ -22,21 +24,68 @@
 
 .modal {
     background: linear-gradient(135deg, #24243a 0%, #2c2c4c 100%);
-    width: 90%;
-    max-width: 450px;
+    width: auto;
+    max-width: 100%;
+    height: fit-content;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-    transform: translateY(50px);
     opacity: 0;
-    transition: all 0.4s ease;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
 }
+
 
 .modal-overlay.active .modal {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
 }
 
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .modal-overlay {
+        padding: 16px;
+    }
+    
+    .modal {
+        width: 100%; 
+        max-width: 350px;
+        
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-overlay {
+        padding: 12px; /* Even smaller padding on very small devices */
+    }
+    
+    .modal-header {
+        padding: 16px;
+    }
+    
+    .modal-body {
+        padding: 20px;
+    }
+    
+    .modal-actions {
+        padding: 12px 20px 20px;
+        flex-direction: column; /* Stack buttons vertically on small screens */
+    }
+    
+    .modal-btn {
+        width: 100%; /* Full width buttons on mobile */
+        margin-bottom: 8px;
+    }
+    
+    .modal-btn:last-child {
+        margin-bottom: 0;
+    }
+}
+
+/* Rest of your existing styles remain unchanged */
 .modal-header {
     background: rgba(0, 0, 0, 0.2);
     padding: 20px;

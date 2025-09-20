@@ -161,7 +161,7 @@
                     <div class="mt-n5"></div>
                     <img src="../images/32.jpeg" alt="img" width="180"
                         class="mx-auto rounded-circle mt-n5 shadow-l">
-                    <h1 class="color-theme text-center font-30 pt-3 mb-0">Mark</h1>
+                    <h1 id="usernameDisplay" class="color-theme text-center font-30 pt-3 mb-0"></h1>
                     <p class="text-center font-11"><i class="bi bi-award color-yellow-dark pe-2"></i>Certified Account
                         Holder</p>
 
@@ -581,7 +581,11 @@
         </div>
 
     <!-- End of Page ID-->
-
+<script>
+  // Get username from localStorage, or fallback
+  const username = localStorage.getItem('username') || 'User';
+  document.getElementById('usernameDisplay').textContent = username;
+</script>
 
     <script src="../scripts/bootstrap.min.js"></script>
     <script src="../scripts/custom.js"></script>

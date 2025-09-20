@@ -69,47 +69,36 @@ const Modal = (function() {
       header.classList.remove('error', 'warning', 'success', 'info');
   }
   
-  // Show the modal
-  function show(config) {
-      // Initialize if not already done
-      if (!overlay) init();
-      
-      // Set current config
-      currentConfig = config;
-      
-      // Reset header classes
-      resetHeader();
-      
-      // Set modal content
-      titleEl.textContent = config.title || 'Modal';
-      messageEl.textContent = config.message || '';
-      header.classList.add(config.type || 'info');
-      
-      // Set icon based on type
-      const icon = header.querySelector('.modal-icon');
-      if (config.type === 'error') {
-          icon.textContent = '!';
-      } else if (config.type === 'warning') {
-          icon.textContent = '!';
-      } else if (config.type === 'success') {
-          icon.textContent = '✓';
-      } else {
-          icon.textContent = 'i';
-      }
-      
-      // Configure buttons
-      if (config.showCancel) {
-          cancelBtn.style.display = 'block';
-          cancelBtn.textContent = config.cancelText || 'Cancel';
-      } else {
-          cancelBtn.style.display = 'none';
-      }
-      
-      confirmBtn.textContent = config.confirmText || 'OK';
-      
-      // Show modal
-      overlay.classList.add('active');
-  }
+function show(config) {
+    if (!overlay) init();
+    currentConfig = config;
+    resetHeader();
+    titleEl.textContent = config.title || 'Modal';
+    messageEl.textContent = config.message || '';
+    header.classList.add(config.type || 'info');
+    const icon = header.querySelector('.modal-icon');
+    if (config.type === 'error') icon.textContent = '!';
+    else if (config.type === 'warning') icon.textContent = '!';
+    else if (config.type === 'success') icon.textContent = '✓';
+    else icon.textContent = 'i';
+    if (config.showCancel) {
+        cancelBtn.style.display = 'block';
+        cancelBtn.textContent = config.cancelText || 'Cancel';
+    } else cancelBtn.style.display = 'none';
+    confirmBtn.textContent = config.confirmText || 'OK';
+    setTimeout(() => { // Slight delay for DOM stability
+        requestAnimationFrame(() => {
+            overlay.classList.add('active');
+            const modalEl = overlay.querySelector('.modal');
+            if (modalEl) {
+                modalEl.style.opacity = '1';
+                modalEl.style.transform = 'translateY(0)';
+                modalEl.style.display = 'block';
+                console.log('Modal forced visible. Computed opacity:', window.getComputedStyle(modalEl).opacity);
+            }
+        });
+    }, 0);
+}
   
   // Hide the modal
   function hide() {

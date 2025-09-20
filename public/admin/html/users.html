@@ -386,42 +386,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr data-user-id="1">
-                                <td>#USR-001</td>
-                                <td>John Doe</td>
-                                <td>john@example.com</td>
-                                <td>2023-05-15</td>
-                                <td><span class="badge badge-approved">Verified</span></td>
-                                <td>$1,250.00</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary view-user-btn" data-user-id="1">View</button>
-                                    <button class="btn btn-sm btn-secondary edit-user-btn" data-user-id="1">Edit</button>
-                                </td>
-                            </tr>
-                            <tr data-user-id="2">
-                                <td>#USR-002</td>
-                                <td>Jane Smith</td>
-                                <td>jane@example.com</td>
-                                <td>2023-06-20</td>
-                                <td><span class="badge badge-pending">Unverified</span></td>
-                                <td>$850.00</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary view-user-btn" data-user-id="2">View</button>
-                                    <button class="btn btn-sm btn-secondary edit-user-btn" data-user-id="2">Edit</button>
-                                </td>
-                            </tr>
-                            <tr data-user-id="3">
-                                <td>#USR-003</td>
-                                <td>Robert Johnson</td>
-                                <td>robert@example.com</td>
-                                <td>2023-07-10</td>
-                                <td><span class="badge badge-approved">Verified</span></td>
-                                <td>$3,450.00</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary view-user-btn" data-user-id="3">View</button>
-                                    <button class="btn btn-sm btn-secondary edit-user-btn" data-user-id="3">Edit</button>
-                                </td>
-                            </tr>
+                            <!-- Rows added dynamically -->
                         </tbody>
                     </table>
                 </div>
@@ -440,27 +405,27 @@
                 <div class="user-details-grid">
                     <div class="user-detail-card">
                         <h4>User ID</h4>
-                        <p id="viewUserId">#USR-001</p>
+                        <p id="viewUserId"></p>
                     </div>
                     <div class="user-detail-card">
                         <h4>Name</h4>
-                        <p id="viewUserName">John Doe</p>
+                        <p id="viewUserName"></p>
                     </div>
                     <div class="user-detail-card">
                         <h4>Email</h4>
-                        <p id="viewUserEmail">john@example.com</p>
+                        <p id="viewUserEmail"></p>
                     </div>
                     <div class="user-detail-card">
                         <h4>Joined Date</h4>
-                        <p id="viewUserJoined">2023-05-15</p>
+                        <p id="viewUserJoined"></p>
                     </div>
                     <div class="user-detail-card">
                         <h4>Status</h4>
-                        <p><span class="badge badge-approved" id="viewUserStatus">Verified</span></p>
+                        <p><span class="badge" id="viewUserStatus"></span></p>
                     </div>
                     <div class="user-detail-card">
                         <h4>Balance</h4>
-                        <p id="viewUserBalance">$1,250.00</p>
+                        <p id="viewUserBalance"></p>
                     </div>
                 </div>
                 
@@ -469,19 +434,19 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label>Phone Number</label>
-                            <p class="form-control-static" id="viewUserPhone">+1 (555) 123-4567</p>
+                            <p class="form-control-static" id="viewUserPhone"></p>
                         </div>
                         <div class="form-group col-md-6">
                             <label>Country</label>
-                            <p class="form-control-static" id="viewUserCountry">United States</p>
+                            <p class="form-control-static" id="viewUserCountry"></p>
                         </div>
                         <div class="form-group col-md-6">
                             <label>Investment Plan</label>
-                            <p class="form-control-static" id="viewUserPlan">Premium Plan</p>
+                            <p class="form-control-static" id="viewUserPlan"></p>
                         </div>
                         <div class="form-group col-md-6">
                             <label>Last Login</label>
-                            <p class="form-control-static" id="viewUserLastLogin">2023-10-15 14:30</p>
+                            <p class="form-control-static" id="viewUserLastLogin"></p>
                         </div>
                     </div>
                 </div>
@@ -572,5 +537,6 @@
 
 <script src="../js/global.js"></script>
 <script src="../js/users.js"></script>
+<script src="../js/userSync.js"></script>
 </body>
 </html>
