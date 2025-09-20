@@ -46,7 +46,7 @@ function setBalancePlan(planId, planName, minInvestment, maxInvestment) {
 
 // Confirm investment (Invest Now modal)
 async function confirmInvestment() {
-  console.log('Confirming investment...');
+  // console.log('Confirming investment...');
   const planId = document.getElementById('planSelect').value;
   const amount = parseFloat(document.getElementById('investmentAmount').value);
   const paymentMethod = document.getElementById('paymentMethod').value;

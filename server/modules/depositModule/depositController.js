@@ -57,7 +57,7 @@ const userDepositController = {
         username: req.user.username,
         amount: deposit.amount,
         asset:deposit.asset,
-        transactionId: deposit.transaction_id,
+        trxnId: deposit.transaction_id,
         status:deposit.status
       });
       

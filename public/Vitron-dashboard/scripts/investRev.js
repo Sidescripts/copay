@@ -24,6 +24,10 @@ function continueEarn() {
         // alert('Please enter a valid amount');
         return;
     }
+    localStorage.removeItem('pmd');
+    localStorage.removeItem('amt');
+    localStorage.removeItem('rvp');
+
     localStorage.setItem('pmd', paymentMethod);
     localStorage.setItem('amt', amount);
     localStorage.setItem('rvp', revenuePlan);
@@ -79,9 +83,9 @@ document.addEventListener('DOMContentLoaded', function(){
             throw new Error(errorData.error || 'Network error occurred');
         }
         
-        localStorage.removeItem('pmd')
-        localStorage.removeItem('amt')
-        localStorage.removeItem('rvp')
+        // localStorage.removeItem('pmd')
+        // localStorage.removeItem('amt')
+        // localStorage.removeItem('rvp')
         openPaymentModal()
         // localStorage.removeItem(crypto)
         } catch (error) {

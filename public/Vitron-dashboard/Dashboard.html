@@ -471,14 +471,14 @@
                             <select class="form-select rounded-xs revenuePlan" id="c6" aria-label="Floating label select example"
                                 name="h_id">
 
-                                <option value="Bronze Vault">Bronze Vault</option>
+                                <!-- <option value="Bronze Vault">Bronze Vault</option>
                                 <option value="Silver Vault">Silver Vault</option>
                                 <option value="Gold Vault">Gold Vault</option>
                                 <option value="Platinum Vault">Platinum Vault</option>
                                 <option value="5">Diamond Vault</option>
                                 <option value="6">Titanium Vault</option>
                                 <option value="5">Crown Vault</option>
-                                <option value="6">Royal Vault</option>
+                                <option value="6">Royal Vault</option> -->
 
 
                             </select>
@@ -659,7 +659,7 @@
                         <div class="form-custom form-label form-icon">
                             <i class="bi bi-currency-dollar"></i>
                             <!-- <input type="number" class="form-control rounded-xs" id="c4" value="" name="amount" /> -->
-                             <input type="number" class="form-control rounded-xs" id="investmentAmount" name="amount" />
+                             <input type="number" class="form-control rounded-xs" id="depAmount" name="amount" />
                             <label class="form-label-always-active text-warning font-12"
                                 style="margin-top: -7px;">Amount ($)</label>
                             <span class="font-10"></span>
@@ -677,7 +677,7 @@
 
                     </div>
              <button type="button" class="btn btn-warning mx-3"
-                onclick="confirmInvestment()">
+                onclick="continueDeposit()">
                 Continue
             </button>
 
@@ -888,11 +888,14 @@
         <script src="../Vitron-dashboard/scripts/subDashboard.js"></script>
         <!-- <script src="../modal/modal.js"></script> -->
         <script src="../Vitron-dashboard/scripts/confirmation.js"></script>
-        <!-- <script src="../Vitron-dashboard/scripts/earn.js"></script> -->
-        <!-- <script src="../js/mainAuth.js"></script> -->
+        <script src="../Vitron-dashboard/scripts/earn.js"></script>
+        <script src="../js/mainAuth.js"></script>
+        <script src="../js/depositFE.js"></script>
         <script src="../js/dashboard.js"></script>
         <script src="../js/withdrawal.js"></script>
         <script src="../js/trials.js"></script>
-        <script src="../Vitron-dashboard/scripts/investRev.js"></script>
+        <script src="./scripts/ofo.js"></script>
+        <!-- <script src="../js/depositFE.js"></script> -->
+        <!-- <script src="../Vitron-dashboard/scripts/investRev.js"></script> -->
 </body>
 </html>

@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const { Deposit, User } = require('../../model');
+const { Deposit, User, sequelize } = require('../../model');
 const EmailTemplate = require("./depositApprovalEmail");
 
 const adminDepositController = {
@@ -50,24 +50,24 @@ const adminDepositController = {
 
   // Admin: Credit user account (process deposit)
 adminProcessDeposit: async (req, res) => {
-  const transaction = await sequelize.transaction();
+//   const transaction = await sequelize.transaction();
   
   try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-          await transaction.rollback();
+          
           return res.status(400).json({
               success: false,
               message: 'Validation failed',
               errors: errors.array()
           });
       }
-
+    //   console.log(req.body)
       const { depositId, amount, asset } = req.body;
 
       // Validate required fields
       if (!depositId || !amount || !asset) {
-          await transaction.rollback();
+          
           return res.status(400).json({
               success: false,
               message: 'Deposit ID, amount, and asset are required'
@@ -80,12 +80,11 @@ adminProcessDeposit: async (req, res) => {
               model: User,
               as: 'user',
               attributes: ['id', 'email']
-          }],
-          transaction
-      });
+          }]
+        });
 
       if (!deposit) {
-          await transaction.rollback();
+          
           return res.status(404).json({
               success: false,
               message: 'Deposit request not found'
@@ -94,7 +93,7 @@ adminProcessDeposit: async (req, res) => {
 
       // Verify the amount and asset match the deposit request
       if (parseFloat(amount) !== parseFloat(deposit.amount)) {
-          await transaction.rollback();
+          
           return res.status(400).json({
               success: false,
               message: `Amount does not match deposit request. Expected: ${deposit.amount}`
@@ -102,7 +101,7 @@ adminProcessDeposit: async (req, res) => {
       }
 
       if (asset.toUpperCase() !== deposit.asset.toUpperCase()) {
-          await transaction.rollback();
+          
           return res.status(400).json({
               success: false,
               message: `Asset does not match deposit request. Expected: ${deposit.asset}`
@@ -111,7 +110,7 @@ adminProcessDeposit: async (req, res) => {
 
       // Check if deposit is already processed
       if (deposit.status === 'completed') {
-          await transaction.rollback();
+          
           return res.status(400).json({
               success: false,
               message: 'Deposit has already been processed'
@@ -121,78 +120,63 @@ adminProcessDeposit: async (req, res) => {
       // Normalize asset for case-insensitive comparison
       const normalizedAsset = asset.toUpperCase();
       
-      // Define update object based on asset type
-      let updateFields = {};
-      
-      switch (normalizedAsset) {
-          case 'BTC':
-              updateFields = {
-                  walletBalance: sequelize.literal(`"walletBalance" + ${amount}`),
-                  btcBal: sequelize.literal(`"btcBal" + ${amount}`)
-              };
-              break;
-          case 'ETH':
-              updateFields = {
-                  walletBalance: sequelize.literal(`"walletBalance" + ${amount}`),
-                  ethBal: sequelize.literal(`"ethBal" + ${amount}`)
-              };
-              break;
-          case 'USDT':
-              updateFields = {
-                  walletBalance: sequelize.literal(`"walletBalance" + ${amount}`),
-                  usdtBal: sequelize.literal(`"usdtBal" + ${amount}`)
-              };
-              break;
-          case 'LTC':
-              updateFields = {
-                  walletBalance: sequelize.literal(`"walletBalance" + ${amount}`),
-                  ltcBal: sequelize.literal(`"ltcBal" + ${amount}`)
-              };
-              break;
-          case 'BCH':
-              updateFields = {
-                  walletBalance: sequelize.literal(`"walletBalance" + ${amount}`),
-                  bchBal: sequelize.literal(`"bchBal" + ${amount}`)
-              };
-              break;
-          case 'BNB':
-              updateFields = {
-                  walletBalance: sequelize.literal(`"walletBalance" + ${amount}`),
-                  bnbBal: sequelize.literal(`"bnbBal" + ${amount}`)
-              };
-              break;
-          case 'DOGE':
-              updateFields = {
-                  walletBalance: sequelize.literal(`"walletBalance" + ${amount}`),
-                  dogeBal: sequelize.literal(`"dogeBal" + ${amount}`)
-              };
-              break;
-          case 'DASH':
-              updateFields = {
-                  walletBalance: sequelize.literal(`"walletBalance" + ${amount}`),
-                  dashBal: sequelize.literal(`"dashBal" + ${amount}`)
-              };
-              break;
-          default:
-              await transaction.rollback();
-              return res.status(400).json({
-                  success: false,
-                  message: "Not a valid asset"
-              });
-      }
+      // Find the user first
+const user = await User.findByPk(deposit.userId);
 
-      // Update user's balances
-      await User.update(updateFields, {
-          where: { id: deposit.userId },
-          transaction
-      });
+if (!user) {
+    return res.status(404).json({
+        success: false,
+        message: "User not found"
+    });
+}
 
-      // Update deposit status to completed
-      await deposit.update({
-          status: 'completed',
-          completed_at: new Date(),
-          processed_by: req.user.id // Track which admin processed this
-      }, { transaction });
+// Define increment fields based on asset type
+let incrementFields = {
+    walletBalance: amount
+};
+
+switch (normalizedAsset) {
+    case 'BTC':
+        incrementFields.btcBal = amount;
+        break;
+    case 'ETH':
+        incrementFields.ethBal = amount;
+        break;
+    case 'USDT':
+        incrementFields.usdtBal = amount;
+        break;
+    case 'LTC':
+        incrementFields.ltcBal = amount;
+        break;
+    case 'BCH':
+        incrementFields.bchBal = amount;
+        break;
+    case 'BNB':
+        incrementFields.bnbBal = amount;
+        break;
+    case 'DOGE':
+        incrementFields.dogeBal = amount;
+        break;
+    case 'DASH':
+        incrementFields.dashBal = amount;
+        break;
+    default:
+        return res.status(400).json({
+            success: false,
+            message: "Not a valid asset"
+        });
+}
+
+// Increment the balances
+await user.increment(incrementFields);
+
+// const {adminId} = req.admin.id;
+// Update deposit status to completed
+await deposit.update({
+    status: 'completed',
+    completed_at: new Date(),
+    // processed_by: adminId // Track which admin processed this
+});
 
       // Send notification email to user
       try {
@@ -207,7 +191,7 @@ adminProcessDeposit: async (req, res) => {
           // Don't fail the transaction if email fails
       }
 
-      await transaction.commit();
+      
 
       res.json({
           success: true,
@@ -220,7 +204,7 @@ adminProcessDeposit: async (req, res) => {
       });
 
   } catch (error) {
-      await transaction.rollback();
+      
       console.error('Admin process deposit error:', error);
       res.status(500).json({
           success: false,
