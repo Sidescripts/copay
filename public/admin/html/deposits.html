@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/global.css">
 
-    <title>Admin Dashboard | Deposit History</title>
+    <title>Admin Dashboard | Deposit</title>
 </head>
     <style>
 
@@ -227,6 +227,9 @@
                     <li class="nav-item" data-page="investments">
                         <a href="./plans.html"><i class="fas fa-chart-pie"></i> Investment Plans</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="./investment.html"><i class="fas fa-chart-pie"></i> Investments</a>
+                    </li>
                     <li class="nav-item" data-page="settings">
                         <a href="./settings.html"><i class="fas fa-cog"></i> Settings</a>
                     </li>
@@ -268,54 +271,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>#DEP-7821</td>
-                                    <td>John Doe</td>
-                                    <td>$500.00</td>
-                                    <td>Bitcoin</td>
-                                    <td>2023-10-05 14:32</td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="btn btn-sm btn-edit edit-deposit" data-id="7821" data-user="John Doe" data-amount="500.00" data-method="Bitcoin">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-primary">Approve</button>
-                                            <button class="btn btn-sm btn-danger">Reject</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#DEP-7822</td>
-                                    <td>Jane Smith</td>
-                                    <td>$1,200.00</td>
-                                    <td>Bank Transfer</td>
-                                    <td>2023-10-05 13:45</td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="btn btn-sm btn-edit edit-deposit" data-id="7822" data-user="Jane Smith" data-amount="1200.00" data-method="Bank Transfer">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-primary">Approve</button>
-                                            <button class="btn btn-sm btn-danger">Reject</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#DEP-7823</td>
-                                    <td>Robert Johnson</td>
-                                    <td>$750.00</td>
-                                    <td>Ethereum</td>
-                                    <td>2023-10-05 12:18</td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="btn btn-sm btn-edit edit-deposit" data-id="7823" data-user="Robert Johnson" data-amount="750.00" data-method="Ethereum">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-primary">Approve</button>
-                                            <button class="btn btn-sm btn-danger">Reject</button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -335,22 +291,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>#DEP-7819</td>
-                                    <td>Michael Brown</td>
-                                    <td>$2,500.00</td>
-                                    <td>Bank Transfer</td>
-                                    <td>2023-10-04 16:20</td>
-                                    <td><span class="badge badge-approved">Approved</span></td>
-                                </tr>
-                                <tr>
-                                    <td>#DEP-7818</td>
-                                    <td>Sarah Wilson</td>
-                                    <td>$1,000.00</td>
-                                    <td>Bitcoin</td>
-                                    <td>2023-10-04 15:10</td>
-                                    <td><span class="badge badge-approved">Approved</span></td>
-                                </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -371,26 +312,27 @@
                 <div class="transaction-info">
                     <div class="info-item">
                         <span class="info-label">Transaction ID:</span>
-                        <span class="info-value" id="modalTransactionId">#DEP-7821</span>
+                        <span class="info-value" id="modalTransactionId"></span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">User:</span>
-                        <span class="info-value" id="modalUser">John Doe</span>
+                        <span class="info-value" id="modalUser"></span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">Current Amount:</span>
-                        <span class="info-value" id="modalAmount">$500.00</span>
+                        <span class="info-value" id="modalAmount"></span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">Payment Method:</span>
-                        <span class="info-value" id="modalMethod">Bitcoin</span>
+                        <span class="info-value" id="modalMethod"></span>
                     </div>
                 </div>
                 
-                <form action="" method="post" class="balance-form">
+                <form class="balance-form">
                     <div class="form-row">
-                        <input type="number" name="addBalance" min="1" placeholder="Amount to Add" class="form-control" required>
-                        <button class="btn btn-success" type="submit">
+                        <input type="number" id="amt" name="addBalance" min="1" placeholder="Amount to Add" class="form-control" required>
+                        <input type="text" id="mtd" name=""  placeholder="payment method" class="form-control" required>
+                        <button class="btn btn-success" type="submit" id="addBtn">
                             <i class="fas fa-plus"></i> Add
                         </button>
                     </div>
@@ -407,7 +349,8 @@
             </div>
         </div>
     </div>
-
+<script src="../js/adminAuthCheck.js"></script>
+<!-- <script src="../js/eke.js"></script> -->
 <script src="../js/deposit.js"></script>
 </body>
 </html>

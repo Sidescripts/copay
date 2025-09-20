@@ -5,6 +5,9 @@ const InvestmentController = require("./investController");
 const AdminInvestmentController = require("../../adminModule/investAdminModule/adminInvestController");
 const router = express.Router();
 
+// getInvestment plan
+router.get("/plans", AuthMiddleware, AdminInvestmentController.getInvestmentPlans);
+
 // createInvestment
 router.post("/invest-now", AuthMiddleware, InvestmentController().createInvestment);
 
@@ -13,9 +16,6 @@ router.get("/invest-history", AuthMiddleware, InvestmentController().getUserInve
 
 // oneInvestment
 router.get("/:id", AuthMiddleware, InvestmentController().getSingleInvestment);
-
-// getInvestment plan
-router.get("/invest-plan", AuthMiddleware, AdminInvestmentController.getAllInvestments);
 
 
 module.exports = router;

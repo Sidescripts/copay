@@ -22,21 +22,22 @@ function InvestmentController() {
               });
           }
   
-          const { paymentMethod, amount,  name} = req.body;
-          console.log(req.body)
+          const { paymentMethod, amount,  name, id} = req.body;
+        //   console.log(req.body)
           const userId = req.user.id;
-        
-          const plan = await InvestmentPlan.findOne({ where: { name} })
+          console.log(req.body)
+          const plan = await InvestmentPlan.findOne({ where: { id} })
         // const plan = await InvestmentPlan.findAll({})
           
         console.log(plan)
-          if(!plan){
-            console.log("Hola your stuck. Investment plan has not been created")
-          }
-          const {id} = plan;
+        if(!plan){
+            return res.status(404).json({success: false, error: 'No invesment plan now'})
+            // console.log("Hola your stuck. Investment plan has not been created")
+        }
+        //   const {id} = plan;
           
           // Validate required fields
-          if (!amount || !paymentMethod || !name) {
+          if (!amount || !paymentMethod || !name || !id) {
               
               return res.status(400).json({
                   success: false,
@@ -139,19 +140,19 @@ function InvestmentController() {
           });
   
           // Update user wallet balance and total revenue
-          if (paymentMethod = 'bitcoin'){
+          if (paymentMethod === 'bitcoin'){
             await User.update({
                 btcBal: user.btcBal - amount,    
                 walletBalance: user.walletBalance - amount,
                 totalRevenue: (user.totalRevenue) + amount
             }, {where: { id: userId }});
-          }else if(paymentMethod = 'ethereum'){
+          }else if(paymentMethod === 'ethereum'){
             await User.update({
                 btcBal: user.ethBal - amount,    
                 walletBalance: user.walletBalance - amount,
                 totalRevenue: (user.totalRevenue) + amount
               }, {where: { id: userId }});
-          }else if(paymentMethod = 'usdt'){
+          }else if(paymentMethod === 'usdt'){
             await User.update({
                 btcBal: user.usdtBal - amount,    
                 walletBalance: user.walletBalance - amount,
@@ -230,9 +231,10 @@ getSingleInvestment: async function(req, res) {
               id: id,
               userId: userId 
           },
+          
           include: [{
               model: InvestmentPlan,
-              as: 'plan'
+              as: 'investmentPlan'
           }]
       });
 

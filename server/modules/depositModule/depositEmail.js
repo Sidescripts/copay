@@ -5,7 +5,7 @@ function EmailTemplate(){
 
     return {
         // DEPOSIT CONFIRMATION EMAIL
-      depositEmail: async function({username, email,amount, asset, transactionId, status, date}) {
+      depositEmail: async function({username, email,amount, asset, trxnId, status, date}) {
         
         
         try {
@@ -48,7 +48,7 @@ function EmailTemplate(){
                         <p>Your deposit has been successfully received and processed.</p>
                         
                         <div style="text-align: center; margin: 30px 0;">
-                            <div class="amount">${amount} ${asset.toUpperCase()}</div>
+                            <div class="amount">${amount} USD</div>
                             <p>has been added to your wallet</p>
                         </div>
                 
@@ -56,19 +56,19 @@ function EmailTemplate(){
                             <h3 style="margin-top: 0;">Transaction Details</h3>
                             <div class="detail-row">
                                 <span>Transaction ID:</span>
-                                <span><strong>${transactionId}</strong></span>
+                                <span><strong>  ${trxnId}</strong></span>
                             </div>
                             <div class="detail-row">
                                 <span>Asset:</span>
-                                <span><strong>${asset.toUpperCase()}</strong></span>
+                                <span><strong>  ${asset.toUpperCase()}</strong></span>
                             </div>
                             <div class="detail-row">
                                 <span>Date & Time:</span>
-                                <span><strong>${new Date(date).toLocaleString()}</strong></span>
+                                <span><strong>  ${new Date().toLocaleString()}</strong></span>
                             </div>
                             <div class="detail-row">
                                 <span>Status:</span>
-                                <span><strong style="color: #059669;">${status}</strong></span>
+                                <span><strong style="color: #059669;">  ${status}</strong></span>
                             </div>
                         </div>
                 

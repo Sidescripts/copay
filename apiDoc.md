@@ -26,6 +26,7 @@ Investment
 createInvest: (method: post), "/api/v1/invest/invest-now"
 allInvestment: (mthod:get), "/api/v1/invest/invest-history"
 getInvestment: (method: get), "/api/v1/invest/:id"
+allInvestmentPlan: (method:get), "/api/v1/invest/invest-plan"
 
 // Admin base route
 app.use("/api/v1/admin", adminRoutes);
@@ -44,7 +45,7 @@ admin/users
 /dashboard/pending-actions - get
 
 admin/deposit
-/deposit/all-deposit -get
+/api/v1/admin/deposit/all-deposit -get
 /deposit/:userId - patch
 /deposit/stat - get
 
@@ -55,6 +56,7 @@ admin/investment
 /invest/deactivate/:id - patch
 /invest/delete/:id - delete
 /investment/update/:id -patch
+
 
 admin/withdrawal
 /withdrawal - get

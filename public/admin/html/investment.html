@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Investment Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --sidebar-width: 250px;
+            --header-height: 70px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: #f5f7fb;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            z-index: 1000;
+            transition: var(--transition);
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav .active a {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 4px solid white;
+        }
+
+        .sidebar-nav i {
+            width: 25px;
+            height: 25px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            transition: var(--transition);
+            padding: 20px;
+            padding-top: calc(var(--header-height) + 20px);
+        }
+
+        /* Header */
+        .content-header {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-left p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        /* Menu Toggle Button */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 48px;
+            height: 48px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Sidebar Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 900;
+            cursor: pointer;
+        }
+
+        /* Form Styles */
+        .form-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #444;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            min-width: 100px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 8px 12px;
+            font-size: 12px;
+            min-width: 80px;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-approved {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-completed {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 160px;
+        }
+
+        /* Table Styles */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .data-table th {
+            background-color: #f8fafc;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            color: #4b5563;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover {
+            background-color: #f9fafb;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            padding: 15px;
+            border-bottom: 1px solid #eaeaea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .modal-body {
+            padding: 15px;
+        }
+
+        .modal-footer {
+            padding: 15px;
+            border-top: 1px solid #eaeaea;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Investment details */
+        .investment-details {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .detail-value {
+            font-weight: 500;
+            color: #1f2937;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 8px;
+        }
+
+        .page-btn {
+            padding: 8px 14px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 13px;
+        }
+
+        .page-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-btn:not(:disabled):hover {
+            background: #f3f4f6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 240px;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .content-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .content-header p {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 15px;
+            }
+
+            .filter-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .filter-group {
+                min-width: 100%;
+            }
+
+            .form-card {
+                padding: 15px;
+            }
+
+            .modal {
+                width: 90%;
+                max-width: 500px;
+            }
+
+            .modal-header h3 {
+                font-size: 16px;
+            }
+
+            .modal-body {
+                padding: 12px;
+            }
+
+            .modal-footer {
+                padding: 12px;
+                flex-wrap: wrap;
+            }
+
+            .btn {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+
+            .btn-sm {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+
+            .data-table {
+                display: block;
+                width: 100%;
+            }
+
+            .data-table thead {
+                display: none;
+            }
+
+            .data-table tbody,
+            .data-table tr {
+                display: block;
+            }
+
+            .data-table tr {
+                margin-bottom: 15px;
+                border-bottom: 1px solid #e5e7eb;
+                padding: 10px;
+                background: #fff;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            }
+
+            .data-table td {
+                display: flex;
+                justify-content: space-between;
+                padding: 8px 10px;
+                border-bottom: none;
+                font-size: 13px;
+            }
+
+            .data-table td:before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #374151;
+                width: 40%;
+                flex-shrink: 0;
+            }
+
+            .data-table td:last-child {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-content {
+                padding: 10px;
+                padding-top: calc(var(--header-height) + 10px);
+            }
+
+            .sidebar-header h2 {
+                font-size: 1.3rem;
+            }
+
+            .sidebar-nav a {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            .form-control {
+                padding: 8px 10px;
+                font-size: 13px;
+            }
+
+            .modal {
+                width: 95%;
+                margin: 5px;
+            }
+
+            .modal-header {
+                padding: 10px;
+            }
+
+            .modal-body {
+                padding: 10px;
+            }
+
+            .modal-footer {
+                padding: 10px;
+            }
+
+            .modal-close {
+                font-size: 20px;
+            }
+
+            .pagination {
+                gap: 6px;
+            }
+
+            .page-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+
+        /* Animations for sidebar */
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); }
+        }
+
+        .sidebar.active {
+            animation: slideIn 0.3s ease forwards;
+        }
+
+        .sidebar:not(.active) {
+            animation: slideOut 0.3s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="dashboard-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-chart-line"></i> Admin Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item" data-page="dashboard">
+                        <a href="./adminDash.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item" data-page="users">
+                        <a href="./users.html"><i class="fas fa-users"></i> Users</a>
+                    </li>
+                    <li class="nav-item" data-page="deposits">
+                        <a href="./deposits.html"><i class="fas fa-money-bill-wave"></i> Deposits</a>
+                    </li>
+                    <li class="nav-item" data-page="withdrawals">
+                        <a href="./withdrawal.html"><i class="fas fa-wallet"></i> Withdrawals</a>
+                    </li>
+                    <li class="nav-item" data-page="plans">
+                        <a href="./plans.html"><i class="fas fa-chart-pie"></i> Investment Plans</a>
+                    </li>
+                    <li class="nav-item active" data-page="investments">
+                        <a href="./investment.html"><i class="fas fa-coins"></i> Investments</a>
+                    </li>
+                    <li class="nav-item" data-page="settings">
+                        <a href="./settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../index.html" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div id="investments">
+                <header class="content-header">
+                    <div class="header-left">
+                        <h1><i class="fas fa-coins"></i>Investment Management</h1>
+                        <p>View and manage user investments</p>
+                    </div>
+                </header>
+
+                <div class="filter-section">
+                    <h3><i class="fas fa-filter me-2"></i>Filter Investments</h3>
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="statusFilter">Status</label>
+                            <select class="form-control" id="statusFilter">
+                                <option value="">All Statuses</option>
+                                <option value="active">Active</option>
+                                <option value="completed">Completed</option>
+                                <option value="pending">Pending</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="userIdFilter">User ID</label>
+                            <input type="text" class="form-control" id="userIdFilter" placeholder="Enter user ID">
+                        </div>
+                        <div class="filter-group">
+                            <label for="itemsPerPage">Items per page</label>
+                            <select class="form-control" id="itemsPerPage">
+                                <option value="10">10</option>
+                                <option value="20" selected>20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <button class="btn btn-primary" id="applyFilters">Apply Filters</button>
+                            <button class="btn" id="clearFilters">Clear</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card">
+                    <h3><i class="fas fa-list me-2"></i>User Investments</h3>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Investment ID</th>
+                                    <th>User</th>
+                                    <th>Plan</th>
+                                    <th>Amount</th>
+                                    <th>Expected ROI</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="investments-table-body">
+                                <tr>
+                                    <td colspan="9" style="text-align: center; padding: 20px;">
+                                        Loading investments...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination" id="pagination">
+                        <button class="page-btn" id="prevPage" disabled>Previous</button>
+                        <span id="pageInfo">Page 1 of 1</span>
+                        <button class="page-btn" id="nextPage" disabled>Next</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="investmentDetailsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Investment Details</h3>
+                <button class="modal-close" id="closeDetailsModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="investmentDetailsContent">
+                    <!-- Details will be populated by JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="closeDetails">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="roiPayoutModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Manual ROI Payout</h3>
+                <button class="modal-close" id="closePayoutModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="payoutDetails">
+                    <p>Are you sure you want to process manual ROI payout for this investment?</p>
+                    <div class="investment-details" id="payoutInvestmentDetails">
+                        <!-- Details will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancelPayout">Cancel</button>
+                <button class="btn btn-success" id="confirmPayout">Confirm Payout</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="confirmationModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="confirmationTitle">Confirm Action</h3>
+                <button class="modal-close" id="closeConfirmationModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmationMessage">Are you sure you want to perform this action?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancelAction">Cancel</button>
+                <button class="btn btn-primary" id="confirmAction">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="messageModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="messageTitle">Message</h3>
+                <button class="modal-close" id="closeMessageModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="messageText"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="closeMessage">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            const investmentsTableBody = document.getElementById('investments-table-body');
+            const statusFilter = document.getElementById('statusFilter');
+            const userIdFilter = document.getElementById('userIdFilter');
+            const itemsPerPage = document.getElementById('itemsPerPage');
+            const applyFilters = document.getElementById('applyFilters');
+            const clearFilters = document.getElementById('clearFilters');
+            const prevPage = document.getElementById('prevPage');
+            const nextPage = document.getElementById('nextPage');
+            const pageInfo = document.getElementById('pageInfo');
+            const investmentDetailsModal = document.getElementById('investmentDetailsModal');
+            const closeDetailsModal = document.getElementById('closeDetailsModal');
+            const closeDetails = document.getElementById('closeDetails');
+            const investmentDetailsContent = document.getElementById('investmentDetailsContent');
+            const roiPayoutModal = document.getElementById('roiPayoutModal');
+            const closePayoutModal = document.getElementById('closePayoutModal');
+            const cancelPayout = document.getElementById('cancelPayout');
+            const confirmPayout = document.getElementById('confirmPayout');
+            const payoutInvestmentDetails = document.getElementById('payoutInvestmentDetails');
+            const confirmationModal = document.getElementById('confirmationModal');
+            const closeConfirmationModal = document.getElementById('closeConfirmationModal');
+            const cancelAction = document.getElementById('cancelAction');
+            const confirmActionBtn = document.getElementById('confirmAction');
+            const confirmationTitle = document.getElementById('confirmationTitle');
+            const confirmationMessage = document.getElementById('confirmationMessage');
+            const messageModal = document.getElementById('messageModal');
+            const closeMessageModal = document.getElementById('closeMessageModal');
+            const closeMessage = document.getElementById('closeMessage');
+            const messageTitle = document.getElementById('messageTitle');
+            const messageText = document.getElementById('messageText');
+
+            // Debug: Check if menu elements are found
+            if (!menuToggle || !sidebar || !sidebarOverlay) {
+                console.error('Menu elements not found:', {
+                    menuToggle: !!menuToggle,
+                    sidebar: !!sidebar,
+                    sidebarOverlay: !!sidebarOverlay
+                });
+                return;
+            }
+
+            // Global variables
+            const API_BASE_URL = 'http://localhost:2000/api/v1/admin';
+            let currentPage = 1;
+            let totalPages = 1;
+            let currentFilters = {};
+            let currentInvestmentId = null;
+            let currentAction = null;
+
+            // Initialize
+            fetchInvestments();
+
+            // Toggle sidebar function
+            function toggleSidebar() {
+                const isActive = sidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active', isActive);
+                document.body.style.overflow = isActive ? 'hidden' : '';
+                console.log('Sidebar toggled:', isActive);
+                // Optional: ARIA attribute for accessibility
+                // menuToggle.setAttribute('aria-expanded', isActive);
+            }
+
+            // Menu toggle event
+            menuToggle.addEventListener('click', toggleSidebar);
+
+            // Overlay click to close sidebar
+            sidebarOverlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                console.log('Overlay clicked, sidebar closed');
+            });
+
+            // Prevent sidebar links from closing the sidebar
+            sidebar.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    e.stopPropagation();
+                }
+            });
+
+            // Filter functionality
+            applyFilters.addEventListener('click', () => {
+                currentPage = 1;
+                currentFilters = {
+                    status: statusFilter.value,
+                    userId: userIdFilter.value,
+                    limit: itemsPerPage.value
+                };
+                fetchInvestments();
+            });
+
+            clearFilters.addEventListener('click', () => {
+                statusFilter.value = '';
+                userIdFilter.value = '';
+                itemsPerPage.value = '20';
+                currentPage = 1;
+                currentFilters = {};
+                fetchInvestments();
+            });
+
+            // Pagination
+            prevPage.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    fetchInvestments();
+                }
+            });
+
+            nextPage.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    fetchInvestments();
+                }
+            });
+
+            // Modal close handlers
+            closeDetailsModal.addEventListener('click', closeDetailsModalFunc);
+            closeDetails.addEventListener('click', closeDetailsModalFunc);
+            closePayoutModal.addEventListener('click', closePayoutModalFunc);
+            cancelPayout.addEventListener('click', closePayoutModalFunc);
+            closeConfirmationModal.addEventListener('click', closeConfirmationModalFunc);
+            cancelAction.addEventListener('click', closeConfirmationModalFunc);
+            closeMessageModal.addEventListener('click', closeMessageModalFunc);
+            closeMessage.addEventListener('click', closeMessageModalFunc);
+
+            // Confirm payout
+            confirmPayout.addEventListener('click', processROIPayout);
+
+            // Fetch all investments
+            async function fetchInvestments() {
+                try {
+                    showLoader(true);
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                        showMessage('Error', 'Authentication token not found. Please login again.');
+                        return;
+                    }
+
+                    const queryParams = new URLSearchParams({
+                        page: currentPage,
+                        limit: currentFilters.limit || itemsPerPage.value
+                    });
+
+                    if (currentFilters.status) queryParams.append('status', currentFilters.status);
+                    if (currentFilters.userId) queryParams.append('userId', currentFilters.userId);
+
+                    const response = await fetch(`${API_BASE_URL}/investment/all?${queryParams}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (response.status === 401) {
+                        setTimeout(() => {
+                            window.location.href = "../index.html";
+                        }, 2000);
+                        throw new Error('Session expired. Please login again.');
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch investments: ${response.status} ${response.statusText}`);
+                    }
+
+                    const responseData = await response.json();
+                    renderInvestmentsTable(responseData.data);
+
+                } catch (error) {
+                    console.error('Error fetching investments:', error);
+                    showMessage('Error', 'Failed to load investments: ' + error.message);
+                    renderSampleData();
+                } finally {
+                    showLoader(false);
+                }
+            }
+
+            // Render investments table
+            function renderInvestmentsTable(data) {
+                investmentsTableBody.innerHTML = '';
+
+                if (!data || !data.investments || data.investments.length === 0) {
+                    investmentsTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="9" style="text-align: center; padding: 20px;">
+                                No investments found matching your criteria.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                currentPage = data.currentPage || 1;
+                totalPages = data.totalPages || 1;
+
+                pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+                prevPage.disabled = currentPage <= 1;
+                nextPage.disabled = currentPage >= totalPages;
+
+                data.investments.forEach(investment => {
+                    const row = document.createElement('tr');
+
+                    row.innerHTML = `
+                        <td data-label="Investment ID">${investment.id || 'N/A'}</td>
+                        <td data-label="User">
+                            ${investment.user ? investment.user.username : 'N/A'}
+                            ${investment.user ? `<br><small>${investment.user.email}</small>` : ''}
+                        </td>
+                        <td data-label="Plan">${investment.plan ? investment.plan.name : 'N/A'}</td>
+                        <td data-label="Amount">$${investment.amount ? investment.amount.toFixed(2) : '0.00'}</td>
+                        <td data-label="Expected ROI">$${investment.expected_roi ? investment.expected_roi.toFixed(2) : '0.00'}</td>
+                        <td data-label="Start Date">${investment.start_date ? new Date(investment.start_date).toLocaleDateString() : 'N/A'}</td>
+                        <td data-label="End Date">${investment.end_date ? new Date(investment.end_date).toLocaleDateString() : 'N/A'}</td>
+                        <td data-label="Status">
+                            <span class="badge badge-${getStatusClass(investment.status)}">
+                                ${investment.status || 'N/A'}
+                            </span>
+                        </td>
+                        <td data-label="Actions">
+                            <button class="btn btn-sm btn-primary view-investment-btn" data-investment-id="${investment.id}">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            ${investment.status === 'active' ? `
+                            <button class="btn btn-sm btn-success payout-btn" data-investment-id="${investment.id}">
+                                <i class="fas fa-money-bill-wave"></i> Payout
+                            </button>
+                            ` : ''}
+                        </td>
+                    `;
+
+                    investmentsTableBody.appendChild(row);
+                });
+
+                attachInvestmentActionListeners();
+            }
+
+            // Get CSS class for status badge
+            function getStatusClass(status) {
+                switch (status) {
+                    case 'active': return 'approved';
+                    case 'completed': return 'completed';
+                    case 'pending': return 'pending';
+                    case 'cancelled': return 'rejected';
+                    default: return 'pending';
+                }
+            }
+
+            // Render sample data for development
+            function renderSampleData() {
+                const sampleData = {
+                    investments: [
+                        {
+                            id: 1,
+                            amount: 1000,
+                            expected_roi: 150,
+                            status: 'active',
+                            start_date: new Date(),
+                            end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+                            user: { username: 'john_doe', email: 'john@example.com' },
+                            plan: { name: 'Starter Plan' }
+                        },
+                        {
+                            id: 2,
+                            amount: 5000,
+                            expected_roi: 750,
+                            status: 'completed',
+                            start_date: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),
+                            end_date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+                            user: { username: 'jane_smith', email: 'jane@example.com' },
+                            plan: { name: 'Premium Plan' }
+                        }
+                    ],
+                    total: 2,
+                    totalPages: 1,
+                    currentPage: 1
+                };
+
+                renderInvestmentsTable(sampleData);
+            }
+
+            // Attach event listeners to investment action buttons
+            function attachInvestmentActionListeners() {
+                document.querySelectorAll('.view-investment-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const investmentId = this.getAttribute('data-investment-id');
+                        showInvestmentDetails(investmentId);
+                    });
+                });
+
+                document.querySelectorAll('.payout-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const investmentId = this.getAttribute('data-investment-id');
+                        showPayoutConfirmation(investmentId);
+                    });
+                });
+            }
+
+            // Show investment details
+            async function showInvestmentDetails(investmentId) {
+                try {
+                    showLoader(true);
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                        showMessage('Error', 'Authentication token not found. Please login again.');
+                        return;
+                    }
+
+                    const investment = findInvestmentById(investmentId);
+
+                    if (investment) {
+                        investmentDetailsContent.innerHTML = `
+                            <div class="investment-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Investment ID:</span>
+                                    <span class="detail-value">${investment.id}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">User:</span>
+                                    <span class="detail-value">${investment.user.username} (${investment.user.email})</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Plan:</span>
+                                    <span class="detail-value">${investment.plan.name}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Investment Amount:</span>
+                                    <span class="detail-value">$${investment.amount.toFixed(2)}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Expected ROI:</span>
+                                    <span class="detail-value">$${investment.expected_roi.toFixed(2)}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Start Date:</span>
+                                    <span class="detail-value">${new Date(investment.start_date).toLocaleDateString()}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">End Date:</span>
+                                    <span class="detail-value">${investment.end_date ? new Date(investment.end_date).toLocaleDateString() : 'N/A'}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Status:</span>
+                                    <span class="detail-value">
+                                        <span class="badge badge-${getStatusClass(investment.status)}">
+                                            ${investment.status}
+                                        </span>
+                                    </span>
+                                </div>
+                                ${investment.actual_roi ? `
+                                <div class="detail-item">
+                                    <span class="detail-label">Actual ROI:</span>
+                                    <span class="detail-value">$${investment.actual_roi.toFixed(2)}</span>
+                                </div>
+                                ` : ''}
+                                ${investment.payout_date ? `
+                                <div class="detail-item">
+                                    <span class="detail-label">Payout Date:</span>
+                                    <span class="detail-value">${new Date(investment.payout_date).toLocaleDateString()}</span>
+                                </div>
+                                ` : ''}
+                            </div>
+                        `;
+
+                        investmentDetailsModal.classList.add('active');
+                    }
+
+                } catch (error) {
+                    console.error('Error showing investment details:', error);
+                    showMessage('Error', 'Failed to load investment details: ' + error.message);
+                } finally {
+                    showLoader(false);
+                }
+            }
+
+            // Find investment by ID
+            function findInvestmentById(investmentId) {
+                return {
+                    id: investmentId,
+                    amount: 1000,
+                    expected_roi: 150,
+                    actual_roi: null,
+                    status: 'active',
+                    start_date: new Date(),
+                    end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+                    payout_date: null,
+                    user: { username: 'demo_user', email: 'demo@example.com' },
+                    plan: { name: 'Demo Plan' }
+                };
+            }
+
+            // Show payout confirmation
+            function showPayoutConfirmation(investmentId) {
+                currentInvestmentId = investmentId;
+                const investment = findInvestmentById(investmentId);
+
+                payoutInvestmentDetails.innerHTML = `
+                    <div class="detail-item">
+                        <span class="detail-label">Investment ID:</span>
+                        <span class="detail-value">${investment.id}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">User:</span>
+                        <span class="detail-value">${investment.user.username}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Amount to payout:</span>
+                        <span class="detail-value">$${investment.expected_roi.toFixed(2)}</span>
+                    </div>
+                `;
+
+                roiPayoutModal.classList.add('active');
+            }
+
+            // Process ROI payout
+            async function processROIPayout() {
+                try {
+                    showLoader(true);
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                        showMessage('Error', 'Authentication token not found. Please login again.');
+                        return;
+                    }
+
+                    const response = await fetch(`${API_BASE_URL}/investment/update/${currentInvestmentId}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (response.status === 401) {
+                        setTimeout(() => {
+                            window.location.href = "../index.html";
+                        }, 2000);
+                        throw new Error('Session expired. Please login again.');
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(`Failed to process ROI payout: ${response.status} ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    closePayoutModalFunc();
+                    showMessage('Success', result.message || 'ROI payout processed successfully!');
+                    fetchInvestments();
+
+                } catch (error) {
+                    console.error('Error processing ROI payout:', error);
+                    showMessage('Error', 'Failed to process ROI payout: ' + error.message);
+                } finally {
+                    showLoader(false);
+                }
+            }
+
+            // Close modals
+            function closeDetailsModalFunc() {
+                investmentDetailsModal.classList.remove('active');
+            }
+
+            function closePayoutModalFunc() {
+                roiPayoutModal.classList.remove('active');
+                currentInvestmentId = null;
+            }
+
+            function closeConfirmationModalFunc() {
+                confirmationModal.classList.remove('active');
+                currentAction = null;
+            }
+
+            function closeMessageModalFunc() {
+                messageModal.classList.remove('active');
+            }
+
+            // Show message modal
+            function showMessage(title, text) {
+                messageTitle.textContent = title;
+                messageText.textContent = text;
+                messageModal.classList.add('active');
+            }
+
+            // Show/hide loader
+            function showLoader(show) {
+                console.log(show ? 'Loading...' : 'Loading complete');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-const { Investment, InvestmentPlan, User, Sequelize } = require('../../model');
+const { Investment, InvestmentPlan, User, sequelize } = require('../../model');
 const { validationResult } = require('express-validator');
 const { Op } = require('sequelize');
 
@@ -7,22 +7,29 @@ function AdminInvestmentController() {
 
     // Admin: Create investment plan
     createPlan: async function(req, res) {
-      const transaction = await sequelize.transaction();
+      // const transaction = await sequelize.transaction();
       try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          await transaction.rollback();
+          // await transaction.rollback();
           return res.status(400).json({ 
             success: false,
             errors: errors.array() 
           });
         }
-
-        const { name, description, min_amount, max_amount, duration_days, roi_percentage } = req.body;
+        console.log(req.body)
+        const { 
+          name, 
+          description, 
+          min_amount, 
+          max_amount, 
+          duration_days, 
+          roi_percentage 
+        } = req.body;
 
         // Validate amount ranges
         if (min_amount <= 0 || max_amount <= 0) {
-          await transaction.rollback();
+          // await transaction.rollback();
           return res.status(400).json({ 
             success: false,
             error: 'Amounts must be positive values' 
@@ -30,7 +37,7 @@ function AdminInvestmentController() {
         }
 
         if (min_amount > max_amount) {
-          await transaction.rollback();
+          // await transaction.rollback();
           return res.status(400).json({ 
             success: false,
             error: 'Minimum amount cannot be greater than maximum amount' 
@@ -45,10 +52,9 @@ function AdminInvestmentController() {
           duration_days,
           roi_percentage,
           is_active: true
-        }, { transaction });
+        });
 
-        await transaction.commit();
-
+        console.log(plan)
         return res.status(201).json({
           success: true,
           message: 'Investment plan created successfully',
@@ -56,7 +62,7 @@ function AdminInvestmentController() {
         });
 
       } catch (error) {
-        await transaction.rollback();
+        // await transaction.rollback();
         console.error('Create plan error:', error);
         return res.status(500).json({ 
           success: false,
@@ -72,7 +78,7 @@ function AdminInvestmentController() {
           where: { is_active: true },
           order: [['min_amount', 'ASC']]
         });
-
+        console.log(plans)
         return res.json({ 
           success: true,
           data: plans 
@@ -96,7 +102,7 @@ function AdminInvestmentController() {
 
         return res.json({ 
           success: true,
-          data: plans 
+          data:plans
         });
 
       } catch (error) {
@@ -110,43 +116,34 @@ function AdminInvestmentController() {
 
     // Admin: Update investment plan
     updatePlan: async function(req, res) {
-      const transaction = await sequelize.transaction();
+      
       try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-          await transaction.rollback();
-          return res.status(400).json({ 
-            success: false,
-            errors: errors.array() 
-          });
-        }
 
-        const { plan_id } = req.params;
+        const { planId } = req.params;
+        
         const updates = req.body;
 
-        const plan = await InvestmentPlan.findByPk(plan_id, { transaction });
+        const plan = await InvestmentPlan.findByPk(planId);
+        
         if (!plan) {
-          await transaction.rollback();
+          // await transaction.rollback();
           return res.status(404).json({ 
             success: false,
             error: 'Investment plan not found' 
           });
         }
 
-        // Validate amount ranges if provided
-        if (updates.min_amount !== undefined && updates.max_amount !== undefined) {
+        
           if (updates.min_amount > updates.max_amount) {
-            await transaction.rollback();
+            
             return res.status(400).json({ 
               success: false,
               error: 'Minimum amount cannot be greater than maximum amount' 
             });
           }
-        }
-
-        await plan.update(updates, { transaction });
-        await transaction.commit();
-
+        
+        await plan.update(updates);
+        
         return res.json({
           success: true,
           message: 'Investment plan updated successfully',
@@ -154,7 +151,7 @@ function AdminInvestmentController() {
         });
 
       } catch (error) {
-        await transaction.rollback();
+        // await transaction.rollback();
         console.error('Update plan error:', error);
         return res.status(500).json({ 
           success: false,
@@ -165,13 +162,13 @@ function AdminInvestmentController() {
 
     // Admin: Deactivate investment plan (set is_active to false)
     deactivatePlan: async function(req, res) {
-      const transaction = await sequelize.transaction();
+      // const transaction = await sequelize.transaction();
       try {
-        const { plan_id } = req.params;
+        const { planId } = req.params;
 
-        const plan = await InvestmentPlan.findByPk(plan_id, { transaction });
+        const plan = await InvestmentPlan.findByPk(planId);
         if (!plan) {
-          await transaction.rollback();
+          
           return res.status(404).json({ 
             success: false,
             error: 'Investment plan not found' 
@@ -179,7 +176,7 @@ function AdminInvestmentController() {
         }
 
         if (!plan.is_active) {
-          await transaction.rollback();
+          // await transaction.rollback();
           return res.status(400).json({ 
             success: false,
             error: 'Investment plan is already deactivated' 
@@ -189,23 +186,22 @@ function AdminInvestmentController() {
         // Check if plan has active investments
         const activeInvestments = await Investment.count({
           where: { 
-            InvestmentPlanId: plan_id,
+            InvestmentPlanId: planId,
             status: 'active'
           },
-          transaction
+          
         });
 
         if (activeInvestments > 0) {
-          await transaction.rollback();
+          
           return res.status(400).json({ 
             success: false,
             error: 'Cannot deactivate plan with active investments' 
           });
         }
 
-        await plan.update({ is_active: false }, { transaction });
-        await transaction.commit();
-
+        await plan.update({ is_active: false });
+        
         return res.json({
           success: true,
           message: 'Investment plan deactivated successfully',
@@ -213,7 +209,7 @@ function AdminInvestmentController() {
         });
 
       } catch (error) {
-        await transaction.rollback();
+        
         console.error('Deactivate plan error:', error);
         return res.status(500).json({ 
           success: false,
@@ -224,13 +220,13 @@ function AdminInvestmentController() {
 
     // Admin: Delete investment plan
     deletePlan: async function(req, res) {
-      const transaction = await sequelize.transaction();
+      
       try {
-        const { plan_id } = req.params;
+        const { planId } = req.params;
 
-        const plan = await InvestmentPlan.findByPk(plan_id, { transaction });
+        const plan = await InvestmentPlan.findByPk(planId);
         if (!plan) {
-          await transaction.rollback();
+          // await transaction.rollback();
           return res.status(404).json({ 
             success: false,
             error: 'Investment plan not found' 
@@ -239,28 +235,26 @@ function AdminInvestmentController() {
 
         // Check if plan has any investments (active or completed)
         const investmentsCount = await Investment.count({
-          where: { InvestmentPlanId: plan_id },
-          transaction
+          where: { InvestmentPlanId: planId }
         });
 
         if (investmentsCount > 0) {
-          await transaction.rollback();
+          // await transaction.rollback();
           return res.status(400).json({ 
             success: false,
             error: 'Cannot delete plan with existing investments' 
           });
         }
 
-        await plan.destroy({ transaction });
-        await transaction.commit();
-
+        await plan.destroy();
+        
         return res.json({
           success: true,
           message: 'Investment plan deleted successfully'
         });
 
       } catch (error) {
-        await transaction.rollback();
+        // await transaction.rollback();
         console.error('Delete plan error:', error);
         return res.status(500).json({ 
           success: false,
@@ -318,7 +312,7 @@ function AdminInvestmentController() {
 
     // Admin: Manual ROI payout for specific investment
     manualROIPayout: async function(req, res) {
-      const transaction = await sequelize.transaction();
+      // const transaction = await sequelize.transaction();
       try {
         const { investment_id } = req.params;
 
@@ -332,7 +326,7 @@ function AdminInvestmentController() {
         });
 
         if (!investment) {
-          await transaction.rollback();
+          // await transaction.rollback();
           return res.status(404).json({ 
             success: false,
             error: 'Investment not found' 
@@ -340,7 +334,7 @@ function AdminInvestmentController() {
         }
 
         if (investment.status !== 'active') {
-          await transaction.rollback();
+          // await transaction.rollback();
           return res.status(400).json({ 
             success: false,
             error: 'Only active investments can be paid out' 
@@ -352,8 +346,8 @@ function AdminInvestmentController() {
 
         // Update user's wallet balance
         await User.update(
-          { walletBalance: sequelize.literal(`"walletBalance" + ${roiAmount}`) },
-          { where: { id: investment.user.id }, transaction }
+          { walletBalance: Investment.sequelize.literal(`"walletBalance" + ${roiAmount}`) },
+          { where: { id: investment.user.id } }
         );
 
         // Update investment status
@@ -362,9 +356,9 @@ function AdminInvestmentController() {
           actual_roi: roiAmount,
           end_date: new Date(),
           payout_date: new Date()
-        }, { transaction });
+        });
 
-        await transaction.commit();
+        // await transaction.commit();
 
         return res.json({
           success: true,
@@ -373,7 +367,7 @@ function AdminInvestmentController() {
         });
 
       } catch (error) {
-        await transaction.rollback();
+        // await transaction.rollback();
         console.error('Manual ROI payout error:', error);
         return res.status(500).json({ 
           success: false,
