@@ -205,13 +205,14 @@ function InvestmentController() {
           where: { userId },
           include: [{
             model: InvestmentPlan,
-            as: 'plan',
+            as: 'investmentPlan',
             attributes: ['name', 'roi_percentage', 'duration_days']
           }],
           order: [['createdAt', 'DESC']]
         });
 
-        return res.json({ investments });
+        // return res.json({ investments });
+        return res.status(200).json({success: true, investments});
 
       } catch (error) {
         console.error('Get investments error:', error);

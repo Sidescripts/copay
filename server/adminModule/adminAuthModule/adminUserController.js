@@ -38,13 +38,11 @@ const adminUserController = {
                     'id',
                     'email',
                     'username',
-                    'firstName',
-                    'lastName',
+                    'fullname',
                     'walletBalance',
                     'totalRevenue',
                     'totalWithdrawal',
                     'isVerified',
-                    'status',
                     'createdAt',
                 ],
                 order: [['createdAt', 'DESC']],
@@ -81,13 +79,11 @@ const adminUserController = {
                     'id',
                     'email',
                     'username',
-                    'firstName',
-                    'lastName',
+                    'fullame',
                     'walletBalance',
                     'totalRevenue',
                     'totalWithdrawal',
                     'isVerified',
-                    'status',
                     'createdAt',
                     'phoneNum',
                     'country'
@@ -152,7 +148,6 @@ const adminUserController = {
             const user = await User.findByPk(userId, { transaction });
 
             if (!user) {
-                await transaction.rollback();
                 return res.status(404).json({
                     success: false,
                     message: 'User not found'
@@ -160,7 +155,6 @@ const adminUserController = {
             }
 
             if (user.isVerified) {
-                await transaction.rollback();
                 return res.status(400).json({
                     success: false,
                     message: 'User is already verified'
@@ -207,7 +201,6 @@ const adminUserController = {
             const user = await User.findByPk(userId, { transaction });
 
             if (!user) {
-                await transaction.rollback();
                 return res.status(404).json({
                     success: false,
                     message: 'User not found'
@@ -228,14 +221,13 @@ const adminUserController = {
                 } else if (action === 'subtract') {
                     newTotalWithdrawal = Math.max(0, (user.totalWithdrawal || 0) - adjustment);
                 } else {
-                    await transaction.rollback();
+
                     return res.status(400).json({
                         success: false,
                         message: 'Invalid action. Use "add" or "subtract"'
                     });
                 }
             } else {
-                await transaction.rollback();
                 return res.status(400).json({
                     success: false,
                     message: 'Either totalWithdrawal or action with amount is required'
@@ -270,15 +262,14 @@ const adminUserController = {
 
     // Update user wallet balance
     updateWalletBalance: async (req, res) => {
-        const transaction = await sequelize.transaction();
+        // const transaction = await sequelize.transaction();
         try {
             const { userId } = req.params;
             const { action, amount } = req.body;
 
-            const user = await User.findByPk(userId, { transaction });
+            const user = await User.findByPk(userId);
 
             if (!user) {
-                await transaction.rollback();
                 return res.status(404).json({
                     success: false,
                     message: 'User not found'
@@ -286,7 +277,6 @@ const adminUserController = {
             }
 
             if (!action || !amount) {
-                await transaction.rollback();
                 return res.status(400).json({
                     success: false,
                     message: 'Action and amount are required'
@@ -300,7 +290,7 @@ const adminUserController = {
                 newBalance = (user.walletBalance || 0) + adjustment;
             } else if (action === 'subtract') {
                 if ((user.walletBalance || 0) < adjustment) {
-                    await transaction.rollback();
+
                     return res.status(400).json({
                         success: false,
                         message: 'Insufficient balance for deduction'
@@ -308,7 +298,6 @@ const adminUserController = {
                 }
                 newBalance = (user.walletBalance || 0) - adjustment;
             } else {
-                await transaction.rollback();
                 return res.status(400).json({
                     success: false,
                     message: 'Invalid action. Use "add" or "subtract"'
@@ -317,9 +306,7 @@ const adminUserController = {
 
             await user.update({
                 walletBalance: newBalance,
-            }, { transaction });
-
-            await transaction.commit();
+            });
 
             return res.status(200).json({
                 success: true,
@@ -333,7 +320,7 @@ const adminUserController = {
             });
 
         } catch (error) {
-            await transaction.rollback();
+ 
             console.error('Update wallet balance error:', error);
             return res.status(500).json({
                 success: false,

@@ -4,7 +4,7 @@ const {validateCreateDeposit, validateUserIdParam, validateDepositIdParam}= requ
 const userDepositController = require("./depositController");
 const router = express.Router();
 
-router.get('/deposit-history', AuthMiddleware, validateUserIdParam,userDepositController.getUserDeposits);
+router.get('/deposit-history', AuthMiddleware, userDepositController.getUserDeposits);
 router.post("/deposit", AuthMiddleware, userDepositController.createDeposit);
 router.get("/deposit/:id", AuthMiddleware, validateDepositIdParam, userDepositController.getDeposit);
 

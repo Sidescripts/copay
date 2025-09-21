@@ -126,7 +126,7 @@
                 getCryptoData();
 
                 // auto-update every 30 seconds
-                setInterval(getCryptoData, 30000);
+                setInterval(getCryptoData, 60000);
 
 
 

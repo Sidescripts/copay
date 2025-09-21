@@ -1,275 +1,220 @@
+
+
+// API Configuration
+const API_BASE_URL = '/api/v1';
+const WS_URL = 'ws://localhost:2000';
+let ws = null;
+
+// DOM Elements
+const menuToggle = document.getElementById('menuToggle');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+const logoutBtn = document.getElementById('logoutBtn');
+
+// Stats Elements
+const totalUsersEl = document.getElementById('totalUsers');
+const activeUsersEl = document.getElementById('activeUsers');
+const verifiedUsersEl = document.getElementById('verifiedUsers');
+const totalDepositsEl = document.getElementById('totalDeposits');
+const totalWithdrawalsEl = document.getElementById('totalWithdrawals');
+const totalInvestmentsEl = document.getElementById('totalInvestments');
+const todayDepositsEl = document.getElementById('todayDeposits');
+const todayWithdrawalsEl = document.getElementById('todayWithdrawals');
+const todayRegistrationsEl = document.getElementById('todayRegistrations');
+const todayInvestmentsEl = document.getElementById('todayInvestments');
+
+// Message Modal Elements
+const messageModal = document.getElementById('messageModal');
+const messageTitle = document.getElementById('messageTitle');
+const messageText = document.getElementById('messageText');
+const messageIcon = document.getElementById('messageIcon');
+const closeMessageModal = document.getElementById('closeMessageModal');
+const confirmMessage = document.getElementById('confirmMessage');
+
+// Get auth token (assuming set elsewhere)
+const authToken = localStorage.getItem('token');
+
+// Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
-    // DOM Elements
-    const logoutBtn = document.getElementById('logoutBtn');
-    const menuToggle = document.getElementById('menuToggle');
-    const sidebar = document.getElementById('sidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
-    
-    // Stats Elements
-    const totalUsersEl = document.getElementById('totalUsers');
-    const activeUsersEl = document.getElementById('activeUsers');
-    const verifiedUsersEl = document.getElementById('verifiedUsers');
-    const totalDepositsEl = document.getElementById('totalDeposits');
-    const totalWithdrawalsEl = document.getElementById('totalWithdrawals');
-    const totalInvestmentsEl = document.getElementById('totalInvestments');
-    
-    const todayDepositsEl = document.getElementById('todayDeposits');
-    const todayWithdrawalsEl = document.getElementById('todayWithdrawals');
-    const todayRegistrationsEl = document.getElementById('todayRegistrations');
-    const todayInvestmentsEl = document.getElementById('todayInvestments');
-    
-    // Pending Actions Elements
-    const pendingDepositsCountEl = document.getElementById('pendingDepositsCount');
-    const pendingWithdrawalsCountEl = document.getElementById('pendingWithdrawalsCount');
-    const unverifiedUsersCountEl = document.getElementById('unverifiedUsersCount');
-    
-    const pendingDepositsListEl = document.getElementById('pendingDepositsList');
-    const pendingWithdrawalsListEl = document.getElementById('pendingWithdrawalsList');
-    const unverifiedUsersListEl = document.getElementById('unverifiedUsersList');
-    
-    // Toggle sidebar on mobile
-    function toggleSidebar() {
-        sidebar.classList.toggle('active');
-        sidebarOverlay.classList.toggle('active');
-        
-        if (sidebar.classList.contains('active')) {
-            menuToggle.innerHTML = '<i class="fas fa-times"></i>';
-        } else {
-            menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-        }
+    setupEventListeners();
+    fetchDashboardStats();
+    initializeWebSocket();
+    setInterval(fetchDashboardStats, 300000); // Poll every 5 minutes
+});
+
+// Setup event listeners
+function setupEventListeners() {
+    // Mobile sidebar toggle
+    if (menuToggle && sidebar && sidebarOverlay) {
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleSidebar();
+        });
+
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 992) {
+                    toggleSidebar();
+                }
+            });
+        });
     }
-    
-    menuToggle.addEventListener('click', function(e) {
-        e.stopPropagation();
-        toggleSidebar();
-    });
-    
-    // Close sidebar when clicking outside on mobile
-    sidebarOverlay.addEventListener('click', function() {
-        toggleSidebar();
-    });
-    
-    // Close sidebar when clicking on a link
-    document.querySelectorAll('.sidebar-nav a').forEach(link => {
-        link.addEventListener('click', function() {
-            if (window.innerWidth < 992) {
-                toggleSidebar();
+
+    // Logout event listener
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            logout();
+        });
+    }
+
+    // Message modal
+    function closeMessageModalFunc() {
+        messageModal.classList.remove('active');
+    }
+
+    if (closeMessageModal) {
+        closeMessageModal.addEventListener('click', closeMessageModalFunc);
+    }
+
+    if (confirmMessage) {
+        confirmMessage.addEventListener('click', closeMessageModalFunc);
+    }
+
+    if (messageModal) {
+        messageModal.addEventListener('click', (e) => {
+            if (e.target === messageModal) {
+                closeMessageModalFunc();
             }
         });
-    });
-    
-    // Format currency
-    function formatCurrency(amount) {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD'
-        }).format(amount);
     }
-    
-    // Format date
-    function formatDate(dateString) {
-        const options = { year: 'numeric', month: 'short', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    }
-    
-    // Fetch dashboard stats
-    async function fetchDashboardStats() {
-        try {
-            // In a real application, you would fetch from your API
-            // const response = await fetch('/api/admin/dashboard/stats', {
-            //     headers: {
-            //         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-            //     }
-            // });
-            // const data = await response.json();
-            
-            // Simulated API response based on the controller structure
-            const data = {
-                success: true,
-                data: {
-                    overview: {
-                        totalUsers: 1542,
-                        activeUsers: 1248,
-                        verifiedUsers: 1125,
-                        totalDeposits: 542500.75,
-                        totalWithdrawals: 328750.50,
-                        totalInvestments: 875200.25,
-                        pendingDeposits: 12,
-                        pendingWithdrawals: 8
-                    },
-                    today: {
-                        deposits: 12500.50,
-                        withdrawals: 8750.25,
-                        registrations: 18,
-                        investments: 24200.75
-                    }
-                }
-            };
-            
-            if (data.success) {
-                updateDashboardStats(data.data);
-            } else {
-                throw new Error('Failed to fetch dashboard stats');
+}
+
+// Toggle sidebar on mobile
+function toggleSidebar() {
+    sidebar.classList.toggle('active');
+    sidebarOverlay.classList.toggle('active');
+    menuToggle.innerHTML = sidebar.classList.contains('active')
+        ? '<i class="fas fa-times"></i>'
+        : '<i class="fas fa-bars"></i>';
+}
+
+// Logout function (from original code, adapted)
+function logout() {
+    localStorage.removeItem('token'); // Adapted to match withdrawal page
+    window.location.href = '../index.html'; // Adapted to match sidebar href
+}
+
+// Show message modal
+function showMessage(title, message, isSuccess = true) {
+    messageTitle.textContent = title;
+    messageText.textContent = message;
+    messageIcon.innerHTML = isSuccess
+        ? '<i class="fas fa-check-circle success-icon"></i>'
+        : '<i class="fas fa-exclamation-circle error-icon"></i>';
+    messageModal.classList.add('active');
+}
+
+// Format currency
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    }).format(amount);
+}
+
+// Format number
+function formatNumber(number) {
+    return new Intl.NumberFormat('en-US').format(number);
+}
+
+// Initialize WebSocket connection
+// function initializeWebSocket() {
+//     try {
+//         ws = new WebSocket(WS_URL);
+
+//         ws.onopen = () => {
+//             console.log('WebSocket connected');
+//             ws.send(JSON.stringify({ type: 'subscribe', channel: 'dashboard' }));
+//         };
+
+//         ws.onmessage = (event) => {
+//             const data = JSON.parse(event.data);
+//             if (data.type === 'dashboardUpdate') {
+//                 fetchDashboardStats();
+//             }
+//         };
+
+//         ws.onclose = () => {
+//             console.log('WebSocket disconnected, attempting to reconnect...');
+//             setTimeout(initializeWebSocket, 5000);
+//         };
+
+//         ws.onerror = (error) => {
+//             console.error('WebSocket error:', error);
+//         };
+//     } catch (error) {
+//         console.error('Failed to initialize WebSocket:', error);
+//     }
+// }
+
+// Fetch dashboard stats from API (adapted from original, now real)
+async function fetchDashboardStats() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/admin/dashboard/stats`, {
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
             }
-        } catch (error) {
-            console.error('Error fetching dashboard stats:', error);
-            alert('Failed to load dashboard data. Please try again.');
+        });
+
+        if (response.status == 401) {
+            setTimeout(() =>{
+                window.location.href ="../index.html"
+            }, 2000);
         }
-    }
-    
-    // Update dashboard stats with fetched data
-    function updateDashboardStats(stats) {
-        // Update overview stats
-        totalUsersEl.textContent = stats.overview.totalUsers.toLocaleString();
-        activeUsersEl.textContent = stats.overview.activeUsers.toLocaleString();
-        verifiedUsersEl.textContent = stats.overview.verifiedUsers.toLocaleString();
-        totalDepositsEl.textContent = formatCurrency(stats.overview.totalDeposits);
-        totalWithdrawalsEl.textContent = formatCurrency(stats.overview.totalWithdrawals);
-        totalInvestmentsEl.textContent = formatCurrency(stats.overview.totalInvestments);
-        
-        // Update today's stats
-        todayDepositsEl.textContent = formatCurrency(stats.today.deposits);
-        todayWithdrawalsEl.textContent = formatCurrency(stats.today.withdrawals);
-        todayRegistrationsEl.textContent = stats.today.registrations;
-        todayInvestmentsEl.textContent = formatCurrency(stats.today.investments);
-    }
-    
-    // Fetch pending actions
-    async function fetchPendingActions() {
-        try {
-            // In a real application, you would fetch from your API
-            // const response = await fetch('/api/admin/dashboard/pending-actions', {
-            //     headers: {
-            //         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-            //     }
-            // });
-            // const data = await response.json();
-            
-            // Simulated API response based on the controller structure
-            const data = {
-                success: true,
-                data: {
-                    pendingDeposits: {
-                        count: 3,
-                        items: [
-                            { id: 1, amount: 2500, currency: 'USD', user: { username: 'john_doe', email: 'john@example.com' }, createdAt: new Date() },
-                            { id: 2, amount: 5000, currency: 'USD', user: { username: 'jane_smith', email: 'jane@example.com' }, createdAt: new Date(Date.now() - 86400000) },
-                            { id: 3, amount: 1200, currency: 'USD', user: { username: 'mike_jones', email: 'mike@example.com' }, createdAt: new Date(Date.now() - 172800000) }
-                        ]
-                    },
-                    pendingWithdrawals: {
-                        count: 2,
-                        items: [
-                            { id: 1, amount: 1500, currency: 'USD', user: { username: 'sara_conor', email: 'sara@example.com' }, createdAt: new Date() },
-                            { id: 2, amount: 3200, currency: 'USD', user: { username: 'david_wilson', email: 'david@example.com' }, createdAt: new Date(Date.now() - 432000000) }
-                        ]
-                    },
-                    unverifiedUsers: {
-                        count: 4,
-                        items: [
-                            { id: 1, username: 'new_user1', email: 'new1@example.com', createdAt: new Date() },
-                            { id: 2, username: 'new_user2', email: 'new2@example.com', createdAt: new Date(Date.now() - 86400000) },
-                            { id: 3, username: 'new_user3', email: 'new3@example.com', createdAt: new Date(Date.now() - 172800000) },
-                            { id: 4, username: 'new_user4', email: 'new4@example.com', createdAt: new Date(Date.now() - 259200000) }
-                        ]
-                    }
-                }
-            };
-            
-            if (data.success) {
-                updatePendingActions(data.data);
-            } else {
-                throw new Error('Failed to fetch pending actions');
-            }
-        } catch (error) {
-            console.error('Error fetching pending actions:', error);
-            alert('Failed to load pending actions. Please try again.');
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
         }
-    }
-    
-    // Update pending actions with fetched data
-    function updatePendingActions(actions) {
-        // Update counts
-        pendingDepositsCountEl.textContent = actions.pendingDeposits.count;
-        pendingWithdrawalsCountEl.textContent = actions.pendingWithdrawals.count;
-        unverifiedUsersCountEl.textContent = actions.unverifiedUsers.count;
-        
-        // Update pending deposits list
-        if (actions.pendingDeposits.count > 0) {
-            pendingDepositsListEl.innerHTML = '';
-            actions.pendingDeposits.items.forEach(deposit => {
-                const itemEl = document.createElement('div');
-                itemEl.className = 'action-item';
-                itemEl.innerHTML = `
-                    <div class="action-item-info">
-                        <h4>${deposit.user.username}</h4>
-                        <p>${deposit.user.email}</p>
-                        <small>${formatDate(deposit.createdAt)}</small>
-                    </div>
-                    <div class="action-item-amount">${formatCurrency(deposit.amount)}</div>
-                `;
-                pendingDepositsListEl.appendChild(itemEl);
-            });
+
+        const data = await response.json();
+        console.log(data);
+
+        if (data.success) {
+            updateDashboardStats(data.data);
+        } else {
+            throw new Error(data.message || 'Failed to fetch dashboard stats');
         }
-        
-        // Update pending withdrawals list
-        if (actions.pendingWithdrawals.count > 0) {
-            pendingWithdrawalsListEl.innerHTML = '';
-            actions.pendingWithdrawals.items.forEach(withdrawal => {
-                const itemEl = document.createElement('div');
-                itemEl.className = 'action-item';
-                itemEl.innerHTML = `
-                    <div class="action-item-info">
-                        <h4>${withdrawal.user.username}</h4>
-                        <p>${withdrawal.user.email}</p>
-                        <small>${formatDate(withdrawal.createdAt)}</small>
-                    </div>
-                    <div class="action-item-amount">${formatCurrency(withdrawal.amount)}</div>
-                `;
-                pendingWithdrawalsListEl.appendChild(itemEl);
-            });
-        }
-        
-        // Update unverified users list
-        if (actions.unverifiedUsers.count > 0) {
-            unverifiedUsersListEl.innerHTML = '';
-            actions.unverifiedUsers.items.forEach(user => {
-                const itemEl = document.createElement('div');
-                itemEl.className = 'action-item';
-                itemEl.innerHTML = `
-                    <div class="action-item-info">
-                        <h4>${user.username}</h4>
-                        <p>${user.email}</p>
-                        <small>Joined: ${formatDate(user.createdAt)}</small>
-                    </div>
-                `;
-                unverifiedUsersListEl.appendChild(itemEl);
-            });
-        }
+    } catch (error) {
+        console.error('Error fetching dashboard stats:', error);
+        showMessage('Error', `Failed to load dashboard data: ${error.message}`, false);
+        // Display error placeholders
+        totalUsersEl.innerHTML = 'N/A';
+        activeUsersEl.innerHTML = 'N/A';
+        verifiedUsersEl.innerHTML = 'N/A';
+        totalDepositsEl.innerHTML = 'N/A';
+        totalWithdrawalsEl.innerHTML = 'N/A';
+        totalInvestmentsEl.innerHTML = 'N/A';
+        todayDepositsEl.innerHTML = 'N/A';
+        todayWithdrawalsEl.innerHTML = 'N/A';
+        todayRegistrationsEl.innerHTML = 'N/A';
+        todayInvestmentsEl.innerHTML = 'N/A';
     }
-    
-    // Logout function
-    function logout() {
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('userEmail');
-        window.location.href = 'login.html';
-    }
-    
-    // Event listeners
-    logoutBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        logout();
-    });
-    
-    // Initialize dashboard
-    fetchDashboardStats();
-    fetchPendingActions();
-    
-    // Refresh data every 5 minutes
-    setInterval(() => {
-        fetchDashboardStats();
-        fetchPendingActions();
-    }, 300000);
-    
-    
-});
+}
+
+// Update dashboard stats with fetched data (from original)
+function updateDashboardStats(stats) {
+    totalUsersEl.textContent = formatNumber(stats.overview.totalUsers || 0);
+    activeUsersEl.textContent = formatNumber(stats.overview.activeUsers || 0);
+    verifiedUsersEl.textContent = formatNumber(stats.overview.verifiedUsers || 0);
+    totalDepositsEl.textContent = formatCurrency(stats.overview.totalDeposits || 0);
+    totalWithdrawalsEl.textContent = formatCurrency(stats.overview.totalWithdrawals || 0);
+    totalInvestmentsEl.textContent = formatCurrency(stats.overview.totalInvestments || 0);
+    todayDepositsEl.textContent = formatCurrency(stats.today.deposits || 0);
+    todayWithdrawalsEl.textContent = formatCurrency(stats.today.withdrawals || 0);
+    todayRegistrationsEl.textContent = formatNumber(stats.today.registrations || 0);
+    todayInvestmentsEl.textContent = formatCurrency(stats.today.investments || 0);
+}

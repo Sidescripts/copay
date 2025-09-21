@@ -163,11 +163,12 @@ const userWithdrawalController = {
 
     // Get all withdrawals for a specific user
     getUserWithdrawals: async (req, res) => {
-        const validationError = handleValidationErrors(req);
-        if (validationError) return validationError;
+        // const validationError = handleValidationErrors(req);
+        // if (validationError) return validationError;
 
-        const { userId } = req.params;
-
+        // const { id } = req.user.id;
+        const userId = req.user.id;
+        console.log(userId);
         try {
             const withdrawals = await Withdrawal.findAll({
                 where: { userId },
@@ -188,7 +189,7 @@ const userWithdrawalController = {
             return res.status(200).json({
                 success: true,
                 message: withdrawals.length ? 'Withdrawal history retrieved successfully' : 'No withdrawals found',
-                data: withdrawals,
+                withdrawals
             });
         } catch (error) {
             return sendErrorResponse(res, 500, 'Failed to retrieve withdrawal history', error);
