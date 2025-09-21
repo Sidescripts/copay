@@ -271,6 +271,11 @@ document.addEventListener('DOMContentLoaded', function(){
                 throw new Error(errorData.error || 'Network error occurred');
             }
             
+        Modal.success("Success", "Your investment is being processed, stay tuned.");
+        setTimeout(() => {
+            window.location.href ="../Dashboard.html"
+        }, 3000);
+
         } catch (error) {
             console.error('Investment error:', error);
         }

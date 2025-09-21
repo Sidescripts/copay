@@ -62,3 +62,12 @@ admin/withdrawal
 /withdrawal - get
 /withdrawal-stat - get
 /withdrawal/:id - patch
+
+
+router.get('/users', AuthMid, adminUserController.getAllUsers)
+router.get('/users/details', AuthMid,adminUserController.getUserDetails)
+router.post('/users/:userId/verify', AuthMid,adminUserController.verifyUser)
+router.patch('/users/:userId/withdrawal', AuthMid, adminUserController.updateTotalWithdrawal)
+router.patch('/users/:userId/balance', AuthMid, adminUserController.updateWalletBalance)
+router.get('/dashboard/stats', AuthMid, adminDashboardController.getDashboardStats)
+router.get('/dashboard/pending-actions', AuthMid, adminDashboardController.getPendingActions)

@@ -148,7 +148,12 @@ async function handlePayNow({ amount, method }) {
 
     // Clear stored crypto amounts
     ['btc', 'eth', 'usdt'].forEach((crypto) => localStorage.removeItem(crypto));
-    openPaymentModal();
+    // openPaymentModal();
+    Modal.success("Success", "Deposit is being processed");
+    setTimeout(() => {
+      window.location.href = "../Vitron-dashboard/Dashboard.html"
+    }, 2000);
+    
   } catch (error) {
     console.error('Payment error:', error);
     Modal.error('Payment Error', error.message);
