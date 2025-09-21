@@ -1,300 +1,802 @@
 // users.js
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // DOM Elements
-    const menuToggle = document.getElementById('menuToggle');
-    const sidebar = document.getElementById('sidebar');
-    const sidebarOverlay = document.getElementById('sidebarOverlay');
-    
-    const viewUserModal = document.getElementById('viewUserModal');
-    const closeViewModal = document.getElementById('closeViewModal');
-    const closeView = document.getElementById('closeView');
-    const editFromView = document.getElementById('editFromView');
-    
-    const editUserModal = document.getElementById('editUserModal');
-    const closeEditModal = document.getElementById('closeEditModal');
-    const cancelEdit = document.getElementById('cancelEdit');
-    const saveUserChanges = document.getElementById('saveUserChanges');
-    const suspendUser = document.getElementById('suspendUser');
-    
-    const confirmationModal = document.getElementById('confirmationModal');
-    const closeConfirmationModal = document.getElementById('closeConfirmationModal');
-    const cancelAction = document.getElementById('cancelAction');
-    const confirmAction = document.getElementById('confirmAction');
-    const confirmationTitle = document.getElementById('confirmationTitle');
-    const confirmationMessage = document.getElementById('confirmationMessage');
-
-    // Global user data
-    window.usersData = {
-        1: {
-            id: "#USR-001",
-            name: "John Doe",
-            email: "john@example.com",
-            joined: "2023-05-15",
-            status: "verified",
-            balance: "1250.00",
-            phone: "+1 (555) 123-4567",
-            country: "United States",
-            plan: "Premium Plan",
-            lastLogin: "2023-10-15 14:30"
-        },
-        2: {
-            id: "#USR-002",
-            name: "Jane Smith",
-            email: "jane@example.com",
-            joined: "2023-06-20",
-            status: "unverified",
-            balance: "850.00",
-            phone: "+1 (555) 987-6543",
-            country: "Canada",
-            plan: "Basic Plan",
-            lastLogin: "2023-10-14 09:15"
-        },
-        3: {
-            id: "#USR-003",
-            name: "Robert Johnson",
-            email: "robert@example.com",
-            joined: "2023-07-10",
-            status: "verified",
-            balance: "3450.00",
-            phone: "+44 20 1234 5678",
-            country: "United Kingdom",
-            plan: "VIP Plan",
-            lastLogin: "2023-10-15 16:45"
-        }
+    const elements = {
+        menuToggle: document.getElementById('menuToggle'),
+        sidebar: document.getElementById('sidebar'),
+        sidebarOverlay: document.getElementById('sidebarOverlay'),
+        viewUserModal: document.getElementById('viewUserModal'),
+        closeViewModal: document.getElementById('closeViewModal'),
+        closeView: document.getElementById('closeView'),
+        editFromView: document.getElementById('editFromView'),
+        editUserModal: document.getElementById('editUserModal'),
+        closeEditModal: document.getElementById('closeEditModal'),
+        cancelEdit: document.getElementById('cancelEdit'),
+        saveUserChanges: document.getElementById('saveUserChanges'),
+        suspendUser: document.getElementById('suspendUser'),
+        confirmationModal: document.getElementById('confirmationModal'),
+        closeConfirmationModal: document.getElementById('closeConfirmationModal'),
+        cancelAction: document.getElementById('cancelAction'),
+        confirmAction: document.getElementById('confirmAction'),
+        confirmationTitle: document.getElementById('confirmationTitle'),
+        confirmationMessage: document.getElementById('confirmationMessage')
     };
+
+    // Log missing elements
+    Object.entries(elements).forEach(([key, element]) => {
+        if (!element) console.error(`Element with ID '${key}' not found`);
+    });
+
+    // Initialize window.usersData if not set
+    window.usersData = window.usersData || {};
 
     // Mobile sidebar toggle
-    menuToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-        sidebarOverlay.classList.toggle('active');
-    });
-    
-    sidebarOverlay.addEventListener('click', () => {
-        sidebar.classList.remove('active');
-        sidebarOverlay.classList.remove('active');
-    });
+    if (elements.menuToggle && elements.sidebar && elements.sidebarOverlay) {
+        elements.menuToggle.addEventListener('click', () => {
+            console.log('Menu toggle clicked');
+            elements.sidebar.classList.toggle('active');
+            elements.sidebarOverlay.classList.toggle('active');
+        });
+        elements.sidebarOverlay.addEventListener('click', () => {
+            console.log('Sidebar overlay clicked');
+            elements.sidebar.classList.remove('active');
+            elements.sidebarOverlay.classList.remove('active');
+        });
+    }
 
     // Refresh user table function
-    window.refreshUserTable = function(usersData) {
+    window.refreshUserTable = function (usersData) {
         const tbody = document.querySelector('.data-table tbody');
-        if (tbody) {
-            tbody.innerHTML = '';
-            Object.values(usersData).forEach((user, index) => {
-                const userId = Object.keys(usersData)[index];
-                const actions = user.status === 'banned' 
-                    ? `<button class="btn btn-sm btn-primary unsuspend-user-btn" data-user-id="${userId}">Unsuspend</button>`
-                    : `<button class="btn btn-sm btn-primary view-user-btn" data-user-id="${userId}">View</button>
-                       <button class="btn btn-sm btn-secondary edit-user-btn" data-user-id="${userId}">Edit</button>`;
-                row.innerHTML = `
-                    <td>${user.id}</td>
-                    <td>${user.name}</td>
-                    <td>${user.email}</td>
-                    <td>${user.joined}</td>
-                    <td><span class="badge ${user.status === 'verified' ? 'badge-approved' : user.status === 'unverified' ? 'badge-pending' : 'badge-rejected'}">${user.status.charAt(0).toUpperCase() + user.status.slice(1)}</span></td>
-                    <td>$${user.balance}</td>
-                    <td>${actions}</td>
-                `;
-                tbody.appendChild(row);
-            });
-
-            // Reattach event listeners
-            document.querySelectorAll('.view-user-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const userId = this.getAttribute('data-user-id');
-                    const user = usersData[userId];
-                    if (user) {
-                        document.getElementById('viewUserId').textContent = user.id;
-                        document.getElementById('viewUserName').textContent = user.name;
-                        document.getElementById('viewUserEmail').textContent = user.email;
-                        document.getElementById('viewUserJoined').textContent = user.joined;
-                        document.getElementById('viewUserBalance').textContent = '$' + user.balance;
-                        document.getElementById('viewUserPhone').textContent = user.phone || 'N/A';
-                        document.getElementById('viewUserCountry').textContent = user.country || 'N/A';
-                        document.getElementById('viewUserPlan').textContent = user.plan || 'No Plan';
-                        document.getElementById('viewUserLastLogin').textContent = user.lastLogin || 'N/A';
-                        const statusBadge = document.getElementById('viewUserStatus');
-                        statusBadge.textContent = user.status.charAt(0).toUpperCase() + user.status.slice(1);
-                        statusBadge.className = 'badge ' + (
-                            user.status === 'verified' ? 'badge-approved' : 
-                            user.status === 'unverified' ? 'badge-pending' : 'badge-rejected'
-                        );
-                        editFromView.setAttribute('data-user-id', userId);
-                        viewUserModal.classList.add('active');
-                    }
-                });
-            });
-
-            document.querySelectorAll('.edit-user-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const userId = this.getAttribute('data-user-id');
-                    openEditModal(userId);
-                });
-            });
-
-            document.querySelectorAll('.unsuspend-user-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const userId = this.getAttribute('data-user-id');
-                    showConfirmation('Unsuspend User', 'Are you sure you want to unsuspend this user?', () => {
-                        updateUserStatus(userId, 'verified');
-                    });
-                });
-            });
-        }
-    };
-
-    // Initial population
-    window.refreshUserTable(window.usersData);
-
-    // View user functionality (handled in refresh)
-
-    closeViewModal.addEventListener('click', () => {
-        viewUserModal.classList.remove('active');
-    });
-    
-    closeView.addEventListener('click', () => {
-        viewUserModal.classList.remove('active');
-    });
-    
-    editFromView.addEventListener('click', function() {
-        const userId = this.getAttribute('data-user-id');
-        viewUserModal.classList.remove('active');
-        openEditModal(userId);
-    });
-
-    function openEditModal(userId) {
-        const user = window.usersData[userId];
-        if (user) {
-            document.getElementById('editUserId').value = userId;
-            document.getElementById('editUserName').value = user.name;
-            document.getElementById('editUserEmail').value = user.email;
-            document.getElementById('editUserPhone').value = user.phone || '';
-            document.getElementById('editUserBalance').value = user.balance;
-            document.getElementById('editUserStatus').value = user.status;
-            document.getElementById('editUserPlan').value = user.plan ? user.plan.toLowerCase().replace(' Plan', '') : '';
-            document.getElementById('editUserCountry').value = user.country || '';
-            editUserModal.classList.add('active');
-        }
-    }
-    
-    closeEditModal.addEventListener('click', () => {
-        editUserModal.classList.remove('active');
-    });
-    
-    cancelEdit.addEventListener('click', () => {
-        editUserModal.classList.remove('active');
-    });
-
-    saveUserChanges.addEventListener('click', async () => {
-        const userId = document.getElementById('editUserId').value;
-        const userName = document.getElementById('editUserName').value;
-        const userEmail = document.getElementById('editUserEmail').value;
-        const userPhone = document.getElementById('editUserPhone').value;
-        const userBalance = document.getElementById('editUserBalance').value;
-        const userStatus = document.getElementById('editUserStatus').value;
-        const userPlan = document.getElementById('editUserPlan').value;
-        const userCountry = document.getElementById('editUserCountry').value;
-
-        if (!userName || !userEmail || !userBalance) {
-            showConfirmation('Error', 'Please fill all required fields');
+        if (!tbody) {
+            console.error('Table body (.data-table tbody) not found');
+            Modal.error('Application Error', 'Table body not found. Please check the HTML.');
             return;
         }
 
-        // Update via API
-        try {
-            // Update balance separately if needed
-            if (window.usersData[userId].balance !== userBalance) {
-                await fetch(`/api/v1/admin/users/${userId}/balance`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-                    body: JSON.stringify({ balance: userBalance })
-                });
-            }
-            // Update other details (assuming a generic endpoint; confirm with backend)
-            await fetch(`/api/v1/admin/users/${userId}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-                body: JSON.stringify({
-                    name: userName,
-                    email: userEmail,
-                    phone: userPhone,
-                    status: userStatus,
-                    plan: userPlan ? userPlan.charAt(0).toUpperCase() + userPlan.slice(1) + ' Plan' : 'No Plan',
-                    country: userCountry
-                })
-            });
-            // Sync with user dashboard
-            await fetch('http://localhost:2000/api/v1/user/update-details', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-                body: JSON.stringify({
-                    name: userName,
-                    email: userEmail,
-                    phone: userPhone,
-                    country: userCountry
-                })
-            });
-            const response = await fetch(`/api/v1/admin/users/details?userId=${userId}`, {
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-            });
-            if (!response.ok) throw new Error('Failed to fetch updated details');
-            const updatedUser = await response.json();
-            window.usersData[userId] = updatedUser;
-            window.refreshUserTable(window.usersData);
-            editUserModal.classList.remove('active');
-            showConfirmation('Success', 'User details updated successfully!');
-        } catch (error) {
-            console.error('Update error:', error);
-            showConfirmation('Error', 'Failed to update user details');
-        }
-    });
+        tbody.innerHTML = '';
+        Object.entries(usersData).forEach(([userId, user]) => {
+            // Map API fields to table fields
+            const normalizedUser = {
+                id: user.id || 'N/A',
+                name: user.fullname || user.name || 'N/A',
+                email: user.email || 'N/A',
+                joined: user.createdAt ? new Date(user.createdAt).toISOString().split('T')[0] : user.joined || 'N/A',
+                status: user.isVerified === false ? 'unverified' : user.isVerified === true ? 'verified' : user.status || 'unverified',
+                balance: Number(user.walletBalance || user.balance || 0).toFixed(2),
+                phone: user.phone || 'N/A',
+                country: user.country || 'N/A',
+                plan: user.plan || 'No Plan',
+                lastLogin: user.lastLogin || 'N/A'
+            };
 
-    suspendUser.addEventListener('click', function() {
-        const userId = document.getElementById('editUserId').value;
-        const userName = document.getElementById('editUserName').value;
-        
-        showConfirmation(
-            'Suspend User', 
-            `Are you sure you want to suspend ${userName}? This will restrict their account access.`,
-            () => {
-                updateUserStatus(userId, 'banned');
+            const actions = normalizedUser.status === 'banned'
+                ? `<button class="btn btn-sm btn-primary unsuspend-user-btn" data-user-id="${userId}">Unsuspend</button>`
+                : `<button class="btn btn-sm btn-primary view-user-btn" data-user-id="${userId}">View</button>
+                   <button class="btn btn-sm btn-secondary edit-user-btn" data-user-id="${userId}">Edit</button>`;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${normalizedUser.id}</td>
+                <td>${normalizedUser.name}</td>
+                <td>${normalizedUser.email}</td>
+                <td>${normalizedUser.joined}</td>
+                <td><span class="badge ${normalizedUser.status === 'verified' ? 'badge-approved' : normalizedUser.status === 'unverified' ? 'badge-pending' : 'badge-rejected'}">${normalizedUser.status.charAt(0).toUpperCase() + normalizedUser.status.slice(1)}</span></td>
+                <td>$${normalizedUser.balance}</td>
+                <td>${actions}</td>
+            `;
+            tbody.appendChild(row);
+        });
+
+        // Reattach event listeners
+        document.querySelectorAll('.view-user-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                console.log('View button clicked for user:', this.getAttribute('data-user-id'));
+                const userId = this.getAttribute('data-user-id');
+                const user = usersData[userId];
+                if (user && elements.viewUserModal) {
+                    const normalizedUser = {
+                        id: user.id || 'N/A',
+                        name: user.fullname || user.name || 'N/A',
+                        email: user.email || 'N/A',
+                        joined: user.createdAt ? new Date(user.createdAt).toISOString().split('T')[0] : user.joined || 'N/A',
+                        status: user.isVerified === false ? 'unverified' : user.isVerified === true ? 'verified' : user.status || 'unverified',
+                        balance: Number(user.walletBalance || user.balance || 0).toFixed(2),
+                        phone: user.phone || 'N/A',
+                        country: user.country || 'N/A',
+                        plan: user.plan || 'No Plan',
+                        lastLogin: user.lastLogin || 'N/A'
+                    };
+                    const viewElements = {
+                        viewUserId: document.getElementById('viewUserId'),
+                        viewUserName: document.getElementById('viewUserName'),
+                        viewUserEmail: document.getElementById('viewUserEmail'),
+                        viewUserJoined: document.getElementById('viewUserJoined'),
+                        viewUserBalance: document.getElementById('viewUserBalance'),
+                        viewUserPhone: document.getElementById('viewUserPhone'),
+                        viewUserCountry: document.getElementById('viewUserCountry'),
+                        viewUserPlan: document.getElementById('viewUserPlan'),
+                        viewUserLastLogin: document.getElementById('viewUserLastLogin'),
+                        viewUserStatus: document.getElementById('viewUserStatus')
+                    };
+                    if (Object.values(viewElements).every(el => el)) {
+                        viewElements.viewUserId.textContent = normalizedUser.id;
+                        viewElements.viewUserName.textContent = normalizedUser.name;
+                        viewElements.viewUserEmail.textContent = normalizedUser.email;
+                        viewElements.viewUserJoined.textContent = normalizedUser.joined;
+                        viewElements.viewUserBalance.textContent = '$' + normalizedUser.balance;
+                        viewElements.viewUserPhone.textContent = normalizedUser.phone;
+                        viewElements.viewUserCountry.textContent = normalizedUser.country;
+                        viewElements.viewUserPlan.textContent = normalizedUser.plan;
+                        viewElements.viewUserLastLogin.textContent = normalizedUser.lastLogin;
+                        viewElements.viewUserStatus.textContent = normalizedUser.status.charAt(0).toUpperCase() + normalizedUser.status.slice(1);
+                        viewElements.viewUserStatus.className = 'badge ' + (
+                            normalizedUser.status === 'verified' ? 'badge-approved' :
+                            normalizedUser.status === 'unverified' ? 'badge-pending' : 'badge-rejected'
+                        );
+                        elements.editFromView.setAttribute('data-user-id', userId);
+                        elements.viewUserModal.classList.add('active');
+                    } else {
+                        console.error('View modal elements missing:', viewElements);
+                        Modal.error('Application Error', 'View modal elements not found.');
+                    }
+                }
+            });
+        });
+
+        document.querySelectorAll('.edit-user-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                console.log('Edit button clicked for user:', this.getAttribute('data-user-id'));
+                const userId = this.getAttribute('data-user-id');
+                openEditModal(userId);
+            });
+        });
+
+        document.querySelectorAll('.unsuspend-user-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                console.log('Unsuspend button clicked for user:', this.getAttribute('data-user-id'));
+                const userId = this.getAttribute('data-user-id');
+                showConfirmation('Unsuspend User', 'Are you sure you want to unsuspend this user?', () => {
+                    updateUserStatus(userId, 'verified');
+                });
+            });
+        });
+    };
+
+    // Initial population
+    if (Object.keys(window.usersData).length > 0) {
+        window.refreshUserTable(window.usersData);
+    } else {
+        console.log('No initial user data, waiting for userSync.js');
+    }
+
+    // View user functionality
+    if (elements.closeViewModal) {
+        elements.closeViewModal.addEventListener('click', () => {
+            console.log('Close view modal clicked');
+            elements.viewUserModal.classList.remove('active');
+        });
+    }
+    
+    if (elements.closeView) {
+        elements.closeView.addEventListener('click', () => {
+            console.log('Close view button clicked');
+            elements.viewUserModal.classList.remove('active');
+        });
+    }
+    
+    if (elements.editFromView) {
+        elements.editFromView.addEventListener('click', function () {
+            console.log('Edit from view clicked for user:', this.getAttribute('data-user-id'));
+            const userId = this.getAttribute('data-user-id');
+            elements.viewUserModal.classList.remove('active');
+            openEditModal(userId);
+        });
+    }
+
+    function openEditModal(userId) {
+        const user = window.usersData[userId];
+        if (user && elements.editUserModal) {
+            const normalizedUser = {
+                name: user.fullname || user.name || 'N/A',
+                email: user.email || 'N/A',
+                phone: user.phone || '',
+                balance: Number(user.walletBalance || user.balance || 0).toFixed(2),
+                status: user.isVerified === false ? 'unverified' : user.isVerified === true ? 'verified' : user.status || 'unverified',
+                plan: user.plan ? user.plan.toLowerCase().replace(' plan', '') : '',
+                country: user.country || ''
+            };
+            const editElements = {
+                editUserId: document.getElementById('editUserId'),
+                editUserName: document.getElementById('editUserName'),
+                editUserEmail: document.getElementById('editUserEmail'),
+                editUserPhone: document.getElementById('editUserPhone'),
+                editUserBalance: document.getElementById('editUserBalance'),
+                editUserStatus: document.getElementById('editUserStatus'),
+                editUserPlan: document.getElementById('editUserPlan'),
+                editUserCountry: document.getElementById('editUserCountry')
+            };
+            if (Object.values(editElements).every(el => el)) {
+                editElements.editUserId.value = userId;
+                editElements.editUserName.value = normalizedUser.name;
+                editElements.editUserEmail.value = normalizedUser.email;
+                editElements.editUserPhone.value = normalizedUser.phone;
+                editElements.editUserBalance.value = normalizedUser.balance;
+                editElements.editUserStatus.value = normalizedUser.status;
+                editElements.editUserPlan.value = normalizedUser.plan;
+                editElements.editUserCountry.value = normalizedUser.country;
+                elements.editUserModal.classList.add('active');
+            } else {
+                console.error('Edit modal elements missing:', editElements);
+                Modal.error('Application Error', 'Edit modal elements not found.');
             }
-        );
-    });
+        }
+    }
+
+    if (elements.closeEditModal) {
+        elements.closeEditModal.addEventListener('click', () => {
+            console.log('Close edit modal clicked');
+            elements.editUserModal.classList.remove('active');
+        });
+    }
+
+    if (elements.cancelEdit) {
+        elements.cancelEdit.addEventListener('click', () => {
+            console.log('Cancel edit clicked');
+            elements.editUserModal.classList.remove('active');
+        });
+    }
+
+    if (elements.saveUserChanges) {
+        elements.saveUserChanges.addEventListener('click', async () => {
+            console.log('Save user changes clicked');
+            const editElements = {
+                editUserId: document.getElementById('editUserId'),
+                editUserName: document.getElementById('editUserName'),
+                editUserEmail: document.getElementById('editUserEmail'),
+                editUserPhone: document.getElementById('editUserPhone'),
+                editUserBalance: document.getElementById('editUserBalance'),
+                editUserStatus: document.getElementById('editUserStatus'),
+                editUserPlan: document.getElementById('editUserPlan'),
+                editUserCountry: document.getElementById('editUserCountry')
+            };
+            if (!Object.values(editElements).every(el => el)) {
+                console.error('Edit modal elements missing:', editElements);
+                Modal.error('Application Error', 'Edit modal elements not found.');
+                return;
+            }
+
+            const userId = editElements.editUserId.value;
+            const userName = editElements.editUserName.value;
+            const userEmail = editElements.editUserEmail.value;
+            const userPhone = editElements.editUserPhone.value;
+            const userBalance = editElements.editUserBalance.value;
+            const userStatus = editElements.editUserStatus.value;
+            const userPlan = editElements.editUserPlan.value;
+            const userCountry = editElements.editUserCountry.value;
+
+            if (!userName || !userEmail || !userBalance) {
+                showConfirmation('Error', 'Please fill all required fields');
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    Modal.error('Authentication Error', 'No token found. Redirecting to login...');
+                    setTimeout(() => {
+                        window.location.href = '../index.html';
+                    }, 1500);
+                    return;
+                }
+
+                // Update balance
+                if (window.usersData[userId].balance !== userBalance || window.usersData[userId].walletBalance !== userBalance) {
+                  const action = "add";
+                    const response = await fetch(`/api/v1/admin/users/${userId}/balance`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                        body: JSON.stringify({ amount: userBalance, action:action })
+                    });
+                    if (!response.ok) throw new Error('Failed to update balance');
+                }
+
+                // Update other details
+                const updateResponse = await fetch(`/api/v1/admin/users/${userId}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({
+                        fullname: userName,
+                        email: userEmail,
+                        phone: userPhone,
+                        isVerified: userStatus === 'verified',
+                        plan: userPlan ? userPlan.charAt(0).toUpperCase() + userPlan.slice(1) + ' Plan' : 'No Plan',
+                        country: userCountry
+                    })
+                });
+                if (!updateResponse.ok) throw new Error('Failed to update user details');
+
+                // Sync with user dashboard
+                const syncResponse = await fetch('http://localhost:2000/api/v1/user/update-details', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({
+                        fullName: userName,
+                        email: userEmail,
+                        phone: userPhone,
+                        country: userCountry
+                    })
+                });
+                if (!syncResponse.ok) throw new Error('Failed to sync with user dashboard');
+
+                // Fetch updated user details
+                const detailsResponse = await fetch(`/api/v1/admin/users/details?userId=${userId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!detailsResponse.ok) throw new Error('Failed to fetch updated details');
+                const updatedUser = await detailsResponse.json();
+                window.usersData[userId] = {
+                    ...updatedUser,
+                    id: updatedUser.id,
+                    fullname: updatedUser.fullname || updatedUser.name,
+                    walletBalance: updatedUser.walletBalance || updatedUser.balance,
+                    isVerified: updatedUser.isVerified !== undefined ? updatedUser.isVerified : updatedUser.status === 'verified'
+                };
+                window.refreshUserTable(window.usersData);
+                elements.editUserModal.classList.remove('active');
+                showConfirmation('Success', 'User details updated successfully!');
+            } catch (error) {
+                console.error('Update error:', error);
+                showConfirmation('Error', `Failed to update user details: ${error.message}`);
+            }
+        });
+    }
+
+    if (elements.suspendUser) {
+        elements.suspendUser.addEventListener('click', function () {
+            console.log('Suspend user clicked');
+            const userId = document.getElementById('editUserId').value;
+            const userName = document.getElementById('editUserName').value;
+            showConfirmation(
+                'Suspend User',
+                `Are you sure you want to suspend ${userName}? This will restrict their account access.`,
+                () => {
+                    updateUserStatus(userId, 'banned');
+                }
+            );
+        });
+    }
 
     async function updateUserStatus(userId, status) {
         try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                Modal.error('Authentication Error', 'No token found. Redirecting to login...');
+                setTimeout(() => {
+                    window.location.href = '../index.html';
+                }, 1500);
+                return;
+            }
+
             const response = await fetch(`/api/v1/admin/users/${userId}/verify`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-                body: JSON.stringify({ status })
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ status: status === 'verified' ? true : false })
             });
             if (!response.ok) throw new Error('Failed to update status');
             const updatedUser = await response.json();
-            window.usersData[userId].status = updatedUser.status;
+            window.usersData[userId] = {
+                ...window.usersData[userId],
+                isVerified: updatedUser.status === 'verified' || updatedUser.isVerified,
+                status: updatedUser.status || (updatedUser.isVerified ? 'verified' : 'unverified')
+            };
             window.refreshUserTable(window.usersData);
-            showConfirmation('Success', `${userName} has been ${status === 'banned' ? 'suspended' : 'unsuspended'}.`);
+            elements.editUserModal.classList.remove('active');
+            showConfirmation('Success', `${window.usersData[userId].fullname || window.usersData[userId].name} has been ${status === 'banned' ? 'suspended' : 'unsuspended'}.`);
         } catch (error) {
             console.error('Status update error:', error);
-            showConfirmation('Error', 'Failed to update user status');
+            showConfirmation('Error', `Failed to update user status: ${error.message}`);
         }
     }
 
     function showConfirmation(title, message, confirmCallback) {
-        confirmationTitle.textContent = title;
-        confirmationMessage.textContent = message;
-        confirmationModal.classList.add('active');
-        
-        confirmAction.onclick = () => {
-            confirmationModal.classList.remove('active');
-            if (confirmCallback) confirmCallback();
-        };
-        
-        cancelAction.onclick = () => {
-            confirmationModal.classList.remove('active');
-        };
+        if (elements.confirmationTitle && elements.confirmationMessage && elements.confirmationModal) {
+            elements.confirmationTitle.textContent = title;
+            elements.confirmationMessage.textContent = message;
+            elements.confirmationModal.classList.add('active');
+            elements.confirmAction.onclick = () => {
+                console.log('Confirm action clicked');
+                elements.confirmationModal.classList.remove('active');
+                if (confirmCallback) confirmCallback();
+            };
+            elements.cancelAction.onclick = () => {
+                console.log('Cancel action clicked');
+                elements.confirmationModal.classList.remove('active');
+            };
+        } else {
+            console.error('Confirmation modal elements missing');
+            Modal.error('Application Error', 'Confirmation modal elements not found.');
+        }
     }
-    
-    closeConfirmationModal.addEventListener('click', () => {
-        confirmationModal.classList.remove('active');
-    });
+
+    if (elements.closeConfirmationModal) {
+        elements.closeConfirmationModal.addEventListener('click', () => {
+            console.log('Close confirmation modal clicked');
+            elements.confirmationModal.classList.remove('active');
+        });
+    }
 });
+
+
+
+// // users.js
+// document.addEventListener('DOMContentLoaded', function () {
+//     // DOM Elements
+//     const menuToggle = document.getElementById('menuToggle');
+//     const sidebar = document.getElementById('sidebar');
+//     const sidebarOverlay = document.getElementById('sidebarOverlay');
+    
+//     const viewUserModal = document.getElementById('viewUserModal');
+//     const closeViewModal = document.getElementById('closeViewModal');
+//     const closeView = document.getElementById('closeView');
+//     const editFromView = document.getElementById('editFromView');
+    
+//     const editUserModal = document.getElementById('editUserModal');
+//     const closeEditModal = document.getElementById('closeEditModal');
+//     const cancelEdit = document.getElementById('cancelEdit');
+//     const saveUserChanges = document.getElementById('saveUserChanges');
+//     const suspendUser = document.getElementById('suspendUser');
+    
+//     const confirmationModal = document.getElementById('confirmationModal');
+//     const closeConfirmationModal = document.getElementById('closeConfirmationModal');
+//     const cancelAction = document.getElementById('cancelAction');
+//     const confirmAction = document.getElementById('confirmAction');
+//     const confirmationTitle = document.getElementById('confirmationTitle');
+//     const confirmationMessage = document.getElementById('confirmationMessage');
+
+//     // Initialize window.usersData if not set
+//     // window.usersData = window.usersData || {
+//     //     1: {
+//     //         id: "#USR-001",
+//     //         name: "John Doe",
+//     //         email: "john@example.com",
+//     //         joined: "2023-05-15",
+//     //         status: "verified",
+//     //         balance: "1250.00",
+//     //         phone: "+1 (555) 123-4567",
+//     //         country: "United States",
+//     //         plan: "Premium Plan",
+//     //         lastLogin: "2023-10-15 14:30"
+//     //     },
+//     //     2: {
+//     //         id: "#USR-002",
+//     //         name: "Jane Smith",
+//     //         email: "jane@example.com",
+//     //         joined: "2023-06-20",
+//     //         status: "unverified",
+//     //         balance: "850.00",
+//     //         phone: "+1 (555) 987-6543",
+//     //         country: "Canada",
+//     //         plan: "Basic Plan",
+//     //         lastLogin: "2023-10-14 09:15"
+//     //     },
+//     //     3: {
+//     //         id: "#USR-003",
+//     //         name: "Robert Johnson",
+//     //         email: "robert@example.com",
+//     //         joined: "2023-07-10",
+//     //         status: "verified",
+//     //         balance: "3450.00",
+//     //         phone: "+44 20 1234 5678",
+//     //         country: "United Kingdom",
+//     //         plan: "VIP Plan",
+//     //         lastLogin: "2023-10-15 16:45"
+//     //     }
+//     // };
+
+//     // Mobile sidebar toggle
+//     if (menuToggle && sidebar && sidebarOverlay) {
+//         menuToggle.addEventListener('click', () => {
+//             sidebar.classList.toggle('active');
+//             sidebarOverlay.classList.toggle('active');
+//         });
+//         sidebarOverlay.addEventListener('click', () => {
+//             sidebar.classList.remove('active');
+//             sidebarOverlay.classList.remove('active');
+//         });
+//     }
+
+//     // Refresh user table function
+//     window.refreshUserTable = function (usersData) {
+//         const tbody = document.querySelector('.data-table tbody');
+//         if (!tbody) {
+//             console.error('Table body (.data-table tbody) not found');
+//             Modal.error('Application Error', 'Table body not found. Please check the HTML.');
+//             return;
+//         }
+
+//         tbody.innerHTML = '';
+//         Object.entries(usersData).forEach(([userId, user]) => {
+//             // Map API fields to table fields
+//             const normalizedUser = {
+//                 id: user.id,
+//                 name: user.fullname || user.name || 'N/A',
+//                 email: user.email || 'N/A',
+//                 joined: user.createdAt ? new Date(user.createdAt).toISOString().split('T')[0] : user.joined || 'N/A',
+//                 status: user.isVerified === false ? 'unverified' : user.isVerified === true ? 'verified' : user.status || 'unverified',
+//                 balance: Number(user.walletBalance).toFixed(2) || '0.00',
+//                 phone: user.phone || 'N/A',
+//                 country: user.country || 'N/A',
+//                 plan: user.plan || 'No Plan',
+//                 lastLogin: user.lastLogin || 'N/A'
+//             };
+
+//             const actions = normalizedUser.status === 'banned'
+//                 ? `<button class="btn btn-sm btn-primary unsuspend-user-btn" data-user-id="${userId}">Unsuspend</button>`
+//                 : `<button class="btn btn-sm btn-primary view-user-btn" data-user-id="${userId}">View</button>
+//                    <button class="btn btn-sm btn-secondary edit-user-btn" data-user-id="${userId}">Edit</button>`;
+
+//             // Create a new row for each user
+//             const row = document.createElement('tr');
+//             row.innerHTML = `
+//                 <td>${normalizedUser.id}</td>
+//                 <td>${normalizedUser.name}</td>
+//                 <td>${normalizedUser.email}</td>
+//                 <td>${normalizedUser.joined}</td>
+//                 <td><span class="badge ${normalizedUser.status === 'verified' ? 'badge-approved' : normalizedUser.status === 'unverified' ? 'badge-pending' : 'badge-rejected'}">${normalizedUser.status.charAt(0).toUpperCase() + normalizedUser.status.slice(1)}</span></td>
+//                 <td>$${normalizedUser.balance}</td>
+//                 <td>${actions}</td>
+//             `;
+//             tbody.appendChild(row);
+//         });
+
+//         // Reattach event listeners
+//         document.querySelectorAll('.view-user-btn').forEach(btn => {
+//             btn.addEventListener('click', function () {
+//                 const userId = this.getAttribute('data-user-id');
+//                 const user = usersData[userId];
+//                 if (user) {
+//                     const normalizedUser = {
+//                         id: user.id,
+//                         name: user.fullname || user.name || 'N/A',
+//                         email: user.email || 'N/A',
+//                         joined: user.createdAt ? new Date(user.createdAt).toISOString().split('T')[0] : user.joined || 'N/A',
+//                         status: user.isVerified === false ? 'unverified' : user.isVerified === true ? 'verified' : user.status || 'unverified',
+//                         balance: Number(user.walletBalance).toFixed(2) || '0.00',
+//                         phone: user.phone || 'N/A',
+//                         country: user.country || 'N/A',
+//                         plan: user.plan || 'No Plan',
+//                         lastLogin: user.lastLogin || 'N/A'
+//                     };
+//                     if (viewUserModal) {
+//                         document.getElementById('viewUserId').textContent = normalizedUser.id;
+//                         document.getElementById('viewUserName').textContent = normalizedUser.name;
+//                         document.getElementById('viewUserEmail').textContent = normalizedUser.email;
+//                         document.getElementById('viewUserJoined').textContent = normalizedUser.joined;
+//                         document.getElementById('viewUserBalance').textContent = '$' + normalizedUser.balance;
+//                         document.getElementById('viewUserPhone').textContent = normalizedUser.phone;
+//                         document.getElementById('viewUserCountry').textContent = normalizedUser.country;
+//                         document.getElementById('viewUserPlan').textContent = normalizedUser.plan;
+//                         document.getElementById('viewUserLastLogin').textContent = normalizedUser.lastLogin;
+//                         const statusBadge = document.getElementById('viewUserStatus');
+//                         statusBadge.textContent = normalizedUser.status.charAt(0).toUpperCase() + normalizedUser.status.slice(1);
+//                         statusBadge.className = 'badge ' + (
+//                             normalizedUser.status === 'verified' ? 'badge-approved' :
+//                             normalizedUser.status === 'unverified' ? 'badge-pending' : 'badge-rejected'
+//                         );
+//                         editFromView.setAttribute('data-user-id', userId);
+//                         viewUserModal.classList.add('active');
+//                     }
+//                 }
+//             });
+//         });
+
+//         document.querySelectorAll('.edit-user-btn').forEach(btn => {
+//             btn.addEventListener('click', function () {
+//                 const userId = this.getAttribute('data-user-id');
+//                 openEditModal(userId);
+//             });
+//         });
+
+//         document.querySelectorAll('.unsuspend-user-btn').forEach(btn => {
+//             btn.addEventListener('click', function () {
+//                 const userId = this.getAttribute('data-user-id');
+//                 showConfirmation('Unsuspend User', 'Are you sure you want to unsuspend this user?', () => {
+//                     updateUserStatus(userId, 'verified');
+//                 });
+//             });
+//         });
+//     };
+
+//     // Initial population
+//     window.refreshUserTable(window.usersData);
+
+//     // View user functionality
+//     if (closeViewModal) {
+//         closeViewModal.addEventListener('click', () => {
+//             viewUserModal.classList.remove('active');
+//         });
+//     }
+    
+//     if (closeView) {
+//         closeView.addEventListener('click', () => {
+//             viewUserModal.classList.remove('active');
+//         });
+//     }
+    
+//     if (editFromView) {
+//         editFromView.addEventListener('click', function () {
+//             const userId = this.getAttribute('data-user-id');
+//             viewUserModal.classList.remove('active');
+//             openEditModal(userId);
+//         });
+//     }
+
+//     function openEditModal(userId) {
+//         const user = window.usersData[userId];
+//         if (user && editUserModal) {
+//             const normalizedUser = {
+//                 name: user.fullname || user.name || 'N/A',
+//                 email: user.email || 'N/A',
+//                 phone: user.phone || '',
+//                 balance: user.walletBalance || user.balance || '0.00',
+//                 status: user.isVerified === false ? 'unverified' : user.isVerified === true ? 'verified' : user.status || 'unverified',
+//                 plan: user.plan ? user.plan.toLowerCase().replace(' plan', '') : '',
+//                 country: user.country || ''
+//             };
+//             document.getElementById('editUserId').value = userId;
+//             document.getElementById('editUserName').value = normalizedUser.name;
+//             document.getElementById('editUserEmail').value = normalizedUser.email;
+//             document.getElementById('editUserPhone').value = normalizedUser.phone;
+//             document.getElementById('editUserBalance').value = normalizedUser.balance;
+//             document.getElementById('editUserStatus').value = normalizedUser.status;
+//             document.getElementById('editUserPlan').value = normalizedUser.plan;
+//             document.getElementById('editUserCountry').value = normalizedUser.country;
+//             editUserModal.classList.add('active');
+//         }
+//     }
+
+//     if (closeEditModal) {
+//         closeEditModal.addEventListener('click', () => {
+//             editUserModal.classList.remove('active');
+//         });
+//     }
+
+//     if (cancelEdit) {
+//         cancelEdit.addEventListener('click', () => {
+//             editUserModal.classList.remove('active');
+//         });
+//     }
+
+//     if (saveUserChanges) {
+//         saveUserChanges.addEventListener('click', async () => {
+//             const userId = document.getElementById('editUserId').value;
+//             const userName = document.getElementById('editUserName').value;
+//             const userEmail = document.getElementById('editUserEmail').value;
+//             const userPhone = document.getElementById('editUserPhone').value;
+//             const userBalance = document.getElementById('editUserBalance').value;
+//             const userStatus = document.getElementById('editUserStatus').value;
+//             const userPlan = document.getElementById('editUserPlan').value;
+//             const userCountry = document.getElementById('editUserCountry').value;
+
+//             if (!userName || !userEmail || !userBalance) {
+//                 showConfirmation('Error', 'Please fill all required fields');
+//                 return;
+//             }
+
+//             // Update via API
+//             try {
+//                 // Update balance separately
+//                 if (window.usersData[userId].balance !== userBalance || window.usersData[userId].walletBalance !== userBalance) {
+//                     await fetch(`/api/v1/admin/users/${userId}/balance`, {
+//                         method: 'PATCH',
+//                         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+//                         body: JSON.stringify({ walletBalance: userBalance })
+//                     });
+//                 }
+//                 // Update other details
+//                 await fetch(`/api/v1/admin/users/${userId}`, {
+//                     method: 'PATCH',
+//                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+//                     body: JSON.stringify({
+//                         fullname: userName,
+//                         email: userEmail,
+//                         phone: userPhone,
+//                         isVerified: userStatus === 'verified',
+//                         plan: userPlan ? userPlan.charAt(0).toUpperCase() + userPlan.slice(1) + ' Plan' : 'No Plan',
+//                         country: userCountry
+//                     })
+//                 });
+//                 // Sync with user dashboard
+//                 await fetch('http://localhost:2000/api/v1/user/update-details', {
+//                     method: 'POST',
+//                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+//                     body: JSON.stringify({
+//                         fullName: userName,
+//                         email: userEmail,
+//                         phone: userPhone,
+//                         country: userCountry
+//                     })
+//                 });
+//                 // Fetch updated user details
+//                 const response = await fetch(`/api/v1/admin/users/details?userId=${userId}`, {
+//                     headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+//                 });
+//                 if (!response.ok) throw new Error('Failed to fetch updated details');
+//                 const updatedUser = await response.json();
+//                 window.usersData[userId] = {
+//                     ...updatedUser,
+//                     id: updatedUser.id,
+//                     fullname: updatedUser.fullname || updatedUser.name,
+//                     walletBalance: updatedUser.walletBalance || updatedUser.balance,
+//                     isVerified: updatedUser.isVerified !== undefined ? updatedUser.isVerified : updatedUser.status === 'verified'
+//                 };
+//                 window.refreshUserTable(window.usersData);
+//                 editUserModal.classList.remove('active');
+//                 showConfirmation('Success', 'User details updated successfully!');
+//             } catch (error) {
+//                 console.error('Update error:', error);
+//                 showConfirmation('Error', `Failed to update user details: ${error.message}`);
+//             }
+//         });
+//     }
+
+//     if (suspendUser) {
+//         suspendUser.addEventListener('click', function () {
+//             const userId = document.getElementById('editUserId').value;
+//             const userName = document.getElementById('editUserName').value;
+//             showConfirmation(
+//                 'Suspend User',
+//                 `Are you sure you want to suspend ${userName}? This will restrict their account access.`,
+//                 () => {
+//                     updateUserStatus(userId, 'banned');
+//                 }
+//             );
+//         });
+//     }
+
+//     async function updateUserStatus(userId, status) {
+//         try {
+//             const response = await fetch(`/api/v1/admin/users/${userId}/verify`, {
+//                 method: 'POST',
+//                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+//                 body: JSON.stringify({ status: status === 'verified' ? true : false })
+//             });
+//             if (!response.ok) throw new Error('Failed to update status');
+//             const updatedUser = await response.json();
+//             window.usersData[userId] = {
+//                 ...window.usersData[userId],
+//                 isVerified: updatedUser.status === 'verified' || updatedUser.isVerified,
+//                 status: updatedUser.status || (updatedUser.isVerified ? 'verified' : 'unverified')
+//             };
+//             window.refreshUserTable(window.usersData);
+//             editUserModal.classList.remove('active');
+//             showConfirmation('Success', `${window.usersData[userId].fullname || window.usersData[userId].name} has been ${status === 'banned' ? 'suspended' : 'unsuspended'}.`);
+//         } catch (error) {
+//             console.error('Status update error:', error);
+//             showConfirmation('Error', `Failed to update user status: ${error.message}`);
+//         }
+//     }
+
+//     function showConfirmation(title, message, confirmCallback) {
+//         if (confirmationTitle && confirmationMessage && confirmationModal) {
+//             confirmationTitle.textContent = title;
+//             confirmationMessage.textContent = message;
+//             confirmationModal.classList.add('active');
+//             confirmAction.onclick = () => {
+//                 confirmationModal.classList.remove('active');
+//                 if (confirmCallback) confirmCallback();
+//             };
+//             cancelAction.onclick = () => {
+//                 confirmationModal.classList.remove('active');
+//             };
+//         } else {
+//             Modal.error('Application Error', 'Confirmation modal elements not found.');
+//         }
+//     }
+
+//     if (closeConfirmationModal) {
+//         closeConfirmationModal.addEventListener('click', () => {
+//             confirmationModal.classList.remove('active');
+//         });
+//     }
+// });

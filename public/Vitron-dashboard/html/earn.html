@@ -195,7 +195,12 @@
 
     .modal-backdrop {
       z-index: 1990 !important;
+      opacity: 0 !important;
     }
+   
+    /* .theme-light .modal-backdrop.show {
+        opacity: 0 !important;
+    } */
 
     .modal-content {
       border-radius: 16px;
@@ -437,6 +442,9 @@
         <br>
       </form>
 
+    </div>
+ 
+  </div>
       <!-- Invest Now Modal -->
       <div class="modal fade" id="investNowModal" tabindex="-1" aria-labelledby="investNowModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -491,7 +499,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <p><strong>Available Balance:</strong> <span id="availableBalance">$0</span></p>
+              <!-- <p><strong>Available Balance:</strong> <span id="availableBalance">$0</span></p> -->
               <form>
                 <div class="mb-3">
                   <label for="balancePlanSelect" class="form-label">Investment Plan</label>
@@ -500,6 +508,21 @@
                     <!-- Options populated dynamically -->
                   </select>
                 </div>
+
+                <div class="mb-3">
+                  <label for="paymentMethod" class="form-label">Payment Method</label>
+                  <select class="form-select" id="pMethod">
+                    <option selected disabled>Select Method</option>
+                    <option value="btc">Bitcoin (BTC)</option>
+                    <option value="usdt">Tether (USDT)</option>
+                    <option value="eth">Ethereum (ETH)</option>
+                    <option value="bnb">BNB</option>
+                    <option value="bch">Bitcoin Cash (BCH)</option>
+                    <option value="ltc">Litecoin (LTC)</option>
+                    <option value="dash">Dash</option>
+                  </select>
+                </div>
+
                 <div class="mb-3">
                   <label for="balanceAmount" class="form-label">Amount ($)</label>
                   <input type="number" class="form-control" id="balanceAmount" placeholder="Enter amount">
@@ -532,134 +555,16 @@
         </div>
       </div>
 
-    </div>
-
-    <script>
-      // Configuration
-      const API_BASE_URL = 'http://127.0.0.1:2000/api/v1';
-
-      // Show error message in UI
-      function showError(message) {
-        console.error(`UI Error: ${message}`);
-        const errorDiv = document.getElementById('errorMessage');
-        errorDiv.textContent = message;
-        errorDiv.style.display = 'block';
-      }
-
-      // Hide error message
-      function hideError() {
-        console.log('Cleared UI error message');
-        const errorDiv = document.getElementById('errorMessage');
-        errorDiv.style.display = 'none';
-      }
-
-      // Fetch investment plans
-      async function fetchPlans() {
-        console.log('Fetching investment plans...');
-        try {
-          const response = await fetch(`${API_BASE_URL}/admin/invest/all`);
-          if (!response.ok) {
-            console.error(`Plans API failed with status: ${response.status}`);
-            throw new Error(`Failed to fetch plans: ${response.status}`);
-          }
-          const data = await response.json();
-          console.log(`Fetched ${data.data.length} investment plans`);
-          return data.data;
-        } catch (error) {
-          console.error(`Error fetching plans: ${error.message}`);
-          showError('Failed to load investment plans. Please try again later.');
-          return [];
-        }
-      }
-
-      // Render investment plans
-      function renderPlans(plans) {
-        console.log(`Rendering ${plans.length} investment plans`);
-        const plansList = document.getElementById('plansList');
-        plansList.innerHTML = '';
-
-        if (plans.length === 0) {
-          showError('No investment plans available.');
-          console.log('No plans to display');
-          return;
-        }
-
-        hideError();
-        plans.forEach(plan => {
-          const card = `
-            <div class="col-12 col-md-6 pe-0">
-              <div class="card plan-card me-4">
-                <div class="card-body">
-                  <h3 class="plan-title">${plan.name}</h3>
-                  <p class="plan-sub">⏰ ${plan.duration}</p>
-                  <ul class="plan-features">
-                    <li><span>Min Investment</span> <b>$${plan.minInvestment}</b></li>
-                    <li><span>Max Investment</span> <b>$${plan.maxInvestment}</b></li>
-                    <li><span>Capital Back</span> <b>${plan.capitalBack ? 'Yes' : 'No'}</b></li>
-                    <li><span>Instant Withdrawal</span> <b>${plan.instantWithdrawal ? 'Yes' : 'No'}</b></li>
-                  </ul>
-                  <div class="earn-box">
-                    <p class="mb-1"><b>$${plan.minInvestment} → Earn $${plan.earnings} in ${plan.duration}</b></p>
-                  </div>
-                  <label class="btn btn-plan mb-3" data-bs-toggle="modal" data-bs-target="#investNowModal"
-                    onclick="setPlan('${plan.id}', '${plan.name}', ${plan.minInvestment}, ${plan.maxInvestment})">Invest Now</label>
-                  <label class="btn btn-plan" data-bs-toggle="modal" data-bs-target="#investBalanceModal"
-                    onclick="setBalancePlan('${plan.id}', '${plan.name}', ${plan.minInvestment}, ${plan.maxInvestment})">Invest Using Balance</label>
-                </div>
-              </div>
-            </div>
-          `;
-          plansList.insertAdjacentHTML('beforeend', card);
-        });
-
-        // Populate modal dropdowns
-        const planSelect = document.getElementById('planSelect');
-        const balancePlanSelect = document.getElementById('balancePlanSelect');
-        planSelect.innerHTML = '<option selected disabled>Select Plan</option>';
-        balancePlanSelect.innerHTML = '<option selected disabled>Select Plan</option>';
-        plans.forEach(plan => {
-          const option = `<option value="${plan.id}">${plan.name} ($${plan.minInvestment} - $${plan.maxInvestment})</option>`;
-          planSelect.insertAdjacentHTML('beforeend', option);
-          balancePlanSelect.insertAdjacentHTML('beforeend', option);
-        });
-        console.log('Populated modal dropdowns');
-      }
-
-      // Fetch balance (placeholder, replace with actual API)
-      async function fetchBalance() {
-        console.log('Fetching user balance...');
-        try {
-          // Replace with actual balance API
-          const response = await fetch(`${API_BASE_URL}/user/balance`);
-          if (!response.ok) {
-            console.error(`Balance API failed with status: ${response.status}`);
-            throw new Error('Failed to fetch balance');
-          }
-          const data = await response.json();
-          console.log(`Fetched balance: $${data.balance}`);
-          return data.balance;
-        } catch (error) {
-          console.error(`Error fetching balance: ${error.message}`);
-          return 0;
-        }
-      }
-
-      // Initialize page
-      document.addEventListener('DOMContentLoaded', async () => {
-        console.log('Page loaded, initializing...');
-        const plans = await fetchPlans();
-        renderPlans(plans);
-
-        const balance = await fetchBalance();
-        document.getElementById('availableBalance').textContent = `$${balance}`;
-        console.log('Page initialization complete');
-      });
-    </script>
-  </div>
-
 <script src="../scripts/bootstrap.min.js"></script>
 <script src="../scripts/custom.js"></script>
+<!-- <script>
+  function confirmBalanceInvestment() {
+    alert('ike adirozim at all')
+  }
+</script> -->
 <script src="../scripts/earn.js"></script>
+<script src="../../js/mainAuth.js"></script>
+<script src="../../js/earnFE.js"></script>
 </body>
 
 </html>

@@ -1,7 +1,7 @@
 
 
 // API Configuration
-const API_BASE_URL = 'http://localhost:2000/api/v1';
+const API_BASE_URL = '/api/v1';
 const WS_URL = 'ws://localhost:2000';
 let ws = null;
 
@@ -32,7 +32,7 @@ const closeMessageModal = document.getElementById('closeMessageModal');
 const confirmMessage = document.getElementById('confirmMessage');
 
 // Get auth token (assuming set elsewhere)
-const authToken = localStorage.getItem('adminToken') || 'YOUR_AUTH_TOKEN_HERE';
+const authToken = localStorage.getItem('token');
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
@@ -103,8 +103,7 @@ function toggleSidebar() {
 
 // Logout function (from original code, adapted)
 function logout() {
-    localStorage.removeItem('adminToken'); // Adapted to match withdrawal page
-    localStorage.removeItem('userEmail');
+    localStorage.removeItem('token'); // Adapted to match withdrawal page
     window.location.href = '../index.html'; // Adapted to match sidebar href
 }
 
@@ -132,34 +131,34 @@ function formatNumber(number) {
 }
 
 // Initialize WebSocket connection
-function initializeWebSocket() {
-    try {
-        ws = new WebSocket(WS_URL);
+// function initializeWebSocket() {
+//     try {
+//         ws = new WebSocket(WS_URL);
 
-        ws.onopen = () => {
-            console.log('WebSocket connected');
-            ws.send(JSON.stringify({ type: 'subscribe', channel: 'dashboard' }));
-        };
+//         ws.onopen = () => {
+//             console.log('WebSocket connected');
+//             ws.send(JSON.stringify({ type: 'subscribe', channel: 'dashboard' }));
+//         };
 
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.type === 'dashboardUpdate') {
-                fetchDashboardStats();
-            }
-        };
+//         ws.onmessage = (event) => {
+//             const data = JSON.parse(event.data);
+//             if (data.type === 'dashboardUpdate') {
+//                 fetchDashboardStats();
+//             }
+//         };
 
-        ws.onclose = () => {
-            console.log('WebSocket disconnected, attempting to reconnect...');
-            setTimeout(initializeWebSocket, 5000);
-        };
+//         ws.onclose = () => {
+//             console.log('WebSocket disconnected, attempting to reconnect...');
+//             setTimeout(initializeWebSocket, 5000);
+//         };
 
-        ws.onerror = (error) => {
-            console.error('WebSocket error:', error);
-        };
-    } catch (error) {
-        console.error('Failed to initialize WebSocket:', error);
-    }
-}
+//         ws.onerror = (error) => {
+//             console.error('WebSocket error:', error);
+//         };
+//     } catch (error) {
+//         console.error('Failed to initialize WebSocket:', error);
+//     }
+// }
 
 // Fetch dashboard stats from API (adapted from original, now real)
 async function fetchDashboardStats() {
@@ -171,11 +170,18 @@ async function fetchDashboardStats() {
             }
         });
 
+        if (response.status == 401) {
+            setTimeout(() =>{
+                window.location.href ="../index.html"
+            }, 2000);
+        }
+
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const data = await response.json();
+        console.log(data);
 
         if (data.success) {
             updateDashboardStats(data.data);

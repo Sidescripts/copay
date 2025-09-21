@@ -6,58 +6,60 @@
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.7);
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     z-index: 10000;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    visibility: hidden;
+    transition: all 0.3s ease;
     padding: 20px;
-    box-sizing: border-box;
+    box-sizing: border-box; 
 }
 
-.modal-overlay-m.active {
-    display: flex;
-    align-items: center !important;
-    justify-content: center !important;
+.modal-overlay.active {
     opacity: 1;
+    visibility: visible;
 }
 
 .modal {
     background: linear-gradient(135deg, #24243a 0%, #2c2c4c 100%);
-    width: 100%;
-    max-width: 320px;
-    height: 300px !important;
+    width: auto;
+    max-width: 100%;
+    height: fit-content;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
     opacity: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%) !important;
 }
 
-.modal-overlay-m.active .modal {
+
+.modal-overlay.active .modal {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
-    .modal-overlay-m {
+    .modal-overlay {
         padding: 16px;
     }
     
     .modal {
+        width: 100%; 
         max-width: 350px;
+        
     }
 }
 
 @media (max-width: 480px) {
-    .modal-overlay-m {
-        padding: 12px;
+    .modal-overlay {
+        padding: 12px; /* Even smaller padding on very small devices */
     }
     
     .modal-header {
@@ -70,12 +72,11 @@
     
     .modal-actions {
         padding: 12px 20px 20px;
-        flex-direction: column;
-        gap: 8px;
+        flex-direction: column; /* Stack buttons vertically on small screens */
     }
     
     .modal-btn {
-        width: 100%;
+        width: 100%; /* Full width buttons on mobile */
         margin-bottom: 8px;
     }
     
@@ -84,6 +85,7 @@
     }
 }
 
+/* Rest of your existing styles remain unchanged */
 .modal-header {
     background: rgba(0, 0, 0, 0.2);
     padding: 20px;

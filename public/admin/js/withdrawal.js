@@ -1,6 +1,6 @@
 
 // API Configuration
-const API_BASE_URL = 'http://localhost:2000/api/v1';
+const API_BASE_URL = '/api/v1';
 const WS_URL = 'ws://localhost:2000'; // Adjust based on your WebSocket setup
 let currentWithdrawalId = null;
 let currentUserId = null;
@@ -18,7 +18,7 @@ const pendingCount = document.getElementById('pending-count');
 const processedCount = document.getElementById('processed-count');
 
 // Get auth token (assuming set elsewhere)
-const authToken = localStorage.getItem('adminToken') || 'YOUR_AUTH_TOKEN_HERE'; // Replace with actual token source
+const authToken = localStorage.getItem('token'); // Replace with actual token source
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
@@ -36,34 +36,34 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Initialize WebSocket connection
-function initializeWebSocket() {
-    try {
-        ws = new WebSocket(WS_URL);
+// function initializeWebSocket() {
+//     try {
+//         ws = new WebSocket(WS_URL);
 
-        ws.onopen = () => {
-            console.log('WebSocket connected');
-            ws.send(JSON.stringify({ type: 'subscribe', channel: 'withdrawals' }));
-        };
+//         ws.onopen = () => {
+//             console.log('WebSocket connected');
+//             ws.send(JSON.stringify({ type: 'subscribe', channel: 'withdrawals' }));
+//         };
 
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.type === 'withdrawalUpdate') {
-                loadWithdrawalData(); // Refresh data on new withdrawal event
-            }
-        };
+//         ws.onmessage = (event) => {
+//             const data = JSON.parse(event.data);
+//             if (data.type === 'withdrawalUpdate') {
+//                 loadWithdrawalData(); // Refresh data on new withdrawal event
+//             }
+//         };
 
-        ws.onclose = () => {
-            console.log('WebSocket disconnected, attempting to reconnect...');
-            setTimeout(initializeWebSocket, 5000); // Attempt reconnect after 5 seconds
-        };
+//         ws.onclose = () => {
+//             console.log('WebSocket disconnected, attempting to reconnect...');
+//             setTimeout(initializeWebSocket, 5000); // Attempt reconnect after 5 seconds
+//         };
 
-        ws.onerror = (error) => {
-            console.error('WebSocket error:', error);
-        };
-    } catch (error) {
-        console.error('Failed to initialize WebSocket:', error);
-    }
-}
+//         ws.onerror = (error) => {
+//             console.error('WebSocket error:', error);
+//         };
+//     } catch (error) {
+//         console.error('Failed to initialize WebSocket:', error);
+//     }
+// }
 
 // Setup all event listeners
 function setupEventListeners() {

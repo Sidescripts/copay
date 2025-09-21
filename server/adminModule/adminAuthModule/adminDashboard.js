@@ -18,12 +18,12 @@ const adminDashboardController = {
                 pendingWithdrawals
             ] = await Promise.all([
                 User.count(),
-                User.count({ where: { status: 'active' } }),
+                // User.count({ where: { status: 'active' } }),
                 User.count({ where: { isVerified: true } }),
                 Deposit.sum('amount'),
                 Withdrawal.sum('amount'),
                 Investment.sum('amount'),
-                Deposit.count({ where: { status: 'pending' } }),
+                // Deposit.count({ where: { status: 'pending' } }),
                 Withdrawal.count({ where: { status: 'pending' } })
             ]);
 

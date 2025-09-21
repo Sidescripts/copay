@@ -65,42 +65,46 @@ async function confirmInvestment() {
     return;
   }
 
-  try {
-    const response = await fetch(`${API_BASE_URL}/invest/invest-now`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ planId, amount, paymentMethod })
-    });
+  localStorage.removeItem('depositPMethod');
+  localStorage.removeItem('depositAmount');
+  console.log(paymentMethod, amount);
+  console.log(paymentMethod + amount);
 
-    if (!response.ok) {
-      console.error(`Invest API failed with status: ${response.status}`);
-      throw new Error('Failed to submit investment');
-    }
+  if (amount && paymentMethod) {
 
-    const data = await response.json();
-    console.log(`Investment successful: ${JSON.stringify(data)}`);
-
-    // Store for confirmDeposit.html
-    localStorage.setItem('investmentAmount', amount);
-    localStorage.setItem('paymentMethod', paymentMethod);
-    localStorage.setItem('walletAddress', wallets[paymentMethod] || data.walletAddress);
-    localStorage.setItem('planId', planId);
-
-    console.log('Redirecting to confirmDeposit.html');
-    window.location.href = '../html/confirmDeposit.html';
-  } catch (error) {
-    console.error(`Error submitting investment: ${error.message}`);
-    showErrorModal('Failed to submit investment. Please try again.');
+    localStorage.setItem('depositPMethod', paymentMethod);
+    localStorage.setItem('depositAmount', amount);
+    setTimeout(() => {
+      window.location.href = '../html/confirmDeposit.html';
+    }, 1500);
   }
+
+      // Store for confirmDeposit.html
+    // localStorage.setItem('investmentAmount', amount);
+    // localStorage.setItem('paymentMethod', paymentMethod);
+    // localStorage.setItem('walletAddress', wallets[paymentMethod] || data.walletAddress);
+    // localStorage.setItem('planId', planId);
+
+    // setTimeout(() =>{
+    //   window.location.href = "../html/confirmDeposit.html"
+    // }, 1500);
+    
 }
+
 
 // Confirm investment using balance
 async function confirmBalanceInvestment() {
+  const planSelect = document.querySelector('#balancePlanSelect');
+  const revenuePlanName = planSelect.options[planSelect.selectedIndex].text;
+  console.log(revenuePlanName);
+  const paymentMethod = document.getElementById('pMethod').value;
+  console.log(paymentMethod);
+
   console.log('Confirming investment using balance...');
-  const planId = document.getElementById('balancePlanSelect').value;
+  const planId = planSelect.value;
   const amount = parseFloat(document.getElementById('balanceAmount').value);
 
-  if (!planId || !amount) {
+  if (!planId || !amount || !paymentMethod) {
     console.error('Validation failed: Missing plan or amount');
     showErrorModal('Please select a plan and enter an amount.');
     return;
@@ -113,36 +117,43 @@ async function confirmBalanceInvestment() {
     showErrorModal(`Amount must be between $${min} and $${max}.`);
     return;
   }
+// Store values in localStorage
+    localStorage.removeItem('pmd');
+    localStorage.removeItem('amt');
+    localStorage.removeItem('rvp');
+    localStorage.removeItem('rvp_id');
 
-  // Check balance (replace with actual balance check)
-  const balance = parseFloat(document.getElementById('availableBalance').textContent.replace('$', ''));
-  if (amount > balance) {
-    console.error(`Validation failed: Amount ${amount} exceeds balance ${balance}`);
-    showErrorModal('Insufficient balance.');
-    return;
-  }
+    localStorage.setItem('pmd', paymentMethod);
+    localStorage.setItem('amt', amount);
+    localStorage.setItem('rvp', revenuePlanName);
+    localStorage.setItem('rvp_id', planId); // Store plan ID for API call
+    
+    // Redirect to confirmation page
+    setTimeout(() => {
+        window.location.href = "../html/confirmEarn.html";
+    }, 1500);
 
-  try {
-    const response = await fetch(`${API_BASE_URL}/invest/invest-now`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ planId, amount, paymentMethod: 'balance' })
-    });
+  // try {
+  //   const response = await fetch(`${API_BASE_URL}/invest/invest-now`, {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ planId, amount, paymentMethod: 'balance' })
+  //   });
 
-    if (!response.ok) {
-      console.error(`Invest API failed with status: ${response.status}`);
-      throw new Error('Failed to submit investment');
-    }
+  //   if (!response.ok) {
+  //     console.error(`Invest API failed with status: ${response.status}`);
+  //     throw new Error('Failed to submit investment');
+  //   }
 
-    const data = await response.json();
-    console.log(`Investment successful: ${JSON.stringify(data)}`);
-    bootstrap.Modal.getInstance(document.getElementById('investBalanceModal')).hide();
-    // Show success message
-    showErrorModal('Investment submitted successfully!', 'Success');
-    // Optionally refresh page after delay
-    setTimeout(() => window.location.reload(), 2000);
-  } catch (error) {
-    console.error(`Error submitting balance investment: ${error.message}`);
-    showErrorModal('Failed to submit investment. Please try again.');
-  }
+  //   const data = await response.json();
+  //   console.log(`Investment successful: ${JSON.stringify(data)}`);
+  //   bootstrap.Modal.getInstance(document.getElementById('investBalanceModal')).hide();
+  //   // Show success message
+  //   showErrorModal('Investment submitted successfully!', 'Success');
+  //   // Optionally refresh page after delay
+  //   setTimeout(() => window.location.reload(), 2000);
+  // } catch (error) {
+  //   console.error(`Error submitting balance investment: ${error.message}`);
+  //   showErrorModal('Failed to submit investment. Please try again.');
+  // }
 }

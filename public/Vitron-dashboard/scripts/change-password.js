@@ -1,11 +1,10 @@
 // API endpoints
-const API_BASE = 'http://127.0.0.1:2000/api/v1'; // Your API base URL
-const CHANGE_PASSWORD_ENDPOINT = '/user/change-password';
-const USER_DETAILS_ENDPOINT = '/user/get-user';
+const CHANGE_PASSWORD_ENDPOINT = '/api/v1/user/change-password';
+const USER_DETAILS_ENDPOINT = '/api/v1/user/get-user';
 
 // Get authentication token
 function getAuthToken() {
-    return localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+    return localStorage.getItem('token');
 }
 
 // Show message function
@@ -67,7 +66,7 @@ async function getUserDetails() {
     }
     
     try {
-        const response = await fetch(API_BASE + USER_DETAILS_ENDPOINT, {
+        const response = await fetch(USER_DETAILS_ENDPOINT, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -96,7 +95,7 @@ async function changePassword(currentPassword, newPassword) {
     }
     
     try {
-        const response = await fetch(API_BASE + CHANGE_PASSWORD_ENDPOINT, {
+        const response = await fetch(CHANGE_PASSWORD_ENDPOINT, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -110,9 +109,18 @@ async function changePassword(currentPassword, newPassword) {
         
         const data = await response.json();
         
+        if (response.status == 401) {
+            Modal.error("unauthenticated", "Section expired, please login again.");
+            setTimeout(() => {
+                window.location.href = "../../pages/login.html"
+            }, 3000);
+        }
+
         if (response.ok) {
+            Modal.success("success", "Password has been successfuly changed");
             return { success: true, data: data };
         } else {
+            Modal.error("error", "Failed to change password")
             return { 
                 success: false, 
                 message: data.message || 'Failed to change password' 

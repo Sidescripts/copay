@@ -76,11 +76,12 @@ const userDepositController = {
   },
 
     getUserDeposits: async (req, res) => {
-        const validationError = handleValidationErrors(req);
-        if (validationError) return validationError;
+        // const validationError = handleValidationErrors(req);
+        // if (validationError) return validationError;
 
-        const { userId } = req.params;
-
+        const userId = req.user.id;
+        console.log(userId);
+        
         try {
             const deposits = await Deposit.findAll({
                 where: { userId },
@@ -88,10 +89,12 @@ const userDepositController = {
                 order: [['createdAt', 'DESC']],
             });
 
+            console.log(deposits)
+
             return res.status(200).json({
                 success: true,
                 message: deposits.length ? 'Deposit history retrieved successfully' : 'No deposits found',
-                data: deposits,
+                deposits
             });
         } catch (error) {
             return sendErrorResponse(res, 500, 'Failed to retrieve deposit history', error);
