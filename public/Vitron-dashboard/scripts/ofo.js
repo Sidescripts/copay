@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if (amount) {
         document.getElementById('revAmount').textContent = `$${parseFloat(amount).toFixed(2)}`;
     }
-    console.log(revenuePlanId)
+    
     payNow.addEventListener('click', async function(){
         try {
             // Use the plan ID instead of name for the API call
@@ -271,7 +271,6 @@ document.addEventListener('DOMContentLoaded', function(){
                 throw new Error(errorData.error || 'Network error occurred');
             }
             
-            openPaymentModal();
         } catch (error) {
             console.error('Investment error:', error);
         }

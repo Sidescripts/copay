@@ -23,18 +23,16 @@ function InvestmentController() {
           }
   
           const { paymentMethod, amount,  name, id} = req.body;
-        //   console.log(req.body)
+        
           const userId = req.user.id;
           console.log(req.body)
           const plan = await InvestmentPlan.findOne({ where: { id} })
-        // const plan = await InvestmentPlan.findAll({})
           
-        console.log(plan)
+        
         if(!plan){
             return res.status(404).json({success: false, error: 'No invesment plan now'})
-            // console.log("Hola your stuck. Investment plan has not been created")
+            
         }
-        //   const {id} = plan;
           
           // Validate required fields
           if (!amount || !paymentMethod || !name || !id) {
@@ -54,7 +52,7 @@ function InvestmentController() {
               });
           }
   
-          // Get the investment plan with transaction lock to prevent race conditions
+          
           
           
           if (!plan) {
@@ -120,7 +118,7 @@ function InvestmentController() {
           }
   
           // Calculate expected ROI
-          const expectedROI = (amount * plan.roi_percentage) / 100;
+          const expectedROI = (amount * plan.roi_percentage);
   
           // Create investment record
           const startDate = new Date();
