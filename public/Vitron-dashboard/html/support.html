@@ -311,10 +311,10 @@
                 <div class="user-info">
                     <div class="d-flex justify-content-between flex-wrap">
                         <div class="mb-2">
-                            <strong>Your Name:</strong> Mark Hatter
+                            <strong>Your Name: </strong><span id="clName"></span>
                         </div>
                         <div>
-                            <strong>Your Email:</strong> markhatter78@gmail.com
+                            <strong>Your Email: </strong> <span id="clMail"></span>
                         </div>
                     </div>
                 </div>
@@ -405,6 +405,19 @@
 
 
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  function getDetail() {
+   const username = localStorage.getItem("username");
+   const email = localStorage.getItem("email");
+   const name = document.getElementById('clName');
+   const mail = document.getElementById('clMail');
+   name.textContent = username;
+   mail.textContent = email;
+   
+  };
+
+  getDetail();
+</script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     // Hide preloader when page is loaded

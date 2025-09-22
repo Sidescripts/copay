@@ -6,7 +6,7 @@
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.7);
-    display: none;
+    display: none; /* Default hidden state */
     align-items: center;
     justify-content: center;
     z-index: 10000;
@@ -17,13 +17,14 @@
 }
 
 .modal-overlay-m.active {
-    display: flex;
+    display: flex; /* Show when active */
     align-items: center !important;
     justify-content: center !important;
-    opacity: 1;
+    opacity: 1 !important;
 }
 
-.modal {
+
+/* .modal {
     background: linear-gradient(135deg, #24243a 0%, #2c2c4c 100%);
     width: 100%;
     max-width: 320px;
@@ -42,7 +43,32 @@
 .modal-overlay-m.active .modal {
     opacity: 1;
     transform: translateY(0);
+} */
+
+.modal {
+    background: linear-gradient(135deg, #24243a 0%, #2c2c4c 100%);
+    width: 100%;
+    max-width: 320px;
+    height: 300px !important;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    /* Initial state: Centered but shifted down 20px for slide-up effect */
+    transform: translate(-50%, -50%) translateY(20px) !important;
 }
+
+.modal-overlay-m.active .modal {
+    /* Final state: Fully centered and visible */
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0) !important;
+}
+
+/* Rest of your CSS remains unchanged */
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

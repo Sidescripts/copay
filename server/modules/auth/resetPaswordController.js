@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { User } = require('../../model');
 const {hashPassword} = require('../../utils/authUtils');
 const { validationResult } = require('express-validator');
@@ -36,7 +37,7 @@ function PasswordResetController() {
         });
 
         // Send email with reset link
-        const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+        const resetLink = `${process.env.FRONTEND_URL}/pages/new-password.html?token=${resetToken}`;
         
         await emailService.sendPasswordResetEmail(email, resetLink);
 
@@ -91,6 +92,7 @@ function PasswordResetController() {
         }
 
         const { token, newPassword } = req.body;
+        console.log(req.body);
 
         // Find user with valid token
         const user = await User.findOne({
