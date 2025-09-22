@@ -25,7 +25,7 @@ function InvestmentController() {
           const { paymentMethod, amount,  name, id} = req.body;
         
           const userId = req.user.id;
-          console.log(req.body)
+        //   console.log(req.body)
           const plan = await InvestmentPlan.findOne({ where: { id} })
           
         
@@ -51,9 +51,6 @@ function InvestmentController() {
                   error: 'Amount must be a positive value'
               });
           }
-  
-          
-          
           
           if (!plan) {
               
@@ -136,27 +133,33 @@ function InvestmentController() {
               planName: plan.name,
               InvestmentPlanId: id
           });
-  
+
           // Update user wallet balance and total revenue
-          if (paymentMethod === 'bitcoin'){
-            await User.update({
-                btcBal: user.btcBal - amount,    
-                walletBalance: user.walletBalance - amount,
-                totalRevenue: (user.totalRevenue) + amount
-            }, {where: { id: userId }});
-          }else if(paymentMethod === 'ethereum'){
-            await User.update({
-                btcBal: user.ethBal - amount,    
-                walletBalance: user.walletBalance - amount,
-                totalRevenue: (user.totalRevenue) + amount
-              }, {where: { id: userId }});
-          }else if(paymentMethod === 'usdt'){
-            await User.update({
-                btcBal: user.usdtBal - amount,    
-                walletBalance: user.walletBalance - amount,
-                totalRevenue: (user.totalRevenue) + amount
-              }, {where: { id: userId }});
-          }
+switch (paymentMethod) {
+    case 'bitcoin':
+      await User.update({
+        btcBal: user.btcBal - amount,
+        walletBalance: user.walletBalance - amount,
+        totalRevenue: user.totalRevenue + amount
+      }, { where: { id: userId } });
+      break;
+    case 'ethereum':
+      await User.update({
+        ethBal: user.ethBal - amount,
+        walletBalance: user.walletBalance - amount,
+        totalRevenue: user.totalRevenue + amount
+      }, { where: { id: userId } });
+      break;
+    case 'usdt':
+      await User.update({
+        usdtBal: user.usdtBal - amount,
+        walletBalance: user.walletBalance - amount,
+        totalRevenue: user.totalRevenue + amount
+      }, { where: { id: userId } });
+      break;
+    default:
+      return res.status(400).json({ error: "Invalid payment method" });
+}
 
           // Send investment confirmation email
           try {
@@ -165,7 +168,6 @@ function InvestmentController() {
                   planName: plan.name,
                   amount: investment.amount,
                   duration: plan.duration_days,
-                  expectedROI: expectedROI,
                   endDate: endDate,
                   investmentId: investment.transaction_id,
                   status: investment.status

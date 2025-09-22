@@ -4,7 +4,7 @@ const transporter = require("../../utils/nodemailer");
 function EmailTemplate(){
     return {
         // INVESTMENT CONFIRMATION EMAIL
-      investmentEmail: async function({ amount, planName, duration, expectedROI, endDate, investmentId, status,  email}) {
+      investmentEmail: async function({ amount, planName, duration, endDate, investmentId, status,  email}) {
 
         try {
             const mailOptions = {
@@ -55,7 +55,7 @@ function EmailTemplate(){
                         <div class="investment-details">
                             <h3 style="margin-top: 0;">Investment Overview</h3>
                             <div class="detail-row">
-                                <span>Investment ID:</span>
+                                <span>RevenueID:</span>
                                 <span><strong>${investmentId}</strong></span>
                             </div>
                             <div class="detail-row">
@@ -70,10 +70,7 @@ function EmailTemplate(){
                                 <span>Duration:</span>
                                 <span><strong>${duration} days</strong></span>
                             </div>
-                            <div class="detail-row">
-                                <span>Expected ROI:</span>
-                                <span><strong>${expectedROI} USDT <span class="roi-badge">+${((expectedROI/amount)*100).toFixed(2)}%</span></strong></span>
-                            </div>
+                            
                             <div class="detail-row">
                                 <span>Maturity Date:</span>
                                 <span><strong>${new Date(endDate).toLocaleDateString()}</strong></span>

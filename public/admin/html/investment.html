@@ -897,6 +897,7 @@
             let currentFilters = {};
             let currentInvestmentId = null;
             let currentAction = null;
+            let allInvestments = []; // Store all investments for easy access
 
             // Initialize
             fetchInvestments();
@@ -907,8 +908,6 @@
                 sidebarOverlay.classList.toggle('active', isActive);
                 document.body.style.overflow = isActive ? 'hidden' : '';
                 console.log('Sidebar toggled:', isActive);
-                // Optional: ARIA attribute for accessibility
-                // menuToggle.setAttribute('aria-expanded', isActive);
             }
 
             // Menu toggle event
@@ -1015,6 +1014,7 @@
                     }
 
                     const responseData = await response.json();
+                    allInvestments = responseData.data.investments || []; // Store investments
                     renderInvestmentsTable(responseData.data);
 
                 } catch (error) {
@@ -1050,16 +1050,16 @@
 
                 data.investments.forEach(investment => {
                     const row = document.createElement('tr');
-
+                    
                     row.innerHTML = `
                         <td data-label="Investment ID">${investment.id || 'N/A'}</td>
                         <td data-label="User">
                             ${investment.user ? investment.user.username : 'N/A'}
                             ${investment.user ? `<br><small>${investment.user.email}</small>` : ''}
                         </td>
-                        <td data-label="Plan">${investment.plan ? investment.plan.name : 'N/A'}</td>
-                        <td data-label="Amount">$${investment.amount ? investment.amount.toFixed(2) : '0.00'}</td>
-                        <td data-label="Expected ROI">$${investment.expected_roi ? investment.expected_roi.toFixed(2) : '0.00'}</td>
+                        <td data-label="Plan">${investment.planName || 'N/A'}</td>
+                        <td data-label="Amount">$${investment.amount ? Number(investment.amount).toFixed(2) : '0.00'}</td>
+                        <td data-label="Expected ROI">$${investment.expected_roi ?Number(investment.expected_roi).toFixed(2) : '0.00'}</td>
                         <td data-label="Start Date">${investment.start_date ? new Date(investment.start_date).toLocaleDateString() : 'N/A'}</td>
                         <td data-label="End Date">${investment.end_date ? new Date(investment.end_date).toLocaleDateString() : 'N/A'}</td>
                         <td data-label="Status">
@@ -1146,7 +1146,7 @@
                 });
             }
 
-            // Show investment details
+            // Show investment details with actual data
             async function showInvestmentDetails(investmentId) {
                 try {
                     showLoader(true);
@@ -1156,63 +1156,88 @@
                         return;
                     }
 
-                    const investment = findInvestmentById(investmentId);
-
+                    // Find the investment in our stored data
+                    const investment = allInvestments.find(inv => inv.id == investmentId);
+                    
                     if (investment) {
+                        // Format dates properly
+                        const formatDate = (dateString) => {
+                            if (!dateString) return 'N/A';
+                            const date = new Date(dateString);
+                            return isNaN(date.getTime()) ? 'N/A' : date.toLocaleDateString();
+                        };
+
                         investmentDetailsContent.innerHTML = `
                             <div class="investment-details">
                                 <div class="detail-item">
                                     <span class="detail-label">Investment ID:</span>
-                                    <span class="detail-value">${investment.id}</span>
+                                    <span class="detail-value">${investment.id || 'N/A'}</span>
                                 </div>
                                 <div class="detail-item">
                                     <span class="detail-label">User:</span>
-                                    <span class="detail-value">${investment.user.username} (${investment.user.email})</span>
+                                    <span class="detail-value">
+                                        ${investment.user ? investment.user.username : 'N/A'}
+                                        ${investment.user ? `<br><small>${investment.user.email || 'N/A'}</small>` : ''}
+                                    </span>
                                 </div>
                                 <div class="detail-item">
                                     <span class="detail-label">Plan:</span>
-                                    <span class="detail-value">${investment.plan.name}</span>
+                                    <span class="detail-value">${investment.planName || investment.investmentPlan?.name || 'N/A'}</span>
                                 </div>
                                 <div class="detail-item">
                                     <span class="detail-label">Investment Amount:</span>
-                                    <span class="detail-value">$${investment.amount.toFixed(2)}</span>
+                                    <span class="detail-value">$${investment.amount ? Number(investment.amount).toFixed(2) : '0.00'}</span>
                                 </div>
                                 <div class="detail-item">
                                     <span class="detail-label">Expected ROI:</span>
-                                    <span class="detail-value">$${investment.expected_roi.toFixed(2)}</span>
+                                    <span class="detail-value">$${investment.expected_roi ? Number(investment.expected_roi).toFixed(2) : '0.00'}</span>
                                 </div>
                                 <div class="detail-item">
                                     <span class="detail-label">Start Date:</span>
-                                    <span class="detail-value">${new Date(investment.start_date).toLocaleDateString()}</span>
+                                    <span class="detail-value">${formatDate(investment.start_date)}</span>
                                 </div>
                                 <div class="detail-item">
                                     <span class="detail-label">End Date:</span>
-                                    <span class="detail-value">${investment.end_date ? new Date(investment.end_date).toLocaleDateString() : 'N/A'}</span>
+                                    <span class="detail-value">${formatDate(investment.end_date)}</span>
                                 </div>
                                 <div class="detail-item">
                                     <span class="detail-label">Status:</span>
                                     <span class="detail-value">
                                         <span class="badge badge-${getStatusClass(investment.status)}">
-                                            ${investment.status}
+                                            ${investment.status || 'N/A'}
                                         </span>
                                     </span>
                                 </div>
                                 ${investment.actual_roi ? `
                                 <div class="detail-item">
                                     <span class="detail-label">Actual ROI:</span>
-                                    <span class="detail-value">$${investment.actual_roi.toFixed(2)}</span>
+                                    <span class="detail-value">$${Number(investment.actual_roi).toFixed(2)}</span>
                                 </div>
                                 ` : ''}
                                 ${investment.payout_date ? `
                                 <div class="detail-item">
                                     <span class="detail-label">Payout Date:</span>
-                                    <span class="detail-value">${new Date(investment.payout_date).toLocaleDateString()}</span>
+                                    <span class="detail-value">${formatDate(investment.payout_date)}</span>
+                                </div>
+                                ` : ''}
+                                ${investment.duration ? `
+                                <div class="detail-item">
+                                    <span class="detail-label">Duration:</span>
+                                    <span class="detail-value">${investment.duration} days</span>
+                                </div>
+                                ` : ''}
+                                ${investment.roiPercentage ? `
+                                <div class="detail-item">
+                                    <span class="detail-label">ROI Percentage:</span>
+                                    <span class="detail-value">${investment.roiPercentage}%</span>
                                 </div>
                                 ` : ''}
                             </div>
                         `;
 
                         investmentDetailsModal.classList.add('active');
+                    } else {
+                        showMessage('Error', 'Investment details not found.');
                     }
 
                 } catch (error) {
@@ -1223,86 +1248,193 @@
                 }
             }
 
-            // Find investment by ID
-            function findInvestmentById(investmentId) {
-                return {
-                    id: investmentId,
-                    amount: 1000,
-                    expected_roi: 150,
-                    actual_roi: null,
-                    status: 'active',
-                    start_date: new Date(),
-                    end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-                    payout_date: null,
-                    user: { username: 'demo_user', email: 'demo@example.com' },
-                    plan: { name: 'Demo Plan' }
-                };
-            }
-
-            // Show payout confirmation
-            function showPayoutConfirmation(investmentId) {
-                currentInvestmentId = investmentId;
-                const investment = findInvestmentById(investmentId);
-
-                payoutInvestmentDetails.innerHTML = `
-                    <div class="detail-item">
-                        <span class="detail-label">Investment ID:</span>
-                        <span class="detail-value">${investment.id}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">User:</span>
-                        <span class="detail-value">${investment.user.username}</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">Amount to payout:</span>
-                        <span class="detail-value">$${investment.expected_roi.toFixed(2)}</span>
-                    </div>
-                `;
-
-                roiPayoutModal.classList.add('active');
-            }
-
-            // Process ROI payout
-            async function processROIPayout() {
+            // Show payout confirmation with actual data
+            async function showPayoutConfirmation(investmentId) {
                 try {
                     showLoader(true);
-                    const token = localStorage.getItem('token');
-                    if (!token) {
-                        showMessage('Error', 'Authentication token not found. Please login again.');
-                        return;
+                    currentInvestmentId = investmentId;
+                    
+                    // Find the investment in our stored data
+                    const investment = allInvestments.find(inv => inv.id == investmentId);
+                    
+                    if (investment) {
+                        payoutInvestmentDetails.innerHTML = `
+                            <div class="detail-item">
+                                <span class="detail-label">Investment ID:</span>
+                                <span class="detail-value">${investment.id || 'N/A'}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">User:</span>
+                                <span class="detail-value">${investment.user ? investment.user.username : 'N/A'}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Plan:</span>
+                                <span class="detail-value">${investment.planName || investment.investmentPlan?.name || 'N/A'}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Investment Amount:</span>
+                                <span class="detail-value">$${investment.amount ? Number(investment.amount).toFixed(2) : '0.00'}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Amount to payout:</span>
+                                <span class="detail-value">$${investment.expected_roi ? Number(investment.expected_roi).toFixed(2) : '0.00'}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Status:</span>
+                                <span class="detail-value">
+                                    <span class="badge badge-${getStatusClass(investment.status)}">
+                                        ${investment.status || 'N/A'}
+                                    </span>
+                                </span>
+                            </div>
+                        `;
+
+                        roiPayoutModal.classList.add('active');
+                    } else {
+                        showMessage('Error', 'Investment details not found.');
                     }
-
-                    const response = await fetch(`${API_BASE_URL}/investment/update/${currentInvestmentId}`, {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-
-                    if (response.status === 401) {
-                        setTimeout(() => {
-                            window.location.href = "../index.html";
-                        }, 2000);
-                        throw new Error('Session expired. Please login again.');
-                    }
-
-                    if (!response.ok) {
-                        throw new Error(`Failed to process ROI payout: ${response.status} ${response.statusText}`);
-                    }
-
-                    const result = await response.json();
-                    closePayoutModalFunc();
-                    showMessage('Success', result.message || 'ROI payout processed successfully!');
-                    fetchInvestments();
 
                 } catch (error) {
-                    console.error('Error processing ROI payout:', error);
-                    showMessage('Error', 'Failed to process ROI payout: ' + error.message);
+                    console.error('Error showing payout confirmation:', error);
+                    showMessage('Error', 'Failed to load investment details: ' + error.message);
                 } finally {
                     showLoader(false);
                 }
             }
+
+            // Process ROI payout
+            // async function processROIPayout() {
+            //     try {
+            //         showLoader(true);
+            //         const token = localStorage.getItem('token');
+            //         if (!token) {
+            //             showMessage('Error', 'Authentication token not found. Please login again.');
+            //             return;
+            //         }
+
+            //         // Find the investment to get the payout amount
+            //         const investment = allInvestments.find(inv => inv.id == currentInvestmentId);
+            //         if (!investment) {
+            //             throw new Error('Investment not found');
+            //         }
+
+            //         const payoutAmount = investment.expected_roi || 0;
+
+            //         const response = await fetch(`/api/v1/admin/investment/update/${currentInvestmentId}`, {
+            //             method: 'PATCH',
+            //             headers: {
+            //                 'Content-Type': 'application/json',
+            //                 'Authorization': `Bearer ${token}`
+            //             },
+            //             body: JSON.stringify({
+            //                 amount: payoutAmount
+            //             })
+            //         });
+
+            //         if (response.status === 401) {
+            //             setTimeout(() => {
+            //                 window.location.href = "../index.html";
+            //             }, 2000);
+            //             throw new Error('Session expired. Please login again.');
+            //         }
+
+            //         if (!response.ok) {
+            //             const errorData = await response.json().catch(() => ({}));
+            //             // showMessage('Error',  errorData.error);
+            //             // console.log(errorData)
+            //             alert(errorData.error)
+            //             // throw new Error(errorData.error || `Failed to process ROI payout: ${response.status}`);
+            //         }
+
+            //         const result = await response.json();
+            //         closePayoutModalFunc();
+            //         showMessage('Success', result.message || 'ROI payout processed successfully!');
+                    
+            //         // Refresh the investments list
+            //         fetchInvestments();
+
+            //     } catch (error) {
+            //         console.error('Error processing ROI payout:', error);
+            //         showMessage('Error', 'Failed to process ROI payout: ' + error.message);
+            //     } finally {
+            //         showLoader(false);
+            //     }
+            // }
+
+            async function processROIPayout() {
+    try {
+        showLoader(true);
+        const token = localStorage.getItem('token');
+        if (!token) {
+            showMessage('Error', 'Authentication token not found. Please login again.');
+            return;
+        }
+
+        // Find the investment to get the payout amount
+        const investment = allInvestments.find(inv => inv.id == currentInvestmentId);
+        if (!investment) {
+            throw new Error('Investment not found');
+        }
+
+        const payoutAmount = investment.expected_roi || 0;
+
+        const response = await fetch(`/api/v1/admin/investment/update/${currentInvestmentId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                amount: payoutAmount
+            })
+        });
+
+        // First check for authentication errors
+        if (response.status === 401) {
+            setTimeout(() => {
+                window.location.href = "../index.html";
+            }, 2000);
+            throw new Error('Session expired. Please login again.');
+        }
+
+        // Read the response once and store it
+        const responseText = await response.text();
+        let result;
+        
+        try {
+            // Try to parse the response as JSON
+            result = JSON.parse(responseText);
+        } catch (e) {
+            // If it's not JSON, create a result object from the text
+            result = { 
+                message: responseText,
+                error: responseText
+            };
+        }
+
+        // Check if the response was successful
+        if (!response.ok) {
+            // Show error message from server or generic error
+            const errorMessage = result.error || result.message || `Failed to process ROI payout: ${response.status}`;
+            // alert(errorMessage);
+            showMessage('Error' , errorMessage)
+            return; // Exit the function after showing error
+        }
+
+        // If we get here, the request was successful
+        closePayoutModalFunc();
+        showMessage('Success', result.message || 'ROI payout processed successfully!');
+        
+        // Refresh the investments list
+        fetchInvestments();
+
+    } catch (error) {
+        console.error('Error processing ROI payout:', error);
+        showMessage('Error', 'Failed to process ROI payout: ' + error.message);
+    } finally {
+        showLoader(false);
+    }
+}
 
             // Close modals
             function closeDetailsModalFunc() {

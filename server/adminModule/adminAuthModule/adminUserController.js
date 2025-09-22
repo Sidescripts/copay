@@ -260,67 +260,92 @@ const adminUserController = {
         }
     },
 
-    // Update user wallet balance
+
     updateWalletBalance: async (req, res) => {
-        // const transaction = await sequelize.transaction();
+     
         try {
             const { userId } = req.params;
             const { action, amount } = req.body;
-
+            console.log('Request body:', req.body);
+    
+            // Validate input
+            if (!userId || !action || !amount) {
+                
+                return res.status(400).json({
+                    success: false,
+                    message: 'User ID, action, and amount are required'
+                });
+            }
+    
             const user = await User.findByPk(userId);
-
+    
             if (!user) {
+                
                 return res.status(404).json({
                     success: false,
                     message: 'User not found'
                 });
             }
-
-            if (!action || !amount) {
+    
+            const adjustment = parseFloat(amount);
+    
+            if (isNaN(adjustment) || adjustment <= 0) {
+                
                 return res.status(400).json({
                     success: false,
-                    message: 'Action and amount are required'
+                    message: 'Amount must be a positive number'
                 });
             }
-
-            const adjustment = parseFloat(amount);
+    
             let newBalance;
-
-            if (action === 'add') {
-                newBalance = (user.walletBalance || 0) + adjustment;
-            } else if (action === 'subtract') {
-                if ((user.walletBalance || 0) < adjustment) {
-
+            const currentBalance = parseFloat(user.walletBalance) || 0;
+            
+            // Normalize action to lowercase for case-insensitive comparison
+            const normalizedAction = action.toLowerCase().trim();
+    
+            if (normalizedAction === 'add') {
+                newBalance = currentBalance + adjustment;
+            } else if (normalizedAction === 'subtract') {
+                if (currentBalance < adjustment) {
+                    
                     return res.status(400).json({
                         success: false,
                         message: 'Insufficient balance for deduction'
                     });
                 }
-                newBalance = (user.walletBalance || 0) - adjustment;
+                newBalance = currentBalance - adjustment;
             } else {
+                
                 return res.status(400).json({
                     success: false,
                     message: 'Invalid action. Use "add" or "subtract"'
                 });
             }
-
+    
+            // Round to 2 decimal places to avoid floating point precision issues
+            newBalance = Math.round(newBalance * 100) / 100;
+    
             await user.update({
-                walletBalance: newBalance,
+                walletBalance: newBalance
             });
-
+    
+            // Fetch the updated user to get fresh data
+            const updatedUser = await User.findByPk(userId);
+            // console.log('Updated user:', updatedUser.toJSON());
+    
             return res.status(200).json({
                 success: true,
-                message: `Wallet balance ${action === 'add' ? 'increased' : 'decreased'} successfully`,
+                message: `Wallet balance ${normalizedAction === 'add' ? 'increased' : 'decreased'} successfully`,
                 data: {
-                    userId: user.id,
-                    oldBalance: user.walletBalance,
-                    newBalance: newBalance,
+                    userId: updatedUser.id,
+                    oldBalance: currentBalance,
+                    newBalance: updatedUser.walletBalance,
                     adjustment: adjustment
                 }
             });
-
+    
         } catch (error) {
- 
+            
             console.error('Update wallet balance error:', error);
             return res.status(500).json({
                 success: false,

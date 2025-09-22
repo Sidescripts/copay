@@ -9,24 +9,19 @@ const adminDashboardController = {
         try {
             const [
                 totalUsers,
-                activeUsers,
                 verifiedUsers,
                 totalDeposits,
                 totalWithdrawals,
                 totalInvestments,
-                pendingDeposits,
                 pendingWithdrawals
             ] = await Promise.all([
                 User.count(),
-                // User.count({ where: { status: 'active' } }),
                 User.count({ where: { isVerified: true } }),
                 Deposit.sum('amount'),
                 Withdrawal.sum('amount'),
                 Investment.sum('amount'),
-                // Deposit.count({ where: { status: 'pending' } }),
                 Withdrawal.count({ where: { status: 'pending' } })
             ]);
-
             // Get today's statistics
             const todayStart = new Date();
             todayStart.setHours(0, 0, 0, 0);
@@ -65,12 +60,10 @@ const adminDashboardController = {
             const stats = {
                 overview: {
                     totalUsers: totalUsers || 0,
-                    activeUsers: activeUsers || 0,
                     verifiedUsers: verifiedUsers || 0,
                     totalDeposits: parseFloat(totalDeposits) || 0,
                     totalWithdrawals: parseFloat(totalWithdrawals) || 0,
                     totalInvestments: parseFloat(totalInvestments) || 0,
-                    pendingDeposits: pendingDeposits || 0,
                     pendingWithdrawals: pendingWithdrawals || 0
                 },
                 today: {
@@ -80,7 +73,7 @@ const adminDashboardController = {
                     investments: parseFloat(todayInvestments) || 0
                 }
             };
-
+            console.log(stats)
             return res.status(200).json({
                 success: true,
                 data: stats

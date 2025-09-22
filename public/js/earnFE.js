@@ -70,13 +70,13 @@
                   <h3 class="plan-title">${plan.name}</h3>
                   <p class="plan-sub">⏰ ${plan.duration_days}</p>
                   <ul class="plan-features">
-                    <li><span>Min Investment</span> <b>$${Number(plan.min_amount).toFixed(2)}</b></li>
-                    <li><span>Max Investment</span> <b>$${Number(plan.max_amount).toFixed(2)}</b></li>
+                    <li><span>Min Investment</span> <b>$ ${Number(plan.min_amount).toFixed(2)}</b></li>
+                    <li><span>Max Investment</span> <b>$ ${Number(plan.max_amount).toFixed(2)}</b></li>
                     <li><span>Capital Back</span> <b>Yes</b></li>
                     <li><span>Instant Withdrawal</span> <b>Yes</b></li>
                   </ul>
                   <div class="earn-box">
-                    <p class="mb-1"><b>$${plan.description}</b></p>
+                    <p class="mb-1"><b>$ ${plan.description}</b></p>
                   </div>
                   <label class="btn btn-plan mb-3" data-bs-toggle="modal" data-bs-target="#investNowModal"
                     onclick="setPlan('${plan.id}', '${plan.name}', ${plan.min_amount}, ${plan.max_amount})">Invest Now</label>

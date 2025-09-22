@@ -7,17 +7,17 @@ function AdminInvestmentController() {
 
     // Admin: Create investment plan
     createPlan: async function(req, res) {
-      // const transaction = await sequelize.transaction();
+      
       try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          // await transaction.rollback();
+          
           return res.status(400).json({ 
             success: false,
             errors: errors.array() 
           });
         }
-        console.log(req.body)
+        
         const { 
           name, 
           description, 
@@ -29,7 +29,7 @@ function AdminInvestmentController() {
 
         // Validate amount ranges
         if (min_amount <= 0 || max_amount <= 0) {
-          // await transaction.rollback();
+          
           return res.status(400).json({ 
             success: false,
             error: 'Amounts must be positive values' 
@@ -37,7 +37,7 @@ function AdminInvestmentController() {
         }
 
         if (min_amount > max_amount) {
-          // await transaction.rollback();
+          
           return res.status(400).json({ 
             success: false,
             error: 'Minimum amount cannot be greater than maximum amount' 
@@ -54,7 +54,7 @@ function AdminInvestmentController() {
           is_active: true
         });
 
-        console.log(plan)
+        
         return res.status(201).json({
           success: true,
           message: 'Investment plan created successfully',
@@ -62,7 +62,7 @@ function AdminInvestmentController() {
         });
 
       } catch (error) {
-        // await transaction.rollback();
+        
         console.error('Create plan error:', error);
         return res.status(500).json({ 
           success: false,
@@ -78,7 +78,7 @@ function AdminInvestmentController() {
           where: { is_active: true },
           order: [['min_amount', 'ASC']]
         });
-        console.log(plans)
+        
         return res.json({ 
           success: true,
           data: plans 
@@ -126,7 +126,7 @@ function AdminInvestmentController() {
         const plan = await InvestmentPlan.findByPk(planId);
         
         if (!plan) {
-          // await transaction.rollback();
+          
           return res.status(404).json({ 
             success: false,
             error: 'Investment plan not found' 
@@ -151,7 +151,7 @@ function AdminInvestmentController() {
         });
 
       } catch (error) {
-        // await transaction.rollback();
+        
         console.error('Update plan error:', error);
         return res.status(500).json({ 
           success: false,
@@ -162,7 +162,7 @@ function AdminInvestmentController() {
 
     // Admin: Deactivate investment plan (set is_active to false)
     deactivatePlan: async function(req, res) {
-      // const transaction = await sequelize.transaction();
+      
       try {
         const { planId } = req.params;
 
@@ -176,7 +176,7 @@ function AdminInvestmentController() {
         }
 
         if (!plan.is_active) {
-          // await transaction.rollback();
+          
           return res.status(400).json({ 
             success: false,
             error: 'Investment plan is already deactivated' 
@@ -226,7 +226,7 @@ function AdminInvestmentController() {
 
         const plan = await InvestmentPlan.findByPk(planId);
         if (!plan) {
-          // await transaction.rollback();
+          
           return res.status(404).json({ 
             success: false,
             error: 'Investment plan not found' 
@@ -239,7 +239,7 @@ function AdminInvestmentController() {
         });
 
         if (investmentsCount > 0) {
-          // await transaction.rollback();
+          
           return res.status(400).json({ 
             success: false,
             error: 'Cannot delete plan with existing investments' 
@@ -282,7 +282,7 @@ function AdminInvestmentController() {
             },
             {
               model: InvestmentPlan,
-              as: 'plan',
+              as: 'investmentPlan',
               attributes: ['name', 'roi_percentage']
             }
           ],
@@ -290,6 +290,7 @@ function AdminInvestmentController() {
           limit: parseInt(limit),
           offset: (parseInt(page) - 1) * parseInt(limit)
         });
+
 
         return res.json({
           success: true,
@@ -310,71 +311,161 @@ function AdminInvestmentController() {
       }
     },
 
-    // Admin: Manual ROI payout for specific investment
     manualROIPayout: async function(req, res) {
-      // const transaction = await sequelize.transaction();
+      
       try {
-        const { investment_id } = req.params;
-
-        const investment = await Investment.findByPk(investment_id, {
-          include: [{
-            model: User,
-            as: 'user',
-            attributes: ['id', 'walletBalance']
-          }],
-          transaction
-        });
-
-        if (!investment) {
-          // await transaction.rollback();
-          return res.status(404).json({ 
-            success: false,
-            error: 'Investment not found' 
+          const { investmentId } = req.params;
+          // console.log("Processing manual ROI payout for investment:", investmentId);
+          
+          const investment = await Investment.findByPk(investmentId, {
+              include: [{
+                  model: User,
+                  as: 'user',
+                  attributes: ['id', 'walletBalance']
+              }]
+              
           });
-        }
-
-        if (investment.status !== 'active') {
-          // await transaction.rollback();
-          return res.status(400).json({ 
-            success: false,
-            error: 'Only active investments can be paid out' 
+          
+          // console.log("Investment found:", investment);
+          
+          if (!investment) {
+              console.log("no investment found")
+              return res.status(404).json({ 
+                  success: false,
+                  error: 'Investment not found' 
+              });
+          }
+  
+          // Check if investment end date has been reached
+          const currentDate = new Date();
+          const investmentEndDate = new Date(investment.end_date);
+          
+          if (currentDate < investmentEndDate) {
+              
+              const daysRemaining = Math.ceil((investmentEndDate - currentDate) / (1000 * 60 * 60 * 24));
+              console.log("Not expected return day yet")     
+              return res.status(400).json({ 
+                  success: false,
+                  error: `Investment end date has not been reached yet. ${daysRemaining} day(s) remaining.`,
+                  end_date: investment.end_date,
+                  days_remaining: daysRemaining
+              });
+          }
+  
+          if (investment.status !== 'active') {
+            console.log("not active")      
+               return res.status(400).json({ 
+                  success: false,
+                  error: 'Only active investments can be paid out' 
+              });
+          }
+  
+          // Calculate ROI amount
+          const roiAmount = investment.expected_roi;
+  
+          // Update user's wallet balance using literal SQL
+          await User.update(
+              { 
+                  walletBalance: Investment.sequelize.literal(`walletBalance + ${roiAmount}`) 
+              },
+              { 
+                  where: { id: investment.user.id }
+                 
+              }
+          );
+  
+          // Update investment status
+          await investment.update({
+              status: 'completed',
+              actual_roi: roiAmount,
+              payout_date: new Date()
           });
-        }
-
-        // Calculate ROI amount
-        const roiAmount = investment.expected_roi;
-
-        // Update user's wallet balance
-        await User.update(
-          { walletBalance: Investment.sequelize.literal(`"walletBalance" + ${roiAmount}`) },
-          { where: { id: investment.user.id } }
-        );
-
-        // Update investment status
-        await investment.update({
-          status: 'completed',
-          actual_roi: roiAmount,
-          end_date: new Date(),
-          payout_date: new Date()
-        });
-
-        // await transaction.commit();
-
-        return res.json({
-          success: true,
-          message: `ROI of ${roiAmount} paid out successfully`,
-          data: investment
-        });
-
+  
+  
+          console.log("ROI payout successful for investment:", investmentId);
+  
+          return res.json({
+              success: true,
+              message: `ROI of $${roiAmount.toFixed(2)} paid out successfully`,
+              data: investment
+          });
+  
       } catch (error) {
-        // await transaction.rollback();
-        console.error('Manual ROI payout error:', error);
-        return res.status(500).json({ 
-          success: false,
-          error: 'Failed to process manual ROI payout' 
-        });
+          
+          console.error('Manual ROI payout error:', error);
+          return res.status(500).json({ 
+              success: false,
+              error: 'Failed to process manual ROI payout',
+              details: process.env.NODE_ENV === 'development' ? error.message : undefined
+          });
       }
-    },
+  }
+
+    // Admin: Manual ROI payout for specific investment
+//     manualROIPayout: async function(req, res) {
+//       console.log("ballom")
+//       try {
+//         const { investmentId } = req.params;
+//         console.log(investmentId)
+//         const investment = await Investment.findByPk(investmentId, {
+//           include: [{
+//             model: User,
+//             as: 'user',
+//             attributes: ['id', 'walletBalance']
+//           }]
+          
+//         });
+//         console.log(investment)
+//         if (!investment) {
+          
+//           return res.status(404).json({ 
+//             success: false,
+//             error: 'Investment not found' 
+//           });
+//         }
+
+//         if (investment.status !== 'active') {
+          
+//           return res.status(400).json({ 
+//             success: false,
+//             error: 'Only active investments can be paid out' 
+//           });
+//         }
+
+//         // Calculate ROI amount
+//         const roiAmount = investment.expected_roi;
+
+//         // Update user's wallet balance
+//         await User.update(
+//           { walletBalance: Investment.sequelize.literal(`"walletBalance" + ${roiAmount}`) },
+//           { where: { id: investment.user.id } }
+//         );
+
+//         // Update investment status
+//         await investment.update({
+//           status: 'completed',
+//           actual_roi: roiAmount,
+//           end_date: new Date(),
+//           payout_date: new Date()
+//         });
+
+        
+
+//         return res.json({
+//           success: true,
+//           message: `ROI of ${roiAmount} paid out successfully`,
+//           data: investment
+//         });
+
+//       } catch (error) {
+//         // await transaction.rollback();
+//         console.error('Manual ROI payout error:', error);
+//         return res.status(500).json({ 
+//           success: false,
+//           error: 'Failed to process manual ROI payout' 
+//         });
+//       }
+//     },
 
   };
 }
