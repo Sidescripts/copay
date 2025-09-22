@@ -44,6 +44,14 @@
             outline: none;
             border-color: #667eea;
         }
+
+        /* Read-only form control styling */
+        .form-control[readonly] {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            cursor: not-allowed;
+            border: 1px solid #eaeaea;
+        }
         
         .btn {
             padding: 12px 20px;
@@ -465,7 +473,7 @@
     <div class="modal-overlay" id="editUserModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>Edit User</h3>
+                <h3>Edit User - Account Balance Only</h3>
                 <button class="modal-close" id="closeEditModal">&times;</button>
             </div>
             <div class="modal-body">
@@ -474,15 +482,15 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <label for="editUserName">Full Name</label>
-                            <input type="text" class="form-control" id="editUserName" required>
+                            <input type="text" class="form-control" id="editUserName" readonly>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="editUserEmail">Email Address</label>
-                            <input type="email" class="form-control" id="editUserEmail" required>
+                            <input type="email" class="form-control" id="editUserEmail" readonly>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="editUserPhone">Phone Number</label>
-                            <input type="tel" class="form-control" id="editUserPhone">
+                            <input type="tel" class="form-control" id="editUserPhone" readonly>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="editUserBalance">Account Balance ($)</label>
@@ -490,7 +498,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="editUserStatus">Status</label>
-                            <select class="form-control" id="editUserStatus" required>
+                            <select class="form-control" id="editUserStatus" disabled>
                                 <option value="verified">Verified</option>
                                 <option value="unverified">Unverified</option>
                                 <option value="banned">Banned</option>
@@ -498,7 +506,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="editUserPlan">Investment Plan</label>
-                            <select class="form-control" id="editUserPlan">
+                            <select class="form-control" id="editUserPlan" disabled>
                                 <option value="">No Plan</option>
                                 <option value="basic">Basic Plan</option>
                                 <option value="premium">Premium Plan</option>
@@ -507,7 +515,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="editUserCountry">Country</label>
-                            <input type="text" class="form-control" id="editUserCountry">
+                            <input type="text" class="form-control" id="editUserCountry" readonly>
                         </div>
                     </div>
                 </form>

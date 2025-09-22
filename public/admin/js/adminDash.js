@@ -38,8 +38,7 @@ const authToken = localStorage.getItem('token');
 document.addEventListener('DOMContentLoaded', function() {
     setupEventListeners();
     fetchDashboardStats();
-    initializeWebSocket();
-    setInterval(fetchDashboardStats, 300000); // Poll every 5 minutes
+    
 });
 
 // Setup event listeners

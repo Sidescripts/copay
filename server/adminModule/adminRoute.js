@@ -40,7 +40,8 @@ router.patch('/invest/deactivate/:planId', AuthMid, AdminInvestmentController.de
 router.delete('/invest/delete/:planId', AuthMid, AdminInvestmentController.deletePlan);
 //all investment and manual ROI
 router.get("/investment/all", AuthMid, AdminInvestmentController.getAllInvestments)
-router.patch('/investment/update/:id',AuthMid, AdminInvestmentController.manualROIPayout);
+router.patch('/investment/update/:investmentId',AuthMid, AdminInvestmentController.manualROIPayout);
+// router.patch('/investment/update/:id',AuthMid, (req,res)=>{console.log("hello")});
 
 // // ADMIN WITHDRAWAL ROUTE
 router.get('/withdrawal', AuthMid, adminWithdrawalController.getAllWithdrawals);

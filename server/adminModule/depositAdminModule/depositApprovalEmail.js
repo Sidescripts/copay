@@ -8,7 +8,7 @@ function EmailTemplates() {
                 const mailOptions = {
                     from: process.env.EMAIL_USER,
                     to: email,
-                    subject: 'Deposit Approved - VitronTrade',
+                    subject: 'Deposit Approved - Vitron-trade',
                     html: `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -132,13 +132,13 @@ function EmailTemplates() {
                 <p>Your deposit has been reviewed and approved by our security team. Your funds are now available in your account.</p>
                 
                 <div class="amount-display">
-                    <p class="amount">${amount}</p>
+                    <p class="amount">${Number(amount).toFixed(2)}</p>
                     <p class="asset">${asset.toUpperCase()}</p>
                 </div>
                 
                 <table class="details-table" role="presentation" cellpadding="0" cellspacing="0" border="0">
                     <tr>
-                        <td class="label">Transaction ID:</td>
+                        <td class="label">TrxnID:</td>
                         <td class="value"><strong>${transactionId}</strong></td>
                     </tr>
                     <tr>
@@ -147,7 +147,7 @@ function EmailTemplates() {
                     </tr>
                     <tr>
                         <td class="label">Amount Credited:</td>
-                        <td class="value"><strong>${amount} ${asset.toUpperCase()}</strong></td>
+                        <td class="value"><strong>${Number(amount).toFixed(2)} ${asset.toUpperCase()}</strong></td>
                     </tr>
                     <tr>
                         <td class="label">Approval Date:</td>
@@ -164,7 +164,7 @@ function EmailTemplates() {
                     <p>This deposit has passed all security checks and has been verified by our team. Your funds are now safe and available for use.</p>
                 </div>
                 
-                <a href="${process.env.FRONTEND_URL || 'https://yourdomain.com'}/public/pages/login.html" class="button">
+                <a href="${process.env.FRONTEND_URL || 'https://yourdomain.com'}pages/login.html" class="button">
                     View Your Wallet
                 </a>
                 

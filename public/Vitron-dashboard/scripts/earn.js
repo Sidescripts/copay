@@ -67,8 +67,8 @@ async function confirmInvestment() {
 
   localStorage.removeItem('depositPMethod');
   localStorage.removeItem('depositAmount');
-  console.log(paymentMethod, amount);
-  console.log(paymentMethod + amount);
+  // console.log(paymentMethod, amount);
+  // console.log(paymentMethod + amount);
 
   if (amount && paymentMethod) {
 
@@ -78,17 +78,7 @@ async function confirmInvestment() {
       window.location.href = '../html/confirmDeposit.html';
     }, 1500);
   }
-
-      // Store for confirmDeposit.html
-    // localStorage.setItem('investmentAmount', amount);
-    // localStorage.setItem('paymentMethod', paymentMethod);
-    // localStorage.setItem('walletAddress', wallets[paymentMethod] || data.walletAddress);
-    // localStorage.setItem('planId', planId);
-
-    // setTimeout(() =>{
-    //   window.location.href = "../html/confirmDeposit.html"
-    // }, 1500);
-    
+   
 }
 
 
@@ -96,11 +86,7 @@ async function confirmInvestment() {
 async function confirmBalanceInvestment() {
   const planSelect = document.querySelector('#balancePlanSelect');
   const revenuePlanName = planSelect.options[planSelect.selectedIndex].text;
-  console.log(revenuePlanName);
-  const paymentMethod = document.getElementById('pMethod').value;
-  console.log(paymentMethod);
-
-  console.log('Confirming investment using balance...');
+  const paymentMethod = document.getElementById('payMethod').value;
   const planId = planSelect.value;
   const amount = parseFloat(document.getElementById('balanceAmount').value);
 
@@ -109,6 +95,10 @@ async function confirmBalanceInvestment() {
     showErrorModal('Please select a plan and enter an amount.');
     return;
   }
+console.log(paymentMethod)
+console.log(amount)
+console.log(revenuePlanName)
+console.log(planId)
 
   const min = parseFloat(document.getElementById('balanceAmount').getAttribute('min'));
   const max = parseFloat(document.getElementById('balanceAmount').getAttribute('max'));
@@ -133,27 +123,5 @@ async function confirmBalanceInvestment() {
         window.location.href = "../html/confirmEarn.html";
     }, 1500);
 
-  // try {
-  //   const response = await fetch(`${API_BASE_URL}/invest/invest-now`, {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ planId, amount, paymentMethod: 'balance' })
-  //   });
-
-  //   if (!response.ok) {
-  //     console.error(`Invest API failed with status: ${response.status}`);
-  //     throw new Error('Failed to submit investment');
-  //   }
-
-  //   const data = await response.json();
-  //   console.log(`Investment successful: ${JSON.stringify(data)}`);
-  //   bootstrap.Modal.getInstance(document.getElementById('investBalanceModal')).hide();
-  //   // Show success message
-  //   showErrorModal('Investment submitted successfully!', 'Success');
-  //   // Optionally refresh page after delay
-  //   setTimeout(() => window.location.reload(), 2000);
-  // } catch (error) {
-  //   console.error(`Error submitting balance investment: ${error.message}`);
-  //   showErrorModal('Failed to submit investment. Please try again.');
-  // }
+  
 }

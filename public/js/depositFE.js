@@ -151,7 +151,7 @@ async function handlePayNow({ amount, method }) {
     // openPaymentModal();
     Modal.success("Success", "Deposit is being processed");
     setTimeout(() => {
-      window.location.href = "../Vitron-dashboard/Dashboard.html"
+      window.location.href = "../Dashboard.html"
     }, 2000);
     
   } catch (error) {

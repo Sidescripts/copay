@@ -23,18 +23,16 @@ function InvestmentController() {
           }
   
           const { paymentMethod, amount,  name, id} = req.body;
-        //   console.log(req.body)
+        
           const userId = req.user.id;
-          console.log(req.body)
+        //   console.log(req.body)
           const plan = await InvestmentPlan.findOne({ where: { id} })
-        // const plan = await InvestmentPlan.findAll({})
           
-        console.log(plan)
+        
         if(!plan){
             return res.status(404).json({success: false, error: 'No invesment plan now'})
-            // console.log("Hola your stuck. Investment plan has not been created")
+            
         }
-        //   const {id} = plan;
           
           // Validate required fields
           if (!amount || !paymentMethod || !name || !id) {
@@ -53,9 +51,6 @@ function InvestmentController() {
                   error: 'Amount must be a positive value'
               });
           }
-  
-          // Get the investment plan with transaction lock to prevent race conditions
-          
           
           if (!plan) {
               
@@ -120,7 +115,7 @@ function InvestmentController() {
           }
   
           // Calculate expected ROI
-          const expectedROI = (amount * plan.roi_percentage) / 100;
+          const expectedROI = (amount * plan.roi_percentage);
   
           // Create investment record
           const startDate = new Date();
@@ -138,27 +133,33 @@ function InvestmentController() {
               planName: plan.name,
               InvestmentPlanId: id
           });
-  
+
           // Update user wallet balance and total revenue
-          if (paymentMethod === 'bitcoin'){
-            await User.update({
-                btcBal: user.btcBal - amount,    
-                walletBalance: user.walletBalance - amount,
-                totalRevenue: (user.totalRevenue) + amount
-            }, {where: { id: userId }});
-          }else if(paymentMethod === 'ethereum'){
-            await User.update({
-                btcBal: user.ethBal - amount,    
-                walletBalance: user.walletBalance - amount,
-                totalRevenue: (user.totalRevenue) + amount
-              }, {where: { id: userId }});
-          }else if(paymentMethod === 'usdt'){
-            await User.update({
-                btcBal: user.usdtBal - amount,    
-                walletBalance: user.walletBalance - amount,
-                totalRevenue: (user.totalRevenue) + amount
-              }, {where: { id: userId }});
-          }
+switch (paymentMethod) {
+    case 'bitcoin':
+      await User.update({
+        btcBal: user.btcBal - amount,
+        walletBalance: user.walletBalance - amount,
+        totalRevenue: user.totalRevenue + amount
+      }, { where: { id: userId } });
+      break;
+    case 'ethereum':
+      await User.update({
+        ethBal: user.ethBal - amount,
+        walletBalance: user.walletBalance - amount,
+        totalRevenue: user.totalRevenue + amount
+      }, { where: { id: userId } });
+      break;
+    case 'usdt':
+      await User.update({
+        usdtBal: user.usdtBal - amount,
+        walletBalance: user.walletBalance - amount,
+        totalRevenue: user.totalRevenue + amount
+      }, { where: { id: userId } });
+      break;
+    default:
+      return res.status(400).json({ error: "Invalid payment method" });
+}
 
           // Send investment confirmation email
           try {
@@ -167,7 +168,6 @@ function InvestmentController() {
                   planName: plan.name,
                   amount: investment.amount,
                   duration: plan.duration_days,
-                  expectedROI: expectedROI,
                   endDate: endDate,
                   investmentId: investment.transaction_id,
                   status: investment.status

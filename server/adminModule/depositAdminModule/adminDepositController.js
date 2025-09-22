@@ -184,7 +184,8 @@ await deposit.update({
               email: deposit.user.email,
               amount: deposit.amount,
               asset: deposit.asset,
-              transactionId: deposit.transaction_id
+              transactionId: deposit.transaction_id,
+              approvalDate: deposit.completed_at
           });
       } catch (emailError) {
           console.error("Failed to send deposit processed email:", emailError);
