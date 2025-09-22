@@ -3,6 +3,7 @@
 // 1. Get the token from the URL query string (e.g. reset-password.html?token=abcd123)
 const urlParams = new URLSearchParams(window.location.search);
 const token = urlParams.get("token");
+console.log(token);
 
 // 2. Get form and inputs
 const form = document.getElementById("new-password-form");
@@ -35,14 +36,14 @@ form.addEventListener("submit", async (e) => {
 
   // Step 2: Call backend API
   try {
-    const response = await fetch("http://localhost:2000/api/v1/auth/new-password", {
+    const response = await fetch("/api/v1/auth/new-password", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         token: token,
-        password: newPassword,
+        newPassword: newPassword,
       }),
     });
 
@@ -55,7 +56,7 @@ form.addEventListener("submit", async (e) => {
         window.location.href = "./login.html";
       }, 3000);
     } else {
-      showMessage(data.message || "❌ Something went wrong.", "red");
+      showMessage(data.message || " Something went wrong.", "red");
     }
   } catch (error) {
     console.error("Error:", error);

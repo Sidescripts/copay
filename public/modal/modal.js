@@ -83,33 +83,48 @@ function show(config) {
     if (config.showCancel) {
         cancelBtn.style.display = 'block';
         cancelBtn.textContent = config.cancelText || 'Cancel';
-    } else cancelBtn.style.display = 'none';
+    } else {
+        cancelBtn.style.display = 'none';
+    }
     confirmBtn.textContent = config.confirmText || 'OK';
-    setTimeout(() => { // Slight delay for DOM stability
-        requestAnimationFrame(() => {
-            overlay.classList.add('active');
-            const modalEl = overlay.querySelector('.modal');
-            if (modalEl) {
-                modalEl.style.opacity = '1';
-                modalEl.style.transform = 'translateY(0)';
-                modalEl.style.display = 'block';
-                console.log('Modal forced visible. Computed opacity:', window.getComputedStyle(modalEl).opacity);
-            }
-        });
-    }, 0);
+    
+    const modalEl = overlay.querySelector('.modal');
+    
+    // Clear all inline styles to let CSS handle everything
+    overlay.style.display = 'flex';
+    overlay.style.opacity = '';
+    if (modalEl) {
+        modalEl.style.opacity = '';
+        modalEl.style.transform = '';
+        modalEl.style.display = 'block'; // Ensure visible (safe fallback)
+    }
+    
+    // Trigger animation via CSS
+    requestAnimationFrame(() => {
+        overlay.classList.add('active');
+        if (modalEl) {
+            console.log('Modal forced visible. Computed opacity:', window.getComputedStyle(modalEl).opacity);
+            console.log('Modal computed transform:', window.getComputedStyle(modalEl).transform);
+        }
+    });
 }
 
-    // Hide the modal
-    function hide() {
-        if (overlay) {
-            overlay.classList.remove('active');
-            // Reset display after animation
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 300); // Match CSS transition duration
-        }
+function hide() {
+    if (overlay) {
+        const modalEl = overlay.querySelector('.modal');
+        overlay.classList.remove('active');
+        setTimeout(() => {
+            // Clear inline styles after animation for clean next show
+            overlay.style.display = '';
+            overlay.style.opacity = '';
+            if (modalEl) {
+                modalEl.style.opacity = '';
+                modalEl.style.transform = '';
+                modalEl.style.display = '';
+            }
+        }, 300); // Match CSS transition
     }
-
+}
     // Public API
     return {
         show: show,

@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="../Vitron-dashboard/styles/bootstrap.css" />
+    <link rel="stylesheet" href="../assests/css/home.css" />
+    <link rel="stylesheet" type="text/css" href="fonts/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../Vitron-dashboard/fonts/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+    <title>Frequently Asked Questions</title>
+</head>
+
+<body>
+    <!-- Header & Navigation -->
+    <header id="header">
+        <div class="container header-container">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="../assests/images/logo.png" alt="Logo" />
+                </div>
+                <a href="#" class="logo-text">VITRON</a>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href="/index.html">Home</a></li>
+                    <li><a href="../pages/about.html" class="active">About</a></li>
+                    <li><a href="../pages/contact.html">Contact Us</a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-buttons desktop-auth">
+                <a href="../pages/login.html" class="login-btn">Log In</a>
+                <a href="../pages/signup.html" class="signup-btn">Sign Up</a>
+            </div>
+
+            <div class="menu-toggle" id="mobile-menu">
+                <a href="#">
+                    <i class="fa-solid fa-bars"></i>
+                    <i class="fa-solid fa-times"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (hidden by default) -->
+        <div class="mobile-menu" id="mobile-nav">
+            <ul>
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="../pages/about.html" class="active">About</a></li>
+                <li><a href="../pages/contact.html">Contact Us</a></li>
+                <li><a href="../pages/faq.html">Faq</a></li>
+   
+            </ul>
+            <div class="mobile-auth">
+                <a href="../pages/login.html" class="login-btn" style="text-align: center">Log In</a>
+                <a href="../pages/signup.html" class="signup-btn" style="text-align: center">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+  
+
+    <!-- Market Data Ticker - FIXED -->
+    <div class="container">
+        <div class="market-ticker">
+            <div class="ticker-container">
+                <div class="ticker-content">
+                    <!-- Duplicate content for seamless looping -->
+                    <div class="ticker-item">
+                        <span class="pair">BTC/USD</span>
+                        <span class="price positive">$42,567.89 (+2.34%)</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="pair">ETH/USD</span>
+                        <span class="price positive">$2,345.67 (+1.78%)</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="pair">EUR/USD</span>
+                        <span class="price negative">1.0873 (-0.24%)</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="pair">XRP/USD</span>
+                        <span class="price positive">$0.5678 (+3.45%)</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="pair">GBP/USD</span>
+                        <span class="price positive">1.2345 (+0.38%)</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="pair">ADA/USD</span>
+                        <span class="price negative">$0.3456 (-1.22%)</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="pair">SOL/USD</span>
+                        <span class="price positive">$98.76 (+5.12%)</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="pair">DOT/USD</span>
+                        <span class="price positive">$6.789 (+2.15%)</span>
+                    </div>
+                    <!-- Duplicated content -->
+                    <div class="ticker-item">
+                        <span class="pair">BTC/USD</span>
+                        <span class="price positive">$42,567.89 (+2.34%)</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="pair">ETH/USD</span>
+                        <span class="price positive">$2,345.67 (+1.78%)</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="pair">EUR/USD</span>
+                        <span class="price negative">1.0873 (-0.24%)</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="pair">XRP/USD</span>
+                        <span class="price positive">$0.5678 (+3.45%)</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="pair">GBP/USD</span>
+                        <span class="price positive">1.2345 (+0.38%)</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="pair">ADA/USD</span>
+                        <span class="price negative">$0.3456 (-1.22%)</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="pair">SOL/USD</span>
+                        <span class="price positive">$98.76 (+5.12%)</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="pair">DOT/USD</span>
+                        <span class="price positive">$6.789 (+2.15%)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <!-- FAQ Section - IMPROVED -->
+    <section id="faq" class="faq">
+        <div class="container">
+            <div class="section-title scrollss">
+                <h2>Frequently Asked Questions</h2>
+                <p>Find answers to common questions about our platform</p>
+            </div>
+            <div class="faq-container scrollss">
+                <div class="faq-item active">
+                    <div class="faq-question">
+                        <span>How do I create an account on Vitron?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Creating an account is simple. Click the "Sign Up" button in the
+                            top right corner, provide your email address, create a password,
+                            and verify your email. Once verified, you can complete your
+                            profile and start trading.
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What payment methods do you accept?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            We accept various payment methods including popular cryptocurrencies like Bitcoin
+                            and Ethereum. Deposit options may vary based on your region.
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is VITRON-TRADE available in my country?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            VITRON-TRADE is available in over 150 countries worldwide.
+                            However, some services may be
+                            limited in certain regions. Check our availability page for
+                            specific information about your country.
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How secure is my funds and personal information?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            We employ bank-level security measures including SSL encryption,
+                            two-factor authentication, and cold storage for
+                            cryptocurrencies. Additionally, we regularly undergo security
+                            audits to ensure the highest level of protection for your assets
+                            and data.
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you offer mobile trading apps?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                           We’re working on bringing you a fully-featured mobile app for both iOS and Android. Soon, you’ll be able to access the same powerful trading tools from our web platform right on your phone; so you can trade anywhere, anytime.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- Trading Pairs Section -->
+  <section class="trading-pairs">
+        <div class="container">
+            <div class="section-title scrollss">
+                <h2>Popular Trading Pairs</h2>
+                <p>
+                    Trade the most popular cryptocurrency and forex pairs with tight
+                    spreads
+                </p>
+            </div>
+            <div class="pairs-scroll-wrapper">
+                <div class="pairs-container">
+                    <div class="pair-card">
+                        <div class="pair-header">
+                            <div class="pair-icon">
+                                <i class="fab fa-bitcoin"></i>
+                            </div>
+                            <div class="pair-name">BTC/USD</div>
+                        </div>
+                        <div class="pair-price">$42,567.89</div>
+                        <div class="pair-change positive">+2.34%</div>
+                        <div class="pair-volume">Volume: $28.5B</div>
+                    </div>
+                    <div class="pair-card">
+                        <div class="pair-header">
+                            <div class="pair-icon">
+                                <i class="fab fa-ethereum"></i>
+                            </div>
+                            <div class="pair-name">ETH/USD</div>
+                        </div>
+                        <div class="pair-price">$2,345.67</div>
+                        <div class="pair-change positive">+1.78%</div>
+                        <div class="pair-volume">Volume: $14.2B</div>
+                    </div>
+                    <div class="pair-card">
+                        <div class="pair-header">
+                            <div class="pair-icon">€</div>
+                            <div class="pair-name">EUR/USD</div>
+                        </div>
+                        <div class="pair-price">1.0873</div>
+                        <div class="pair-change negative">-0.24%</div>
+                        <div class="pair-volume">Volume: $12.8B</div>
+                    </div>
+                    <div class="pair-card">
+                        <div class="pair-header">
+                            <div class="pair-icon">£</div>
+                            <div class="pair-name">GBP/USD</div>
+                        </div>
+                        <div class="pair-price">1.2345</div>
+                        <div class="pair-change positive">+0.38%</div>
+                        <div class="pair-volume">Volume: $8.5B</div>
+                    </div>
+                    <!-- Duplicate cards for seamless looping -->
+                    <div class="pair-card">
+                        <div class="pair-header">
+                            <div class="pair-icon">
+                                <i class="fab fa-bitcoin"></i>
+                            </div>
+                            <div class="pair-name">BTC/USD</div>
+                        </div>
+                        <div class="pair-price">$42,567.89</div>
+                        <div class="pair-change positive">+2.34%</div>
+                        <div class="pair-volume">Volume: $28.5B</div>
+                    </div>
+                    <div class="pair-card">
+                        <div class="pair-header">
+                            <div class="pair-icon">
+                                <i class="fab fa-ethereum"></i>
+                            </div>
+                            <div class="pair-name">ETH/USD</div>
+                        </div>
+                        <div class="pair-price">$2,345.67</div>
+                        <div class="pair-change positive">+1.78%</div>
+                        <div class="pair-volume">Volume: $14.2B</div>
+                    </div>
+                    <div class="pair-card">
+                        <div class="pair-header">
+                            <div class="pair-icon">€</div>
+                            <div class="pair-name">EUR/USD</div>
+                        </div>
+                        <div class="pair-price">1.0873</div>
+                        <div class="pair-change negative">-0.24%</div>
+                        <div class="pair-volume">Volume: $12.8B</div>
+                    </div>
+                    <div class="pair-card">
+                        <div class="pair-header">
+                            <div class="pair-icon">£</div>
+                            <div class="pair-name">GBP/USD</div>
+                        </div>
+                        <div class="pair-price">1.2345</div>
+                        <div class="pair-change positive">+0.38%</div>
+                        <div class="pair-volume">Volume: $8.5B</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title scrollss">
+                <h2>What Our Traders Say</h2>
+                <p>Hear from our community of successful traders</p>
+            </div>
+            
+            <!-- Slider main container -->
+            <div class="swiper testimonials-swiper">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-header">
+                                <div class="testimonial-avatar">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User Avatar" />
+                                </div>
+                                <div class="testimonial-info">
+                                    <h4>Ahmed Al-Mansoori</h4>
+                                    <span>Professional Trader</span>
+                                </div>
+                            </div>
+                            <div class="testimonial-text">
+                                <p>
+                                    "VITRON-TRADE has completely transformed my trading experience.
+                                    The advanced charting tools and lightning-fast execution have
+                                    helped me increase my profitability by 40% in just three
+                                    months."
+                                </p>
+                            </div>
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-header">
+                                <div class="testimonial-avatar">
+                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User Avatar" />
+                                </div>
+                                <div class="testimonial-info">
+                                    <h4>Sarah Johnson</h4>
+                                    <span>Beginner Trader</span>
+                                </div>
+                            </div>
+                            <div class="testimonial-text">
+                                <p>
+                                    "As a beginner, I was intimidated by trading platforms, but
+                                    VITRON-TRADE made it so easy to learn. The educational resources
+                                    and intuitive interface helped me get started quickly."
+                                </p>
+                            </div>
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-header">
+                                <div class="testimonial-avatar">
+                                    <img src="https://randomuser.me/api/portraits/men/62.jpg" alt="User Avatar" />
+                                </div>
+                                <div class="testimonial-info">
+                                    <h4>David Wilson</h4>
+                                    <span>Forex Specialist</span>
+                                </div>
+                            </div>
+                            <div class="testimonial-text">
+                                <p>
+                                    "The forex trading tools on VITRON-TRADE are unmatched. I've
+                                    tried every major platform, and none offer the same combination
+                                    of powerful features and ease of use."
+                                </p>
+                            </div>
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional testimonials to demonstrate the slider -->
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-header">
+                                <div class="testimonial-avatar">
+                                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User Avatar" />
+                                </div>
+                                <div class="testimonial-info">
+                                    <h4>Maria Rodriguez</h4>
+                                    <span>Day Trader</span>
+                                </div>
+                            </div>
+                            <div class="testimonial-text">
+                                <p>
+                                    "The real-time data and analytics on VITRON-TRADE are exceptional.
+                                    I've been able to make more informed decisions and significantly
+                                    improve my day trading results."
+                                </p>
+                            </div>
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="swiper-slide">
+                        <div class="testimonial-card">
+                            <div class="testimonial-header">
+                                <div class="testimonial-avatar">
+                                    <img src="https://randomuser.me/api/portraits/men/74.jpg" alt="User Avatar" />
+                                </div>
+                                <div class="testimonial-info">
+                                    <h4>James Thompson</h4>
+                                    <span>Investment Advisor</span>
+                                </div>
+                            </div>
+                            <div class="testimonial-text">
+                                <p>
+                                    "I recommend VITRON-TRADE to all my clients. The platform's
+                                    security features and reliability give me peace of mind when
+                                    managing multiple portfolios. The customer support is also exceptional,
+                                    always available to help with any issues or questions."
+                                </p>
+                            </div>
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination bullets -->
+                <div class="swiper-pagination"></div>
+            </div>
+            
+            <!-- Custom navigation bullets -->
+            <div class="testimonial-nav"></div>
+        </div>
+    </section>
+
+    <!-- FAQ Section - IMPROVED -->
+    <section class="faq">
+        <div class="container">
+            <div class="section-title scrollss">
+                <h2>Frequently Asked Questions</h2>
+                <p>Find answers to common questions about our platform</p>
+            </div>
+            <div class="faq-container scrollss">
+                <div class="faq-item active">
+                    <div class="faq-question">
+                        <span>How do I create an account on Vitron?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            Creating an account is simple. Click the "Sign Up" button in the
+                            top right corner, provide your email address, create a password,
+                            and verify your email. Once verified, you can complete your
+                            profile and start trading.
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What payment methods do you accept?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            We accept various payment methods including popular cryptocurrencies like Bitcoin
+                            and Ethereum. Deposit options may vary based on your region.
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is VITRON-TRADE available in my country?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            VITRON-TRADE is available in over 150 countries worldwide.
+                            However, some services may be
+                            limited in certain regions. Check our availability page for
+                            specific information about your country.
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How secure is my funds and personal information?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                            We employ bank-level security measures including SSL encryption,
+                            two-factor authentication, and cold storage for
+                            cryptocurrencies. Additionally, we regularly undergo security
+                            audits to ensure the highest level of protection for your assets
+                            and data.
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you offer mobile trading apps?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>
+                           We’re working on bringing you a fully-featured mobile app for both iOS and Android. Soon, you’ll be able to access the same powerful trading tools from our web platform right on your phone; so you can trade anywhere, anytime.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>VITRON-TRADE</h3>
+                    <p>
+                        The world's leading social trading platform, offering a wide range
+                        of financial instruments with unmatched execution speed.
+                    </p>
+                        <div class="social-links">
+                            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                        </div>
+                        </div>
+                        <div class="footer-column">
+                            <h3>Markets</h3>
+                            <ul class="footer-links">
+                                <li><a href="https://coinmarketcap.com" target="_blank">Cryptocurrencies</a></li>
+                                <li><a href="https://www.investing.com/currencies/" target="_blank">Forex</a></li>
+                                <li><a href="https://www.investing.com/commodities/" target="_blank">Commodities</a></li>
+                                <li><a href="https://www.investing.com/indices/" target="_blank">Indices</a></li>
+                                <li><a href="https://www.investing.com/equities/" target="_blank">Stocks</a></li>
+                                <li><a href="https://www.bloomberg.com/markets" target="_blank">News</a></li>
+                            </ul>
+                        </div>
+
+                <!-- <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>
+                        Subscribe to our newsletter to get the latest market updates and
+                        trading insights.
+                    </p>
+                    <div class="newsletter-form">
+                        <input type="email" class="newsletter-input" placeholder="Your email address" />
+                        <button class="newsletter-button">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div> -->
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 VITRON-TRADE. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+  <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Swiper
+            const swiper = new Swiper('.testimonials-swiper', {
+                // Optional parameters
+                loop: true,
+                slidesPerView: 1,
+                spaceBetween: 30,
+                centeredSlides: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                
+                // Breakpoints for responsive design
+                breakpoints: {
+                    640: {
+                        slidesPerView: 1,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                    },
+                },
+                
+                // Pagination
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+            });
+            
+            // Create custom navigation bullets
+            const slides = document.querySelectorAll('.swiper-slide');
+            const navContainer = document.querySelector('.testimonial-nav');
+            
+            slides.forEach((_, index) => {
+                const bullet = document.createElement('button');
+                bullet.classList.add('testimonial-nav-btn');
+                if (index === 0) bullet.classList.add('testimonial-nav-btn-active');
+                
+                bullet.addEventListener('click', () => {
+                    swiper.slideTo(index);
+                });
+                
+                navContainer.appendChild(bullet);
+            });
+            
+            // Update active bullet on slide change
+            swiper.on('slideChange', function() {
+                const bullets = document.querySelectorAll('.testimonial-nav-btn');
+                bullets.forEach((bullet, index) => {
+                    if (index === swiper.realIndex) {
+                        bullet.classList.add('testimonial-nav-btn-active');
+                    } else {
+                        bullet.classList.remove('testimonial-nav-btn-active');
+                    }
+                });
+            });
+            
+            // Pause autoplay when user interacts with slider
+            swiper.el.addEventListener('mouseenter', () => {
+                swiper.autoplay.stop();
+            });
+            
+            swiper.el.addEventListener('mouseleave', () => {
+                swiper.autoplay.start();
+            });
+            
+            // Equalize card heights on load and resize
+            function equalizeCardHeights() {
+                const cards = document.querySelectorAll('.testimonial-card');
+                let maxHeight = 0;
+                
+                // Reset heights first
+                cards.forEach(card => {
+                    card.style.height = 'auto';
+                });
+                
+                // Find the tallest card
+                cards.forEach(card => {
+                    if (card.offsetHeight > maxHeight) {
+                        maxHeight = card.offsetHeight;
+                    }
+                });
+                
+                // Set all cards to the same height
+                cards.forEach(card => {
+                    card.style.height = maxHeight + 'px';
+                });
+            }
+            
+            // Run on load and resize
+            window.addEventListener('load', equalizeCardHeights);
+            window.addEventListener('resize', equalizeCardHeights);
+        });
+    </script>
+    <script src="../Vitron-dashboard/scripts/bootstrap.min.js"></script>
+    <script src="../js/home.js"></script>
+</body>
+
+</html>

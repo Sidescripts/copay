@@ -6,10 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const SELECTORS = {
       username: '#username', // Adjusted to a more likely ID selector
       totalBalance: '.card-top h1',
-      totalRevenue: '.card-bottom h1',
-      activeInvestments: '#account .card-style:nth-child(1) h1 b',
-      totalRevenueSummary: '#account .card-style:nth-child(2) h1 b',
-      totalWithdrawal: '#account .card-style:nth-child(3) h1 b',
+      totalRevenue: '.RevenueSum',
+      activeInvestments: '.active-revenue',
+      totalRevenueSummary: '.RevenueSum',
+      totalWithdrawal: '.withdrawal-summary',
       btcBalance: '.btcEqu',
       ethBalance: '.ethEqu',
       usdtBalance: '.usdtEqu'
