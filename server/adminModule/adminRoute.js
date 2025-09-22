@@ -36,8 +36,10 @@ router.get('/deposit/stat', adminDepositController.getDepositStats)
 router.get('/invest/all', AuthMid, AdminInvestmentController.findAllPlan);
 router.post('/invest/create-plan', AuthMid, planValidation,AdminInvestmentController.createPlan);
 router.patch('/invest/update/:planId', AuthMid, planUpdateValidation,AdminInvestmentController.updatePlan);
-router.patch('/invest/deactivate/:planId', AuthMid, AdminInvestmentController.deactivatePlan);
-router.delete('/invest/delete/:planId', AuthMid, AdminInvestmentController.deletePlan);
+router.patch('/k/:planId', AuthMid, AdminInvestmentController.deactivatePlan);
+// router.delete('/invest/delete/:planId', AuthMid, AdminInvestmentController.deletePlan);
+router.delete('/g/:planId', AuthMid,AdminInvestmentController.deletePlan)
+
 //all investment and manual ROI
 router.get("/investment/all", AuthMid, AdminInvestmentController.getAllInvestments)
 router.patch('/investment/update/:investmentId',AuthMid, AdminInvestmentController.manualROIPayout);
