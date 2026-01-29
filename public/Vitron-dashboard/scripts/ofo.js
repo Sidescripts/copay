@@ -23,7 +23,7 @@ async function fetchRevenuePlans() {
         return responseData.data || responseData.plans || [];
     } catch (error) {
         console.error('Error fetching revenue plans:', error);
-        // Return empty array if API fails
+        
         return [];
     }
 }
@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 id: revenuePlanId, // Use plan ID instead of name
                 name: revenuePlanName
             }
-            
+            //console.log(payload)
             const token = localStorage.getItem('token');
             
             if (!token) {
@@ -267,6 +267,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
             if(!response.ok){
                 const errorData = await response.json();
+                console.log(errorData)
                 Modal.error('Error', errorData.error || 'Investment failed');
                 throw new Error(errorData.error || 'Network error occurred');
             }

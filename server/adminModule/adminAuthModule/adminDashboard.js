@@ -73,7 +73,7 @@ const adminDashboardController = {
                     investments: parseFloat(todayInvestments) || 0
                 }
             };
-            console.log(stats)
+            // console.log(stats)
             return res.status(200).json({
                 success: true,
                 data: stats

@@ -4,15 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const API_ENDPOINT = '/api/v1/user/dashboard';
   const LOGIN_PAGE = '../pages/login.html'; // Adjust this path to your login page
   const SELECTORS = {
-      username: '#username', // Adjusted to a more likely ID selector
+      username: '#username',
       totalBalance: '.card-top h1',
       totalRevenue: '.RevenueSum',
       activeInvestments: '.active-revenue',
-      totalRevenueSummary: '.RevenueSum',
       totalWithdrawal: '.withdrawal-summary',
       btcBalance: '.btcEqu',
       ethBalance: '.ethEqu',
-      usdtBalance: '.usdtEqu'
+      usdtBalance: '.usdtEqu',
+      revenue: '.addrevenue' // Corrected from 'addrevenue' to '.addrevenue'
   };
 
   // Helper function to format currency
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (PRELOADER) {
       PRELOADER.style.display = 'none';
   }
-username
+
   // Function to redirect to login page
   const redirectToLogin = () => {
       localStorage.removeItem('token'); // Clear invalid token
@@ -56,7 +56,7 @@ username
               if (response.status === 401) {
                   // Handle 401 Unauthorized or token expiration
                   const data = await response.json().catch(() => ({}));
-                  if (data.message?.toLowerCase().includes('Token expired') || data.error?.toLowerCase().includes('token expired')) {
+                  if (data.message?.toLowerCase().includes('token expired') || data.error?.toLowerCase().includes('token expired')) {
                       Modal.error('Session Expired', 'Your session has expired. Please log in again.');
                   } else {
                       Modal.error('Authentication Error', 'Unauthorized access. Please log in.');
@@ -69,9 +69,13 @@ username
           }
 
           const data = await response.json();
-          console.log('Dashboard data:', data);
-          updateDashboard(data);
-
+          
+          if (data.success) {
+              updateDashboard(data);
+          } else {
+              Modal.error('Data Error', data.error || 'Failed to load dashboard data');
+          }
+        
       } catch (error) {
           console.error('Error fetching dashboard data:', error);
           Modal.error('Server Error', 'Failed to load dashboard due to a network error');
@@ -93,14 +97,19 @@ username
           totalWithdrawal = 0,
           btcBal = 0,
           ethBal = 0,
-          usdtBal = 0
+          usdtBal = 0,
+          revenue = 0
       } = data;
-
+       
       // Get username with fallback
       const username = localStorage.getItem('username') || 'User';
 
       // Update DOM elements
       const updateElement = (selector, value) => {
+          if (!selector) {
+              console.warn('Selector is undefined');
+              return;
+          }
           const element = document.querySelector(selector);
           if (element) {
               element.textContent = value;
@@ -112,8 +121,8 @@ username
       updateElement(SELECTORS.username, username);
       updateElement(SELECTORS.totalBalance, formatCurrency(walletBalance, 3));
       updateElement(SELECTORS.totalRevenue, formatCurrency(totalRevenue, 3));
+      updateElement(SELECTORS.revenue, formatCurrency(revenue, 2));
       updateElement(SELECTORS.activeInvestments, formatCurrency(activeInvestments, 2));
-      updateElement(SELECTORS.totalRevenueSummary, formatCurrency(totalRevenue, 2));
       updateElement(SELECTORS.totalWithdrawal, formatCurrency(totalWithdrawal, 2));
       updateElement(SELECTORS.btcBalance, formatCurrency(btcBal, 2));
       updateElement(SELECTORS.ethBalance, formatCurrency(ethBal, 2));
