@@ -56,6 +56,7 @@ async function Register (req,res) {
     //   username:username,
     //   loginLink: loginLink
     // });
+    
     return res.status(201).json({
       user: userResponse,
       token
