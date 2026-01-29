@@ -26,6 +26,8 @@ function validateForm(formData) {
         errors.push('Username is required');
     } else if (formData.username.length < 3) {
         errors.push('Username must be at least 3 characters long');
+    } else if (!/^(?=.*\d)[a-zA-Z0-9_]{3,}$/.test(username)) {
+        errors.push('Username must be at least 3 characters and contain at least one number');
     }
     
     // Full name validation
@@ -114,7 +116,7 @@ async function handleSignup(event) {
             localStorage.setItem('username', data.user.username);
             Modal.success('success', 'Account created successfully! Redirecting to dashboard...');
             setTimeout(() =>{
-                window.location.href = "../Vitron-Dashboard/Dashboard.html"
+                window.location.href = "../Vitron-dashboard/Dashboard.html"
             }, 2000)
         }else{
             // Enhanced error handling
