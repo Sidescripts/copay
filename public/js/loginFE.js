@@ -87,7 +87,7 @@ async function handleLogin(event) {
             // console.log('Token received:', data.token);
             Modal.success('success', 'Welcome back to Vitron-trade. Redirecting to dashboard...');
             setTimeout(() =>{
-                window.location.href = "../Vitron-Dashboard/Dashboard.html"
+                window.location.href = "../Vitron-dashboard/Dashboard.html"
             }, 2000)
         }else{
             // Enhanced error handling
