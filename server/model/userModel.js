@@ -92,6 +92,14 @@ module.exports = (sequelize) => {
         min: 0
       }
     },
+    revenue: {
+      type: DataTypes.DECIMAL(20, 8),
+      defaultValue: 0.0,
+      allowNull: false,
+      validate: {
+        min: 0
+      }
+    },
     totalRevenue: {
       type: DataTypes.DECIMAL(20, 8),
       defaultValue: 0.0,

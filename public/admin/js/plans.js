@@ -1,25 +1,6 @@
-// // investment-plans.js
-// document.addEventListener('DOMContentLoaded', function() {
-//     const addPlanBtn = document.getElementById('addPlanBtn');
-//     const addPlanForm = document.getElementById('add-plan-form');
-//     const plansList = document.getElementById('plans-list');
-//     const cancelAddPlan = document.getElementById('cancelAddPlan');
-    
-//     // Investment plan form toggle
-//     if (addPlanBtn && addPlanForm && plansList && cancelAddPlan) {
-//         addPlanBtn.addEventListener('click', () => {
-//             plansList.style.display = 'none';
-//             addPlanForm.style.display = 'block';
-//         });
-        
-//         cancelAddPlan.addEventListener('click', () => {
-//             addPlanForm.style.display = 'none';
-//             plansList.style.display = 'block';
-//         });
-//     }
-// });
 
-   document.addEventListener('DOMContentLoaded', function() {
+
+document.addEventListener('DOMContentLoaded', function() {
             // DOM Elements
             const menuToggle = document.getElementById('menuToggle');
             const sidebar = document.getElementById('sidebar');

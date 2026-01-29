@@ -51,11 +51,11 @@ async function Register (req,res) {
     const userResponse = user.toJSON();
     delete userResponse.password;
 
-    await EmailService.welcomeEmail({
-      email: email, 
-      username:username,
-      loginLink: loginLink
-    });
+    // await EmailService.welcomeEmail({
+    //   email: email, 
+    //   username:username,
+    //   loginLink: loginLink
+    // });
     return res.status(201).json({
       user: userResponse,
       token

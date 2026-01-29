@@ -104,6 +104,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('trust proxy', true);
 
+console.log(process.env.JWT_SECRET)
+
 //routes
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/auth', authRoute);

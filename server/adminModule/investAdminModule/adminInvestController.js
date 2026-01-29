@@ -165,7 +165,7 @@ function AdminInvestmentController() {
       
       try {
         const { planId } = req.params;
-
+        console.log(planId)
         const plan = await InvestmentPlan.findByPk(planId);
         if (!plan) {
           
@@ -176,7 +176,7 @@ function AdminInvestmentController() {
         }
 
         if (!plan.is_active) {
-          
+              
           return res.status(400).json({ 
             success: false,
             error: 'Investment plan is already deactivated' 
@@ -223,8 +223,9 @@ function AdminInvestmentController() {
       
       try {
         const { planId } = req.params;
-
+        console.log(planId)
         const plan = await InvestmentPlan.findByPk(planId);
+        console.log(plan)
         if (!plan) {
           
           return res.status(404).json({ 
@@ -239,7 +240,7 @@ function AdminInvestmentController() {
         });
 
         if (investmentsCount > 0) {
-          
+          // console.log("cannot delete plan with active investment")  
           return res.status(400).json({ 
             success: false,
             error: 'Cannot delete plan with existing investments' 

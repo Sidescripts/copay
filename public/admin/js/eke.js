@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           
           const responseData = await response.json();
+          console.log(responseData)
           plansData = responseData.data || {};
           renderPlansTable(plansData);
           
@@ -400,7 +401,7 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           
           const endpoint = action === 'deactivate' ? 
-              `/api/v1/admin/invest/deactivate/${planId}` : 
+              `/api/v1/admin/k/${planId}` : 
               `/api/v1/admin/invest/update/${planId}`;
           
           const body = action === 'deactivate' ? 
@@ -425,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function() {
           
           if (!response.ok) {
               const errorData = await response.json();
-              throw new Error(errorData.message || `Failed to ${action} plan: ${response.status}`);
+              throw new Error(errorData.error || `Failed to ${action} plan: ${response.status}`);
           }
           
           showMessage('Success', `Plan ${action}d successfully!`);
@@ -448,7 +449,7 @@ document.addEventListener('DOMContentLoaded', function() {
               return;
           }
           
-          const response = await fetch(`/api/v1/admin/invest/delete/${planId}`, {
+          const response = await fetch(`/api/v1/admin/g/${planId}`, {
               method: 'DELETE',
               headers: {
                   'Content-Type': 'application/json',
@@ -465,7 +466,7 @@ document.addEventListener('DOMContentLoaded', function() {
           
           if (!response.ok) {
               const errorData = await response.json();
-              throw new Error(errorData.message || `Failed to delete plan: ${response.status}`);
+              throw new Error(errorData.error || `Failed to delete plan: ${response.status}`);
           }
           
           showMessage('Success', 'Plan deleted successfully!');
