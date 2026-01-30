@@ -5,7 +5,7 @@ function EmailTemplate(){
 
     return {
         // DEPOSIT CONFIRMATION EMAIL
-      depositEmail: async function({username, email,amount, asset, trxnId, status, date}) {
+      depositEmail: async function({username, email,amount, asset, trxnId, status}) {
         
         
         try {
@@ -13,14 +13,14 @@ function EmailTemplate(){
             const mailOptions = {
                 from: process.env.EMAIL_USER,
                 to: email,
-                subject: 'Deposit request - Vitron-trade',
+                subject: 'Deposit request - Vitron-zod',
                 html: `
                 <!DOCTYPE html>
                 <html>
                 <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Deposit Confirmation - Vitron-trade</title>
+                    <title>Deposit Confirmation - Vitron-zod</title>
                     <style>
                         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
                         .header { background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
@@ -45,7 +45,7 @@ function EmailTemplate(){
                     <div class="content">
                         <div class="status-badge">✅ ${status.toUpperCase()}</div>
                         <h2>Hello ${username},</h2>
-                        <p>Your deposit has been successfully received and processed.</p>
+                        <p>Your deposit has been successfully received and it is currently being processed.</p>
                         
                         <div style="text-align: center; margin: 30px 0;">
                             <div class="amount">${amount} USD</div>
@@ -77,9 +77,9 @@ function EmailTemplate(){
                     </div>
                     
                     <div class="footer">
-                        <p>© ${new Date().getFullYear()} Vitron-trade. All rights reserved.</p>
+                        <p>© ${new Date().getFullYear()} Vitron-zod. All rights reserved.</p>
                         
-                        <p>Need help? Contact support@Vitron-trade.com</p>
+                        <p>Need help? Contact support@Vitron-zod.com</p>
                     </div>
                 </body>
                 </html>
@@ -87,7 +87,7 @@ function EmailTemplate(){
             };
 
             await transporter.sendMail(mailOptions);
-            console.log(`deposit email sent to ${email}`);
+            // console.log(`deposit email sent to ${email}`);
             
         } catch (error) {
             console.error('Email sending error:', error);

@@ -6,9 +6,6 @@ const adminWithdrawalController = {
     // Get all withdrawals with filtering options
     getAllWithdrawals: async (req, res) => {
         try {
-            const validationError = handleValidationErrors(req);
-            if (validationError) return validationError;
-
             const { status, userId } = req.query;
             
             // Build where clause for filtering
@@ -56,21 +53,16 @@ const adminWithdrawalController = {
 
     // Approve, complete, or reject a withdrawal
     updateWithdrawalStatus: async (req, res) => {
-        const transaction = await sequelize.transaction();
         
         try {
-            const validationError = handleValidationErrors(req);
-            if (validationError) {
-                await transaction.rollback();
-                return validationError;
-            }
+            
 
             const { id } = req.params;
-            const { status, adminNotes } = req.body; // status: 'confirmed', 'completed', 'failed', 'rejected'
+            const { status } = req.body; // status: 'confirmed', 'completed', 'failed', 'rejected'
 
             // Validate required fields
             if (!status) {
-                await transaction.rollback();
+                
                 return res.status(400).json({
                     success: false,
                     message: 'Status is required',
@@ -80,7 +72,7 @@ const adminWithdrawalController = {
             // Validate status value
             const validStatuses = ['confirmed', 'completed', 'failed', 'rejected'];
             if (!validStatuses.includes(status)) {
-                await transaction.rollback();
+                
                 return res.status(400).json({
                     success: false,
                     message: `Invalid status. Must be one of: ${validStatuses.join(', ')}`,
@@ -95,12 +87,10 @@ const adminWithdrawalController = {
                         as: 'user',
                         attributes: ['id', 'email', 'username'],
                     },
-                ],
-                transaction
-            });
+                ]});
 
             if (!withdrawal) {
-                await transaction.rollback();
+                
                 return res.status(404).json({
                     success: false,
                     message: 'Withdrawal not found',
@@ -123,9 +113,6 @@ const adminWithdrawalController = {
                 processed_by: req.user.id, // Track which admin processed this
             };
 
-            if (adminNotes) {
-                updateData.admin_notes = adminNotes;
-            }
 
             // Set completed_at for completed withdrawals
             if (status === 'completed') {
@@ -136,12 +123,12 @@ const adminWithdrawalController = {
             if (status === 'failed' || status === 'rejected') {
                 await User.update(
                     { walletBalance: sequelize.literal(`"walletBalance" + ${withdrawal.amount}`) },
-                    { where: { id: withdrawal.userId }, transaction }
+                    { where: { id: withdrawal.userId }}
                 );
             }
 
-            await withdrawal.update(updateData, { transaction });
-            await transaction.commit();
+            await withdrawal.update(updateData);
+           
 
             // Send notification email (non-blocking)
             try {
@@ -158,7 +145,7 @@ const adminWithdrawalController = {
             });
 
         } catch (error) {
-            await transaction.rollback();
+            
             console.error('Update withdrawal status error:', error);
             return sendErrorResponse(res, 500, 'Failed to update withdrawal status', error);
         }
@@ -167,9 +154,7 @@ const adminWithdrawalController = {
     // Get withdrawal statistics for admin dashboard
     getWithdrawalStats: async (req, res) => {
         try {
-            const validationError = handleValidationErrors(req);
-            if (validationError) return validationError;
-
+            
             const stats = await Withdrawal.findAll({
                 attributes: [
                     'status',
