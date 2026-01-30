@@ -93,8 +93,10 @@ function updatePaymentInstruction(method, amount) {
   instructionElement.innerHTML = `Please send <b>${formatNumber(
     amount,
     decimals
-  )} ${method.toUpperCase()}${network}</b> to the wallet address: <b>${walletAddress}</b>.`;
+  // )} ${method.toUpperCase()}${network}</b> to the wallet address: <b>${walletAddress}</b>.`;
+  )} ${method.toUpperCase()}${network}</b> to the wallet address: <span class="instru-address">${walletAddress}</span>.`;
 }
+
 
 // Update UI elements
 function updateUI({ amount, method }) {
