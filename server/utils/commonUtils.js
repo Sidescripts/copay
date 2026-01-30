@@ -1,15 +1,23 @@
 // utils/common.js
 const { validationResult } = require('express-validator');
 
-function handleValidationErrors(req, res) {
+// Make sure the response object has status method
+function handleValidationErrors(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        errors: errors.array()
-      });
+        // Check if res exists and has status method
+        if (res && typeof res.status === 'function') {
+            return res.status(400).json({
+                success: false,
+                errors: errors.array()
+            });
+        } else {
+            // Fallback if res is not available
+            console.error('Validation errors:', errors.array());
+            return next(new Error('Validation failed'));
+        }
     }
-    
+    next();
 }
 
 // Standard error response

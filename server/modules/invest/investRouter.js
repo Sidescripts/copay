@@ -1,6 +1,5 @@
 const express = require("express");
 const AuthMiddleware = require("../../middlewares/userAuthMiddleware");
-const {investmentValidation}= require("../../middlewares/investmentVal");
 const InvestmentController = require("./investController");
 const AdminInvestmentController = require("../../adminModule/investAdminModule/adminInvestController");
 const router = express.Router();

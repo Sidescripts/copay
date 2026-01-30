@@ -4,18 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const generateTransactionId = require("../../utils/transactionIdUtils");
 const EmailTemplate = require("./depositEmail");
 
-// Utility to handle validation errors
-const handleValidationErrors = (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({
-            success: false,
-            message: 'Validation failed',
-            errors: errors.array(),
-        });
-    }
-    return null;
-};
+
 
 // Standard error response
 const sendErrorResponse = (res, status, message, error) => {
@@ -104,9 +93,7 @@ const userDepositController = {
 
    // Get a specific deposit by ID
    getDeposit: async (req, res) => {
-    const validationError = handleValidationErrors(req);
-    if (validationError) return validationError;
-
+    
     const { id } = req.params;
 
     try {

@@ -652,6 +652,15 @@
         .sidebar:not(.active) {
             animation: slideOut 0.3s ease forwards;
         }
+        
+        @media (min-width: 993px) {
+            .sidebar {
+                transform: translateX(0) !important;
+            }
+            .sidebar.active {
+                transform: translateX(0) !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -706,7 +715,7 @@
                 </header>
 
                 <div class="filter-section">
-                    <h3><i class="fas fa-filter me-2"></i>Filter Investments</h3>
+                    <h3><i class="fas fa-filter"></i>Filter Investments</h3>
                     <div class="filter-row">
                         <div class="filter-group">
                             <label for="statusFilter">Status</label>
@@ -739,7 +748,7 @@
                 </div>
 
                 <div class="form-card">
-                    <h3><i class="fas fa-list me-2"></i>User Investments</h3>
+                    <h3><i class="fas fa-list"></i>User Investments</h3>
                     <div class="table-responsive">
                         <table class="data-table">
                             <thead>
@@ -813,22 +822,6 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="confirmationModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3 id="confirmationTitle">Confirm Action</h3>
-                <button class="modal-close" id="closeConfirmationModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p id="confirmationMessage">Are you sure you want to perform this action?</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" id="cancelAction">Cancel</button>
-                <button class="btn btn-primary" id="confirmAction">Confirm</button>
-            </div>
-        </div>
-    </div>
-
     <div class="modal-overlay" id="messageModal">
         <div class="modal">
             <div class="modal-header">
@@ -868,35 +861,18 @@
             const cancelPayout = document.getElementById('cancelPayout');
             const confirmPayout = document.getElementById('confirmPayout');
             const payoutInvestmentDetails = document.getElementById('payoutInvestmentDetails');
-            const confirmationModal = document.getElementById('confirmationModal');
-            const closeConfirmationModal = document.getElementById('closeConfirmationModal');
-            const cancelAction = document.getElementById('cancelAction');
-            const confirmActionBtn = document.getElementById('confirmAction');
-            const confirmationTitle = document.getElementById('confirmationTitle');
-            const confirmationMessage = document.getElementById('confirmationMessage');
             const messageModal = document.getElementById('messageModal');
             const closeMessageModal = document.getElementById('closeMessageModal');
             const closeMessage = document.getElementById('closeMessage');
             const messageTitle = document.getElementById('messageTitle');
             const messageText = document.getElementById('messageText');
 
-            // Debug: Check if menu elements are found
-            if (!menuToggle || !sidebar || !sidebarOverlay) {
-                console.error('Menu elements not found:', {
-                    menuToggle: !!menuToggle,
-                    sidebar: !!sidebar,
-                    sidebarOverlay: !!sidebarOverlay
-                });
-                return;
-            }
-
             // Global variables
-            const API_BASE_URL = 'http://localhost:2000/api/v1/admin';
+            const API_BASE_URL = '/api/v1/admin';
             let currentPage = 1;
             let totalPages = 1;
             let currentFilters = {};
             let currentInvestmentId = null;
-            let currentAction = null;
             let allInvestments = []; // Store all investments for easy access
 
             // Initialize
@@ -907,7 +883,6 @@
                 const isActive = sidebar.classList.toggle('active');
                 sidebarOverlay.classList.toggle('active', isActive);
                 document.body.style.overflow = isActive ? 'hidden' : '';
-                console.log('Sidebar toggled:', isActive);
             }
 
             // Menu toggle event
@@ -918,7 +893,6 @@
                 sidebar.classList.remove('active');
                 sidebarOverlay.classList.remove('active');
                 document.body.style.overflow = '';
-                console.log('Overlay clicked, sidebar closed');
             });
 
             // Prevent sidebar links from closing the sidebar
@@ -968,8 +942,6 @@
             closeDetails.addEventListener('click', closeDetailsModalFunc);
             closePayoutModal.addEventListener('click', closePayoutModalFunc);
             cancelPayout.addEventListener('click', closePayoutModalFunc);
-            closeConfirmationModal.addEventListener('click', closeConfirmationModalFunc);
-            cancelAction.addEventListener('click', closeConfirmationModalFunc);
             closeMessageModal.addEventListener('click', closeMessageModalFunc);
             closeMessage.addEventListener('click', closeMessageModalFunc);
 
@@ -1002,7 +974,7 @@
                         }
                     });
 
-                    if (response.status === 401) {
+                    if (response.status == 401) {
                         setTimeout(() => {
                             window.location.href = "../index.html";
                         }, 2000);
@@ -1020,7 +992,13 @@
                 } catch (error) {
                     console.error('Error fetching investments:', error);
                     showMessage('Error', 'Failed to load investments: ' + error.message);
-                    renderSampleData();
+                    investmentsTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="9" style="text-align: center; padding: 20px;">
+                                No investments found matching your criteria.
+                            </td>
+                        </tr>
+                    `;
                 } finally {
                     showLoader(false);
                 }
@@ -1057,9 +1035,9 @@
                             ${investment.user ? investment.user.username : 'N/A'}
                             ${investment.user ? `<br><small>${investment.user.email}</small>` : ''}
                         </td>
-                        <td data-label="Plan">${investment.planName || 'N/A'}</td>
+                        <td data-label="Plan">${investment.planName || investment.plan?.name || 'N/A'}</td>
                         <td data-label="Amount">$${investment.amount ? Number(investment.amount).toFixed(2) : '0.00'}</td>
-                        <td data-label="Expected ROI">$${investment.expected_roi ?Number(investment.expected_roi).toFixed(2) : '0.00'}</td>
+                        <td data-label="Expected ROI">$${investment.expected_roi ? Number(investment.expected_roi).toFixed(2) : '0.00'}</td>
                         <td data-label="Start Date">${investment.start_date ? new Date(investment.start_date).toLocaleDateString() : 'N/A'}</td>
                         <td data-label="End Date">${investment.end_date ? new Date(investment.end_date).toLocaleDateString() : 'N/A'}</td>
                         <td data-label="Status">
@@ -1094,39 +1072,6 @@
                     case 'cancelled': return 'rejected';
                     default: return 'pending';
                 }
-            }
-
-            // Render sample data for development
-            function renderSampleData() {
-                const sampleData = {
-                    investments: [
-                        {
-                            id: 1,
-                            amount: 1000,
-                            expected_roi: 150,
-                            status: 'active',
-                            start_date: new Date(),
-                            end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-                            user: { username: 'john_doe', email: 'john@example.com' },
-                            plan: { name: 'Starter Plan' }
-                        },
-                        {
-                            id: 2,
-                            amount: 5000,
-                            expected_roi: 750,
-                            status: 'completed',
-                            start_date: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000),
-                            end_date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-                            user: { username: 'jane_smith', email: 'jane@example.com' },
-                            plan: { name: 'Premium Plan' }
-                        }
-                    ],
-                    total: 2,
-                    totalPages: 1,
-                    currentPage: 1
-                };
-
-                renderInvestmentsTable(sampleData);
             }
 
             // Attach event listeners to investment action buttons
@@ -1182,7 +1127,7 @@
                                 </div>
                                 <div class="detail-item">
                                     <span class="detail-label">Plan:</span>
-                                    <span class="detail-value">${investment.planName || investment.investmentPlan?.name || 'N/A'}</span>
+                                    <span class="detail-value">${investment.planName || investment.plan?.name || investment.investmentPlan?.name || 'N/A'}</span>
                                 </div>
                                 <div class="detail-item">
                                     <span class="detail-label">Investment Amount:</span>
@@ -1269,7 +1214,7 @@
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">Plan:</span>
-                                <span class="detail-value">${investment.planName || investment.investmentPlan?.name || 'N/A'}</span>
+                                <span class="detail-value">${investment.planName || investment.plan?.name || investment.investmentPlan?.name || 'N/A'}</span>
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">Investment Amount:</span>
@@ -1303,138 +1248,79 @@
             }
 
             // Process ROI payout
-            // async function processROIPayout() {
-            //     try {
-            //         showLoader(true);
-            //         const token = localStorage.getItem('token');
-            //         if (!token) {
-            //             showMessage('Error', 'Authentication token not found. Please login again.');
-            //             return;
-            //         }
-
-            //         // Find the investment to get the payout amount
-            //         const investment = allInvestments.find(inv => inv.id == currentInvestmentId);
-            //         if (!investment) {
-            //             throw new Error('Investment not found');
-            //         }
-
-            //         const payoutAmount = investment.expected_roi || 0;
-
-            //         const response = await fetch(`/api/v1/admin/investment/update/${currentInvestmentId}`, {
-            //             method: 'PATCH',
-            //             headers: {
-            //                 'Content-Type': 'application/json',
-            //                 'Authorization': `Bearer ${token}`
-            //             },
-            //             body: JSON.stringify({
-            //                 amount: payoutAmount
-            //             })
-            //         });
-
-            //         if (response.status === 401) {
-            //             setTimeout(() => {
-            //                 window.location.href = "../index.html";
-            //             }, 2000);
-            //             throw new Error('Session expired. Please login again.');
-            //         }
-
-            //         if (!response.ok) {
-            //             const errorData = await response.json().catch(() => ({}));
-            //             // showMessage('Error',  errorData.error);
-            //             // console.log(errorData)
-            //             alert(errorData.error)
-            //             // throw new Error(errorData.error || `Failed to process ROI payout: ${response.status}`);
-            //         }
-
-            //         const result = await response.json();
-            //         closePayoutModalFunc();
-            //         showMessage('Success', result.message || 'ROI payout processed successfully!');
-                    
-            //         // Refresh the investments list
-            //         fetchInvestments();
-
-            //     } catch (error) {
-            //         console.error('Error processing ROI payout:', error);
-            //         showMessage('Error', 'Failed to process ROI payout: ' + error.message);
-            //     } finally {
-            //         showLoader(false);
-            //     }
-            // }
-
             async function processROIPayout() {
-    try {
-        showLoader(true);
-        const token = localStorage.getItem('token');
-        if (!token) {
-            showMessage('Error', 'Authentication token not found. Please login again.');
-            return;
-        }
+                try {
+                    showLoader(true);
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                        showMessage('Error', 'Authentication token not found. Please login again.');
+                        return;
+                    }
 
-        // Find the investment to get the payout amount
-        const investment = allInvestments.find(inv => inv.id == currentInvestmentId);
-        if (!investment) {
-            throw new Error('Investment not found');
-        }
+                    // Find the investment to get the payout amount
+                    const investment = allInvestments.find(inv => inv.id == currentInvestmentId);
+                    if (!investment) {
+                        throw new Error('Investment not found');
+                    }
 
-        const payoutAmount = investment.expected_roi || 0;
+                    const payoutAmount = investment.expected_roi || 0;
 
-        const response = await fetch(`/api/v1/admin/investment/update/${currentInvestmentId}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                amount: payoutAmount
-            })
-        });
+                    const response = await fetch(`${API_BASE_URL}/investment/update/${currentInvestmentId}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            amount: payoutAmount
+                        })
+                    });
 
-        // First check for authentication errors
-        if (response.status === 401) {
-            setTimeout(() => {
-                window.location.href = "../index.html";
-            }, 2000);
-            throw new Error('Session expired. Please login again.');
-        }
+                    // First check for authentication errors
+                    if (response.status == 401) {
+                        setTimeout(() => {
+                            window.location.href = "../index.html";
+                        }, 2000);
+                        throw new Error('Session expired. Please login again.');
+                    }
 
-        // Read the response once and store it
-        const responseText = await response.text();
-        let result;
-        
-        try {
-            // Try to parse the response as JSON
-            result = JSON.parse(responseText);
-        } catch (e) {
-            // If it's not JSON, create a result object from the text
-            result = { 
-                message: responseText,
-                error: responseText
-            };
-        }
+                    // Read the response once and store it
+                    const responseText = await response.text();
+                    let result;
+                    
+                    try {
+                        // Try to parse the response as JSON
+                        result = JSON.parse(responseText);
+                    } catch (e) {
+                        // If it's not JSON, create a result object from the text
+                        result = { 
+                            message: responseText,
+                            error: responseText
+                        };
+                    }
 
-        // Check if the response was successful
-        if (!response.ok) {
-            // Show error message from server or generic error
-            const errorMessage = result.error || result.message || `Failed to process ROI payout: ${response.status}`;
-            // alert(errorMessage);
-            showMessage('Error' , errorMessage)
-            return; // Exit the function after showing error
-        }
+                    // Check if the response was successful
+                    if (!response.ok) {
+                        // Show error message from server or generic error
+                        const errorMessage = result.error || result.message || `Failed to process ROI payout: ${response.status}`;
+                        showMessage('Error', errorMessage);
+                        return; // Exit the function after showing error
+                    }
 
-        // If we get here, the request was successful
-        closePayoutModalFunc();
-        showMessage('Success', result.message || 'ROI payout processed successfully!');
-        
-        // Refresh the investments list
-        fetchInvestments();
+                    // If we get here, the request was successful
+                    closePayoutModalFunc();
+                    showMessage('Success', result.message || 'ROI payout processed successfully!');
+                    
+                    // Refresh the investments list
+                    fetchInvestments();
 
-    } catch (error) {
-        console.error('Error processing ROI payout:', error);
-        showMessage('Error', 'Failed to process ROI payout: ' + error.message);
-    } finally {
-        showLoader(false);
-    }
-}
+                } catch (error) {
+                    console.error('Error processing ROI payout:', error);
+                    showMessage('Error', 'Failed to process ROI payout: ' + error.message);
+                } finally {
+                    showLoader(false);
+                }
+            }
 
             // Close modals
             function closeDetailsModalFunc() {
@@ -1444,11 +1330,6 @@
             function closePayoutModalFunc() {
                 roiPayoutModal.classList.remove('active');
                 currentInvestmentId = null;
-            }
-
-            function closeConfirmationModalFunc() {
-                confirmationModal.classList.remove('active');
-                currentAction = null;
             }
 
             function closeMessageModalFunc() {
@@ -1463,9 +1344,7 @@
             }
 
             // Show/hide loader
-            function showLoader(show) {
-                console.log(show ? 'Loading...' : 'Loading complete');
-            }
+            function showLoader(show) {}
         });
     </script>
 </body>

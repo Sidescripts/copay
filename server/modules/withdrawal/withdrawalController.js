@@ -1,27 +1,18 @@
 const { Withdrawal, sequelize, User } = require('../../model');
-const { handleValidationErrors, sendErrorResponse,generateTransactionId } = require('../../utils/commonUtils');
+const { sendErrorResponse } = require('../../utils/commonUtils');
 const { v4: uuidv4 } = require('uuid');
 const EmailTemplate = require("./withdrawalEmail");
-const { Op, } = require('sequelize');
+const { Op } = require('sequelize');
 const { validationResult } = require('express-validator');
 
 const userWithdrawalController = {
     // Create a new withdrawal
     createWithdrawal: async (req, res) => {
-        // Start transaction early to maintain data consistency
-        // const transaction = await sequelize.transaction();
         
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(400).json({ errors: errors.array() });
-            }
-
-            // // Input validation
-            const validationError = handleValidationErrors(req);
-            if (validationError) {
-                
-                return validationError;
             }
     
             const { amount, withdrawalMethod, walletAddress } = req.body;
@@ -64,47 +55,32 @@ const userWithdrawalController = {
                 });
             }
             
-            const { isVerified, walletBalance, totalRevenue, email, totalWithdrawal } = user;
+            const {walletBalance,email, totalWithdrawal } = user;
     
             // Business rule validation
-            if (amount < 2000) {
+            if (amount < 1000) {
                 // await transaction.rollback();
-                console.log("type shit amount")
+                
                 return res.status(400).json({
                     success: false,
                     
-                    error: "Minimum withdrawal is $2,000"
+                    error: "Minimum withdrawal is $1,000"
                 });
             }
             
             if (amount > walletBalance) {
-                // await transaction.rollback();
-                console.log("type shit balance")
+                
+                
                 return res.status(400).json({
                     success: false,
                     error: "Insufficient wallet balance"
                 });
             }
     
-            if (!isVerified) {
-                // await transaction.rollback();
-                return res.status(400).json({
-                    success: false,
-                    error: "Withdrawal cannot be processed now. Please contact support to verify your account"
-                });
-            }
-    
-            if (totalRevenue < 3000) {
-                // await transaction.rollback();
-                return res.status(400).json({
-                    success: false,
-                    error: "Total revenue should be more than $3,000 before your withdrawal can be processed"
-                });
-            }
             const now = new Date();
             const timestamp = now.toISOString().replace(/[-:T.]/g, '').slice(0, 14); // YYYYMMDDHHMMSS
             const random = Math.floor(10000 + Math.random() * 90000); // 5-digit random    
-            console.log(`txn_${timestamp}${random}`)
+            // console.log(`txn_${timestamp}${random}`)
             
             // Create withdrawal record
             const withdrawal = await Withdrawal.create({
@@ -132,9 +108,8 @@ const userWithdrawalController = {
             // Send notification email
             try {
                 await EmailTemplate.withdrawalEmail({
-                    email: email,
+                    email: user.email,
                     amount: withdrawal.amount,
-                    asset: withdrawal.asset,
                     transactionId: withdrawal.transaction_id,
                     status: withdrawal.status
                 });
@@ -143,9 +118,6 @@ const userWithdrawalController = {
                 console.error("Failed to send withdrawal email:", emailError);
             }
     
-            // Commit transaction
-            // await transaction.commit();
-            console.log(withdrawal)
             return res.status(201).json({
                 success: true,
                 message: 'Withdrawal created successfully',
@@ -154,21 +126,17 @@ const userWithdrawalController = {
         } catch (error) {
             
             
-            // Log the error for debugging
             console.error("Withdrawal creation error:", error);
             
-            return sendErrorResponse(res, 500, 'Failed to create withdrawal', error);
+            return sendErrorResponse(res, 500, 'Failed to create withdrawal', error.message);
         }
     },
 
     // Get all withdrawals for a specific user
     getUserWithdrawals: async (req, res) => {
-        // const validationError = handleValidationErrors(req);
-        // if (validationError) return validationError;
-
-        // const { id } = req.user.id;
+        
         const userId = req.user.id;
-        console.log(userId);
+        
         try {
             const withdrawals = await Withdrawal.findAll({
                 where: { userId },
@@ -198,9 +166,7 @@ const userWithdrawalController = {
 
     // Get a specific withdrawal by ID
     getWithdrawal: async (req, res) => {
-        const validationError = handleValidationErrors(req);
-        if (validationError) return validationError;
-
+        
         const { id } = req.params;
 
         try {

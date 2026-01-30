@@ -1,6 +1,7 @@
-const { Investment, User } = require('../../model');
+const { Investment, User} = require('../../model');
 const { Op } = require('sequelize');
 const logger = require('../../utils/logger');
+
 
 function ROIService() {
   return {
@@ -21,7 +22,7 @@ function ROIService() {
           include: [{
             model: User,
             as: 'user',
-            attributes: ['id', 'walletBalance', 'revenue', 'username']
+            attributes: ['id', 'walletBalance', 'username']
           }]
         });
 
@@ -35,23 +36,12 @@ function ROIService() {
           try {
             const startDate = new Date(investment.start_date);
             const endDate = new Date(investment.end_date);
-
-            // Validate dates
-            if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-              throw new Error(`Invalid start_date or end_date for investment ${investment.id}`);
-            }
-
             const durationDays = Math.ceil((endDate - startDate) / ONE_DAY_MS);
             const dailyRoi = parseFloat(investment.expected_roi) / durationDays;
             const currentBalanceNum = parseFloat(investment.user.walletBalance) || 0;
-            const currentRevenueNum = parseFloat(investment.user.revenue) || 0;
 
             // Determine last payout date (repurposing payout_date as last_daily_payout_date; null means start_date)
             let lastPayoutDate = investment.payout_date ? new Date(investment.payout_date) : new Date(startDate);
-            if (isNaN(lastPayoutDate.getTime())) {
-              lastPayoutDate = new Date(startDate);
-            }
-
             const todayStart = new Date(now);
             todayStart.setHours(0, 0, 0, 0); // Start of today
 
@@ -62,46 +52,36 @@ function ROIService() {
               startDay.setHours(0, 0, 0, 0);
               const daysElapsed = Math.floor((todayStart - startDay) / ONE_DAY_MS) + 1;
 
-              // Create a new Date object for endDate to avoid modifying the original
-              const endDateStartOfDay = new Date(endDate);
-              endDateStartOfDay.setHours(0, 0, 0, 0);
-              
-              // Check if today is the last day or beyond
-              let isLastDay = (todayStart.getTime() >= endDateStartOfDay.getTime());
+              // Add daily ROI (or remaining on last day)
+              let amountToAdd = dailyRoi;
+              let isLastDay = (todayStart.getTime() >= endDate.setHours(0, 0, 0, 0).getTime());
 
-              let amountToAdd;
               if (isLastDay) {
                 // On last day, ensure full remaining is paid
                 const totalDue = parseFloat(investment.expected_roi);
                 const alreadyPaid = dailyRoi * (daysElapsed - 1); // Approximate, but since we pay daily, should be exact
                 amountToAdd = totalDue - alreadyPaid;
                 amountToAdd = Math.max(amountToAdd, dailyRoi); // At least daily
-              } else {
-                amountToAdd = dailyRoi;
               }
 
               const roiAmountNum = parseFloat(amountToAdd) || 0;
               const newBalanceNum = currentBalanceNum + roiAmountNum;
-              const newRevenueNum = currentRevenueNum + roiAmountNum;
+              const newBalance = newBalanceNum.toFixed(8);
 
               logger.info(`Balance calculation debug:`, {
                 investmentId: investment.id,
                 userId: investment.userId,
                 currentBalance: investment.user.walletBalance,
-                currentRevenue: investment.user.revenue,
                 roiAmount: amountToAdd,
-                calculatedNewBalance: newBalanceNum,
-                calculatedNewRevenue: newRevenueNum,
+                calculatedNewBalance: newBalance,
+                newBalanceType: typeof newBalance,
                 daysElapsed,
                 isLastDay
               });
 
-              // Update both walletBalance and revenue
-              await User.increment(
-                { 
-                  walletBalance: roiAmountNum,
-                  revenue: roiAmountNum
-                },
+              // Update user's wallet balance
+              await User.update(
+                { walletBalance: newBalance },
                 { where: { id: investment.user.id } }
               );
 
@@ -140,7 +120,7 @@ function ROIService() {
           }
         }
 
-        // Handle overdue completions (investments that ended but not marked)
+        // Also handle any overdue completions (investments that ended but not marked)
         const overdueInvestments = await Investment.findAll({
           where: {
             status: 'active',
@@ -150,34 +130,30 @@ function ROIService() {
           include: [{
             model: User,
             as: 'user',
-            attributes: ['id', 'walletBalance', 'revenue', 'username']
+            attributes: ['id', 'walletBalance', 'username']
           }]
         });
 
         for (const investment of overdueInvestments) {
           try {
-            const endDate = new Date(investment.end_date);
-            if (isNaN(endDate.getTime())) {
-              throw new Error(`Invalid end_date for overdue investment ${investment.id}`);
-            }
-
             const roiAmount = investment.expected_roi;
+            const currentBalanceNum = parseFloat(investment.user.walletBalance) || 0;
             const roiAmountNum = parseFloat(roiAmount) || 0;
+            const newBalanceNum = currentBalanceNum + roiAmountNum;
+            const newBalance = newBalanceNum.toFixed(8);
 
             logger.info(`Balance calculation debug (overdue):`, {
               investmentId: investment.id,
               userId: investment.userId,
               currentBalance: investment.user.walletBalance,
-              currentRevenue: investment.user.revenue,
-              roiAmount: roiAmount
+              roiAmount: roiAmount,
+              calculatedNewBalance: newBalance,
+              newBalanceType: typeof newBalance
             });
 
-            // Update both walletBalance and revenue for overdue investment
-            await User.increment(
-              { 
-                walletBalance: roiAmountNum,
-                revenue: roiAmountNum
-              },
+            // Update user's wallet balance (pay full remaining)
+            await User.update(
+              { walletBalance: newBalance },
               { where: { id: investment.user.id } }
             );
 
@@ -212,6 +188,8 @@ function ROIService() {
         return result;
       }
     },
+    
+    
   };
 }
 

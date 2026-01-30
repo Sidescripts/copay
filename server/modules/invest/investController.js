@@ -2,6 +2,7 @@ const { Investment, InvestmentPlan, User } = require('../../model');
 const { validationResult } = require('express-validator');
 const { v4: uuidv4 } = require('uuid');
 const EmailTemplate = require("./investEmail");
+// const { where } = require('sequelize');
 
 function InvestmentController() {
   return {
@@ -22,23 +23,11 @@ function InvestmentController() {
           }
   
           const { paymentMethod, amount,  name, id} = req.body;
+        
           const userId = req.user.id;
+        //   console.log(req.body)
           const plan = await InvestmentPlan.findOne({ where: { id} })
           
-          // Check for existing active investment
-        const existingInvestment = await Investment.findOne({
-            where: {
-                userId: userId,
-                status: 'active'
-            }
-        });
-
-        if (existingInvestment) {
-            return res.status(400).json({
-                success: false,
-                error: 'User already has an active investment'
-            });
-        }
         
         if(!plan){
             return res.status(404).json({success: false, error: 'No invesment plan now'})
@@ -46,7 +35,7 @@ function InvestmentController() {
         }
           
           // Validate required fields
-          if (!amount || !name || !id) {
+          if (!amount || !paymentMethod || !name || !id) {
               
               return res.status(400).json({
                   success: false,
@@ -105,8 +94,7 @@ function InvestmentController() {
                 'email',
                 'btcBal',
                 'ethBal',
-                'usdtBal',
-                'revenue'
+                'usdtBal'
             ],
           });
           
@@ -125,11 +113,6 @@ function InvestmentController() {
                   error: 'Insufficient balance' 
               });
           }
-
-          await User.update(
-                  { revenue: 0.0 },
-                  { where: { id: userId } }
-          );
   
           // Calculate expected ROI
           const expectedROI = (amount * plan.roi_percentage);
@@ -153,23 +136,23 @@ function InvestmentController() {
 
           // Update user wallet balance and total revenue
 switch (paymentMethod) {
-    case 'btc':
+    case 'bitcoin':
       await User.update({
-        
+        // btcBal: user.btcBal - amount,
         walletBalance: user.walletBalance - amount,
         totalRevenue: user.totalRevenue + amount
       }, { where: { id: userId } });
       break;
-    case 'eth':
+    case 'ethereum':
       await User.update({
-        
+        // ethBal: user.ethBal - amount,
         walletBalance: user.walletBalance - amount,
         totalRevenue: user.totalRevenue + amount
       }, { where: { id: userId } });
       break;
     case 'usdt':
       await User.update({
-        
+        // usdtBal: user.usdtBal - amount,
         walletBalance: user.walletBalance - amount,
         totalRevenue: user.totalRevenue + amount
       }, { where: { id: userId } });
