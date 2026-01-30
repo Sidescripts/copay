@@ -48,7 +48,7 @@ function EmailTemplate(){
                         <p>Your investment has been successfully activated and is now earning returns.</p>
                         
                         <div style="text-align: center; margin: 30px 0;">
-                            <div class="amount">${amount} USDT</div>
+                            <div class="amount">${Number(amount).toFixed(3)} USD</div>
                             <p>invested in <strong>${planName}</strong></p>
                         </div>
                 
@@ -64,7 +64,7 @@ function EmailTemplate(){
                             </div>
                             <div class="detail-row">
                                 <span>Investment Amount:</span>
-                                <span><strong>${amount} USDT</strong></span>
+                                <span><strong>${Number(amount).toFixed(3)} USD</strong></span>
                             </div>
                             <div class="detail-row">
                                 <span>Duration:</span>

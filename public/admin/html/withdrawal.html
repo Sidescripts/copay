@@ -11,15 +11,6 @@
     <link rel="stylesheet" href="../css/global.css">
     <style>
         /* Existing CSS styles retained with minor additions */
-        .btn-edit {
-            background: #F6BB42;
-            color: white;
-        }
-
-        .btn-edit:hover {
-            background: #e8ae39;
-        }
-
         .action-buttons {
             display: flex;
             gap: 8px;
@@ -89,87 +80,6 @@
             padding: 20px;
         }
 
-        .balance-form {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 10px;
-        }
-
-        .form-control {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid #eaeaea;
-            border-radius: 8px;
-            font-family: "Poppins", sans-serif;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .btn-success {
-            background: #27ae60;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .btn-success:hover {
-            background: #219653;
-        }
-
-        .btn-danger {
-            background: #e74c3c;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .btn-danger:hover {
-            background: #c0392b;
-        }
-
-        .transaction-info {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eaeaea;
-        }
-
-        .info-item:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-
-        .info-label {
-            font-weight: 500;
-            color: #444;
-        }
-
-        .info-value {
-            color: #666;
-        }
-
         @media (max-width: 992px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -195,10 +105,6 @@
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 15px;
-            }
-
-            .form-row {
-                flex-direction: column;
             }
         }
 
@@ -256,13 +162,6 @@
             color: #ccc;
         }
 
-        .validation-error {
-            color: #e74c3c;
-            font-size: 12px;
-            margin-top: 5px;
-            display: none;
-        }
-
         .badge-rejected {
             background: #e74c3c;
             color: white;
@@ -299,11 +198,11 @@
                     <li class="nav-item active" data-page="withdrawals">
                         <a href="./withdrawal.html"><i class="fas fa-wallet"></i> Withdrawals</a>
                     </li>
-                    <li class="nav-item" data-page="investments">
+                    <li class="nav-item" data-page="plans">
                         <a href="./plans.html"><i class="fas fa-chart-pie"></i> Investment Plans</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="./investment.html"><i class="fas fa-chart-pie"></i> Investments</a>
+                    <li class="nav-item" data-page="investments">
+                        <a href="./investment.html"><i class="fas fa-coins"></i> Investments</a>
                     </li>
                     <li class="nav-item" data-page="settings">
                         <a href="./settings.html"><i class="fas fa-cog"></i> Settings</a>
@@ -392,58 +291,6 @@
         </main>
     </div>
 
-    <!-- Edit Withdrawal Modal -->
-    <div id="editWithdrawalModal" class="modal-wrapper">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Adjust User Balance</h2>
-                <button class="modal-close" id="closeWithdrawalModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="transaction-info">
-                    <div class="info-item">
-                        <span class="info-label">Transaction ID:</span>
-                        <span class="info-value" id="withdrawalTransactionId"></span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">User:</span>
-                        <span class="info-value" id="withdrawalUser"></span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Withdrawal Amount:</span>
-                        <span class="info-value" id="withdrawalAmount"></span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Withdrawal Method:</span>
-                        <span class="info-value" id="withdrawalMethod"></span>
-                    </div>
-                </div>
-
-                <form id="addBalanceForm" class="balance-form">
-                    <div class="form-row">
-                        <input type="number" name="addBalance" min="0.01" step="0.01" placeholder="Amount to Add" class="form-control"
-                            required>
-                        <div class="validation-error" id="addBalanceError">Please enter a valid amount (minimum 0.01)</div>
-                        <button class="btn btn-success" type="submit">
-                            <i class="fas fa-plus"></i> Add
-                        </button>
-                    </div>
-                </form>
-
-                <form id="subtractBalanceForm" class="balance-form">
-                    <div class="form-row">
-                        <input type="number" name="subtractBalance" min="0.01" step="0.01" placeholder="Amount to Subtract"
-                            class="form-control" required>
-                        <div class="validation-error" id="subtractBalanceError">Please enter a valid amount (minimum 0.01)</div>
-                        <button class="btn btn-danger" type="submit">
-                            <i class="fas fa-minus"></i> Subtract
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <!-- Confirmation Modal -->
     <div id="confirmationModal" class="modal-wrapper message-modal">
         <div class="modal-content">
@@ -480,8 +327,333 @@
             </div>
         </div>
     </div>
- <script src="../js/adminAuthCheck.js"></script>
-<script src="../js/withdrawal.js"></script>
-</body>
 
+    <script src="../js/adminAuthCheck.js"></script>
+    <script>
+        // API Configuration
+        const API_BASE_URL = '/api/v1';
+        let currentAction = null;
+
+        // DOM Elements
+        const pendingWithdrawalsBody = document.getElementById('pending-withdrawals-body');
+        const processedWithdrawalsBody = document.getElementById('processed-withdrawals-body');
+        const pendingSpinner = document.getElementById('pending-spinner');
+        const processedSpinner = document.getElementById('processed-spinner');
+        const pendingEmpty = document.getElementById('pending-empty');
+        const processedEmpty = document.getElementById('processed-empty');
+        const pendingCount = document.getElementById('pending-count');
+        const processedCount = document.getElementById('processed-count');
+
+        // Get auth token
+        const authToken = localStorage.getItem('token');
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            loadWithdrawalData();
+            setInterval(loadWithdrawalData, 30000);
+        });
+
+        // Setup all event listeners
+        function setupEventListeners() {
+            // Mobile sidebar toggle
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            if (menuToggle && sidebar && sidebarOverlay) {
+                menuToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
+                });
+
+                sidebarOverlay.addEventListener('click', () => {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                });
+            }
+
+            // Tab switching
+            const tabLinks = document.querySelectorAll('.nav-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const tabId = link.getAttribute('data-tab');
+                    
+                    tabLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === tabId) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+
+            // Message Modal
+            const messageModal = document.getElementById('messageModal');
+            const closeMessageModal = document.getElementById('closeMessageModal');
+            const confirmMessage = document.getElementById('confirmMessage');
+
+            function closeMessageModalFunc() {
+                messageModal.classList.remove('active');
+            }
+
+            if (closeMessageModal) closeMessageModal.addEventListener('click', closeMessageModalFunc);
+            if (confirmMessage) confirmMessage.addEventListener('click', closeMessageModalFunc);
+
+            if (messageModal) {
+                messageModal.addEventListener('click', (e) => {
+                    if (e.target === messageModal) closeMessageModalFunc();
+                });
+            }
+
+            // Confirmation Modal
+            const confirmationModal = document.getElementById('confirmationModal');
+            const closeConfirmationModal = document.getElementById('closeConfirmationModal');
+            const cancelAction = document.getElementById('cancelAction');
+            const confirmAction = document.getElementById('confirmAction');
+
+            function closeConfirmationModalFunc() {
+                confirmationModal.classList.remove('active');
+                currentAction = null;
+            }
+
+            if (closeConfirmationModal) closeConfirmationModal.addEventListener('click', closeConfirmationModalFunc);
+            if (cancelAction) cancelAction.addEventListener('click', closeConfirmationModalFunc);
+
+            if (confirmAction) {
+                confirmAction.addEventListener('click', () => {
+                    console.log('Confirm button clicked');
+                    if (currentAction) {
+                        console.log('Executing currentAction');
+                        currentAction();
+                    } else {
+                        console.log('No currentAction set');
+                    }
+                    closeConfirmationModalFunc();
+                });
+            }
+
+            if (confirmationModal) {
+                confirmationModal.addEventListener('click', (e) => {
+                    if (e.target === confirmationModal) closeConfirmationModalFunc();
+                });
+            }
+        }
+
+        // Show confirmation modal
+        function showConfirmation(title, message, action) {
+            console.log('showConfirmation called, setting currentAction');
+            const confirmationModal = document.getElementById('confirmationModal');
+            const confirmationTitle = document.getElementById('confirmationTitle');
+            const confirmationText = document.getElementById('confirmationText');
+            
+            confirmationTitle.textContent = title;
+            confirmationText.textContent = message;
+            currentAction = action;
+            
+            confirmationModal.classList.add('active');
+        }
+
+        // Show message modal
+        function showMessage(title, message, isSuccess = true) {
+            const messageModal = document.getElementById('messageModal');
+            const messageTitle = document.getElementById('messageTitle');
+            const messageText = document.getElementById('messageText');
+            const messageIcon = document.getElementById('messageIcon');
+            
+            messageTitle.textContent = title;
+            messageText.textContent = message;
+            
+            messageIcon.innerHTML = isSuccess
+                ? '<i class="fas fa-check-circle success-icon"></i>'
+                : '<i class="fas fa-exclamation-circle error-icon"></i>';
+            
+            messageModal.classList.add('active');
+        }
+
+        // Load withdrawal data from API
+        async function loadWithdrawalData() {
+            try {
+                pendingSpinner.style.display = 'block';
+                processedSpinner.style.display = 'block';
+                pendingEmpty.style.display = 'none';
+                processedEmpty.style.display = 'none';
+
+                const response = await fetch(`${API_BASE_URL}/admin/withdrawal`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.status === 401) {
+                    setTimeout(() => {
+                        window.location.href = "../index.html"
+                    }, 2000);
+                    throw new Error(`Session expired. Login again: ${response.status}`);
+                }
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log(data);
+                const allWithdrawals = data.success && data.data && Array.isArray(data.data.withdrawals) ? data.data.withdrawals : [];
+                
+                // Separate pending and processed withdrawals
+                const pendingWithdrawals = allWithdrawals.filter(w => w.status === 'pending');
+                const processedWithdrawals = allWithdrawals.filter(w => w.status !== 'pending');
+                
+                // Update counts
+                pendingCount.textContent = pendingWithdrawals.length;
+                processedCount.textContent = processedWithdrawals.length;
+                
+                // Render tables
+                renderWithdrawalTable(pendingWithdrawals, pendingWithdrawalsBody, pendingSpinner, pendingEmpty, true);
+                renderWithdrawalTable(processedWithdrawals, processedWithdrawalsBody, processedSpinner, processedEmpty, false);
+            } catch (error) {
+                console.error('Error loading withdrawal data:', error);
+                showMessage('Error', `Failed to load withdrawal data: ${error.message}`, false);
+                pendingSpinner.style.display = 'none';
+                processedSpinner.style.display = 'none';
+                pendingEmpty.style.display = 'block';
+                processedEmpty.style.display = 'block';
+            }
+        }
+
+        // Render withdrawal table
+        function renderWithdrawalTable(withdrawals, tableBody, spinner, emptyMsg, showActions) {
+            spinner.style.display = 'none';
+            
+            if (!withdrawals || withdrawals.length === 0) {
+                emptyMsg.style.display = 'block';
+                tableBody.innerHTML = '';
+                return;
+            }
+            
+            emptyMsg.style.display = 'none';
+            tableBody.innerHTML = '';
+            
+            withdrawals.forEach(withdrawal => {
+                const row = document.createElement('tr');
+                const requestDate = new Date(withdrawal.createdAt).toLocaleString();
+                
+                row.innerHTML = `
+                    <td>${withdrawal.transaction_id || 'N/A'}</td>
+                    <td>${withdrawal.user?.username || 'Unknown User'}</td>
+                    <td>$${parseFloat(withdrawal.amount || 0).toFixed(2)}</td>
+                    <td>${withdrawal.withdrawalMethod || 'N/A'}</td>
+                    <td>${requestDate}</td>
+                    ${showActions ? `
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-primary approve-btn" 
+                                data-id="${withdrawal.id}">Approve</button>
+                            <button class="btn btn-sm btn-danger reject-btn" 
+                                data-id="${withdrawal.id}">Reject</button>
+                        </div>
+                    </td>
+                    ` : `
+                    <td><span class="badge badge-${withdrawal.status || 'pending'}">${withdrawal.status || 'N/A'}</span></td>
+                    `}
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            if (showActions) {
+                tableBody.querySelectorAll('.approve-btn').forEach(button => {
+                    button.addEventListener('click', () => {
+                        console.log("metu")
+                        const withdrawalId = button.getAttribute('data-id');
+                        showConfirmation('Approve Withdrawal', `Are you sure you want to approve this withdrawal?`, 
+                            () => approveWithdrawal(withdrawalId));
+                    });
+                });
+                
+                tableBody.querySelectorAll('.reject-btn').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const withdrawalId = button.getAttribute('data-id');
+                        showConfirmation('Reject Withdrawal', `Are you sure you want to reject this withdrawal?`, 
+                            () => rejectWithdrawal(withdrawalId));
+                    });
+                });
+            }
+        }
+
+        // Update withdrawal status - Approve
+        async function approveWithdrawal(withdrawalId) {
+            try {
+                console.log("energy")
+                const response = await fetch(`${API_BASE_URL}/admin/withdrawal/${withdrawalId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ status: 'completed' })
+                });
+
+                if (response.status === 401) {
+                    setTimeout(() => {
+                        window.location.href = "../index.html"
+                    }, 2000);
+                    throw new Error('Session expired. Please login again.');
+                }
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `Failed to approve withdrawal: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                showMessage('Success', result.message || 'Withdrawal approved successfully');
+                loadWithdrawalData();
+            } catch (error) {
+                console.error('Error approving withdrawal:', error);
+                showMessage('Error', `Failed to approve withdrawal: ${error.message}`, false);
+            }
+        }
+
+        // Update withdrawal status - Reject
+        async function rejectWithdrawal(withdrawalId) {
+            try {
+                console.log("reject energy")
+                const response = await fetch(`${API_BASE_URL}/admin/withdrawal/${withdrawalId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ status: 'failed' })
+                });
+
+                if (response.status === 401) {
+                    setTimeout(() => {
+                        window.location.href = "../index.html"
+                    }, 2000);
+                    throw new Error('Session expired. Please login again.');
+                }
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `Failed to reject withdrawal: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                showMessage('Success', result.message || 'Withdrawal rejected successfully');
+                loadWithdrawalData();
+            } catch (error) {
+                console.error('Error rejecting withdrawal:', error);
+                showMessage('Error', `Failed to reject withdrawal: ${error.message}`, false);
+            }
+        }
+    </script>
+</body>
 </html>

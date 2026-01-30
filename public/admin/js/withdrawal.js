@@ -1,11 +1,10 @@
 
 // API Configuration
 const API_BASE_URL = '/api/v1';
-const WS_URL = 'ws://localhost:2000'; // Adjust based on your WebSocket setup
+// Adjust based on your WebSocket setup
 let currentWithdrawalId = null;
 let currentUserId = null;
 let currentAction = null;
-let ws = null;
 
 // DOM Elements
 const pendingWithdrawalsBody = document.getElementById('pending-withdrawals-body');
@@ -29,41 +28,11 @@ document.addEventListener('DOMContentLoaded', function() {
     loadWithdrawalData();
 
     // Initialize WebSocket for real-time updates
-    initializeWebSocket();
+    // initializeWebSocket();
     
     // Fallback polling every 30 seconds
     setInterval(loadWithdrawalData, 30000);
 });
-
-// Initialize WebSocket connection
-// function initializeWebSocket() {
-//     try {
-//         ws = new WebSocket(WS_URL);
-
-//         ws.onopen = () => {
-//             console.log('WebSocket connected');
-//             ws.send(JSON.stringify({ type: 'subscribe', channel: 'withdrawals' }));
-//         };
-
-//         ws.onmessage = (event) => {
-//             const data = JSON.parse(event.data);
-//             if (data.type === 'withdrawalUpdate') {
-//                 loadWithdrawalData(); // Refresh data on new withdrawal event
-//             }
-//         };
-
-//         ws.onclose = () => {
-//             console.log('WebSocket disconnected, attempting to reconnect...');
-//             setTimeout(initializeWebSocket, 5000); // Attempt reconnect after 5 seconds
-//         };
-
-//         ws.onerror = (error) => {
-//             console.error('WebSocket error:', error);
-//         };
-//     } catch (error) {
-//         console.error('Failed to initialize WebSocket:', error);
-//     }
-// }
 
 // Setup all event listeners
 function setupEventListeners() {
@@ -271,12 +240,20 @@ async function loadWithdrawalData() {
             }
         });
 
+        if (response.status === 401) {
+            setTimeout(() => {
+                window.location.href = "../index.html"
+            }, 2000);
+            throw new Error(`Session expired. Login again: ${response.status}`);
+        }
+
+
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const withdrawals = await response.json();
-        
+        console.log(withdrawals)
         // Separate pending and processed withdrawals
         const pendingWithdrawals = Array.isArray(withdrawals) ? withdrawals.filter(w => w.status === 'pending') : [];
         const processedWithdrawals = Array.isArray(withdrawals) ? withdrawals.filter(w => w.status !== 'pending') : [];

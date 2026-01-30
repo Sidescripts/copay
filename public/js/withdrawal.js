@@ -104,25 +104,23 @@ async function submitWithdrawal(formData) {
             })
         });
 
+        if(response.status == 401){
+            Modal.error('Withdrawal Error', errorData.error || 'Withdrawal request failed')
+            setTimeout(() => {
+                window.location.href = "../../pages/login.html"
+            }, 2000);
+        }
+
         if (!response.ok) {
             const errorData = await response.json();
             Modal.error('Withdrawal Error', errorData.error || 'Withdrawal request failed')
             throw new Error(errorData.error || 'Withdrawal request failed');
         }else{
-            const modalElement = document.getElementById("withdrawalModal");
-            const modal = new bootstrap.Modal(modalElement);
-            modal.show();
-
+            Modal.success("Success", "Withdrawal is being processed");
             setTimeout(() => {
-                const label = document.getElementById("withdrawalModalLabel");
-                label.innerText = "Withdrawal Under Review";          label.style.color = "goldenrod"; 
-            }, 3000);
-    
-            resetWithdrawalForm();
-            // Redirect to dashboard.html after modal is closed
-            modalElement.addEventListener("hidden.bs.modal", () => {
-                window.location.href = "../Dashboard.html";
-            }, { once: true });
+                window.location.href = "../Dashboard.html"
+            }, 2000);
+
         }
     } catch (error) {
         console.error('Withdrawal error:', error);

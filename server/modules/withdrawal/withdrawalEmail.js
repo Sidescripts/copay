@@ -4,7 +4,7 @@ const transporter = require("../../utils/nodemailer");
 function EmailTemplate(){
     return {
      // WITHDRAWAL CONFIRMATION EMAIL
-     withdrawalEmail: async function({amount, email, asset, transactionId, status, date}) {
+     withdrawalEmail: async function({amount, email,transactionId, status, date}) {
         try {
             const mailOptions = {
                 from: process.env.EMAIL_USER,
@@ -16,7 +16,7 @@ function EmailTemplate(){
                 <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Withdrawal Processing - Copay</title>
+                    <title>Withdrawal Processing - Vitron-trade</title>
                     <style>
                         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
                         .header { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
@@ -40,29 +40,26 @@ function EmailTemplate(){
                     </div>
                     
                     <div class="content">
-                        <div class="status-badge">🔄 ${status.toUpperCase()}</div>
+                        <div class="status-badge">🔄 ${status}</div>
                         
                         <p>Your withdrawal request has been processed successfully.</p>
                         
                         <div style="text-align: center; margin: 30px 0;">
-                            <div class="amount">${amount} ${asset.toUpperCase()}</div>
+                            <div class="amount">${Number(amount).toFixed(3)} USD</div>
                             <p>has been sent to your wallet</p>
                         </div>
                 
                         <div class="transaction-details">
                             <h3 style="margin-top: 0;">Withdrawal Details</h3>
                             <div class="detail-row">
-                                <span>Transaction ID:</span>
+                                <span>TrxnID:</span>
                                 <span><strong>${transactionId}</strong></span>
                             </div>
                             <div class="detail-row">
                                 <span>Amount:</span>
-                                <span><strong>${amount} ${asset.toUpperCase()}</strong></span>
+                                <span><strong>${Number(amount).toFixed(3)} USD</strong></span>
                             </div>
-                            <div class="detail-row">
-                                <span>Network Fee:</span>
-                                <span><strong>${asset.toUpperCase()}</strong></span>
-                            </div>
+                            
                             <div class="detail-row">
                                 <span>Status:</span>
                                 <span><strong style="color: #d97706;">${status}</strong></span>

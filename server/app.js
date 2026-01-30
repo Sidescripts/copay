@@ -17,6 +17,14 @@ const adminRoutes = require("./adminModule/adminRoute");
 const path = require('path');
 const app = express();
 
+// Global error handlers to prevent crashes
+process.on('uncaughtException', (error) => {
+    logger.error('💥 Uncaught Exception:', error);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    logger.error('💥 Unhandled Rejection at:', promise, 'reason:', reason);
+});
 
 // config
 app.use(
@@ -104,8 +112,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('trust proxy', true);
 
-console.log(process.env.JWT_SECRET)
-
 //routes
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/auth', authRoute);
@@ -114,7 +120,6 @@ app.use('/api/v1/withdrawal', withdrawalRoute);
 app.use('/api/v1/invest', investRoute);
 // Admin base route
 app.use("/api/v1/admin", adminRoutes);
-
 
 // Basic route example
 app.get("/health", async (req, res) => {
@@ -138,7 +143,6 @@ app.get("/health", async (req, res) => {
 // error
 app.use(errorHandler)
 
-
 const startServer = async () => {
     const port = process.env.PORT || 2000;
     try {
@@ -147,45 +151,54 @@ const startServer = async () => {
         startROICron();
         logger.info('✅ ROI cron job started');
 
-        app.listen(port, () => {
+        // Capture the server instance - THIS FIXES THE "Server is not defined" ERROR
+        const server = app.listen(port, () => {
             logger.info(`Server running on http://localhost:${port}`);
             logger.info('⏰ ROI auto-payouts scheduled every 12 hours');
-          });
+        });
+
+        // Fixed gracefulShutdown function
+        const gracefulShutdown = () => {
+          console.log('Starting graceful shutdown...');
+
+          if (server && typeof server.close === 'function') {
+            server.close(() => {
+              console.log('Server stopped!!');
+              
+              sequelize.close().then(() => {
+                console.log("Database connections closed");
+                process.exit(0);
+              }).catch(err => {
+                console.error('Error closing database: ', err);
+                process.exit(1);
+              });
+            });
+
+            // Force shutdown after timeout
+            setTimeout(() => {
+              console.log('Forcing shutdown after timeout');
+              process.exit(1);
+            }, 10000);
+          } else {
+            // If server is not available, just close database and exit
+            sequelize.close().then(() => {
+              console.log("Database connections closed (no server to close)");
+              process.exit(0);
+            }).catch(err => {
+              console.error('Error closing database: ', err);
+              process.exit(1);
+            });
+          }
+        };
+
+        process.on('SIGINT', gracefulShutdown);
+        process.on('SIGTERM', gracefulShutdown);
+
     } catch (error) {
         logger.error('Failed to start application:', error);
         console.error(error);
-        process.exit(1); // Exit the process with a failure code
+        process.exit(1);
     }
 };
+
 startServer();
-
-function gracefulShutdown(){
-  console.log('Starting graceful shutdown...');
-
-  Server.close(() =>{
-    console.log('Server stopped!!')
-  });
-
-  sequelize.close().then(() =>{
-    console.log("Database connections closed");
-    process.exit(0);
-  }).catch(err =>{
-    console.error('Error closing database: ', err);
-    process.exit(1);
-  });
-
-  setTimeout(() =>{
-    console.log('Forcing shutdown after timeout')
-    process.exit(1);
-  }, 10000);
-}
-
-process.on('SIGINT', gracefulShutdown);
-process.on('SIGTERM', gracefulShutdown);
-
-// // Graceful shutdown
-// process.on('SIGTERM', async () => {
-//   clearInterval(sequelize.options.checkIntervalId);
-//   await sequelize.close();
-//   process.exit(0);
-// });
