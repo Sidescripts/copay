@@ -58,7 +58,7 @@ const userWithdrawalController = {
             const {walletBalance,email, totalWithdrawal } = user;
     
             // Business rule validation
-            if (amount < 1000) {
+            if (amount < 400) {
                 // await transaction.rollback();
                 
                 return res.status(400).json({

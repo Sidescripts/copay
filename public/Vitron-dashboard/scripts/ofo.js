@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 id: revenuePlanId, // Use plan ID instead of name
                 name: revenuePlanName
             }
-            //console.log(payload)
+            console.log(paymentMethod)
             const token = localStorage.getItem('token');
             
             if (!token) {

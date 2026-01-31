@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if (amount) {
         document.getElementById('revAmount').textContent = `$${parseFloat(amount).toFixed(2)}`;
     }
-
+    console.log(paymentMethod)
     payNow.addEventListener('click', async function(){
      
         try {
