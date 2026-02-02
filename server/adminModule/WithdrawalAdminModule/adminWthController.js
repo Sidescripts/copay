@@ -1,14 +1,11 @@
 // controllers/adminWithdrawalController.js
 const { Withdrawal, User, sequelize } = require('../../model');
-const { handleValidationErrors, sendErrorResponse } = require('../../utils/commonUtils');
+const { sendErrorResponse } = require('../../utils/commonUtils');
 
 const adminWithdrawalController = {
     // Get all withdrawals with filtering options
     getAllWithdrawals: async (req, res) => {
         try {
-            const validationError = handleValidationErrors(req);
-            if (validationError) return validationError;
-
             const { status, userId } = req.query;
             
             // Build where clause for filtering
@@ -55,121 +52,132 @@ const adminWithdrawalController = {
     },
 
     // Approve, complete, or reject a withdrawal
+    // controllers/adminWithdrawalController.js (only the update function)
+
     updateWithdrawalStatus: async (req, res) => {
-        const transaction = await sequelize.transaction();
-        
+
+        const { id } = req.params;
+        const { status } = req.body;
+
+        if (!status) {
+            return res.status(400).json({
+                success: false,
+                message: 'Status is required in request body',
+            });
+        }
+
+        const validStatuses = ['confirmed', 'completed', 'failed', 'rejected'];
+        if (!validStatuses.includes(status)) {
+            return res.status(400).json({
+                success: false,
+                message: `Invalid status. Allowed: ${validStatuses.join(', ')}`,
+            });
+        }
+
+        let transaction;
         try {
-            const validationError = handleValidationErrors(req);
-            if (validationError) {
-                await transaction.rollback();
-                return validationError;
-            }
+            transaction = await Withdrawal.sequelize.transaction();  // Use your sequelize instance
 
-            const { id } = req.params;
-            const { status, adminNotes } = req.body; // status: 'confirmed', 'completed', 'failed', 'rejected'
-
-            // Validate required fields
-            if (!status) {
-                await transaction.rollback();
-                return res.status(400).json({
-                    success: false,
-                    message: 'Status is required',
-                });
-            }
-
-            // Validate status value
-            const validStatuses = ['confirmed', 'completed', 'failed', 'rejected'];
-            if (!validStatuses.includes(status)) {
-                await transaction.rollback();
-                return res.status(400).json({
-                    success: false,
-                    message: `Invalid status. Must be one of: ${validStatuses.join(', ')}`,
-                });
-            }
-
-            // Find withdrawal with user data
             const withdrawal = await Withdrawal.findByPk(id, {
-                include: [
-                    {
-                        model: User,
-                        as: 'user',
-                        attributes: ['id', 'email', 'username'],
-                    },
-                ],
-                transaction
+                include: [{
+                    model: User,
+                    as: 'user',
+                    attributes: ['id', 'email', 'username'],
+                }],
+                transaction,
+                lock: transaction.LOCK.UPDATE,  // Prevent concurrent modifications
             });
 
             if (!withdrawal) {
                 await transaction.rollback();
                 return res.status(404).json({
                     success: false,
-                    message: 'Withdrawal not found',
+                    message: 'Withdrawal record not found',
                 });
             }
 
-            // Validate withdrawal can be updated
-            if (withdrawal.status !== 'pending' && withdrawal.status !== 'confirmed') {
+            // Prevent re-processing already final statuses
+            const finalStatuses = ['completed', 'failed', 'rejected'];
+            if (finalStatuses.includes(withdrawal.status)) {
                 await transaction.rollback();
                 return res.status(400).json({
                     success: false,
-                    message: `Withdrawal cannot be updated from ${withdrawal.status} status`,
+                    message: `Cannot change status from final state: ${withdrawal.status}`,
                 });
             }
 
-            // Handle status-specific logic
+            // Optional: only allow 'confirmed' → final status transitions
+            // if (withdrawal.status === 'pending' && !['confirmed'].includes(status)) { ... }
+
             const updateData = {
-                status: status,
-                processed_at: new Date(),
-                processed_by: req.user.id, // Track which admin processed this
+                status,
+                processed_at: new Date()
             };
 
-            if (adminNotes) {
-                updateData.admin_notes = adminNotes;
-            }
-
-            // Set completed_at for completed withdrawals
             if (status === 'completed') {
                 updateData.completed_at = new Date();
             }
 
-            // For failed/rejected withdrawals, refund the amount to user's wallet
+            // Refund logic – only for rejected/failed
             if (status === 'failed' || status === 'rejected') {
+                const amount = Number(withdrawal.amount);
+
+                if (isNaN(amount) || amount <= 0) {
+                    throw new Error(`Invalid refund amount: ${withdrawal.amount}`);
+                }
+
                 await User.update(
-                    { walletBalance: sequelize.literal(`"walletBalance" + ${withdrawal.amount}`) },
-                    { where: { id: withdrawal.userId }, transaction }
+                    {
+                        walletBalance: User.sequelize.literal(`\`walletBalance\` + ${amount}`),
+                    },
+                    {
+                        where: { id: withdrawal.userId },
+                        transaction,
+                    }
                 );
             }
 
+            // Apply status update
             await withdrawal.update(updateData, { transaction });
+
             await transaction.commit();
 
-            // Send notification email (non-blocking)
+            // Non-blocking notification
             try {
-                // You would implement your email service here
-                console.log(`Withdrawal ${id} status updated to ${status} for user ${withdrawal.user.email}`);
-            } catch (emailError) {
-                console.error('Failed to send notification:', emailError);
+                console.log(`Withdrawal ${id} → ${status} | User: ${withdrawal.user?.email || 'unknown'}`);
+                // await sendEmailNotification(withdrawal.user.email, status, id, amount);
+            } catch (emailErr) {
+                console.error('Notification failed:', emailErr);
             }
 
             return res.status(200).json({
                 success: true,
-                message: `Withdrawal ${status} successfully`,
+                message: `Withdrawal marked as ${status}`,
                 data: withdrawal,
             });
 
         } catch (error) {
-            await transaction.rollback();
-            console.error('Update withdrawal status error:', error);
-            return sendErrorResponse(res, 500, 'Failed to update withdrawal status', error);
+            if (transaction) await transaction.rollback().catch(() => {});
+
+            console.error('Update withdrawal status error:', {
+                message: error.message,
+                withdrawalId: id,
+                attemptedStatus: status,
+                stack: error.stack,
+            });
+
+            return res.status(500).json({
+                success: false,
+                message: 'Failed to update withdrawal status',
+                error: error.message || 'Internal server error',
+            });
         }
     },
 
     // Get withdrawal statistics for admin dashboard
     getWithdrawalStats: async (req, res) => {
         try {
-            const validationError = handleValidationErrors(req);
-            if (validationError) return validationError;
-
+            
             const stats = await Withdrawal.findAll({
                 attributes: [
                     'status',

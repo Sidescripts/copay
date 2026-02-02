@@ -31,7 +31,7 @@ const userDepositController = {
       const email = req.user.email
       const { amount, asset} = req.body;
       
-      console.log(req.body)
+      // console.log(req.body)
       const deposit = await Deposit.create({
         id: uuidv4(),
         amount,
@@ -69,7 +69,7 @@ const userDepositController = {
         // if (validationError) return validationError;
 
         const userId = req.user.id;
-        console.log(userId);
+        // console.log(userId);
         
         try {
             const deposits = await Deposit.findAll({
@@ -78,7 +78,7 @@ const userDepositController = {
                 order: [['createdAt', 'DESC']],
             });
 
-            console.log(deposits)
+            // console.log(deposits)
 
             return res.status(200).json({
                 success: true,
