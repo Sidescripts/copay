@@ -493,8 +493,16 @@
                             <input type="tel" class="form-control" id="editUserPhone" readonly>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="editUserBalance">Account Balance ($)</label>
-                            <input type="number" class="form-control" id="editUserBalance" step="0.01" required>
+                            <label for="currentUserBalance">Current Balance ($)</label>
+                            <input type="text" class="form-control" id="currentUserBalance" readonly>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="addToBalance">Add to Balance ($)</label>
+                            <input type="number" class="form-control" id="addToBalance" step="0.01" min="0" value="0">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="subtractFromBalance">Subtract from Balance ($)</label>
+                            <input type="number" class="form-control" id="subtractFromBalance" step="0.01" min="0" value="0">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="editUserStatus">Status</label>

@@ -211,7 +211,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 editUserName: document.getElementById('editUserName'),
                 editUserEmail: document.getElementById('editUserEmail'),
                 editUserPhone: document.getElementById('editUserPhone'),
-                editUserBalance: document.getElementById('editUserBalance'),
+                currentUserBalance: document.getElementById('currentUserBalance'),
+                addToBalance: document.getElementById('addToBalance'),
+                subtractFromBalance: document.getElementById('subtractFromBalance'),
                 editUserStatus: document.getElementById('editUserStatus'),
                 editUserPlan: document.getElementById('editUserPlan'),
                 editUserCountry: document.getElementById('editUserCountry')
@@ -221,12 +223,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 editElements.editUserName.value = normalizedUser.name;
                 editElements.editUserEmail.value = normalizedUser.email;
                 editElements.editUserPhone.value = normalizedUser.phone;
-                editElements.editUserBalance.value = normalizedUser.balance;
+                editElements.currentUserBalance.value = normalizedUser.balance;
+                editElements.addToBalance.value = 0;
+                editElements.subtractFromBalance.value = 0;
                 editElements.editUserStatus.value = normalizedUser.status;
                 editElements.editUserPlan.value = normalizedUser.plan;
                 editElements.editUserCountry.value = normalizedUser.country;
                 
-                // Make all fields except balance read-only
+                // Make all fields except add/subtract read-only
                 editElements.editUserName.setAttribute('readonly', true);
                 editElements.editUserEmail.setAttribute('readonly', true);
                 editElements.editUserPhone.setAttribute('readonly', true);
@@ -237,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 elements.editUserModal.classList.add('active');
             } else {
                 console.error('Edit modal elements missing:', editElements);
-                Modal.error('Application Error', 'Edit modal elements not found.');
+                // Modal.error('Application Error', 'Edit modal elements not found.');
             }
         }
     }
@@ -261,42 +265,59 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Save user changes clicked');
             const editElements = {
                 editUserId: document.getElementById('editUserId'),
-                editUserBalance: document.getElementById('editUserBalance')
+                addToBalance: document.getElementById('addToBalance'),
+                subtractFromBalance: document.getElementById('subtractFromBalance')
             };
             
             if (!Object.values(editElements).every(el => el)) {
                 console.error('Edit modal elements missing:', editElements);
-                // Modal.error('Application Error', 'Edit modal elements not found.');
                 return;
             }
 
             const userId = editElements.editUserId.value;
-            const userBalance = parseFloat(editElements.editUserBalance.value);
+            const addAmount = parseFloat(editElements.addToBalance.value) || 0;
+            const subtractAmount = parseFloat(editElements.subtractFromBalance.value) || 0;
 
-            if (isNaN(userBalance) || userBalance < 0) {
-                showConfirmation('Error', 'Please enter a valid balance amount');
+            if (addAmount < 0 || subtractAmount < 0) {
+                showConfirmation('Error', 'Amounts cannot be negative.');
+                return;
+            }
+
+            if (addAmount > 0 && subtractAmount > 0) {
+                showConfirmation('Error', 'Please enter either an add amount or a subtract amount, not both.');
+                return;
+            }
+
+            let amount = 0;
+            let action = '';
+            if (addAmount > 0) {
+                amount = addAmount;
+                action = 'add';
+            } else if (subtractAmount > 0) {
+                amount = subtractAmount;
+                action = 'subtract';
+            } else {
+                showConfirmation('Info', 'No balance changes were made.');
+                elements.editUserModal.classList.remove('active');
                 return;
             }
 
             try {
                 const token = localStorage.getItem('token');
                 if (!token) {
-                    // Modal.error('Authentication Error', 'No token found. Redirecting to login...');
                     setTimeout(() => {
                         window.location.href = '../index.html';
                     }, 1500);
                     return;
                 }
 
-                // Update balance using your API endpoint
-                const action = "add";
                 const response = await fetch(`/api/v1/admin/users/${userId}/balance`, {
                     method: 'PATCH',
                     headers: { 
                         'Content-Type': 'application/json', 
                         'Authorization': `Bearer ${token}` 
                     },
-                    body: JSON.stringify({ amount: userBalance, action: action })
+                    body: JSON.stringify({ amount: amount, action: action })
                 });
                 
                 if (!response.ok) {
@@ -306,8 +327,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Update local data
                 if (window.usersData[userId]) {
-                    window.usersData[userId].balance = userBalance;
-                    window.usersData[userId].walletBalance = userBalance;
+                    const current = parseFloat(window.usersData[userId].walletBalance || window.usersData[userId].balance || 0);
+                    const newBalance = action === 'add' ? current + amount : current - amount;
+                    window.usersData[userId].balance = newBalance;
+                    window.usersData[userId].walletBalance = newBalance;
                 }
                 
                 // Refresh the table
