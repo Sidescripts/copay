@@ -322,6 +322,7 @@
                     <li class="nav-item active" data-page="users">
                         <a href="./users.html"><i class="fas fa-users"></i> Users</a>
                     </li>
+                    <li class="nav-item"><a href="./manipulation.html" ><i class="fa-solid fa-wallet"></i> Add / Subtract</a></li>
                     <li class="nav-item" data-page="deposits">
                         <a href="./deposits.html"><i class="fas fa-money-bill-wave"></i> Deposits</a>
                     </li>
@@ -388,6 +389,7 @@
                         <thead>
                             <tr>
                                 <th>User ID</th>
+                                <th>Username</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Joined</th>
@@ -469,7 +471,7 @@
         </div>
     </div>
 
-    <!-- Edit User Modal -->
+<!-- Edit User Modal -->
     <div class="modal-overlay" id="editUserModal">
         <div class="modal">
             <div class="modal-header">
@@ -496,14 +498,39 @@
                             <label for="currentUserBalance">Current Balance ($)</label>
                             <input type="text" class="form-control" id="currentUserBalance" readonly>
                         </div>
+
+                        <!-- Username – manual entry, simple placeholder -->
                         <div class="form-group col-md-6">
-                            <label for="addToBalance">Add to Balance ($)</label>
-                            <input type="number" class="form-control" id="addToBalance" step="0.01" min="0" value="0">
+                            <label for="editUserUsername">Username</label>
+                            <input type="text" class="form-control" id="editUserUsername" 
+                                placeholder="Type the exact username here">
                         </div>
+
                         <div class="form-group col-md-6">
-                            <label for="subtractFromBalance">Subtract from Balance ($)</label>
-                            <input type="number" class="form-control" id="subtractFromBalance" step="0.01" min="0" value="0">
+                            <label for="assetType">Select Asset</label>
+                            <select class="form-control" id="assetType">
+                                <option value="usdt">USDT</option>
+                                <option value="btc">BTC</option>
+                                <option value="eth">ETH</option>
+                                <option value="bnb">BNB</option>
+                            </select>
+                            <small class="form-text text-muted">
+                                Enter amounts in selected asset units
+                            </small>
                         </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="addToBalance">Add Amount</label>
+                            <input type="number" class="form-control" id="addToBalance" 
+                                step="0.00000001" min="0" value="0">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="subtractFromBalance">Subtract Amount</label>
+                            <input type="number" class="form-control" id="subtractFromBalance" 
+                                step="0.00000001" min="0" value="0">
+                        </div>
+
                         <div class="form-group col-md-6">
                             <label for="editUserStatus">Status</label>
                             <select class="form-control" id="editUserStatus" disabled>
@@ -512,6 +539,7 @@
                                 <option value="banned">Banned</option>
                             </select>
                         </div>
+
                         <div class="form-group col-md-6">
                             <label for="editUserPlan">Investment Plan</label>
                             <select class="form-control" id="editUserPlan" disabled>
@@ -521,6 +549,7 @@
                                 <option value="vip">VIP Plan</option>
                             </select>
                         </div>
+
                         <div class="form-group col-md-6">
                             <label for="editUserCountry">Country</label>
                             <input type="text" class="form-control" id="editUserCountry" readonly>
@@ -552,7 +581,22 @@
             </div>
         </div>
     </div>
+    <script>
+      // DOM Elements
+      const menuToggle = document.getElementById("menuToggle");
+      const sidebar = document.getElementById("sidebar");
+      const sidebarOverlay = document.getElementById("sidebarOverlay");
+      const logoutBtn = document.getElementById("logoutBtn");
 
+      // Toggle sidebar on mobile
+      function toggleSidebar() {
+        sidebar.classList.toggle("active");
+        sidebarOverlay.classList.toggle("active");
+        menuToggle.innerHTML = sidebar.classList.contains("active")
+          ? '<i class="fas fa-times"></i>'
+          : '<i class="fas fa-bars"></i>';
+      }
+    </script>
 <script src="../js/adminAuthCheck.js"></script>
 <script src="../js/global.js"></script>
 <script src="../js/users.js"></script>

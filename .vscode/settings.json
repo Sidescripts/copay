@@ -7,5 +7,5 @@
       "**/*.scss",
       "**/*.js"
     ],
-    "liveServer.settings.port": 3001
+    "liveServer.settings.port": 3003
 }
