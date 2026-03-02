@@ -144,7 +144,7 @@ app.get("/health", async (req, res) => {
 app.use(errorHandler)
 
 const startServer = async () => {
-    const port = process.env.PORT || 2000;
+    const port = process.env.PORT || 3000;
     try {
         await connectDB();
         
