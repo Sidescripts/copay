@@ -455,6 +455,23 @@
             </div>
         </div>
     </div>
+    
+    <script>
+      // DOM Elements
+      const menuToggle = document.getElementById("menuToggle");
+      const sidebar = document.getElementById("sidebar");
+      const sidebarOverlay = document.getElementById("sidebarOverlay");
+      const logoutBtn = document.getElementById("logoutBtn");
+
+      // Toggle sidebar on mobile
+      function toggleSidebar() {
+        sidebar.classList.toggle("active");
+        sidebarOverlay.classList.toggle("active");
+        menuToggle.innerHTML = sidebar.classList.contains("active")
+          ? '<i class="fas fa-times"></i>'
+          : '<i class="fas fa-bars"></i>';
+      }
+    </script>
 
 <script src="../js/adminAuthCheck.js"></script>
 <script src="../js/global.js"></script>

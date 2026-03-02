@@ -1,4 +1,448 @@
-// users.js - Updated with proper balance update functionality
+// // users.js - Updated with proper balance update functionality
+// document.addEventListener('DOMContentLoaded', function () {
+//     // DOM Elements
+//     const elements = {
+//         menuToggle: document.getElementById('menuToggle'),
+//         sidebar: document.getElementById('sidebar'),
+//         sidebarOverlay: document.getElementById('sidebarOverlay'),
+//         viewUserModal: document.getElementById('viewUserModal'),
+//         closeViewModal: document.getElementById('closeViewModal'),
+//         closeView: document.getElementById('closeView'),
+//         editFromView: document.getElementById('editFromView'),
+//         editUserModal: document.getElementById('editUserModal'),
+//         closeEditModal: document.getElementById('closeEditModal'),
+//         cancelEdit: document.getElementById('cancelEdit'),
+//         saveUserChanges: document.getElementById('saveUserChanges'),
+//         suspendUser: document.getElementById('suspendUser'),
+//         confirmationModal: document.getElementById('confirmationModal'),
+//         closeConfirmationModal: document.getElementById('closeConfirmationModal'),
+//         cancelAction: document.getElementById('cancelAction'),
+//         confirmAction: document.getElementById('confirmAction'),
+//         confirmationTitle: document.getElementById('confirmationTitle'),
+//         confirmationMessage: document.getElementById('confirmationMessage')
+//     };
+
+//     // Log missing elements
+//     Object.entries(elements).forEach(([key, element]) => {
+//         if (!element) console.error(`Element with ID '${key}' not found`);
+//     });
+
+//     // Initialize window.usersData if not set
+//     window.usersData = window.usersData || {};
+
+//     // Mobile sidebar toggle
+//     if (elements.menuToggle && elements.sidebar && elements.sidebarOverlay) {
+//         elements.menuToggle.addEventListener('click', () => {
+//             console.log('Menu toggle clicked');
+//             elements.sidebar.classList.toggle('active');
+//             elements.sidebarOverlay.classList.toggle('active');
+//         });
+//         elements.sidebarOverlay.addEventListener('click', () => {
+//             console.log('Sidebar overlay clicked');
+//             elements.sidebar.classList.remove('active');
+//             elements.sidebarOverlay.classList.remove('active');
+//         });
+//     }
+
+//     // Refresh user table function
+//     window.refreshUserTable = function (usersData) {
+//         const tbody = document.querySelector('.data-table tbody');
+//         if (!tbody) {
+//             console.error('Table body (.data-table tbody) not found');
+//             alert("Table body not found.")
+//             // Modal.error('Application Error', 'Table body not found. Please check the HTML.');
+//             return;
+//         }
+
+//         tbody.innerHTML = '';
+//         Object.entries(usersData).forEach(([userId, user]) => {
+//             // Map API fields to table fields
+//             const normalizedUser = {
+//                 id: user.id || 'N/A',
+//                 username: user.username || user.userName || user.name || '—',
+//                 name: user.fullname || user.name || 'N/A',
+//                 email: user.email || 'N/A',
+//                 joined: user.createdAt ? new Date(user.createdAt).toISOString().split('T')[0] : user.joined || 'N/A',
+//                 status: user.isVerified === false ? 'unverified' : user.isVerified === true ? 'verified' : user.status || 'unverified',
+//                 balance: Number(user.walletBalance || user.balance || 0).toFixed(2),
+//                 phone: user.phone || 'N/A',
+//                 country: user.country || 'N/A',
+//                 plan: user.plan || 'No Plan',
+//                 lastLogin: user.lastLogin || 'N/A'
+//             };
+
+//             const actions = normalizedUser.status === 'banned'
+//                 ? `<button class="btn btn-sm btn-primary unsuspend-user-btn" data-user-id="${userId}">Unsuspend</button>`
+//                 : `<button class="btn btn-sm btn-primary view-user-btn" data-user-id="${userId}">View</button>
+//                    <button class="btn btn-sm btn-secondary edit-user-btn" data-user-id="${userId}">Edit</button>`;
+
+//             const row = document.createElement('tr');
+//             row.innerHTML = `
+//                 <td>${normalizedUser.id}</td>
+//                 <td>${normalizedUser.name}</td>
+//                 <td>${normalizedUser.email}</td>
+//                 <td>${normalizedUser.joined}</td>
+//                 <td><span class="badge ${normalizedUser.status === 'verified' ? 'badge-approved' : normalizedUser.status === 'unverified' ? 'badge-pending' : 'badge-rejected'}">${normalizedUser.status.charAt(0).toUpperCase() + normalizedUser.status.slice(1)}</span></td>
+//                 <td>$${normalizedUser.balance}</td>
+//                 <td>${actions}</td>
+//             `;
+//             tbody.appendChild(row);
+//         });
+
+//         // Reattach event listeners
+//         document.querySelectorAll('.view-user-btn').forEach(btn => {
+//             btn.addEventListener('click', function () {
+//                 console.log('View button clicked for user:', this.getAttribute('data-user-id'));
+//                 const userId = this.getAttribute('data-user-id');
+//                 const user = usersData[userId];
+//                 if (user && elements.viewUserModal) {
+//                     const normalizedUser = {
+//                         id: user.id || 'N/A',
+//                         name: user.fullname || user.name || 'N/A',
+//                         email: user.email || 'N/A',
+//                         joined: user.createdAt ? new Date(user.createdAt).toISOString().split('T')[0] : user.joined || 'N/A',
+//                         status: user.isVerified === false ? 'unverified' : user.isVerified === true ? 'verified' : user.status || 'unverified',
+//                         balance: Number(user.walletBalance || user.balance || 0).toFixed(2),
+//                         phone: user.phone || 'N/A',
+//                         country: user.country || 'N/A',
+//                         plan: user.plan || 'No Plan',
+//                         lastLogin: user.lastLogin || 'N/A'
+//                     };
+//                     const viewElements = {
+//                         viewUserId: document.getElementById('viewUserId'),
+//                         viewUserName: document.getElementById('viewUserName'),
+//                         viewUserEmail: document.getElementById('viewUserEmail'),
+//                         viewUserJoined: document.getElementById('viewUserJoined'),
+//                         viewUserBalance: document.getElementById('viewUserBalance'),
+//                         viewUserPhone: document.getElementById('viewUserPhone'),
+//                         viewUserCountry: document.getElementById('viewUserCountry'),
+//                         viewUserPlan: document.getElementById('viewUserPlan'),
+//                         viewUserLastLogin: document.getElementById('viewUserLastLogin'),
+//                         viewUserStatus: document.getElementById('viewUserStatus')
+//                     };
+//                     if (Object.values(viewElements).every(el => el)) {
+//                         viewElements.viewUserId.textContent = normalizedUser.id;
+//                         viewElements.viewUserName.textContent = normalizedUser.name;
+//                         viewElements.viewUserEmail.textContent = normalizedUser.email;
+//                         viewElements.viewUserJoined.textContent = normalizedUser.joined;
+//                         viewElements.viewUserBalance.textContent = '$' + normalizedUser.balance;
+//                         viewElements.viewUserPhone.textContent = normalizedUser.phone;
+//                         viewElements.viewUserCountry.textContent = normalizedUser.country;
+//                         viewElements.viewUserPlan.textContent = normalizedUser.plan;
+//                         viewElements.viewUserLastLogin.textContent = normalizedUser.lastLogin;
+//                         viewElements.viewUserStatus.textContent = normalizedUser.status.charAt(0).toUpperCase() + normalizedUser.status.slice(1);
+//                         viewElements.viewUserStatus.className = 'badge ' + (
+//                             normalizedUser.status === 'verified' ? 'badge-approved' :
+//                             normalizedUser.status === 'unverified' ? 'badge-pending' : 'badge-rejected'
+//                         );
+//                         elements.editFromView.setAttribute('data-user-id', userId);
+//                         elements.viewUserModal.classList.add('active');
+//                     } else {
+//                         console.error('View modal elements missing:', viewElements);
+//                         // Modal.error('Application Error', 'View modal elements not found.');
+//                     }
+//                 }
+//             });
+//         });
+
+//         document.querySelectorAll('.edit-user-btn').forEach(btn => {
+//             btn.addEventListener('click', function () {
+//                 console.log('Edit button clicked for user:', this.getAttribute('data-user-id'));
+//                 const userId = this.getAttribute('data-user-id');
+//                 openEditModal(userId);
+//             });
+//         });
+
+//         document.querySelectorAll('.unsuspend-user-btn').forEach(btn => {
+//             btn.addEventListener('click', function () {
+//                 console.log('Unsuspend button clicked for user:', this.getAttribute('data-user-id'));
+//                 const userId = this.getAttribute('data-user-id');
+//                 showConfirmation('Unsuspend User', 'Are you sure you want to unsuspend this user?', () => {
+//                     updateUserStatus(userId, 'verified');
+//                 });
+//             });
+//         });
+//     };
+
+//     // Initial population
+//     if (Object.keys(window.usersData).length > 0) {
+//         window.refreshUserTable(window.usersData);
+//     } else {
+//         console.log('No initial user data, waiting for userSync.js');
+//     }
+
+//     // View user functionality
+//     if (elements.closeViewModal) {
+//         elements.closeViewModal.addEventListener('click', () => {
+//             console.log('Close view modal clicked');
+//             elements.viewUserModal.classList.remove('active');
+//         });
+//     }
+    
+//     if (elements.closeView) {
+//         elements.closeView.addEventListener('click', () => {
+//             console.log('Close view button clicked');
+//             elements.viewUserModal.classList.remove('active');
+//         });
+//     }
+    
+//     if (elements.editFromView) {
+//         elements.editFromView.addEventListener('click', function () {
+//             console.log('Edit from view clicked for user:', this.getAttribute('data-user-id'));
+//             const userId = this.getAttribute('data-user-id');
+//             elements.viewUserModal.classList.remove('active');
+//             openEditModal(userId);
+//         });
+//     }
+
+//     function openEditModal(userId) {
+//         const user = window.usersData[userId];
+//         if (user && elements.editUserModal) {
+//             const normalizedUser = {
+//                 name: user.fullname || user.name || 'N/A',
+//                 email: user.email || 'N/A',
+//                 phone: user.phone || '',
+//                 balance: Number(user.walletBalance || user.balance || 0).toFixed(2),
+//                 status: user.isVerified === false ? 'unverified' : user.isVerified === true ? 'verified' : user.status || 'unverified',
+//                 plan: user.plan ? user.plan.toLowerCase().replace(' plan', '') : '',
+//                 country: user.country || ''
+//             };
+//             const editElements = {
+//                 editUserId: document.getElementById('editUserId'),
+//                 editUserName: document.getElementById('editUserName'),
+//                 editUserEmail: document.getElementById('editUserEmail'),
+//                 editUserPhone: document.getElementById('editUserPhone'),
+//                 currentUserBalance: document.getElementById('currentUserBalance'),
+//                 addToBalance: document.getElementById('addToBalance'),
+//                 subtractFromBalance: document.getElementById('subtractFromBalance'),
+//                 editUserStatus: document.getElementById('editUserStatus'),
+//                 editUserPlan: document.getElementById('editUserPlan'),
+//                 editUserCountry: document.getElementById('editUserCountry')
+//             };
+//             if (Object.values(editElements).every(el => el)) {
+//                 editElements.editUserId.value = userId;
+//                 editElements.editUserName.value = normalizedUser.name;
+//                 editElements.editUserEmail.value = normalizedUser.email;
+//                 editElements.editUserPhone.value = normalizedUser.phone;
+//                 editElements.currentUserBalance.value = normalizedUser.balance;
+//                 editElements.addToBalance.value = 0;
+//                 editElements.subtractFromBalance.value = 0;
+//                 editElements.editUserStatus.value = normalizedUser.status;
+//                 editElements.editUserPlan.value = normalizedUser.plan;
+//                 editElements.editUserCountry.value = normalizedUser.country;
+                
+//                 // Make all fields except add/subtract read-only
+//                 editElements.editUserName.setAttribute('readonly', true);
+//                 editElements.editUserEmail.setAttribute('readonly', true);
+//                 editElements.editUserPhone.setAttribute('readonly', true);
+//                 editElements.editUserStatus.setAttribute('disabled', true);
+//                 editElements.editUserPlan.setAttribute('disabled', true);
+//                 editElements.editUserCountry.setAttribute('readonly', true);
+                
+//                 elements.editUserModal.classList.add('active');
+//             } else {
+//                 console.error('Edit modal elements missing:', editElements);
+//                 // Modal.error('Application Error', 'Edit modal elements not found.');
+//             }
+//         }
+//     }
+
+//     if (elements.closeEditModal) {
+//         elements.closeEditModal.addEventListener('click', () => {
+//             console.log('Close edit modal clicked');
+//             elements.editUserModal.classList.remove('active');
+//         });
+//     }
+
+//     if (elements.cancelEdit) {
+//         elements.cancelEdit.addEventListener('click', () => {
+//             console.log('Cancel edit clicked');
+//             elements.editUserModal.classList.remove('active');
+//         });
+//     }
+
+//     if (elements.saveUserChanges) {
+//         elements.saveUserChanges.addEventListener('click', async () => {
+//             console.log('Save user changes clicked');
+//             const editElements = {
+//                 editUserId: document.getElementById('editUserId'),
+//                 addToBalance: document.getElementById('addToBalance'),
+//                 subtractFromBalance: document.getElementById('subtractFromBalance')
+//             };
+            
+//             if (!Object.values(editElements).every(el => el)) {
+//                 console.error('Edit modal elements missing:', editElements);
+//                 return;
+//             }
+
+//             const userId = editElements.editUserId.value;
+//             const addAmount = parseFloat(editElements.addToBalance.value) || 0;
+//             const subtractAmount = parseFloat(editElements.subtractFromBalance.value) || 0;
+
+//             if (addAmount < 0 || subtractAmount < 0) {
+//                 showConfirmation('Error', 'Amounts cannot be negative.');
+//                 return;
+//             }
+
+//             if (addAmount > 0 && subtractAmount > 0) {
+//                 showConfirmation('Error', 'Please enter either an add amount or a subtract amount, not both.');
+//                 return;
+//             }
+
+//             let amount = 0;
+//             let action = '';
+//             if (addAmount > 0) {
+//                 amount = addAmount;
+//                 action = 'add';
+//             } else if (subtractAmount > 0) {
+//                 amount = subtractAmount;
+//                 action = 'subtract';
+//             } else {
+//                 showConfirmation('Info', 'No balance changes were made.');
+//                 elements.editUserModal.classList.remove('active');
+//                 return;
+//             }
+
+//             try {
+//                 const token = localStorage.getItem('token');
+//                 if (!token) {
+//                     setTimeout(() => {
+//                         window.location.href = '../index.html';
+//                     }, 1500);
+//                     return;
+//                 }
+
+//                 const response = await fetch(`/api/v1/admin/users/${userId}/balance`, {
+//                     method: 'PATCH',
+//                     headers: { 
+//                         'Content-Type': 'application/json', 
+//                         'Authorization': `Bearer ${token}` 
+//                     },
+//                     body: JSON.stringify({ amount: amount, action: action })
+//                 });
+                
+//                 if (!response.ok) {
+//                     const errorData = await response.json().catch(() => ({}));
+//                     throw new Error(errorData.message || 'Failed to update balance');
+//                 }
+
+//                 // Update local data
+//                 if (window.usersData[userId]) {
+//                     const current = parseFloat(window.usersData[userId].walletBalance || window.usersData[userId].balance || 0);
+//                     const newBalance = action === 'add' ? current + amount : current - amount;
+//                     window.usersData[userId].balance = newBalance;
+//                     window.usersData[userId].walletBalance = newBalance;
+//                 }
+                
+//                 // Refresh the table
+//                 window.refreshUserTable(window.usersData);
+                
+//                 // Close the modal
+//                 elements.editUserModal.classList.remove('active');
+                
+//                 // Show success message
+//                 showConfirmation('Success', 'User balance updated successfully!');
+//             } catch (error) {
+//                 console.error('Update error:', error);
+//                 showConfirmation('Error', `Failed to update user balance: ${error.message}`);
+//             }
+//         });
+//     }
+
+//     if (elements.suspendUser) {
+//         elements.suspendUser.addEventListener('click', function () {
+//             console.log('Suspend user clicked');
+//             const userId = document.getElementById('editUserId').value;
+//             const userName = document.getElementById('editUserName').value;
+//             showConfirmation(
+//                 'Suspend User',
+//                 `Are you sure you want to suspend ${userName}? This will restrict their account access.`,
+//                 () => {
+//                     updateUserStatus(userId, 'banned');
+//                 }
+//             );
+//         });
+//     }
+
+//     async function updateUserStatus(userId, status) {
+//         try {
+//             const token = localStorage.getItem('token');
+//             if (!token) {
+//                 Modal.error('Authentication Error', 'No token found. Redirecting to login...');
+//                 setTimeout(() => {
+//                     window.location.href = '../index.html';
+//                 }, 1500);
+//                 return;
+//             }
+
+//             const response = await fetch(`/api/v1/admin/users/${userId}/verify`, {
+//                 method: 'POST',
+//                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+//                 body: JSON.stringify({ isVerified: status === 'verified' ? true : false })
+//             });
+//             if (!response.ok) throw new Error('Failed to update status');
+//             const updatedUser = await response.json();
+//             window.usersData[userId] = {
+//                 ...window.usersData[userId],
+//                 isVerified: updatedUser.isVerified === true || updatedUser.isVerified,
+//                 // status: updatedUser.status || (updatedUser.isVerified ? 'verified' : 'unverified')
+//             };
+//             window.refreshUserTable(window.usersData);
+//             elements.editUserModal.classList.remove('active');
+//             showConfirmation('Success', `${window.usersData[userId].fullname || window.usersData[userId].name} has been ${status === 'banned' ? 'suspended' : 'unsuspended'}.`);
+//         } catch (error) {
+//             console.error('Status update error:', error);
+//             showConfirmation('Error', `Failed to update user status: ${error.message}`);
+//         }
+//     }
+
+//     function showConfirmation(title, message, confirmCallback) {
+//         if (elements.confirmationTitle && elements.confirmationMessage && elements.confirmationModal) {
+//             elements.confirmationTitle.textContent = title;
+//             elements.confirmationMessage.textContent = message;
+//             elements.confirmationModal.classList.add('active');
+//             elements.confirmAction.onclick = () => {
+//                 console.log('Confirm action clicked');
+//                 elements.confirmationModal.classList.remove('active');
+//                 if (confirmCallback) confirmCallback();
+//             };
+//             elements.cancelAction.onclick = () => {
+//                 console.log('Cancel action clicked');
+//                 elements.confirmationModal.classList.remove('active');
+//             };
+//         } else {
+//             console.error('Confirmation modal elements missing');
+//             Modal.error('Application Error', 'Confirmation modal elements not found.');
+//         }
+//     }
+
+//     if (elements.closeConfirmationModal) {
+//         elements.closeConfirmationModal.addEventListener('click', () => {
+//             console.log('Close confirmation modal clicked');
+//             elements.confirmationModal.classList.remove('active');
+//         });
+//     }
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
     // DOM Elements
     const elements = {
@@ -22,52 +466,39 @@ document.addEventListener('DOMContentLoaded', function () {
         confirmationMessage: document.getElementById('confirmationMessage')
     };
 
-    // Log missing elements
-    Object.entries(elements).forEach(([key, element]) => {
-        if (!element) console.error(`Element with ID '${key}' not found`);
-    });
-
-    // Initialize window.usersData if not set
     window.usersData = window.usersData || {};
 
-    // Mobile sidebar toggle
+    // Mobile sidebar
     if (elements.menuToggle && elements.sidebar && elements.sidebarOverlay) {
         elements.menuToggle.addEventListener('click', () => {
-            console.log('Menu toggle clicked');
             elements.sidebar.classList.toggle('active');
             elements.sidebarOverlay.classList.toggle('active');
         });
         elements.sidebarOverlay.addEventListener('click', () => {
-            console.log('Sidebar overlay clicked');
             elements.sidebar.classList.remove('active');
             elements.sidebarOverlay.classList.remove('active');
         });
     }
 
-    // Refresh user table function
+    // ====================== REFRESH TABLE (ALL BUTTONS FIXED) ======================
     window.refreshUserTable = function (usersData) {
         const tbody = document.querySelector('.data-table tbody');
-        if (!tbody) {
-            console.error('Table body (.data-table tbody) not found');
-            alert("Table body not found.")
-            // Modal.error('Application Error', 'Table body not found. Please check the HTML.');
-            return;
-        }
-
+        if (!tbody) return;
         tbody.innerHTML = '';
+
         Object.entries(usersData).forEach(([userId, user]) => {
-            // Map API fields to table fields
             const normalizedUser = {
-                id: user.id || 'N/A',
-                name: user.fullname || user.name || 'N/A',
-                email: user.email || 'N/A',
-                joined: user.createdAt ? new Date(user.createdAt).toISOString().split('T')[0] : user.joined || 'N/A',
-                status: user.isVerified === false ? 'unverified' : user.isVerified === true ? 'verified' : user.status || 'unverified',
+                id: user.id || user._id || '—',
+                username: user.username || user.userName || user.name || '—',
+                name: user.fullname || user.fullName || user.name || '—',
+                email: user.email || '—',
+                joined: user.createdAt ? new Date(user.createdAt).toISOString().split('T')[0] : user.joined || '—',
+                status: user.isVerified === true ? 'verified' : user.isVerified === false ? 'unverified' : user.status || 'unverified',
                 balance: Number(user.walletBalance || user.balance || 0).toFixed(2),
-                phone: user.phone || 'N/A',
-                country: user.country || 'N/A',
+                phone: user.phone || '—',
+                country: user.country || '—',
                 plan: user.plan || 'No Plan',
-                lastLogin: user.lastLogin || 'N/A'
+                lastLogin: user.lastLogin || '—'
             };
 
             const actions = normalizedUser.status === 'banned'
@@ -78,83 +509,67 @@ document.addEventListener('DOMContentLoaded', function () {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${normalizedUser.id}</td>
+                <td>${normalizedUser.username}</td>
                 <td>${normalizedUser.name}</td>
                 <td>${normalizedUser.email}</td>
                 <td>${normalizedUser.joined}</td>
-                <td><span class="badge ${normalizedUser.status === 'verified' ? 'badge-approved' : normalizedUser.status === 'unverified' ? 'badge-pending' : 'badge-rejected'}">${normalizedUser.status.charAt(0).toUpperCase() + normalizedUser.status.slice(1)}</span></td>
+                <td><span class="badge ${normalizedUser.status === 'verified' ? 'badge-approved' : normalizedUser.status === 'unverified' ? 'badge-pending' : 'badge-rejected'}">
+                    ${normalizedUser.status.charAt(0).toUpperCase() + normalizedUser.status.slice(1)}
+                </span></td>
                 <td>$${normalizedUser.balance}</td>
                 <td>${actions}</td>
             `;
             tbody.appendChild(row);
         });
 
-        // Reattach event listeners
+        // Re-attach ALL buttons
         document.querySelectorAll('.view-user-btn').forEach(btn => {
             btn.addEventListener('click', function () {
-                console.log('View button clicked for user:', this.getAttribute('data-user-id'));
                 const userId = this.getAttribute('data-user-id');
                 const user = usersData[userId];
-                if (user && elements.viewUserModal) {
-                    const normalizedUser = {
-                        id: user.id || 'N/A',
-                        name: user.fullname || user.name || 'N/A',
-                        email: user.email || 'N/A',
-                        joined: user.createdAt ? new Date(user.createdAt).toISOString().split('T')[0] : user.joined || 'N/A',
-                        status: user.isVerified === false ? 'unverified' : user.isVerified === true ? 'verified' : user.status || 'unverified',
-                        balance: Number(user.walletBalance || user.balance || 0).toFixed(2),
-                        phone: user.phone || 'N/A',
-                        country: user.country || 'N/A',
-                        plan: user.plan || 'No Plan',
-                        lastLogin: user.lastLogin || 'N/A'
-                    };
-                    const viewElements = {
-                        viewUserId: document.getElementById('viewUserId'),
-                        viewUserName: document.getElementById('viewUserName'),
-                        viewUserEmail: document.getElementById('viewUserEmail'),
-                        viewUserJoined: document.getElementById('viewUserJoined'),
-                        viewUserBalance: document.getElementById('viewUserBalance'),
-                        viewUserPhone: document.getElementById('viewUserPhone'),
-                        viewUserCountry: document.getElementById('viewUserCountry'),
-                        viewUserPlan: document.getElementById('viewUserPlan'),
-                        viewUserLastLogin: document.getElementById('viewUserLastLogin'),
-                        viewUserStatus: document.getElementById('viewUserStatus')
-                    };
-                    if (Object.values(viewElements).every(el => el)) {
-                        viewElements.viewUserId.textContent = normalizedUser.id;
-                        viewElements.viewUserName.textContent = normalizedUser.name;
-                        viewElements.viewUserEmail.textContent = normalizedUser.email;
-                        viewElements.viewUserJoined.textContent = normalizedUser.joined;
-                        viewElements.viewUserBalance.textContent = '$' + normalizedUser.balance;
-                        viewElements.viewUserPhone.textContent = normalizedUser.phone;
-                        viewElements.viewUserCountry.textContent = normalizedUser.country;
-                        viewElements.viewUserPlan.textContent = normalizedUser.plan;
-                        viewElements.viewUserLastLogin.textContent = normalizedUser.lastLogin;
-                        viewElements.viewUserStatus.textContent = normalizedUser.status.charAt(0).toUpperCase() + normalizedUser.status.slice(1);
-                        viewElements.viewUserStatus.className = 'badge ' + (
-                            normalizedUser.status === 'verified' ? 'badge-approved' :
-                            normalizedUser.status === 'unverified' ? 'badge-pending' : 'badge-rejected'
-                        );
-                        elements.editFromView.setAttribute('data-user-id', userId);
-                        elements.viewUserModal.classList.add('active');
-                    } else {
-                        console.error('View modal elements missing:', viewElements);
-                        // Modal.error('Application Error', 'View modal elements not found.');
-                    }
-                }
+                if (!user) return;
+
+                // Populate View Modal (original logic restored)
+                const normalized = {
+                    id: user.id || 'N/A',
+                    name: user.fullname || user.name || 'N/A',
+                    email: user.email || 'N/A',
+                    joined: user.createdAt ? new Date(user.createdAt).toISOString().split('T')[0] : user.joined || 'N/A',
+                    status: user.isVerified === true ? 'verified' : user.isVerified === false ? 'unverified' : user.status || 'unverified',
+                    balance: Number(user.walletBalance || user.balance || 0).toFixed(2),
+                    phone: user.phone || 'N/A',
+                    country: user.country || 'N/A',
+                    plan: user.plan || 'No Plan',
+                    lastLogin: user.lastLogin || 'N/A'
+                };
+
+                document.getElementById('viewUserId').textContent = normalized.id;
+                document.getElementById('viewUserName').textContent = normalized.name;
+                document.getElementById('viewUserEmail').textContent = normalized.email;
+                document.getElementById('viewUserJoined').textContent = normalized.joined;
+                document.getElementById('viewUserBalance').textContent = '$' + normalized.balance;
+                document.getElementById('viewUserPhone').textContent = normalized.phone;
+                document.getElementById('viewUserCountry').textContent = normalized.country;
+                document.getElementById('viewUserPlan').textContent = normalized.plan;
+                document.getElementById('viewUserLastLogin').textContent = normalized.lastLogin;
+
+                const statusEl = document.getElementById('viewUserStatus');
+                statusEl.textContent = normalized.status.charAt(0).toUpperCase() + normalized.status.slice(1);
+                statusEl.className = 'badge ' + (normalized.status === 'verified' ? 'badge-approved' : normalized.status === 'unverified' ? 'badge-pending' : 'badge-rejected');
+
+                elements.editFromView.setAttribute('data-user-id', userId);
+                elements.viewUserModal.classList.add('active');
             });
         });
 
         document.querySelectorAll('.edit-user-btn').forEach(btn => {
             btn.addEventListener('click', function () {
-                console.log('Edit button clicked for user:', this.getAttribute('data-user-id'));
-                const userId = this.getAttribute('data-user-id');
-                openEditModal(userId);
+                openEditModal(this.getAttribute('data-user-id'));
             });
         });
 
         document.querySelectorAll('.unsuspend-user-btn').forEach(btn => {
             btn.addEventListener('click', function () {
-                console.log('Unsuspend button clicked for user:', this.getAttribute('data-user-id'));
                 const userId = this.getAttribute('data-user-id');
                 showConfirmation('Unsuspend User', 'Are you sure you want to unsuspend this user?', () => {
                     updateUserStatus(userId, 'verified');
@@ -163,202 +578,138 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     };
 
-    // Initial population
+    // Initial load
     if (Object.keys(window.usersData).length > 0) {
         window.refreshUserTable(window.usersData);
-    } else {
-        console.log('No initial user data, waiting for userSync.js');
     }
 
-    // View user functionality
-    if (elements.closeViewModal) {
-        elements.closeViewModal.addEventListener('click', () => {
-            console.log('Close view modal clicked');
-            elements.viewUserModal.classList.remove('active');
-        });
-    }
-    
-    if (elements.closeView) {
-        elements.closeView.addEventListener('click', () => {
-            console.log('Close view button clicked');
-            elements.viewUserModal.classList.remove('active');
-        });
-    }
-    
+    // Close view modal
+    if (elements.closeViewModal) elements.closeViewModal.addEventListener('click', () => elements.viewUserModal.classList.remove('active'));
+    if (elements.closeView) elements.closeView.addEventListener('click', () => elements.viewUserModal.classList.remove('active'));
+
+    // Edit from view button
     if (elements.editFromView) {
         elements.editFromView.addEventListener('click', function () {
-            console.log('Edit from view clicked for user:', this.getAttribute('data-user-id'));
             const userId = this.getAttribute('data-user-id');
             elements.viewUserModal.classList.remove('active');
             openEditModal(userId);
         });
     }
 
+    // ====================== OPEN EDIT MODAL (MANUAL USERNAME) ======================
     function openEditModal(userId) {
         const user = window.usersData[userId];
-        if (user && elements.editUserModal) {
-            const normalizedUser = {
-                name: user.fullname || user.name || 'N/A',
-                email: user.email || 'N/A',
-                phone: user.phone || '',
-                balance: Number(user.walletBalance || user.balance || 0).toFixed(2),
-                status: user.isVerified === false ? 'unverified' : user.isVerified === true ? 'verified' : user.status || 'unverified',
-                plan: user.plan ? user.plan.toLowerCase().replace(' plan', '') : '',
-                country: user.country || ''
-            };
-            const editElements = {
-                editUserId: document.getElementById('editUserId'),
-                editUserName: document.getElementById('editUserName'),
-                editUserEmail: document.getElementById('editUserEmail'),
-                editUserPhone: document.getElementById('editUserPhone'),
-                currentUserBalance: document.getElementById('currentUserBalance'),
-                addToBalance: document.getElementById('addToBalance'),
-                subtractFromBalance: document.getElementById('subtractFromBalance'),
-                editUserStatus: document.getElementById('editUserStatus'),
-                editUserPlan: document.getElementById('editUserPlan'),
-                editUserCountry: document.getElementById('editUserCountry')
-            };
-            if (Object.values(editElements).every(el => el)) {
-                editElements.editUserId.value = userId;
-                editElements.editUserName.value = normalizedUser.name;
-                editElements.editUserEmail.value = normalizedUser.email;
-                editElements.editUserPhone.value = normalizedUser.phone;
-                editElements.currentUserBalance.value = normalizedUser.balance;
-                editElements.addToBalance.value = 0;
-                editElements.subtractFromBalance.value = 0;
-                editElements.editUserStatus.value = normalizedUser.status;
-                editElements.editUserPlan.value = normalizedUser.plan;
-                editElements.editUserCountry.value = normalizedUser.country;
-                
-                // Make all fields except add/subtract read-only
-                editElements.editUserName.setAttribute('readonly', true);
-                editElements.editUserEmail.setAttribute('readonly', true);
-                editElements.editUserPhone.setAttribute('readonly', true);
-                editElements.editUserStatus.setAttribute('disabled', true);
-                editElements.editUserPlan.setAttribute('disabled', true);
-                editElements.editUserCountry.setAttribute('readonly', true);
-                
-                elements.editUserModal.classList.add('active');
-            } else {
-                console.error('Edit modal elements missing:', editElements);
-                // Modal.error('Application Error', 'Edit modal elements not found.');
-            }
-        }
+        if (!user) return;
+
+        document.getElementById('editUserName').value = user.fullname || user.name || user.fullName || '—';
+        document.getElementById('editUserEmail').value = user.email || '—';
+        document.getElementById('editUserPhone').value = user.phone || '—';
+        document.getElementById('currentUserBalance').value = Number(user.walletBalance || user.balance || 0).toFixed(2);
+
+        // Username left EMPTY → admin types manually
+        document.getElementById('editUserUsername').value = '';
+
+        document.getElementById('assetType').value = 'usdt';
+        document.getElementById('addToBalance').value = '0';
+        document.getElementById('subtractFromBalance').value = '0';
+
+        elements.editUserModal.classList.add('active');
     }
 
+    // Close edit modal
     if (elements.closeEditModal) {
-        elements.closeEditModal.addEventListener('click', () => {
-            console.log('Close edit modal clicked');
-            elements.editUserModal.classList.remove('active');
-        });
+        elements.closeEditModal.addEventListener('click', () => elements.editUserModal.classList.remove('active'));
     }
-
     if (elements.cancelEdit) {
-        elements.cancelEdit.addEventListener('click', () => {
-            console.log('Cancel edit clicked');
-            elements.editUserModal.classList.remove('active');
-        });
+        elements.cancelEdit.addEventListener('click', () => elements.editUserModal.classList.remove('active'));
     }
 
+    // ====================== SAVE BALANCE CHANGES ======================
     if (elements.saveUserChanges) {
         elements.saveUserChanges.addEventListener('click', async () => {
-            console.log('Save user changes clicked');
-            const editElements = {
-                editUserId: document.getElementById('editUserId'),
-                addToBalance: document.getElementById('addToBalance'),
-                subtractFromBalance: document.getElementById('subtractFromBalance')
-            };
-            
-            if (!Object.values(editElements).every(el => el)) {
-                console.error('Edit modal elements missing:', editElements);
+            const username = document.getElementById('editUserUsername').value.trim();
+            const asset = document.getElementById('assetType').value.toLowerCase();
+            const addAmount = Number(document.getElementById('addToBalance').value) || 0;
+            const subtractAmount = Number(document.getElementById('subtractFromBalance').value) || 0;
+
+            if (!username) {
+                showConfirmation("Error", "Please type the exact username.");
                 return;
             }
-
-            const userId = editElements.editUserId.value;
-            const addAmount = parseFloat(editElements.addToBalance.value) || 0;
-            const subtractAmount = parseFloat(editElements.subtractFromBalance.value) || 0;
-
-            if (addAmount < 0 || subtractAmount < 0) {
-                showConfirmation('Error', 'Amounts cannot be negative.');
-                return;
-            }
-
             if (addAmount > 0 && subtractAmount > 0) {
-                showConfirmation('Error', 'Please enter either an add amount or a subtract amount, not both.');
+                showConfirmation("Error", "Enter amount in only ONE field.");
+                return;
+            }
+            if (addAmount === 0 && subtractAmount === 0) {
+                showConfirmation("Info", "No amount entered.");
                 return;
             }
 
-            let amount = 0;
-            let action = '';
-            if (addAmount > 0) {
-                amount = addAmount;
-                action = 'add';
-            } else if (subtractAmount > 0) {
-                amount = subtractAmount;
-                action = 'subtract';
-            } else {
-                showConfirmation('Info', 'No balance changes were made.');
-                elements.editUserModal.classList.remove('active');
-                return;
-            }
+            const isAdd = addAmount > 0;
+            const amount = isAdd ? addAmount : subtractAmount;
+            const actionWord = isAdd ? "ADD" : "SUBTRACT";
 
-            try {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    setTimeout(() => {
-                        window.location.href = '../index.html';
-                    }, 1500);
-                    return;
-                }
+            showConfirmation(
+                "Confirm Balance Change",
+                `You are about to ${actionWord} ${amount} ${asset.toUpperCase()}\n\nUsername: ${username}\n\nAre you sure?`,
+                async () => {
+                    try {
+                        const token = localStorage.getItem('token');
+                        if (!token) throw new Error("No authentication token");
 
-                const response = await fetch(`/api/v1/admin/users/${userId}/balance`, {
-                    method: 'PATCH',
-                    headers: { 
-                        'Content-Type': 'application/json', 
-                        'Authorization': `Bearer ${token}` 
-                    },
-                    body: JSON.stringify({ amount: amount, action: action })
-                });
-                
-                if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({}));
-                    throw new Error(errorData.message || 'Failed to update balance');
-                }
+                        const endpoint = isAdd ? '/api/v1/admin/add-balance' : '/api/v1/admin/subtract-balance';
 
-                // Update local data
-                if (window.usersData[userId]) {
-                    const current = parseFloat(window.usersData[userId].walletBalance || window.usersData[userId].balance || 0);
-                    const newBalance = action === 'add' ? current + amount : current - amount;
-                    window.usersData[userId].balance = newBalance;
-                    window.usersData[userId].walletBalance = newBalance;
+                        const response = await fetch(endpoint, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({ username, amount, asset })
+                        });
+
+                        if (!response.ok) {
+                            const errData = await response.json().catch(() => ({}));
+                            throw new Error(errData.message || "Request failed");
+                        }
+
+                        const result = await response.json();
+
+                        // Update local data
+                        if (result.user && window.usersData) {
+                            for (const key in window.usersData) {
+                                const u = window.usersData[key];
+                                if (u.username === username || u.name === username) {
+                                    Object.assign(u, result.user);
+                                    break;
+                                }
+                            }
+                            window.refreshUserTable(window.usersData);
+                        }
+
+                        elements.editUserModal.classList.remove('active');
+                        showConfirmation("Success", `Balance updated for ${username}`);
+
+                        document.getElementById('addToBalance').value = "0";
+                        document.getElementById('subtractFromBalance').value = "0";
+
+                    } catch (err) {
+                        showConfirmation("Error", err.message || "Failed to update balance");
+                    }
                 }
-                
-                // Refresh the table
-                window.refreshUserTable(window.usersData);
-                
-                // Close the modal
-                elements.editUserModal.classList.remove('active');
-                
-                // Show success message
-                showConfirmation('Success', 'User balance updated successfully!');
-            } catch (error) {
-                console.error('Update error:', error);
-                showConfirmation('Error', `Failed to update user balance: ${error.message}`);
-            }
+            );
         });
     }
 
+    // ====================== SUSPEND USER ======================
     if (elements.suspendUser) {
         elements.suspendUser.addEventListener('click', function () {
-            console.log('Suspend user clicked');
             const userId = document.getElementById('editUserId').value;
             const userName = document.getElementById('editUserName').value;
             showConfirmation(
                 'Suspend User',
-                `Are you sure you want to suspend ${userName}? This will restrict their account access.`,
-                () => {
-                    updateUserStatus(userId, 'banned');
-                }
+                `Are you sure you want to suspend ${userName}?`,
+                () => updateUserStatus(userId, 'banned')
             );
         });
     }
@@ -366,58 +717,45 @@ document.addEventListener('DOMContentLoaded', function () {
     async function updateUserStatus(userId, status) {
         try {
             const token = localStorage.getItem('token');
-            if (!token) {
-                Modal.error('Authentication Error', 'No token found. Redirecting to login...');
-                setTimeout(() => {
-                    window.location.href = '../index.html';
-                }, 1500);
-                return;
-            }
+            if (!token) throw new Error("No token");
 
             const response = await fetch(`/api/v1/admin/users/${userId}/verify`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ isVerified: status === 'verified' ? true : false })
+                body: JSON.stringify({ isVerified: status === 'verified' })
             });
+
             if (!response.ok) throw new Error('Failed to update status');
+
             const updatedUser = await response.json();
-            window.usersData[userId] = {
-                ...window.usersData[userId],
-                isVerified: updatedUser.isVerified === true || updatedUser.isVerified,
-                // status: updatedUser.status || (updatedUser.isVerified ? 'verified' : 'unverified')
-            };
+            window.usersData[userId] = { ...window.usersData[userId], isVerified: updatedUser.isVerified };
             window.refreshUserTable(window.usersData);
+
             elements.editUserModal.classList.remove('active');
             showConfirmation('Success', `${window.usersData[userId].fullname || window.usersData[userId].name} has been ${status === 'banned' ? 'suspended' : 'unsuspended'}.`);
         } catch (error) {
-            console.error('Status update error:', error);
-            showConfirmation('Error', `Failed to update user status: ${error.message}`);
+            showConfirmation('Error', `Failed to update status: ${error.message}`);
         }
     }
 
+    // ====================== CONFIRMATION MODAL ======================
     function showConfirmation(title, message, confirmCallback) {
-        if (elements.confirmationTitle && elements.confirmationMessage && elements.confirmationModal) {
-            elements.confirmationTitle.textContent = title;
-            elements.confirmationMessage.textContent = message;
-            elements.confirmationModal.classList.add('active');
-            elements.confirmAction.onclick = () => {
-                console.log('Confirm action clicked');
-                elements.confirmationModal.classList.remove('active');
-                if (confirmCallback) confirmCallback();
-            };
-            elements.cancelAction.onclick = () => {
-                console.log('Cancel action clicked');
-                elements.confirmationModal.classList.remove('active');
-            };
-        } else {
-            console.error('Confirmation modal elements missing');
-            Modal.error('Application Error', 'Confirmation modal elements not found.');
-        }
+        if (!elements.confirmationTitle || !elements.confirmationMessage || !elements.confirmationModal) return;
+
+        elements.confirmationTitle.textContent = title;
+        elements.confirmationMessage.textContent = message;
+        elements.confirmationModal.classList.add('active');
+
+        elements.confirmAction.onclick = () => {
+            elements.confirmationModal.classList.remove('active');
+            if (confirmCallback) confirmCallback();
+        };
+
+        elements.cancelAction.onclick = () => elements.confirmationModal.classList.remove('active');
     }
 
     if (elements.closeConfirmationModal) {
         elements.closeConfirmationModal.addEventListener('click', () => {
-            console.log('Close confirmation modal clicked');
             elements.confirmationModal.classList.remove('active');
         });
     }
